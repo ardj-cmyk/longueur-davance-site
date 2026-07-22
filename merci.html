@@ -1,1 +1,63 @@
-<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Demande reçue — Longueur d'avance</title><style>body{font-family:-apple-system,Helvetica,sans-serif;background:#fdfcf9;color:#12192b;display:flex;align-items:center;justify-content:center;min-height:100vh;text-align:center;padding:24px}h1{font-family:Georgia,serif;font-size:34px}p{color:#5c6674;margin-top:14px;max-width:44ch}a{color:#b4551e}</style></head><body><div><h1>Demande bien reçue.</h1><p>On revient vers vous sous 24 h ouvrées avec des créneaux. D'ici là, gardez une longueur d'avance.</p><p><a href="/">← Retour au site</a></p></div></body></html>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Demande reçue — Longueur d'avance</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root { --ink: #12192b; --paper: #fdfcf9; --accent: #b4551e; --muted: #5c6674; --line: #e3ded4; }
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: var(--paper); color: var(--ink);
+    min-height: 100svh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 32px 20px; text-align: center;
+    -webkit-font-smoothing: antialiased;
+  }
+  .icon {
+    width: 64px; height: 64px; border-radius: 50%;
+    background: rgba(180,85,30,.1);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 24px;
+  }
+  .icon svg { width: 28px; height: 28px; }
+  h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(28px, 6vw, 40px);
+    letter-spacing: -0.02em; line-height: 1.15;
+    margin-bottom: 16px;
+  }
+  p { color: var(--muted); font-size: 16px; max-width: 40ch; line-height: 1.65; margin: 0 auto; }
+  p + p { margin-top: 10px; }
+  .back {
+    display: inline-flex; align-items: center; gap: 6px;
+    margin-top: 32px; color: var(--accent); font-weight: 600; font-size: 14.5px;
+    text-decoration: none; transition: gap .15s;
+  }
+  .back:hover { gap: 10px; }
+  .back svg { transition: transform .15s; }
+  .back:hover svg { transform: translateX(-3px); }
+</style>
+</head>
+<body>
+  <div class="icon">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#b4551e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M20 6L9 17l-5-5"/>
+    </svg>
+  </div>
+  <h1>Demande bien reçue.</h1>
+  <p>On revient vers vous sous 24 h ouvrées avec des créneaux disponibles.</p>
+  <p>D'ici là, gardez une longueur d'avance.</p>
+  <a class="back" href="/">
+    <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M10 3L5 8l5 5"/></svg>
+    Retour au site
+  </a>
+</body>
+</html>
