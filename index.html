@@ -201,6 +201,8 @@ section { padding: 72px 0; }
 }
 .btn:hover { background: var(--accent-l); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(180,85,30,.4); }
 .btn:active { transform: translateY(0); }
+.btn-invert { background: var(--paper); color: var(--accent); box-shadow: 0 6px 20px rgba(0,0,0,.18); }
+.btn-invert:hover { background: #fff; color: var(--accent); }
 
 /* ── Minimal text CTA (nav + footer) ─────────────────────── */
 .cta-text {
@@ -589,10 +591,10 @@ footer { padding: 36px 0; border-top: 1px solid var(--line); }
         <div class="hero-pill">Pour cabinets et PME</div>
         <h1>Votre activité perd des heures que personne ne chiffre.</h1>
         <p class="sub">Nous écoutons votre quotidien, nous chiffrons ce que les tâches répétitives vous coûtent réellement, puis nous vous formons à les réduire — <strong>sans vous vendre d'outil, sans toucher vos données</strong>.</p>
-        <a class="btn" href="#reserver">Réserver mon échange — 30 min</a>
+        <a class="btn" href="https://calendar.app.google/S5K8G7FLFWj4d4sF7" target="_blank" rel="noopener noreferrer">Réserver mon échange — 30 min</a>
         <div class="hero-trust">
           <span class="trust-item">Sans engagement</span>
-          <span class="trust-item">Réponse sous 24 h</span>
+          <span class="trust-item">Confirmation immédiate</span>
           <span class="trust-item">100 % gratuit</span>
         </div>
       </div>
@@ -828,7 +830,7 @@ footer { padding: 36px 0; border-top: 1px solid var(--line); }
         <li>Vous repartez avec une première estimation de ce qu'elles coûtent</li>
         <li>Si un audit a du sens, on vous le dit — sinon aussi</li>
       </ul>
-      <a class="btn" href="#reserver">Réserver ce créneau</a>
+      <a class="btn" href="https://calendar.app.google/S5K8G7FLFWj4d4sF7" target="_blank" rel="noopener noreferrer">Réserver ce créneau</a>
       <p class="micro" style="text-align:center;margin-top:14px">Sans engagement · Vos données restent chez vous</p>
     </div>
     <div class="etages rv">
@@ -867,8 +869,9 @@ footer { padding: 36px 0; border-top: 1px solid var(--line); }
     <div class="final-grid">
       <div>
         <h2>30 minutes. Vos chiffres. Votre décision.</h2>
-        <p class="lead-txt">Décrivez-nous votre activité et votre principale tâche répétitive — on revient vers vous sous 24 h ouvrées avec des créneaux.</p>
-        <p class="alt">Vous préférez écrire directement ?<br><code>contact@longueur-davance.fr</code></p>
+        <p class="lead-txt">Choisissez le créneau qui vous arrange — en visio, 30 minutes, sans engagement.</p>
+        <a class="btn btn-invert" href="https://calendar.app.google/S5K8G7FLFWj4d4sF7" target="_blank" rel="noopener noreferrer">Choisir un créneau &rarr;</a>
+        <p class="alt" style="margin-top:20px">Vous préférez qu'on vous rappelle ? Remplissez le formulaire ci-contre, ou écrivez à <code>contact@longueur-davance.fr</code>.</p>
         <a class="wa-btn" href="https://wa.me/33743761687?text=Bonjour%20Longueur%20d%27avance%2C%20je%20souhaite%20un%20%C3%A9change%20d%C3%A9couverte.%20Mon%20activit%C3%A9%20%3A%20" target="_blank" rel="noopener noreferrer">
           <svg viewBox="0 0 24 24" width="17" height="17" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2Zm5.8 14.13c-.24.68-1.42 1.32-1.94 1.36-.5.05-1.13.24-3.68-.77-3.1-1.22-5.08-4.4-5.24-4.6-.15-.2-1.25-1.66-1.25-3.17s.79-2.25 1.07-2.56c.28-.31.61-.39.81-.39.2 0 .41 0 .58.01.19.01.44-.07.69.53.24.6.83 2.07.9 2.22.07.15.12.32.02.52-.1.2-.15.32-.3.5-.15.17-.31.39-.44.52-.15.15-.3.31-.13.6.17.29.76 1.25 1.63 2.02 1.12.99 2.06 1.3 2.35 1.45.29.15.46.12.63-.07.17-.2.73-.85.92-1.14.19-.29.39-.24.65-.15.26.1 1.66.78 1.94.93.28.15.47.22.54.34.07.12.07.7-.17 1.38Z"/></svg>
           Ou par WhatsApp
@@ -881,7 +884,7 @@ footer { padding: 36px 0; border-top: 1px solid var(--line); }
           <input type="hidden" name="_template" value="table">
           <input type="hidden" name="_next" value="https://longueur-davance.fr/merci.html">
           <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true">
-          <h3>Réserver l'échange gratuit</h3>
+          <h3>Ou décrivez votre besoin</h3>
           <div class="field"><label for="nom">Votre nom</label><input id="nom" name="nom" required autocomplete="name" placeholder="Marie Dupont"></div>
           <div class="field"><label for="email">Votre email</label><input id="email" name="email" type="email" required autocomplete="email" placeholder="marie@cabinet.fr"></div>
           <div class="field"><label for="activite">Votre activité</label><input id="activite" name="activite" placeholder="Ex. cabinet d'avocat, plomberie, comptabilité…" required></div>
