@@ -10,6 +10,13 @@
 <meta property="og:url" content="https://longueur-davance.fr">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23b4551e'/%3E%3Cpath d='M14 44 L30 28 L38 36 L52 18' stroke='%23fdfcf9' stroke-width='6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
 <style>
+  @font-face{
+    font-family:'Fraunces';
+    font-style:normal;
+    font-weight:400 700;
+    font-display:swap;
+    src:url('assets/fonts/fraunces.woff2') format('woff2');
+  }
   :root{
     --ink:#12192b; --ink2:#1a2440; --paper:#fdfcf9; --accent:#b4551e; --accent-l:#d4713a;
     --accent2:#1f4e79; --muted:#5c6674; --muted-d:#8b93a3; --line:#e3ded4; --gold:#e8b88a;
@@ -17,7 +24,7 @@
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth}
   body{font-family:-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;color:var(--ink);background:var(--paper);line-height:1.65;font-size:17px;-webkit-font-smoothing:antialiased}
-  h1,h2,h3{font-family:Georgia,"Times New Roman",serif;font-weight:600;line-height:1.18;letter-spacing:-0.01em}
+  h1,h2,h3{font-family:'Fraunces',Georgia,"Times New Roman",serif;font-weight:600;line-height:1.14;letter-spacing:-0.015em}
   .wrap{max-width:1060px;margin:0 auto;padding:0 26px}
   .btn{display:inline-block;background:var(--accent);color:var(--paper);font-weight:700;font-size:17px;padding:17px 36px;border-radius:12px;text-decoration:none;border:none;cursor:pointer;transition:transform .18s,box-shadow .18s;box-shadow:0 4px 18px rgba(180,85,30,.28)}
   .btn:hover{transform:translateY(-2px);box-shadow:0 8px 26px rgba(180,85,30,.36)}
@@ -133,6 +140,22 @@
   form .micro{text-align:center}
   footer{padding:44px 0;border-top:1px solid var(--line)}
   footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:14px;color:var(--muted)}
+  /* Mobile-first : rythme resserré, respirations justes sur petit écran */
+  @media (max-width:640px){
+    section{padding:60px 0}
+    .hero{padding:44px 0 56px}
+    .wrap{padding:0 20px}
+    .hero .wrap{gap:34px}
+    .hero p.sub{font-size:18px;margin:20px 0 30px}
+    .pain-grid,.steps,.kpis,.offers{gap:16px;margin-top:32px}
+    .principle{padding:26px 22px;margin-top:36px;font-size:16.5px}
+    .etages{margin-top:34px}
+    .final .wrap{gap:30px}
+    form{padding:26px 22px}
+    .kicker{margin-bottom:12px}
+    .btn{font-size:16px;padding:15px 28px;width:100%;text-align:center}
+    .navlinks .btn{width:auto}
+  }
 </style>
 </head>
 <body>
