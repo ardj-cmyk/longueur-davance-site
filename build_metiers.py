@@ -17,13 +17,15 @@ METIERS = {
   sub="Vous rentrez à 19 h et il reste trois devis à écrire. Pendant ce temps, "
       "ceux du mois dernier attendent une réponse que personne n'ira chercher. "
       "On automatise ça ensemble, en 45 minutes, sur vos vrais dossiers.",
-  taches=["le devis rédigé à partir de vos notes de visite, ou d'un vocal pris sur place",
+  taches=["le devis chiffré et rédigé à partir de vos notes et métrés de visite, ou d'un vocal pris sur place",
           "la relance des devis restés sans réponse, au bon moment",
           "le compte rendu de chantier dicté à la voix et mis en forme tout seul",
           "votre fiche Google remplie et vivante, là où vos clients vous cherchent"],
   bas=2, haut=4, taux=45, taux_lbl="votre heure de main d'œuvre",
-  punch="Une heure récupérée le soir, c'est une heure de plus sur le chantier le lendemain, "
-        "ou une heure de moins volée à votre famille.",
+  punch="Vous mesurez sur place, comme toujours. Ce qui disparaît, c'est le report des "
+        "cotes, le calcul des surfaces, l'application de votre grille de prix et la mise "
+        "en forme. Une heure récupérée le soir, c'est une heure de plus sur le chantier "
+        "le lendemain, ou une heure de moins volée à votre famille.",
   reve="Et le rendu du projet avant travaux, celui qui transforme un devis hésitant "
        "en chantier signé.",
   faq=("Je n'ai pas de site internet, c'est bloquant ?",
