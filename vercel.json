@@ -1,0 +1,9 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "cleanUrls": true,
+  "redirects": [
+    { "source": "/auto", "destination": "/automatisation.html", "permanent": false },
+    { "source": "/offre", "destination": "/formation.html", "permanent": false },
+    { "source": "/mentions", "destination": "/mentions-legales.html", "permanent": false }
+  ]
+}

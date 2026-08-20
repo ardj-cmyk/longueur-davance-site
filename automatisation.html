@@ -131,6 +131,26 @@
 .faq-q::after { content: '+'; color: var(--accent); font-size: 22px; font-weight: 400; flex-shrink: 0; }
 details[open] .faq-q::after { content: '−'; }
 details p { font-size: 14.5px; color: var(--muted); line-height: 1.7; padding-bottom: 18px; }
+
+/* ── Chat contre agent ───────────────────────────────────── */
+.vs { display: grid; gap: 16px; grid-template-columns: 1fr; margin-top: 32px; }
+@media (min-width: 760px) { .vs { grid-template-columns: 1fr 1fr; gap: 22px; } }
+.vs-col { border-radius: var(--r-lg); padding: 26px 22px; }
+.vs-a { background: var(--surface); border: 1px solid var(--line); }
+.vs-b { background: #fff; border: 2px solid var(--accent); box-shadow: 0 0 0 8px var(--accent-d); }
+.vs-tag {
+  font-size: 10.5px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+  margin-bottom: 12px; display: block;
+}
+.vs-a .vs-tag { color: var(--muted-d); }
+.vs-b .vs-tag { color: var(--accent); }
+.vs-col h3 { font-size: 20px; margin-bottom: 14px; }
+.vs-col ul { list-style: none; }
+.vs-col li { font-size: 14.5px; line-height: 1.6; padding-left: 22px; position: relative; margin-bottom: 10px; }
+.vs-a li { color: var(--muted); }
+.vs-a li::before { content: '·'; position: absolute; left: 6px; color: var(--muted-d); font-weight: 700; font-size: 18px; top: -2px; }
+.vs-b li { color: var(--ink); }
+.vs-b li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
 </style>
 </head>
 <body>
@@ -204,6 +224,51 @@ details p { font-size: 14.5px; color: var(--muted); line-height: 1.7; padding-bo
     <p class="micro" style="margin-top:18px">
       Fourchette de référence pour la main d'œuvre en province : 40 à 65 € HT de l'heure selon le métier.
       Le curseur part du bas de la fourchette.
+    </p>
+  </div>
+</section>
+
+
+<!-- ═══ CHAT CONTRE AGENT ══════════════════════════════════ -->
+<section style="background:var(--paper)">
+  <div class="wrap rv">
+    <div class="kicker">Le malentendu</div>
+    <h2 style="font-size:clamp(26px,5.5vw,40px);max-width:22ch">
+      Si vous utilisez l'IA comme un chat, vous en voyez 5 %.
+    </h2>
+    <p class="micro" style="max-width:56ch;font-size:15px;line-height:1.7;margin:16px 0 0">
+      La plupart des gens posent une question dans une fenêtre et recopient la réponse à la main.
+      Ça fait gagner quelques minutes. Ce qui fait gagner des heures, c'est une IA branchée sur
+      vos vrais fichiers, qui produit le document fini, à votre format, sans que vous ayez à
+      recopier quoi que ce soit.
+    </p>
+
+    <div class="vs">
+      <div class="vs-col vs-a">
+        <span class="vs-tag">Ce que fait un chat</span>
+        <h3>Il répond.</h3>
+        <ul>
+          <li>Vous décrivez votre problème à la main, à chaque fois</li>
+          <li>Il ne connaît ni vos dossiers, ni vos modèles, ni vos tarifs</li>
+          <li>Vous recopiez, vous remettez en forme, vous corrigez</li>
+          <li>Vous recommencez tout au dossier suivant</li>
+        </ul>
+      </div>
+      <div class="vs-col vs-b">
+        <span class="vs-tag">Ce qu'on installe chez vous</span>
+        <h3>Ça travaille.</h3>
+        <ul>
+          <li>Branché sur vos documents, vos modèles, vos tarifs réels</li>
+          <li>Le document sort fini, dans votre format, prêt à envoyer</li>
+          <li>Vous relisez et vous validez, c'est tout</li>
+          <li>Ça se relance en un geste au dossier suivant</li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="micro" style="margin-top:24px;max-width:58ch">
+      C'est toute la différence entre poser une question à un outil et lui confier une tâche.
+      La deuxième demande une mise en place, et elle ne prend pas plus de 45 minutes.
     </p>
   </div>
 </section>
