@@ -4,22 +4,32 @@
   "redirects": [
     {
       "source": "/45min",
-      "destination": "/automatisation.html",
+      "destination": "/automatisation",
       "permanent": false
     },
     {
       "source": "/temps",
-      "destination": "/automatisation.html",
+      "destination": "/automatisation",
+      "permanent": false
+    },
+    {
+      "source": "/auto",
+      "destination": "/automatisation",
       "permanent": false
     },
     {
       "source": "/offre",
-      "destination": "/formation.html",
+      "destination": "/formation",
       "permanent": false
     },
     {
       "source": "/tarifs",
-      "destination": "/formation.html",
+      "destination": "/formation",
+      "permanent": false
+    },
+    {
+      "source": "/mentions",
+      "destination": "/mentions-legales",
       "permanent": false
     },
     {
@@ -28,83 +38,33 @@
       "permanent": false
     },
     {
-      "source": "/mentions",
-      "destination": "/mentions-legales.html",
-      "permanent": false
-    },
-    {
-      "source": "/batiment",
-      "destination": "/batiment.html",
-      "permanent": false
-    },
-    {
-      "source": "/immobilier",
-      "destination": "/immobilier.html",
-      "permanent": false
-    },
-    {
-      "source": "/avocat",
-      "destination": "/avocat.html",
-      "permanent": false
-    },
-    {
-      "source": "/comptable",
-      "destination": "/comptable.html",
-      "permanent": false
-    },
-    {
-      "source": "/architecte",
-      "destination": "/architecte.html",
-      "permanent": false
-    },
-    {
-      "source": "/recrutement",
-      "destination": "/recrutement.html",
-      "permanent": false
-    },
-    {
-      "source": "/garage",
-      "destination": "/garage.html",
-      "permanent": false
-    },
-    {
-      "source": "/camping",
-      "destination": "/camping.html",
-      "permanent": false
-    },
-    {
       "source": "/artisan",
-      "destination": "/batiment.html",
+      "destination": "/batiment",
       "permanent": false
     },
     {
       "source": "/notaire",
-      "destination": "/avocat.html",
+      "destination": "/avocat",
       "permanent": false
     },
     {
       "source": "/expert-comptable",
-      "destination": "/comptable.html",
+      "destination": "/comptable",
       "permanent": false
     },
     {
       "source": "/hotel",
-      "destination": "/camping.html",
+      "destination": "/camping",
       "permanent": false
     },
     {
       "source": "/agence",
-      "destination": "/immobilier.html",
+      "destination": "/immobilier",
       "permanent": false
     },
     {
       "source": "/interim",
-      "destination": "/recrutement.html",
-      "permanent": false
-    },
-    {
-      "source": "/auto",
-      "destination": "/automatisation.html",
+      "destination": "/recrutement",
       "permanent": false
     }
   ]
