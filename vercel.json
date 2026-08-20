@@ -2,8 +2,12 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "cleanUrls": true,
   "redirects": [
+    { "source": "/45min", "destination": "/automatisation.html", "permanent": false },
+    { "source": "/temps", "destination": "/automatisation.html", "permanent": false },
     { "source": "/auto", "destination": "/automatisation.html", "permanent": false },
     { "source": "/offre", "destination": "/formation.html", "permanent": false },
+    { "source": "/tarifs", "destination": "/formation.html", "permanent": false },
+    { "source": "/rdv", "destination": "https://calendar.app.google/S5K8G7FLFWj4d4sF7", "permanent": false },
     { "source": "/mentions", "destination": "/mentions-legales.html", "permanent": false }
   ]
 }
