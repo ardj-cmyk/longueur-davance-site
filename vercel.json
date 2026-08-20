@@ -2,12 +2,110 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "cleanUrls": true,
   "redirects": [
-    { "source": "/45min", "destination": "/automatisation.html", "permanent": false },
-    { "source": "/temps", "destination": "/automatisation.html", "permanent": false },
-    { "source": "/auto", "destination": "/automatisation.html", "permanent": false },
-    { "source": "/offre", "destination": "/formation.html", "permanent": false },
-    { "source": "/tarifs", "destination": "/formation.html", "permanent": false },
-    { "source": "/rdv", "destination": "https://calendar.app.google/S5K8G7FLFWj4d4sF7", "permanent": false },
-    { "source": "/mentions", "destination": "/mentions-legales.html", "permanent": false }
+    {
+      "source": "/45min",
+      "destination": "/automatisation.html",
+      "permanent": false
+    },
+    {
+      "source": "/temps",
+      "destination": "/automatisation.html",
+      "permanent": false
+    },
+    {
+      "source": "/offre",
+      "destination": "/formation.html",
+      "permanent": false
+    },
+    {
+      "source": "/tarifs",
+      "destination": "/formation.html",
+      "permanent": false
+    },
+    {
+      "source": "/rdv",
+      "destination": "https://calendar.app.google/S5K8G7FLFWj4d4sF7",
+      "permanent": false
+    },
+    {
+      "source": "/mentions",
+      "destination": "/mentions-legales.html",
+      "permanent": false
+    },
+    {
+      "source": "/batiment",
+      "destination": "/batiment.html",
+      "permanent": false
+    },
+    {
+      "source": "/immobilier",
+      "destination": "/immobilier.html",
+      "permanent": false
+    },
+    {
+      "source": "/avocat",
+      "destination": "/avocat.html",
+      "permanent": false
+    },
+    {
+      "source": "/comptable",
+      "destination": "/comptable.html",
+      "permanent": false
+    },
+    {
+      "source": "/architecte",
+      "destination": "/architecte.html",
+      "permanent": false
+    },
+    {
+      "source": "/recrutement",
+      "destination": "/recrutement.html",
+      "permanent": false
+    },
+    {
+      "source": "/garage",
+      "destination": "/garage.html",
+      "permanent": false
+    },
+    {
+      "source": "/camping",
+      "destination": "/camping.html",
+      "permanent": false
+    },
+    {
+      "source": "/artisan",
+      "destination": "/batiment.html",
+      "permanent": false
+    },
+    {
+      "source": "/notaire",
+      "destination": "/avocat.html",
+      "permanent": false
+    },
+    {
+      "source": "/expert-comptable",
+      "destination": "/comptable.html",
+      "permanent": false
+    },
+    {
+      "source": "/hotel",
+      "destination": "/camping.html",
+      "permanent": false
+    },
+    {
+      "source": "/agence",
+      "destination": "/immobilier.html",
+      "permanent": false
+    },
+    {
+      "source": "/interim",
+      "destination": "/recrutement.html",
+      "permanent": false
+    },
+    {
+      "source": "/auto",
+      "destination": "/automatisation.html",
+      "permanent": false
+    }
   ]
 }

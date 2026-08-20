@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Courir après les pièces, tous les mois, chez tous les clients. · Longueur d'avance</title>
+<meta name="description" content="Experts-comptables : on automatise en 45 minutes une tâche répétitive de votre semaine, sur vos vrais dossiers. Aucun logiciel à acheter, vos données restent chez vous.">
+<meta property="og:title" content="Courir après les pièces, tous les mois, chez tous les clients.">
+<meta property="og:description" content="Ce n'est pas de la production comptable, ce n'est facturé nulle part, et ça mange les journées de votre équipe.">
+<meta property="og:url" content="https://longueur-davance.fr/comptable.html">
+<link rel="canonical" href="https://longueur-davance.fr/comptable.html">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23b4551e'/%3E%3Cpath d='M14 44 L30 28 L38 36 L52 18' stroke='%23fdfcf9' stroke-width='6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+.lp-head { padding: 14px 0; }
+.lp-head .nav-wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.calc { background:#fff; border:2px solid var(--accent); border-radius:var(--r-lg);
+  box-shadow:0 0 0 8px var(--accent-d); padding:30px 24px 24px; position:relative;
+  max-width:620px; margin:36px auto 0; }
+.calc-badge { position:absolute; top:-12px; left:24px; background:var(--accent); color:var(--paper);
+  font-size:10px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase;
+  padding:4px 14px; border-radius:99px; }
+.calc-row { margin-bottom:24px; }
+.calc-row label { display:flex; justify-content:space-between; align-items:baseline; gap:12px;
+  font-size:11px; font-weight:700; letter-spacing:.8px; text-transform:uppercase;
+  color:var(--muted); margin-bottom:12px; }
+.calc-val { font-family:'Playfair Display',Georgia,serif; font-size:20px; font-weight:700;
+  color:var(--ink); letter-spacing:0; text-transform:none; }
+.calc input[type=range] { width:100%; -webkit-appearance:none; appearance:none; height:4px;
+  border-radius:99px; background:var(--line); outline:none; }
+.calc input[type=range]::-webkit-slider-thumb { -webkit-appearance:none; appearance:none;
+  width:26px; height:26px; border-radius:50%; background:var(--accent); cursor:pointer;
+  border:3px solid #fff; box-shadow:0 2px 10px rgba(180,85,30,.45); }
+.calc input[type=range]::-moz-range-thumb { width:26px; height:26px; border:3px solid #fff;
+  border-radius:50%; background:var(--accent); cursor:pointer; }
+.calc-out { background:var(--ink); border-radius:var(--r); color:var(--paper);
+  margin-top:28px; padding:24px 20px; text-align:center; }
+.calc-out .amount-lbl { font-size:11px; font-weight:700; letter-spacing:2px;
+  text-transform:uppercase; color:var(--gold); margin-bottom:12px; }
+.calc-out .amount { font-family:'Playfair Display',Georgia,serif; font-size:clamp(40px,11vw,62px);
+  line-height:1; color:var(--paper); font-variant-numeric:tabular-nums lining-nums; }
+.calc-out .amount .plus { color:var(--gold); }
+.calc-out .amount-sub { font-size:14px; color:rgba(253,252,249,.72); margin-top:12px; }
+.calc-detail { font-size:12.5px; color:rgba(253,252,249,.5); margin-top:14px; line-height:1.6;
+  border-top:1px solid rgba(253,252,249,.12); padding-top:14px; }
+.taches { list-style:none; margin-top:30px; }
+.taches li { display:flex; gap:14px; align-items:flex-start; padding:18px 0;
+  border-bottom:1px solid var(--line); font-size:16px; line-height:1.6; }
+.taches li:last-child { border-bottom:none; }
+.taches li::before { content:'→'; color:var(--accent); font-weight:700; flex-shrink:0; font-size:17px; }
+.dark { background:var(--ink); color:var(--paper); }
+.dark h2 { color:var(--paper); } .dark p { color:rgba(253,252,249,.76); }
+.dark .kicker { color:var(--gold); } .dark .kicker::before { background:var(--gold); }
+.nope { display:grid; gap:14px; grid-template-columns:1fr; margin-top:26px; }
+@media (min-width:700px) { .nope { grid-template-columns:repeat(2,1fr); } }
+.nope div { border-left:2px solid var(--accent); padding:4px 0 4px 16px; font-size:14.5px; line-height:1.65; }
+.nope strong { display:block; font-weight:600; margin-bottom:3px; }
+.tl { counter-reset:s; margin-top:30px; }
+.tl li { list-style:none; position:relative; padding-left:54px; padding-bottom:26px; }
+.tl li::before { counter-increment:s; content:counter(s); position:absolute; left:0; top:-2px;
+  width:34px; height:34px; border-radius:50%; background:var(--accent-d); color:var(--accent);
+  display:flex; align-items:center; justify-content:center; font-weight:700; font-size:14px; }
+.tl li::after { content:''; position:absolute; left:17px; top:36px; bottom:0; width:1px; background:var(--line); }
+.tl li:last-child { padding-bottom:0; } .tl li:last-child::after { display:none; }
+.tl h3 { font-size:18px; margin-bottom:6px; }
+.tl p { font-size:14.5px; color:var(--muted); line-height:1.65; }
+.faq-q { border-top:1px solid var(--line); padding:18px 0; font-size:16px; font-weight:600;
+  cursor:pointer; list-style:none; display:flex; justify-content:space-between;
+  align-items:center; gap:16px; }
+.faq-q::-webkit-details-marker { display:none; }
+.faq-q::after { content:'+'; color:var(--accent); font-size:22px; font-weight:400; flex-shrink:0; }
+details[open] .faq-q::after { content:'−'; }
+details { background:none; border:none; box-shadow:none; }
+details p { font-size:14.5px; color:var(--muted); line-height:1.7; padding-bottom:18px; }
+.cta-band { text-align:center; }
+.cta-band h2 { font-size:clamp(26px,5.5vw,40px); max-width:18ch; margin:0 auto 16px; }
+.cta-band p { max-width:46ch; margin:0 auto 26px; }
+</style>
+</head>
+<body>
+
+<header class="lp-head">
+  <div class="wrap nav-wrap">
+    <a class="logo" href="/" aria-label="Longueur d'avance, accueil">
+      <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <rect width="64" height="64" rx="12" fill="#b4551e"/>
+        <path d="M14 44 L30 28 L38 36 L52 18" stroke="#fdfcf9" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <div class="logo-name">Longueur d'avance<span class="logo-sub">Audit IA · Accompagnement</span></div>
+    </a>
+    <a class="cta-text js-book" href="https://calendar.app.google/S5K8G7FLFWj4d4sF7" target="_blank" rel="noopener" data-loc="nav">
+      Réserver 30 min
+      <svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+    </a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-pill">Cabinets d'expertise comptable</div>
+    <h1>Courir après les pièces, tous les mois, chez tous les clients.</h1>
+    <p class="sub">Ce n'est pas de la production comptable, ce n'est facturé nulle part, et ça mange les journées de votre équipe.</p>
+    <a class="btn js-book" href="https://calendar.app.google/S5K8G7FLFWj4d4sF7" target="_blank" rel="noopener" data-loc="hero">Choisir un créneau</a>
+    <div class="hero-trust">
+      <span class="trust-item">Confirmation immédiate</span>
+      <span class="trust-item">100 % visio</span>
+      <span class="trust-item">Aucun logiciel à acheter</span>
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--surface)">
+  <div class="wrap rv">
+    <div class="kicker">Ce qu'on vous retire</div>
+    <h2 style="font-size:clamp(26px,5.5vw,40px);max-width:20ch">Les quatre qui reviennent chaque semaine.</h2>
+    <ul class="taches">
+      <li>les relances de pièces manquantes, client par client</li>
+      <li>les courriers et mails récurrents, à partir de vos modèles</li>
+      <li>la synthèse d'un dossier avant un rendez-vous client</li>
+      <li>les réponses aux questions que vos clients posent tous les mois</li>
+    </ul>
+    <p class="micro" style="margin-top:24px;font-size:15px;line-height:1.7;max-width:56ch">On ne touche pas à la production comptable ni au calcul fiscal. On prend ce qui l'entoure et qui n'est facturé nulle part.</p>
+  </div>
+</section>
+
+<section id="calcul">
+  <div class="wrap rv">
+    <div class="kicker">Le calcul</div>
+    <h2 style="font-size:clamp(26px,5.5vw,40px);max-width:20ch">Ce que ça vous coûte, sur une année.</h2>
+    <p class="micro" style="max-width:56ch;font-size:15px;line-height:1.7;margin:16px 0 0">
+      Sur ce métier, ces quatre tâches pèsent en général entre 3 et 5 heures par semaine.
+      Déplacez les curseurs sur votre situation réelle.
+    </p>
+    <div class="calc">
+      <span class="calc-badge">Sur votre cas</span>
+      <div class="calc-row">
+        <label for="h">Heures répétitives par semaine <span class="calc-val" id="hv">4.0 h</span></label>
+        <input type="range" id="h" min="1" max="12" step="0.5" value="4.0">
+      </div>
+      <div class="calc-row">
+        <label for="t">le coût horaire d'un collaborateur <span class="calc-val" id="tv">90 €</span></label>
+        <input type="range" id="t" min="45" max="180" step="5" value="90">
+      </div>
+      <div class="calc-out">
+        <div class="amount-lbl">Ce que vous récupérez chaque année</div>
+        <div class="amount"><span class="plus">+</span><span id="res">0</span> €</div>
+        <div class="amount-sub">de temps de travail rendu à votre activité</div>
+        <p class="calc-detail" id="det"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--surface)">
+  <div class="wrap rv">
+    <div class="kicker">Les 45 minutes</div>
+    <h2 style="font-size:clamp(26px,5.5vw,40px);max-width:16ch">Comment ça se passe.</h2>
+    <ol class="tl">
+      <li><h3>On identifie la tâche (10 min)</h3>
+        <p>Vous racontez votre semaine. On cherche celle qui revient le plus souvent
+           et qui vous coûte le plus de temps pour le moins de valeur.</p></li>
+      <li><h3>On la monte en direct (25 min)</h3>
+        <p>Partage d'écran, avec vos vrais exemples. À la fin, ça tourne sur votre cas,
+           pas sur une démo.</p></li>
+      <li><h3>Vous repartez avec (10 min)</h3>
+        <p>On refait le tour pour que vous sachiez le relancer seul, et vous recevez
+           la marche à suivre écrite.</p></li>
+    </ol>
+  </div>
+</section>
+
+<section class="dark">
+  <div class="wrap rv">
+    <div class="kicker">La règle du jeu</div>
+    <h2 style="font-size:clamp(26px,5.5vw,40px);max-width:20ch">Ce qu'on ne fera jamais.</h2>
+    <div class="nope">
+      <div><strong>On ne vend aucun logiciel.</strong> Pas d'abonnement à nous payer.
+        Les outils restent les vôtres, vous pouvez les garder, les changer ou les arrêter sans nous.</div>
+      <div><strong>On ne garde pas vos données.</strong> Vos dossiers, vos clients, vos documents
+        restent chez vous. Nous n'hébergeons rien.</div>
+      <div><strong>On ne vous rend pas dépendant.</strong> L'objectif de la séance est que vous
+        sachiez le refaire seul.</div>
+      <div><strong>On ne promet pas de miracle.</strong> Certaines tâches ne s'automatisent pas
+        proprement, et certains calculs ne doivent surtout pas être confiés à une IA.
+        Quand c'est le cas, on vous le dit.</div>
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--surface)">
+  <div class="wrap rv" style="max-width:760px">
+    <div class="kicker">Questions</div>
+    <h2 style="font-size:clamp(26px,5.5vw,40px);margin-bottom:24px">Avant de réserver.</h2>
+    <details><summary class="faq-q">Vous touchez à la saisie ou au fiscal ?</summary><p>Non, jamais. Ce sont des domaines où une erreur plausible mais fausse coûte très cher, et où votre responsabilité est engagée. On travaille exclusivement sur l'écrit qui entoure la production.</p></details>
+    <details><summary class="faq-q">Je n'y connais rien en informatique.</summary>
+      <p>C'est le cas de la plupart des gens que j'accompagne. Rien à installer avant,
+         rien à coder pendant, et la marche à suivre vous est remise par écrit.</p></details>
+    <details><summary class="faq-q">Et mes données ?</summary>
+      <p>Elles restent chez vous. On travaille sur votre écran, avec vos outils. Les outils
+         mis en place sont choisis pour leur conformité au RGPD, avec un hébergement dans
+         l'Union européenne en priorité. Quand un outil traite des données hors UE, vous le
+         savez avant qu'il soit installé.</p></details>
+    <details><summary class="faq-q">Combien ça coûte ?</summary>
+      <p>La séance est à 490 € pour mes 10 premiers clients, puis 790 €. Si vous voulez aller
+         plus loin, c'est chiffré après l'audit, sur une grille identique pour tout le monde.
+         <a href="/formation.html" style="color:var(--accent)">Le détail est ici.</a></p></details>
+    <details><summary class="faq-q">Et si ça ne marche pas chez moi ?</summary>
+      <p>Certaines tâches ne s'automatisent pas proprement. Si c'est le cas de la vôtre,
+         je vous le dis pendant l'échange de 30 minutes, avant que vous n'ayez payé quoi que ce soit.</p></details>
+  </div>
+</section>
+
+<section class="dark cta-band">
+  <div class="wrap rv">
+    <div class="kicker">La suite</div>
+    <h2>Une tâche en moins, dès cette semaine.</h2>
+    <p>30 minutes en visio pour regarder votre cas. Si ça n'a pas de sens chez vous, je vous le dis.</p>
+    <a class="btn btn-invert js-book" href="https://calendar.app.google/S5K8G7FLFWj4d4sF7" target="_blank" rel="noopener" data-loc="final">Choisir un créneau</a>
+    <p class="micro" style="margin-top:22px;color:rgba(253,252,249,.55)">Longueur d'avance · Nantes et sa région</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap"><div class="footer-inner">
+    <div class="footer-top">
+      <div><div class="footer-brand">Longueur d'avance</div>
+        <div class="footer-tagline">Audit IA · Accompagnement pour cabinets et PME</div></div>
+      <a class="cta-text js-book" href="https://calendar.app.google/S5K8G7FLFWj4d4sF7" target="_blank" rel="noopener" data-loc="footer">
+        Prendre rendez-vous
+        <svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+      </a>
+    </div>
+    <div class="footer-bottom">
+      <span>© Longueur d'avance 2026 · contact@longueur-davance.fr</span>
+      <span><a href="/mentions-legales.html">Mentions légales</a> · <a href="/confidentialite.html">Confidentialité</a> · <a href="/">Accueil</a></span>
+    </div>
+  </div></div>
+</footer>
+
+<script defer src="/_vercel/insights/script.js"></script>
+<script>
+(function () {
+  var h=document.getElementById('h'),t=document.getElementById('t'),
+      hv=document.getElementById('hv'),tv=document.getElementById('tv'),
+      res=document.getElementById('res'),det=document.getElementById('det'),
+      fmt=new Intl.NumberFormat('fr-FR');
+  function maj() {
+    var hh=parseFloat(h.value),tt=parseInt(t.value,10),an=Math.round(hh*52),g=Math.round(an*tt);
+    hv.textContent=(hh%1?hh.toString().replace('.',','):hh)+' h';
+    tv.textContent=tt+' €';
+    res.textContent=fmt.format(g);
+    det.textContent=hv.textContent+" par semaine, soit "+fmt.format(an)+" h par an, valorisées à "+tt+" € de l'heure.";
+  }
+  h.addEventListener('input',maj); t.addEventListener('input',maj); maj();
+
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){
+    if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.08});
+  document.querySelectorAll('.rv').forEach(function(el){io.observe(el);});
+
+  var q=new URLSearchParams(location.search),ctx={};
+  ['p','utm_source','utm_medium','utm_campaign','utm_content'].forEach(function(k){
+    if(q.get(k))ctx[k]=q.get(k);});
+  if(Object.keys(ctx).length){try{sessionStorage.setItem('lda_ctx',JSON.stringify(ctx));}catch(e){}}
+  else{try{ctx=JSON.parse(sessionStorage.getItem('lda_ctx')||'{}');}catch(e){ctx={};}}
+  function track(n,x){if(window.va)window.va('event',{name:n,data:Object.assign({metier:'comptable'},ctx,x||{})});}
+  document.querySelectorAll('.js-book').forEach(function(a){
+    a.addEventListener('click',function(){track('clic_reservation',{position:a.dataset.loc||''});});});
+  h.addEventListener('change',function(){track('calculateur_utilise');},{once:true});
+  track('page_vue');
+})();
+</script>
+</body>
+</html>
