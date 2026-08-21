@@ -1,4 +1,31 @@
 User-agent: *
 Allow: /
+Disallow: /merci
 Disallow: /merci.html
+
+# Robots des moteurs de reponse : autorises explicitement.
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
 Sitemap: https://longueur-davance.fr/sitemap.xml
