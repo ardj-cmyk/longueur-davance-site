@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>L'accompagnement : ce qu'on met en place chez vous · Longueur d'avance</title>
+<meta name="description" content="On installe l'IA sur vos tâches répétitives et on vous rend la main. Une séance à 490 € pour démarrer, la suite chiffrée après l'audit. Aucun logiciel à acheter.">
+<meta property="og:title" content="L'accompagnement · Longueur d'avance">
+<meta property="og:description" content="Un workflow qui tourne, et le setup pour continuer seul. 490 € pour les 10 premiers clients.">
+<meta property="og:url" content="https://longueur-davance.fr/formation.html">
+<link rel="canonical" href="https://longueur-davance.fr/formation.html">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23b4551e'/%3E%3Cpath d='M14 44 L30 28 L38 36 L52 18' stroke='%23fdfcf9' stroke-width='6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+.lp-head { padding: 14px 0; }
+.lp-head .nav-wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+
+.packs { display: grid; gap: 22px; grid-template-columns: 1fr; margin-top: 36px; align-items: start; }
+@media (min-width: 820px) { .packs { grid-template-columns: 1fr 1fr; gap: 28px; } }
+
+.pack { border-radius: var(--r-lg); padding: 30px 24px; position: relative; }
+.pack-a { background: #fff; border: 2px solid var(--accent); box-shadow: 0 0 0 8px var(--accent-d); }
+.pack-b { background: var(--surface); border: 1px solid var(--line); }
+.pack-badge {
+  position: absolute; top: -12px; left: 24px; background: var(--accent); color: var(--paper);
+  font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+  padding: 4px 14px; border-radius: 99px;
+}
+.pack h3 { font-size: clamp(21px, 4vw, 26px); margin-bottom: 6px; }
+.pack .tagline { font-size: 14.5px; color: var(--muted); line-height: 1.6; margin-bottom: 18px; }
+.pack .prix {
+  font-family: 'Playfair Display', Georgia, serif; font-size: clamp(34px, 7vw, 46px);
+  line-height: 1; color: var(--ink); font-variant-numeric: lining-nums;
+}
+.pack .prix small { font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 500; color: var(--muted); }
+.pack .prix-note { font-size: 13px; color: var(--muted); margin-top: 8px; line-height: 1.55; }
+.pack ul { list-style: none; margin: 22px 0; }
+.pack li {
+  display: flex; gap: 10px; align-items: flex-start; padding: 10px 0;
+  font-size: 14.5px; line-height: 1.6; border-bottom: 1px solid var(--line);
+}
+.pack li:last-child { border-bottom: none; }
+.pack li::before { content: '→'; color: var(--accent); font-weight: 700; flex-shrink: 0; }
+.pack .btn { width: 100%; }
+.pack-b .prix { font-size: clamp(24px, 5vw, 30px); }
+
+.niveaux { margin-top: 30px; border: 1px solid var(--line); border-radius: var(--r-lg); background: #fff; overflow: hidden; }
+.niveau { padding: 20px 22px; border-bottom: 1px solid var(--line); }
+.niveau:last-child { border-bottom: none; }
+.niveau b { font-family: 'Playfair Display', Georgia, serif; font-size: 17px; display: block; margin-bottom: 5px; }
+.niveau span { color: var(--muted); font-size: 14.5px; line-height: 1.62; }
+
+.dark { background: var(--ink); color: var(--paper); }
+.dark h2 { color: var(--paper); }
+.dark p { color: rgba(253,252,249,.76); }
+.dark .kicker { color: var(--gold); }
+.dark .kicker::before { background: var(--gold); }
+
+.nope { display: grid; gap: 14px; grid-template-columns: 1fr; margin-top: 26px; }
+@media (min-width: 700px) { .nope { grid-template-columns: repeat(2, 1fr); } }
+.nope div { border-left: 2px solid var(--accent); padding: 4px 0 4px 16px; font-size: 14.5px; line-height: 1.65; }
+.nope strong { display: block; font-weight: 600; margin-bottom: 3px; }
+
+.faq-q {
+  border-top: 1px solid var(--line); padding: 18px 0; font-size: 16px; font-weight: 600;
+  cursor: pointer; list-style: none; display: flex; justify-content: space-between;
+  align-items: center; gap: 16px; background: none;
+}
+.faq-q::-webkit-details-marker { display: none; }
+.faq-q::after { content: '+'; color: var(--accent); font-size: 22px; font-weight: 400; flex-shrink: 0; }
+details[open] .faq-q::after { content: '−'; }
+details { background: none; border: none; box-shadow: none; }
+details p { font-size: 14.5px; color: var(--muted); line-height: 1.7; padding-bottom: 18px; }
+
+.cta-band { text-align: center; }
+.cta-band h2 { font-size: clamp(26px, 5.5vw, 40px); max-width: 18ch; margin: 0 auto 16px; }
+.cta-band p { max-width: 46ch; margin: 0 auto 26px; }
+</style>
+</head>
+<body>
+
+<header class="lp-head">
+  <div class="wrap nav-wrap">
+    <a class="logo" href="/" aria-label="Longueur d'avance, accueil">
+      <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <rect width="64" height="64" rx="12" fill="#b4551e"/>
+        <path d="M14 44 L30 28 L38 36 L52 18" stroke="#fdfcf9" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <div class="logo-name">Longueur d'avance<span class="logo-sub">Audit IA · Accompagnement</span></div>
+    </a>
+    <a class="cta-text js-book" href="https://calendar.app.google/S5K8G7FLFWj4d4sF7" target="_blank" rel="noopener" data-loc="nav">
+      Réserver 30 min
+      <svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+    </a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-pill">Accompagnement</div>
+    <h1>On l'installe avec vous, puis on vous rend la main.</h1>
+    <p class="sub">
+      Pas de logiciel à acheter, pas d'abonnement à nous payer, pas de données chez nous.
+      On met en place ce qui vous fait gagner du temps, et on s'assure que vous savez le
+      relancer seul. Si vous n'avez plus besoin de nous, c'est que ça a marché.
+    </p>
+    <div class="hero-trust">
+      <span class="trust-item">100 % visio</span>
+      <span class="trust-item">Aucun logiciel à acheter</span>
+      <span class="trust-item">Vos données restent chez vous</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ LES DEUX FORMULES ══════════════════════════════════ -->
+<section style="background:var(--surface)">
+  <div class="wrap rv">
+    <div class="kicker">Les formules</div>
+    <h2 style="font-size:clamp(26px,5.5vw,40px);max-width:16ch">Par où on commence.</h2>
+
+    <div class="packs">
+      <div class="pack pack-a">
+        <span class="pack-badge">Le point de départ</span>
+        <h3>Déclic</h3>
+        <p class="tagline">Une séance, un workflow qui tourne, et le setup pour continuer seul.</p>
+        <div class="prix">490 € <small>net de taxe</small></div>
+        <p class="prix-note">
+          Tarif réservé à mes 10 premiers clients. Il passera ensuite à 790 €.
+        </p>
+        <ul>
+          <li>On choisit ensemble la tâche qui vous coûte le plus de temps</li>
+          <li>On la met en place en direct, sur vos vrais dossiers</li>
+          <li>Vous repartez avec l'outil qui tourne et la marche à suivre écrite</li>
+          <li>Le setup reste chez vous, vous pouvez l'utiliser sur autre chose</li>
+        </ul>
+        <a class="btn js-book" href="https://calendar.app.google/S5K8G7FLFWj4d4sF7" target="_blank" rel="noopener" data-loc="pack">
+          Réserver un échange de 30 min
+        </a>
+        <p class="micro" style="text-align:center;margin-top:12px">
+          On parle d'abord, vous décidez ensuite.
+        </p>
+      </div>
+
+      <div class="pack pack-b">
+        <h3>L'accompagnement complet</h3>
+        <p class="tagline">Les 3 ou 4 workflows nécessaires au bon fonctionnement de votre activité.</p>
+        <div class="prix">Chiffré après l'audit</div>
+        <p class="prix-note">
+          Parce que le prix dépend de ce qu'on construit. On classe vos workflows ensemble
+          lors de la première séance, par ordre de priorité, et le devis suit.
+        </p>
+        <ul>
+          <li>L'audit chiffré : ce que vos tâches répétitives vous coûtent réellement</li>
+          <li>Les workflows prioritaires mis en place un par un</li>
+          <li>La formation de votre équipe, pas seulement la vôtre</li>
+          <li>Un suivi de 3 mois : un point de 30 minutes par mois</li>
+        </ul>
+        <a class="btn btn-invert js-book" href="https://calendar.app.google/S5K8G7FLFWj4d4sF7" target="_blank" rel="noopener" data-loc="pack2"
+           style="background:var(--ink);color:var(--paper);box-shadow:none">
+          En parler
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ COMMENT ON CHIFFRE ═════════════════════════════════ -->
+<section>
+  <div class="wrap rv">
+    <div class="kicker">La transparence</div>
+    <h2 style="font-size:clamp(26px,5.5vw,40px);max-width:20ch">Comment un workflow est chiffré.</h2>
+    <p class="micro" style="max-width:56ch;font-size:15px;line-height:1.7;margin:16px 0 0">
+      Le prix ne dépend pas de votre chiffre d'affaires, il dépend de ce qu'on construit.
+      Trois niveaux, et vous savez dans lequel vous êtes avant de vous engager.
+    </p>
+
+    <div class="niveaux">
+      <div class="niveau">
+        <b>Simple</b>
+        <span>Une entrée, une sortie, à partir d'un modèle que vous fournissez.
+        Un compte rendu dicté et mis en forme, une réponse type, une annonce réécrite.</span>
+      </div>
+      <div class="niveau">
+        <b>Standard</b>
+        <span>Le workflow lit plusieurs de vos sources ou produit un document structuré
+        à partir de vos données. Un devis prérempli depuis vos notes et votre grille tarifaire,
+        la relance de vos devis sans réponse, une synthèse de dossier.</span>
+      </div>
+      <div class="niveau">
+        <b>Complexe</b>
+        <span>Le workflow se branche sur un système extérieur ou doit vivre dans la durée.
+        Un site à produire et à mettre en ligne, une connexion à votre messagerie ou à
+        votre agenda, une chaîne à plusieurs étapes.</span>
+      </div>
+    </div>
+
+    <p class="micro" style="margin-top:20px;max-width:58ch">
+      Deux clients qui achètent la même chose paient la même chose. L'écart entre deux devis
+      s'explique par ce qui a été livré, jamais par autre chose.
+    </p>
+  </div>
+</section>
+
+<!-- ═══ CE QU'ON NE FAIT PAS ═══════════════════════════════ -->
+<section class="dark">
+  <div class="wrap rv">
+    <div class="kicker">La règle du jeu</div>
+    <h2 style="font-size:clamp(26px,5.5vw,40px);max-width:20ch">Ce qu'on ne fera jamais.</h2>
+    <div class="nope">
+      <div>
+        <strong>On ne vend aucun logiciel.</strong>
+        Aucun abonnement à nous payer. On travaille avec des outils que vous pouvez
+        garder, changer ou arrêter sans nous.
+      </div>
+      <div>
+        <strong>On ne garde pas vos données.</strong>
+        Vos dossiers, vos clients, vos documents restent chez vous. Nous n'hébergeons rien.
+      </div>
+      <div>
+        <strong>On ne vous rend pas dépendant.</strong>
+        Le suivi dure 3 mois et s'arrête. Assez pour voler seul, pas assez pour créer
+        une habitude.
+      </div>
+      <div>
+        <strong>On ne promet pas de miracle.</strong>
+        Certaines tâches ne s'automatisent pas proprement, et certains calculs ne doivent
+        surtout pas être confiés à une IA. Quand c'est le cas, on vous le dit.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FAQ ════════════════════════════════════════════════ -->
+<section style="background:var(--surface)">
+  <div class="wrap rv" style="max-width:760px">
+    <div class="kicker">Questions</div>
+    <h2 style="font-size:clamp(26px,5.5vw,40px);margin-bottom:24px">Avant de réserver.</h2>
+
+    <details>
+      <summary class="faq-q">Pourquoi 490 € seulement pour les 10 premiers ?</summary>
+      <p>Parce que je démarre. En échange de ce tarif, je vous demande un retour honnête
+         sur la séance, et un témoignage si vous en êtes satisfait. Passé les 10 premiers
+         clients, le tarif sera de 790 €. Ce n'est pas une promotion, c'est une contrepartie.</p>
+    </details>
+    <details>
+      <summary class="faq-q">Pourquoi le prix du complet n'est-il pas affiché ?</summary>
+      <p>Parce qu'il dépend entièrement de ce qu'on construit, et que ça ne se devine pas
+         avant de vous avoir écouté. Trois workflows simples et un site à produire, ce n'est
+         pas le même travail. Le chiffrage se fait après l'audit, sur une grille identique
+         pour tout le monde.</p>
+    </details>
+    <details>
+      <summary class="faq-q">Je n'y connais rien en informatique.</summary>
+      <p>C'est le cas de la plupart des gens que j'accompagne. Vous n'avez rien à installer
+         avant, rien à coder pendant, et la marche à suivre vous est remise par écrit.</p>
+    </details>
+    <details>
+      <summary class="faq-q">Et mes données clients ?</summary>
+      <p>Elles restent chez vous. On travaille sur votre écran, avec vos outils. Les outils
+         mis en place sont choisis pour leur conformité au RGPD, avec un hébergement dans
+         l'Union européenne en priorité. Quand un outil traite des données hors UE, vous le
+         savez avant qu'il soit installé.</p>
+    </details>
+    <details>
+      <summary class="faq-q">Et si ça ne marche pas chez moi ?</summary>
+      <p>Certaines tâches ne s'automatisent pas proprement. Si c'est le cas de la vôtre,
+         je vous le dis pendant l'échange de 30 minutes, avant que vous n'ayez payé quoi
+         que ce soit.</p>
+    </details>
+  </div>
+</section>
+
+<section class="dark cta-band">
+  <div class="wrap rv">
+    <div class="kicker">La suite</div>
+    <h2>30 minutes pour savoir si ça vaut le coup.</h2>
+    <p>On regarde votre semaine, on chiffre ce que vos tâches répétitives vous coûtent.
+       Si ça n'a pas de sens chez vous, je vous le dis.</p>
+    <a class="btn btn-invert js-book" href="https://calendar.app.google/S5K8G7FLFWj4d4sF7" target="_blank" rel="noopener" data-loc="final">
+      Choisir un créneau
+    </a>
+    <p class="micro" style="margin-top:22px;color:rgba(253,252,249,.55)">
+      Confirmation immédiate · Longueur d'avance, Nantes
+    </p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div>
+          <div class="footer-brand">Longueur d'avance</div>
+          <div class="footer-tagline">Audit IA · Accompagnement pour cabinets et PME</div>
+        </div>
+        <a class="cta-text js-book" href="https://calendar.app.google/S5K8G7FLFWj4d4sF7" target="_blank" rel="noopener" data-loc="footer">
+          Prendre rendez-vous
+          <svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+        </a>
+      </div>
+      <div class="footer-bottom">
+        <span>© Longueur d'avance 2026 · contact@longueur-davance.fr</span>
+        <span><a href="/mentions-legales.html">Mentions légales</a> · <a href="/confidentialite.html">Confidentialité</a>
+        <a href="/cgv.html">CGV</a> · <a href="/">Accueil</a></span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script defer src="/_vercel/insights/script.js"></script>
+<script>
+(function () {
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.rv').forEach(function (el) { io.observe(el); });
+
+  var q = new URLSearchParams(location.search), ctx = {};
+  ['p','utm_source','utm_medium','utm_campaign','utm_content'].forEach(function (k) {
+    if (q.get(k)) ctx[k] = q.get(k);
+  });
+  if (Object.keys(ctx).length) { try { sessionStorage.setItem('lda_ctx', JSON.stringify(ctx)); } catch (e) {} }
+  else { try { ctx = JSON.parse(sessionStorage.getItem('lda_ctx') || '{}'); } catch (e) { ctx = {}; } }
+
+  document.querySelectorAll('.js-book').forEach(function (a) {
+    a.addEventListener('click', function () {
+      if (window.va) window.va('event', { name: 'clic_reservation',
+        data: Object.assign({ page: 'formation', position: a.dataset.loc || '' }, ctx) });
+    });
+  });
+  if (window.va) window.va('event', { name: 'page_vue', data: Object.assign({ page: 'formation' }, ctx) });
+})();
+</script>
+</body>
+</html>

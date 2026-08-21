@@ -1,0 +1,71 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "cleanUrls": true,
+  "redirects": [
+    {
+      "source": "/45min",
+      "destination": "/automatisation",
+      "permanent": false
+    },
+    {
+      "source": "/temps",
+      "destination": "/automatisation",
+      "permanent": false
+    },
+    {
+      "source": "/auto",
+      "destination": "/automatisation",
+      "permanent": false
+    },
+    {
+      "source": "/offre",
+      "destination": "/formation",
+      "permanent": false
+    },
+    {
+      "source": "/tarifs",
+      "destination": "/formation",
+      "permanent": false
+    },
+    {
+      "source": "/mentions",
+      "destination": "/mentions-legales",
+      "permanent": false
+    },
+    {
+      "source": "/rdv",
+      "destination": "https://calendar.app.google/S5K8G7FLFWj4d4sF7",
+      "permanent": false
+    },
+    {
+      "source": "/artisan",
+      "destination": "/batiment",
+      "permanent": false
+    },
+    {
+      "source": "/notaire",
+      "destination": "/avocat",
+      "permanent": false
+    },
+    {
+      "source": "/expert-comptable",
+      "destination": "/comptable",
+      "permanent": false
+    },
+    {
+      "source": "/hotel",
+      "destination": "/camping",
+      "permanent": false
+    },
+    {
+      "source": "/agence",
+      "destination": "/immobilier",
+      "permanent": false
+    },
+    {
+      "source": "/interim",
+      "destination": "/recrutement",
+      "permanent": false
+    }
+  ]
+}
