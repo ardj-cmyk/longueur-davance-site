@@ -151,6 +151,8 @@ details p { font-size: 14.5px; color: var(--muted); line-height: 1.7; padding-bo
 .vs-a li::before { content: '·'; position: absolute; left: 6px; color: var(--muted-d); font-weight: 700; font-size: 18px; top: -2px; }
 .vs-b li { color: var(--ink); }
 .vs-b li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+.card--focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-d); }
+.metier-line { margin-top: 14px; font-weight: 600; }
 </style>
 </head>
 <body>
@@ -174,13 +176,14 @@ details p { font-size: 14.5px; color: var(--muted); line-height: 1.7; padding-bo
 <!-- ═══ HERO ═══════════════════════════════════════════════ -->
 <section class="hero">
   <div class="wrap">
-    <div class="hero-pill">Entreprises et cabinets de Loire-Atlantique</div>
+    <div class="hero-pill" id="hero-pill">Entreprises et cabinets de Loire-Atlantique</div>
     <h1>45 minutes pour sortir une tâche répétitive de votre semaine.</h1>
     <p class="sub">
       On prend une tâche que vous refaites chaque semaine : un devis, une relance, un compte rendu,
       une réponse type. On l'automatise ensemble, en visio, pendant que vous regardez.
       Vous raccrochez avec l'outil qui tourne déjà.
     </p>
+    <p class="sub metier-line" id="metier-line" hidden></p>
     <a class="btn js-book" href="https://calendar.app.google/S5K8G7FLFWj4d4sF7" target="_blank" rel="noopener" data-loc="hero">
       Choisir un créneau
     </a>
@@ -283,7 +286,7 @@ details p { font-size: 14.5px; color: var(--muted); line-height: 1.7; padding-bo
     </p>
 
     <div class="grid3">
-      <div class="card">
+      <div class="card" data-metier="batiment">
         <h3>Bâtiment et artisanat</h3>
         <ul>
           <li>Le devis type, prérempli à partir de vos notes de visite</li>
@@ -292,7 +295,7 @@ details p { font-size: 14.5px; color: var(--muted); line-height: 1.7; padding-bo
           <li>Les réponses aux demandes qui reviennent toutes les semaines</li>
         </ul>
       </div>
-      <div class="card">
+      <div class="card" data-metier="immobilier">
         <h3>Immobilier</h3>
         <ul>
           <li>L'annonce rédigée à partir des caractéristiques du bien</li>
@@ -301,7 +304,7 @@ details p { font-size: 14.5px; color: var(--muted); line-height: 1.7; padding-bo
           <li>La déclinaison d'une annonce pour chaque portail et pour les réseaux</li>
         </ul>
       </div>
-      <div class="card">
+      <div class="card" data-metier="liberales">
         <h3>Cabinets et professions libérales</h3>
         <ul>
           <li>La synthèse d'un dossier ou d'un rendez-vous</li>
@@ -496,12 +499,51 @@ details p { font-size: 14.5px; color: var(--muted); line-height: 1.7; padding-bo
   document.querySelectorAll('.rv').forEach(function (el) { io.observe(el); });
 })();
 
+// ── Personnalisation par metier ───────────────────────────
+// Le mail porte ?m=<metier>. Sans ce parametre, la page reste
+// strictement identique a sa version generique.
+(function () {
+  var M = {
+    avocat:      { nom: 'cabinets d\u2019avocats',      art: 'un avocat',                carte: 'liberales', taches: 'les courriers r\u00e9currents et la synth\u00e8se d\u2019un dossier' },
+    notaire:     { nom: 'notaires',                      art: 'un notaire',               carte: 'liberales', taches: 'les courriers types et la pr\u00e9paration des pi\u00e8ces' },
+    comptable:   { nom: 'cabinets comptables',           art: 'un cabinet comptable',     carte: 'liberales', taches: 'les relances de pi\u00e8ces manquantes et les courriers types' },
+    architecte:  { nom: 'architectes',                   art: 'un architecte',            carte: 'liberales', taches: 'les comptes rendus de chantier et les courriers r\u00e9currents' },
+    com:         { nom: 'agences de communication',      art: 'une agence de com',        carte: 'liberales', taches: 'le reporting client et les comptes rendus' },
+    batiment:    { nom: 'artisans du b\u00e2timent',     art: 'un artisan',               carte: 'batiment',  taches: 'le devis type et la relance des devis sans r\u00e9ponse' },
+    immobilier:  { nom: 'agences immobili\u00e8res',     art: 'une agence immobili\u00e8re', carte: 'immobilier', taches: 'l\u2019annonce et le compte rendu de visite' }
+  };
+  var ALIAS = { plombier:'batiment', electricien:'batiment', menuisier:'batiment', macon:'batiment',
+                artisan:'batiment', btp:'batiment', 'agence-com':'com', communication:'com',
+                immo:'immobilier', 'agence-immo':'immobilier', liberal:'avocat' };
+
+  var raw = (new URLSearchParams(location.search).get('m') || '').toLowerCase().trim();
+  if (!raw) return;
+  var cle = M[raw] ? raw : ALIAS[raw];
+  var d = M[cle];
+  if (!d) return;
+
+  var pill = document.getElementById('hero-pill');
+  if (pill) { pill.textContent = 'Pour les ' + d.nom + ' de Loire-Atlantique'; }
+
+  var ligne = document.getElementById('metier-line');
+  if (ligne) {
+    ligne.textContent = 'Pour ' + d.art + ', on regardera d\u2019abord : ' + d.taches + '.';
+    ligne.hidden = false;
+  }
+
+  var carte = document.querySelector('.card[data-metier="' + d.carte + '"]');
+  if (carte && carte.parentNode) {
+    carte.parentNode.insertBefore(carte, carte.parentNode.firstElementChild);
+    carte.classList.add('card--focus');
+  }
+})();
+
 // ── Attribution de campagne ───────────────────────────────
 // Le mail porte ?p=<identifiant prospect>&utm_source=... . On le garde pour
 // savoir de quel envoi vient la réservation. Aucun cookie, aucun tiers.
 (function () {
   var q = new URLSearchParams(location.search);
-  var keys = ['p', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_content'];
+  var keys = ['p', 'm', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_content'];
   var ctx = {};
   keys.forEach(function (k) { if (q.get(k)) ctx[k] = q.get(k); });
   if (Object.keys(ctx).length) {
