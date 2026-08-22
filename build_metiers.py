@@ -92,12 +92,15 @@ METIERS = {
 
 "architecte": dict(
   nom="Architectes", pill="Agences d'architecture",
-  h1="Les comptes rendus, les notices, les pièces écrites.",
-  sub="Le projet est le vôtre. L'écrit qui se répète d'une opération à l'autre "
-      "peut se produire tout seul.",
-  taches=["les comptes rendus de réunion de chantier",
-          "les notices descriptives",
-          "les pièces écrites des dossiers de consultation",
+  h1="Ce qui vous prend du temps n'est pas le projet.",
+  sub="Le dessin, c'est votre métier, et personne ne va vous le prendre. Mais le métré, "
+      "le dépouillement, les comptes rendus et les pièces écrites reviennent à chaque "
+      "opération, et ceux-là peuvent se produire tout seuls.",
+  taches=["le métré et les quantitatifs, chute comprise, avec le calcul visible ligne à ligne",
+          "le dépouillement des devis d'entreprises, poste par poste, avec les oublis signalés",
+          "les comptes rendus de réunion de chantier, par lot, avec les points en attente",
+          "les manipulations répétitives dans Revit ou Rhino, automatisées par script",
+          "les notices descriptives et les pièces écrites, dans le vocabulaire de l'agence",
           "les relances des entreprises et des maîtres d'ouvrage"],
   bas=3, haut=4, taux=80, taux_lbl="la valeur de votre heure",
   punch="Le projet reste le vôtre. On prend uniquement l'écrit qui se répète d'une "
@@ -276,7 +279,7 @@ details p {{ font-size:14.5px; color:var(--muted); line-height:1.7; padding-bott
 <section style="background:var(--surface)">
   <div class="wrap rv">
     <div class="kicker">Ce qu'on vous retire</div>
-    <h2 style="font-size:clamp(26px,5.5vw,40px);max-width:20ch">Les quatre qui reviennent chaque semaine.</h2>
+    <h2 style="font-size:clamp(26px,5.5vw,40px);max-width:20ch">Ce qui revient à chaque opération.</h2>
     <ul class="taches">{taches_html}</ul>
     <p class="micro" style="margin-top:24px;font-size:15px;line-height:1.7;max-width:56ch">{punch}{reve_html}</p>
   </div>
