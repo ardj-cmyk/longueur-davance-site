@@ -30,6 +30,10 @@ AGENDA = "https://calendar.app.google/S5K8G7FLFWj4d4sF7"
 # curseur de la page laisse le client mettre sa vraie valeur.
 BANDES = {4: (1.0, 2.0), 3: (0.6, 1.2), 2: (0.3, 0.7), 1: (0.15, 0.4)}
 
+# Ce qu'une tache pese a elle seule, affiche en face de sa case a cocher.
+# C'est le milieu de sa bande : la somme des cases cochees pilote le curseur.
+MIDS = {p: round((b + h) / 2, 1) for p, (b, h) in BANDES.items()}
+
 POIDS = {
   "batiment":     [4, 2, 3, 1],
   "immobilier":   [4, 3, 3, 2, 2, 2, 2],
@@ -44,6 +48,17 @@ POIDS = {
   "commercial":   [4, 4, 3, 3, 3, 2],
   "solo":         [4, 3, 4, 3, 2, 2],
 }
+
+def cle(txt):
+    """Clé courte et lisible pour le suivi : 'l'annonce rédigée depuis…' → 'annonce-redigee'.
+    Elle finit dans les statistiques, donc elle doit se lire sans decodeur."""
+    import unicodedata, re as _re
+    t = unicodedata.normalize("NFKD", txt.lower())
+    t = "".join(c for c in t if not unicodedata.combining(c))
+    t = _re.sub(r"[^a-z0-9 ]", " ", t)
+    mots = [m for m in t.split() if m not in
+            ("l","la","le","les","un","une","des","du","de","d","votre","vos","et","ou","a","au","aux","ce","qui")]
+    return "-".join(mots[:3])[:26] or "tache"
 
 def fourchette(slug, taches):
     """Renvoie (bas, haut) en heures/semaine, calcules depuis les poids."""
@@ -364,7 +379,25 @@ GABARIT = """<!DOCTYPE html>
 .taches li {{ display:flex; gap:14px; align-items:flex-start; padding:18px 0;
   border-bottom:1px solid var(--line); font-size:16px; line-height:1.6; }}
 .taches li:last-child {{ border-bottom:none; }}
-.taches li::before {{ content:'→'; color:var(--accent); font-weight:700; flex-shrink:0; font-size:17px; }}
+.taches li {{ padding:0; }}
+.taches label {{ display:flex; gap:14px; align-items:flex-start; width:100%;
+  padding:18px 0; cursor:pointer; -webkit-tap-highlight-color:transparent; }}
+.taches input {{ appearance:none; -webkit-appearance:none; flex-shrink:0; margin-top:2px;
+  width:21px; height:21px; border:2px solid var(--accent); border-radius:5px;
+  background:transparent; cursor:pointer; position:relative; transition:background .15s; }}
+.taches input:checked {{ background:var(--accent); }}
+.taches input:checked::after {{ content:''; position:absolute; left:6px; top:2px;
+  width:5px; height:10px; border:solid #fff; border-width:0 2.5px 2.5px 0; transform:rotate(45deg); }}
+.taches input:focus-visible {{ outline:2px solid var(--accent); outline-offset:3px; }}
+.tk-txt {{ flex:1; transition:opacity .15s; }}
+.tk-h {{ flex-shrink:0; font-size:13.5px; color:var(--muted); font-variant-numeric:tabular-nums;
+  white-space:nowrap; padding-top:2px; }}
+.taches input:not(:checked) ~ .tk-txt {{ opacity:.42; text-decoration:line-through; }}
+.taches input:not(:checked) ~ .tk-h {{ opacity:.3; }}
+.taches-aide {{ font-size:14px; color:var(--muted); margin-top:22px; line-height:1.6; }}
+.calc-low {{ display:none; font-size:16px; line-height:1.65; color:rgba(253,252,249,.8); }}
+.is-low .calc-low {{ display:block; }}
+.is-low .amount, .is-low .amount-lbl, .is-low .amount-sub, .is-low .calc-detail {{ display:none; }}
 .dark {{ background:var(--ink); color:var(--paper); }}
 .dark h2 {{ color:var(--paper); }} .dark p {{ color:rgba(253,252,249,.76); }}
 .dark .kicker {{ color:var(--gold); }} .dark .kicker::before {{ background:var(--gold); }}
@@ -431,6 +464,7 @@ details p {{ font-size:14.5px; color:var(--muted); line-height:1.7; padding-bott
     <div class="kicker">Ce qu'on vous retire</div>
     <h2 style="font-size:clamp(26px,5.5vw,40px);max-width:20ch">Ce qui revient à chaque opération.</h2>
     <ul class="taches">{taches_html}</ul>
+    <p class="taches-aide">Décochez ce qui ne vous concerne pas : le calcul plus bas suit.</p>
     <p class="micro" style="margin-top:24px;font-size:15px;line-height:1.7;max-width:56ch">{punch}{reve_html}</p>
   </div>
 </section>
@@ -447,16 +481,18 @@ details p {{ font-size:14.5px; color:var(--muted); line-height:1.7; padding-bott
       <span class="calc-badge">Sur votre cas</span>
       <div class="calc-row">
         <label for="h">Heures répétitives par semaine <span class="calc-val" id="hv">{defaut_h} h</span></label>
-        <input type="range" id="h" min="1" max="12" step="0.5" value="{defaut_h}">
+        <input type="range" id="h" min="0" max="12" step="0.1" value="{defaut_h}">
       </div>
       <div class="calc-row">
         <label for="t">{taux_lbl} <span class="calc-val" id="tv">{taux} €</span></label>
         <input type="range" id="t" min="{taux_min}" max="{taux_max}" step="5" value="{taux}">
       </div>
-      <div class="calc-out">
+      <div class="calc-out" id="out">
         <div class="amount-lbl">Ce que vous récupérez chaque année</div>
         <div class="amount"><span class="plus">+</span><span id="res">0</span> €</div>
         <div class="amount-sub">de temps de travail rendu à votre activité</div>
+        <p class="calc-low">À ce niveau-là, un accompagnement ne se justifie pas. On vous le
+          dirait de la même façon en rendez-vous, avant que vous ayez sorti un euro.</p>
         <p class="calc-detail" id="det"></p>
       </div>
     </div>
@@ -561,14 +597,32 @@ details p {{ font-size:14.5px; color:var(--muted); line-height:1.7; padding-bott
       hv=document.getElementById('hv'),tv=document.getElementById('tv'),
       res=document.getElementById('res'),det=document.getElementById('det'),
       fmt=new Intl.NumberFormat('fr-FR');
+  var out=document.getElementById('out'),
+      cases=Array.prototype.slice.call(document.querySelectorAll('.tk'));
   function maj() {{
     var hh=parseFloat(h.value),tt=parseInt(t.value,10),an=Math.round(hh*47),g=Math.round(an*tt);
-    hv.textContent=(hh%1?hh.toString().replace('.',','):hh)+' h';
+    hv.textContent=(hh%1?hh.toFixed(1).replace('.',','):hh)+' h';
     tv.textContent=tt+' €';
+    // Sous une heure par semaine, on affiche la phrase plutot qu'un montant
+    // derisoire. C'est ce que la page promet trois ecrans plus haut.
+    if (hh < 1) {{ out.classList.add('is-low'); det.textContent=''; return; }}
+    out.classList.remove('is-low');
     res.textContent=fmt.format(g);
     det.textContent=hv.textContent+" par semaine sur 47 semaines travaillées, soit "+fmt.format(an)+" h par an, valorisées à "+tt+" € de l'heure.";
   }}
-  h.addEventListener('input',maj); t.addEventListener('input',maj); maj();
+  // Le curseur suit les cases TANT QUE le visiteur n'y a pas touche lui-meme.
+  // Deux commandes sur un seul chiffre, sinon elles se contredisent : les cases
+  // disent QUELLES taches, le curseur dit QUEL volume, et le second gagne.
+  var pilote=true;
+  function depuisCases() {{
+    if (!pilote) return;
+    var v=0; cases.forEach(function(c){{ if(c.checked) v+=parseFloat(c.dataset.h); }});
+    h.value=Math.min(12,Math.round(v*10)/10);
+    maj();
+  }}
+  h.addEventListener('input',function(){{ pilote=false; maj(); }});
+  t.addEventListener('input',maj);
+  maj();
 
   var io=new IntersectionObserver(function(es){{es.forEach(function(e){{
     if(e.isIntersecting){{e.target.classList.add('in');io.unobserve(e.target);}}}});}},{{threshold:.08}});
@@ -583,6 +637,18 @@ details p {{ font-size:14.5px; color:var(--muted); line-height:1.7; padding-bott
   document.querySelectorAll('.js-book').forEach(function(a){{
     a.addEventListener('click',function(){{track('clic_reservation',{{position:a.dataset.loc||''}});}});}});
   h.addEventListener('change',function(){{track('calculateur_utilise');}},{{once:true}});
+  // Ce que les gens decochent est la seule donnee de terrain qu'on ait avant
+  // le premier appel : elle dit quelles douleurs parlent vraiment, par metier.
+  var envoye=false, minuteur;
+  cases.forEach(function(c){{ c.addEventListener('change',function(){{
+    depuisCases();
+    if(!envoye){{track('taches_ajustees');envoye=true;}}
+    clearTimeout(minuteur);
+    minuteur=setTimeout(function(){{
+      var off=cases.filter(function(x){{return !x.checked;}}).map(function(x){{return x.dataset.k;}});
+      track('taches_selection',{{decochees:off.join('|')||'aucune',nb_cochees:cases.length-off.length}});
+    }},2500);
+  }});}});
   track('page_vue');
 }})();
 </script>
@@ -591,15 +657,27 @@ details p {{ font-size:14.5px; color:var(--muted); line-height:1.7; padding-bott
 """
 
 for slug, m in METIERS.items():
-    taches = "\n".join(f"      <li>{t}</li>" for t in m["taches"])
     bas, haut = fourchette(slug, m["taches"])
+    poids = POIDS[slug]
+    lignes = []
+    for t, pd in zip(m["taches"], poids):
+        hh = MIDS[pd]
+        lignes.append(
+            f'      <li><label><input type="checkbox" class="tk" checked '
+            f'data-h="{hh}" data-k="{cle(t)}">'
+            f'<span class="tk-txt">{t}</span>'
+            f'<span class="tk-h">{str(hh).replace(".", ",")} h</span></label></li>')
+    taches = "\n".join(lignes)
+    # Le defaut du curseur EST la somme des cases cochees, sinon la page
+    # s'ouvre sur un chiffre que la premiere interaction contredit.
+    defaut = round(sum(MIDS[x] for x in poids), 1)
     reve = f" {m['reve']}" if m["reve"] else ""
     page = GABARIT.format(
         slug=slug, agenda=AGENDA, nom=m["nom"], pill=m["pill"], h1=m["h1"], sub=m["sub"],
         titre=m.get("titre") or (m["nom"] + " · Longueur d'avance"),
         sub_court=m["sub"][:150], taches_html="\n" + taches + "\n    ",
         punch=m["punch"], reve_html=reve, bas=bas, haut=haut,
-        defaut_h=(bas + haut) / 2, taux=m["taux"], taux_lbl=m["taux_lbl"],
+        defaut_h=defaut, taux=m["taux"], taux_lbl=m["taux_lbl"],
         # les bornes doivent etre des multiples de 5 alignes sur le pas, sinon la
         # valeur par defaut est arrondie a cote (45 affichait 47)
         taux_min=max(20, (int(m["taux"] * 0.5) // 5) * 5),
