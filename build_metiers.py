@@ -12,6 +12,7 @@ AGENDA = "https://calendar.app.google/S5K8G7FLFWj4d4sF7"
 
 METIERS = {
 "batiment": dict(
+  titre="Artisan du bâtiment : devis et relances · Longueur d'avance",
   nom="Bâtiment", pill="Artisans du bâtiment",
   h1="Vos devis, le soir, après le chantier.",
   sub="Vous rentrez à 19 h et il reste trois devis à écrire. Pendant ce temps, "
@@ -35,6 +36,7 @@ METIERS = {
        "règle en une séance.")),
 
 "immobilier": dict(
+  titre="Agence immobilière : annonces, visites · Longueur d'avance",
   nom="Immobilier", pill="Agences immobilières",
   h1="L'annonce, le compte rendu, les portails. Chaque fois.",
   sub="Le bien change, le travail d'écriture ne change pas. On le fait produire "
@@ -54,6 +56,7 @@ METIERS = {
        "virtuel d'une photo existante et la vidéo tirée des photos de l'annonce, oui.")),
 
 "avocat": dict(
+  titre="Avocat : courriers, synthèses de dossier · Longueur d'avance",
   nom="Avocats et notaires", pill="Cabinets d'avocats et offices notariaux",
   h1="Le temps que prend l'écrit, dans un cabinet.",
   sub="La synthèse, le courrier type, la préparation des pièces. Rien de tout cela "
@@ -73,6 +76,7 @@ METIERS = {
        "catégorie. Aucune donnée de dossier ne transite par nous, jamais.")),
 
 "comptable": dict(
+  titre="Expert-comptable : relances de pièces · Longueur d'avance",
   nom="Experts-comptables", pill="Cabinets d'expertise comptable",
   h1="Courir après les pièces, tous les mois, chez tous les clients.",
   sub="Ce n'est pas de la production comptable, ce n'est facturé nulle part, "
@@ -91,6 +95,7 @@ METIERS = {
        "sur l'écrit qui entoure la production.")),
 
 "architecte": dict(
+  titre="Architecte : métré, comptes rendus · Longueur d'avance",
   nom="Architectes", pill="Agences d'architecture",
   h1="Ce qui vous prend du temps n'est pas le projet.",
   sub="Le dessin, c'est votre métier, et personne ne va vous le prendre. Mais le métré, "
@@ -112,6 +117,7 @@ METIERS = {
        "L'essentiel du gain est ailleurs : dans l'écrit qui accompagne chaque opération.")),
 
 "recrutement": dict(
+  titre="Recrutement : tri de CV et comptes rendus · Longueur d'avance",
   nom="Recrutement", pill="Cabinets de recrutement et agences d'intérim",
   h1="Le tri des CV, poste après poste.",
   sub="C'est le métier où l'écrit répétitif pèse le plus lourd de tous ceux "
@@ -130,6 +136,7 @@ METIERS = {
        "jamais.")),
 
 "garage": dict(
+  titre="Garage : devis, ordres de réparation · Longueur d'avance",
   nom="Garages", pill="Garages et réparation automobile",
   h1="Le temps passé au comptoir, sur de l'écrit.",
   sub="Le devis à expliquer, le rappel d'entretien à envoyer, la demande de "
@@ -147,6 +154,7 @@ METIERS = {
        "pas dedans.")),
 
 "camping": dict(
+  titre="Camping : avis, mails, descriptifs · Longueur d'avance",
   nom="Hôtellerie et campings", pill="Hôtels, campings et hébergements",
   h1="Les avis, les mails, les descriptifs. En pleine saison.",
   sub="C'est le moment où personne n'a le temps, et c'est exactement le moment "
@@ -163,6 +171,90 @@ METIERS = {
        "C'est le cas de tout le monde. L'enjeu n'est pas d'écrire mieux, c'est de "
        "répondre à tous, vite, sans que ce soit une corvée. La réponse est préparée, "
        "vous relisez et vous publiez.")),
+
+"communication": dict(
+  titre="Agence de com : reporting et comptes rendus · Longueur d'avance",
+  nom="Agences de communication", pill="Studios et agences de com",
+  h1="L'admin qui mange le temps créatif.",
+  sub="Le reporting, les comptes rendus, les calendriers. Rien de tout cela n'est "
+      "du créatif, et tout cela se facture mal.",
+  taches=["les reportings clients, mois après mois, au même format",
+          "les comptes rendus de réunion et les relevés de décisions",
+          "les calendriers éditoriaux et les déclinaisons par plateforme",
+          "les relances de validation, côté client",
+          "les réponses aux appels d'offres et les recommandations"],
+  bas=8, haut=12, taux=70, taux_lbl="votre taux journalier ramené à l'heure",
+  punch="Le créatif reste le vôtre. On prend ce qui se répète à l'identique d'un "
+        "client à l'autre, et qui n'a jamais été facturé à son vrai prix.",
+  reve="",
+  faq=("Est-ce que ça va standardiser notre créa ?",
+       "Non, parce qu'on ne touche pas à la création. On automatise le reporting, "
+       "les comptes rendus et les relances. Ce qui fait votre valeur reste écrit "
+       "par vous, avec vos idées.")),
+
+"medical": dict(
+  titre="Cabinet médical : rendez-vous, courriers · Longueur d'avance",
+  nom="Cabinets médicaux", pill="Praticiens et cabinets de santé",
+  h1="Le secrétariat qui déborde sur les consultations.",
+  sub="Les rendez-vous, les rappels, la coordination, les courriers confrères. "
+      "Ce n'est pas du soin, et ça prend le temps du soin.",
+  taches=["les rappels de rendez-vous, pour réduire les absences",
+          "les courriers aux confrères, à partir de vos modèles",
+          "la coordination des rendez-vous et des reprogrammations",
+          "les réponses aux questions administratives qui reviennent",
+          "les relances de documents manquants"],
+  bas=4, haut=8, taux=90, taux_lbl="la valeur de votre heure de consultation",
+  punch="Les données de santé ne sortent jamais du cabinet. On ne construit que sur "
+        "l'administratif : agenda, rappels, courriers types. Aucun contenu de dossier "
+        "patient ne passe par un outil externe, jamais.",
+  reve="",
+  faq=("Et le secret médical ?",
+       "C'est la première chose qu'on cadre, avant tout le reste. Les données de santé "
+       "sont des données sensibles au sens du RGPD et leur hébergement est réglementé. "
+       "On travaille uniquement sur ce qui n'en contient pas : la prise de rendez-vous, "
+       "les rappels, les modèles de courriers. Si un usage exige de toucher au dossier "
+       "patient, on vous le dit et on ne le fait pas.")),
+
+"commercial": dict(
+  titre="Commercial indépendant : relances et CRM · Longueur d'avance",
+  nom="Commerciaux indépendants", pill="Agents commerciaux et apporteurs d'affaires",
+  h1="Le temps passé loin du terrain.",
+  sub="La prospection, les relances, le CRM tenu à jour le soir. "
+      "Tout ce qui n'est pas devant un client ne rapporte rien.",
+  taches=["les comptes rendus de rendez-vous, dictés en sortant",
+          "les relances de prospects, au bon moment et sans en oublier",
+          "la préparation de rendez-vous : qui, quoi, où on en était",
+          "les mails de prospection personnalisés, pas les copiés-collés",
+          "la mise à jour du suivi après chaque échange"],
+  bas=6, haut=10, taux=65, taux_lbl="ce que vaut une heure devant un client",
+  punch="Chaque heure reprise à l'administratif est une heure rendue au terrain. "
+        "C'est le seul métier de cette liste où le calcul est aussi direct.",
+  reve="",
+  faq=("Est-ce que vous automatisez la prospection en masse ?",
+       "Non. On automatise la préparation et le suivi, pas l'envoi en masse. "
+       "Un message générique envoyé à mille personnes ne rapporte rien et abîme "
+       "votre nom. On vous fait gagner du temps sur ce qui entoure la vente, "
+       "pas sur la vente elle-même.")),
+
+"solo": dict(
+  titre="Indépendant : devis, relances, admin · Longueur d'avance",
+  nom="Indépendants et créateurs", pill="Solo, freelances, créateurs d'entreprise",
+  h1="Vous êtes seul à tout faire.",
+  sub="Le devis, la relance, le contenu, l'admin, la veille. Personne à qui déléguer, "
+      "et des journées qui ne rentrent pas.",
+  taches=["les devis et les factures, rédigés depuis vos notes",
+          "les relances de ce qui n'a pas eu de réponse",
+          "les mails qui reviennent toujours, à partir de vos réponses passées",
+          "les comptes rendus et les prises de notes",
+          "la veille de votre secteur, filtrée et sourcée"],
+  bas=6, haut=10, taux=50, taux_lbl="ce que vaut votre heure",
+  punch="Vous n'avez pas les moyens d'embaucher un assistant. C'est exactement pour "
+        "ça que ces heures-là sont les plus rentables à récupérer.",
+  reve="",
+  faq=("Je débute, est-ce que c'est trop tôt ?",
+       "C'est plutôt le bon moment. Installer les bons réflexes quand vous avez dix "
+       "clients coûte une séance. Les installer quand vous en avez cent, c'est un "
+       "chantier. Et l'échange de 30 minutes vous dira si ça vaut le coup, gratuitement.")),
 }
 
 
@@ -171,7 +263,7 @@ GABARIT = """<!DOCTYPE html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>{h1} · Longueur d'avance</title>
+<title>{titre}</title>
 <meta name="description" content="{nom} : on automatise en 45 minutes une tâche répétitive de votre semaine, sur vos vrais dossiers. Aucun logiciel à acheter, vos données restent chez vous.">
 <meta property="og:title" content="{h1}">
 <meta property="og:description" content="{sub_court}">
@@ -446,6 +538,7 @@ for slug, m in METIERS.items():
     reve = f" {m['reve']}" if m["reve"] else ""
     page = GABARIT.format(
         slug=slug, agenda=AGENDA, nom=m["nom"], pill=m["pill"], h1=m["h1"], sub=m["sub"],
+        titre=m.get("titre") or (m["nom"] + " · Longueur d'avance"),
         sub_court=m["sub"][:150], taches_html="\n" + taches + "\n    ",
         punch=m["punch"], reve_html=reve, bas=m["bas"], haut=m["haut"],
         defaut_h=(m["bas"] + m["haut"]) / 2, taux=m["taux"], taux_lbl=m["taux_lbl"],

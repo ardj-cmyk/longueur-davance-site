@@ -547,6 +547,24 @@ a.car-slide { color: inherit; text-decoration: none; display: block; }
 a.car-slide:hover { border-color: var(--accent); }
 .marquee-item a { color: inherit; text-decoration: none; }
 .marquee-item a:hover { color: var(--accent); text-decoration: underline; }
+a.car-slide { position: relative; }
+a.car-slide::after {
+  content: "Voir la page \2192";
+  position: absolute; left: 22px; bottom: 16px;
+  font-size: 12.5px; font-weight: 700; letter-spacing: .2px;
+  color: var(--accent); opacity: .85;
+}
+a.car-slide:hover::after { opacity: 1; text-decoration: underline; }
+a.car-slide { padding-bottom: 42px; }
+
+/* Liste fixe des metiers : cible stable, rien ne bouge sous le curseur */
+.metiers-liste { display: flex; flex-wrap: wrap; gap: 10px 12px; margin-top: 26px; justify-content: center; }
+.metiers-liste a {
+  display: inline-block; padding: 9px 16px; border-radius: 99px;
+  border: 1px solid var(--line); font-size: 14.5px; font-weight: 600;
+  color: var(--ink); text-decoration: none; background: #fff;
+}
+.metiers-liste a:hover { border-color: var(--accent); color: var(--accent); }
 </style>
 <script type="application/ld+json">
 {
@@ -691,20 +709,20 @@ a.car-slide:hover { border-color: var(--accent); }
       <span class="marquee-item"><a href="/comptable">Cabinet comptable</a><span class="marquee-sep">·</span></span>
       <span class="marquee-item"><a href="/batiment">Artisan · TPE</a><span class="marquee-sep">·</span></span>
       <span class="marquee-item">Agence de communication<span class="marquee-sep">·</span></span>
-      <span class="marquee-item">Cabinet médical<span class="marquee-sep">·</span></span>
+      <span class="marquee-item"><a href="/medical">Cabinet médical</a><span class="marquee-sep">·</span></span>
       <span class="marquee-item"><a href="/architecte">Architecte</a><span class="marquee-sep">·</span></span>
-      <span class="marquee-item">Commercial indépendant<span class="marquee-sep">·</span></span>
-      <span class="marquee-item">Solo · Créateur d'entreprise<span class="marquee-sep">·</span></span>
+      <span class="marquee-item"><a href="/commercial">Commercial indépendant</a><span class="marquee-sep">·</span></span>
+      <span class="marquee-item"><a href="/solo">Solo · Créateur d'entreprise</a><span class="marquee-sep">·</span></span>
       <!-- Duplicate -->
       <span class="marquee-item"><a href="/avocat">Cabinet d'avocat</a><span class="marquee-sep">·</span></span>
       <span class="marquee-item"><a href="/immobilier">Agence immobilière</a><span class="marquee-sep">·</span></span>
       <span class="marquee-item"><a href="/comptable">Cabinet comptable</a><span class="marquee-sep">·</span></span>
       <span class="marquee-item"><a href="/batiment">Artisan · TPE</a><span class="marquee-sep">·</span></span>
       <span class="marquee-item">Agence de communication<span class="marquee-sep">·</span></span>
-      <span class="marquee-item">Cabinet médical<span class="marquee-sep">·</span></span>
+      <span class="marquee-item"><a href="/medical">Cabinet médical</a><span class="marquee-sep">·</span></span>
       <span class="marquee-item"><a href="/architecte">Architecte</a><span class="marquee-sep">·</span></span>
-      <span class="marquee-item">Commercial indépendant<span class="marquee-sep">·</span></span>
-      <span class="marquee-item">Solo · Créateur d'entreprise<span class="marquee-sep">·</span></span>
+      <span class="marquee-item"><a href="/commercial">Commercial indépendant</a><span class="marquee-sep">·</span></span>
+      <span class="marquee-item"><a href="/solo">Solo · Créateur d'entreprise</a><span class="marquee-sep">·</span></span>
     </div>
   </div>
 </section>
@@ -791,21 +809,21 @@ a.car-slide:hover { border-color: var(--accent); }
           <p class="car-desc">Devis, relances impayés, réponses répétitives : des <b>soirées rendues</b> et des devis qui partent le jour même.</p>
         </a>
 
-        <div class="car-slide" role="group" aria-label="Agence de com">
+        <a class="car-slide" href="/communication" role="group" aria-label="Agence de com : voir la page métier">
           <div class="car-stat-num" data-count="10">10</div>
           <div class="car-stat-unit">h / semaine perdues</div>
           <div class="car-sector">Agence de com</div>
           <div class="car-lbl">Studio ou freelance</div>
           <p class="car-desc">Reporting client, calendriers, comptes-rendus : <b>8 à 12 h/semaine</b> d'admin — du temps repris sur le <b>créatif facturé</b>.</p>
-        </div>
+        </a>
 
-        <div class="car-slide" role="group" aria-label="Cabinet médical">
+        <a class="car-slide" href="/medical" role="group" aria-label="Cabinet médical : voir la page métier">
           <div class="car-stat-num" data-count="6">6</div>
           <div class="car-stat-unit">h / semaine perdues</div>
           <div class="car-sector">Cabinet médical</div>
           <div class="car-lbl">Praticien ou petit cabinet</div>
           <p class="car-desc">Prise de RDV, rappels, coordination : plusieurs heures d'admin — et des <b>rendez-vous manqués en moins</b>.</p>
-        </div>
+        </a>
 
         <a class="car-slide" href="/architecte" role="group" aria-label="Architecte : voir la page métier">
           <div class="car-stat-num" data-count="8">8</div>
@@ -815,24 +833,40 @@ a.car-slide:hover { border-color: var(--accent); }
           <p class="car-desc">Dossiers, permis, comptes-rendus de chantier : plusieurs heures par semaine — et des <b>rendus qui partent plus vite</b>.</p>
         </a>
 
-        <div class="car-slide" role="group" aria-label="Commercial indépendant">
+        <a class="car-slide" href="/commercial" role="group" aria-label="Commercial indépendant : voir la page métier">
           <div class="car-stat-num" data-count="8">8</div>
           <div class="car-stat-unit">h / semaine perdues</div>
           <div class="car-sector">Commercial indépendant</div>
           <div class="car-lbl">Agent co, apporteur d'affaires</div>
           <p class="car-desc">Prospection, relances, CRM : <b>6 à 10 h/semaine</b> hors vente — du temps rendu au terrain qui rapporte.</p>
-        </div>
+        </a>
 
-        <div class="car-slide" role="group" aria-label="Solo · Créateur d'entreprise">
+        <a class="car-slide" href="/solo" role="group" aria-label="Solo · Créateur d'entreprise : voir la page métier">
           <div class="car-stat-num" data-count="10">10</div>
           <div class="car-stat-unit">h / semaine perdues</div>
           <div class="car-sector">Solo · Créateur d'entreprise</div>
           <div class="car-lbl">Budget serré</div>
           <p class="car-desc">L'IA maîtrisée vous donne <b>l'assistant, le rédacteur et l'analyste</b> que vous ne pouvez pas encore payer.</p>
-        </div>
+        </a>
 
       </div>
     </div>
+
+    <p class="micro" style="text-align:center;margin-top:26px;font-size:15px;opacity:.8">Votre métier, en une page :</p>
+    <nav class="metiers-liste" aria-label="Pages métier">
+      <a href="/avocat">Avocat</a>
+      <a href="/comptable">Expert-comptable</a>
+      <a href="/architecte">Architecte</a>
+      <a href="/immobilier">Agence immobilière</a>
+      <a href="/batiment">Artisan &amp; bâtiment</a>
+      <a href="/garage">Garage</a>
+      <a href="/camping">Camping</a>
+      <a href="/recrutement">Recrutement</a>
+      <a href="/communication">Agence de com</a>
+      <a href="/medical">Cabinet médical</a>
+      <a href="/commercial">Commercial indépendant</a>
+      <a href="/solo">Solo &amp; créateur</a>
+    </nav>
 
     <!-- Controls -->
     <div class="car-controls">
