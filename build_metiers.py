@@ -28,14 +28,18 @@ AGENDA = "https://calendar.app.google/S5K8G7FLFWj4d4sF7"
 #
 # Volontairement prudent : le chiffre doit tenir au premier rendez-vous, et le
 # curseur de la page laisse le client mettre sa vraie valeur.
-BANDES = {4: (1.0, 2.0), 3: (0.6, 1.2), 2: (0.3, 0.7), 1: (0.15, 0.4)}
+# Le palier 5 est reserve a une tache qui domine a elle seule la semaine du metier.
+# Source du calage : un artisan facture 1 400 a 1 600 h/an sur 1 820 h legales, le
+# reste allant a la prospection, aux devis et a l'administratif, soit 220 a 420 h/an,
+# c'est-a-dire 4,8 a 9,1 h/semaine sur 46 semaines.
+BANDES = {5: (2.5, 4.0), 4: (1.0, 2.0), 3: (0.6, 1.2), 2: (0.3, 0.7), 1: (0.15, 0.4)}
 
 # Ce qu'une tache pese a elle seule, affiche en face de sa case a cocher.
 # C'est le milieu de sa bande : la somme des cases cochees pilote le curseur.
 MIDS = {p: round((b + h) / 2, 1) for p, (b, h) in BANDES.items()}
 
 POIDS = {
-  "batiment":     [4, 2, 3, 1],
+  "batiment":     [5, 2, 3, 3, 2, 1],
   "immobilier":   [4, 3, 3, 2, 2, 2, 2],
   "avocat":       [4, 3, 2, 2, 1],
   "comptable":    [4, 3, 2, 2, 1],
@@ -82,8 +86,10 @@ METIERS = {
   taches=["le devis chiffré et rédigé à partir de vos notes et métrés de visite, ou d'un vocal pris sur place",
           "la relance des devis restés sans réponse, au bon moment",
           "le compte rendu de chantier dicté à la voix et mis en forme tout seul",
+          "la facture de situation et la relance des impayés, sans avoir à y penser",
+          "les demandes qui arrivent par téléphone et par mail, triées et pré-répondues",
           "votre fiche Google remplie et vivante, là où vos clients vous cherchent"],
-  taux=45, taux_lbl="votre heure de main d'œuvre",
+  taux=45, taux_lbl="votre heure de main d'œuvre, HT",
   punch="Vous mesurez sur place, comme toujours. Ce qui disparaît, c'est le report des "
         "cotes, le calcul des surfaces, l'application de votre grille de prix et la mise "
         "en forme. Une heure récupérée le soir, c'est une heure de plus sur le chantier "
@@ -110,7 +116,7 @@ METIERS = {
           "les photos d'un bien vide meublées virtuellement, avec la mention exigée depuis août 2026",
           "le contrôle des dossiers de location : les pièces qui manquent, le taux d'effort, "
           "et l'avis d'impôt vérifié auprès de l'administration"],
-  taux=60, taux_lbl="la valeur de votre heure",
+  taux=60, taux_lbl="la valeur de votre heure, HT",
   punch="Ce n'est pas du temps facturable en plus, c'est du volume de mandats traité "
         "en plus, à effectif constant.",
   reve="Et le réaménagement virtuel d'une pièce vide, ou la vidéo verticale tirée "
@@ -131,7 +137,7 @@ METIERS = {
           "la préparation des pièces avant un rendez-vous client",
           "les relances de documents manquants",
           "la lettre d'information à vos clients, tirée de votre veille"],
-  taux=200, taux_lbl="votre heure facturée",
+  taux=200, taux_lbl="votre heure facturée, HT",
   punch="Le secret professionnel est le premier sujet qu'on traite, pas le dernier : "
         "on cadre en début de séance ce qui peut passer par un outil externe et ce qui "
         "ne doit jamais en sortir.",
@@ -152,7 +158,7 @@ METIERS = {
           "la synthèse d'un dossier avant un rendez-vous client",
           "les réponses aux questions que vos clients posent tous les mois",
           "la lettre d'information mensuelle à vos clients, tirée du calendrier fiscal"],
-  taux=90, taux_lbl="le coût horaire d'un collaborateur",
+  taux=90, taux_lbl="le coût horaire chargé d'un collaborateur",
   punch="On ne touche pas à la production comptable ni au calcul fiscal. On prend ce "
         "qui l'entoure et qui n'est facturé nulle part.",
   reve="",
@@ -174,7 +180,7 @@ METIERS = {
           "les manipulations répétitives dans Revit ou Rhino, automatisées par script",
           "les notices descriptives et les pièces écrites, dans le vocabulaire de l'agence",
           "les relances des entreprises et des maîtres d'ouvrage"],
-  taux=80, taux_lbl="la valeur de votre heure",
+  taux=80, taux_lbl="la valeur de votre heure, HT",
   punch="Le projet reste le vôtre, et le dessin aussi. On prend ce qui se répète "
         "d'une opération à l'autre : le métré, le dépouillement, l'écrit et les "
         "manipulations qu'on refait cent fois dans le logiciel.",
@@ -194,7 +200,7 @@ METIERS = {
           "les comptes rendus d'entretien",
           "les réponses aux candidats non retenus",
           "votre présence LinkedIn de recruteur, alimentée par ce que vous dites déjà en entretien"],
-  taux=60, taux_lbl="le coût horaire d'un consultant",
+  taux=60, taux_lbl="le coût horaire chargé d'un consultant",
   punch="Répondre à tous les candidats devient possible. C'est votre marque employeur "
         "qui change, pas seulement votre planning.",
   reve="",
@@ -213,7 +219,7 @@ METIERS = {
           "les rappels d'entretien, client par client",
           "le compte rendu de l'intervention envoyé au client",
           "les réponses aux demandes de rendez-vous"],
-  taux=55, taux_lbl="votre heure d'atelier",
+  taux=55, taux_lbl="votre heure d'atelier, HT",
   punch="Le temps gagné au comptoir, c'est du temps rendu à l'atelier.",
   reve="",
   faq=("Ça se branche sur mon logiciel de garage ?",
@@ -233,7 +239,7 @@ METIERS = {
           "les réponses aux demandes qui reviennent chaque saison",
           "le planning du staff, pré-rempli et vérifié contre les règles de repos",
           "la déclaration de taxe de séjour, remplie depuis le registre des nuitées"],
-  taux=40, taux_lbl="le coût horaire d'un membre de l'équipe",
+  taux=40, taux_lbl="le coût horaire chargé d'un membre de l'équipe",
   punch="En pleine saison, c'est le temps que personne n'a. C'est exactement là que "
         "ça se voit.",
   reve="Et la vidéo de l'établissement, tirée de vos photos existantes.",
@@ -254,7 +260,7 @@ METIERS = {
           "les relances de validation, côté client",
           "les réponses aux appels d'offres et les recommandations",
           "le montage : une prise de vue découpée en clips sous-titrés, pour vous et pour vos clients"],
-  taux=70, taux_lbl="votre taux journalier ramené à l'heure",
+  taux=70, taux_lbl="votre taux journalier ramené à l'heure, HT",
   punch="Le créatif reste le vôtre. On prend ce qui se répète à l'identique d'un "
         "client à l'autre, et qui n'a jamais été facturé à son vrai prix.",
   reve="",
@@ -273,7 +279,7 @@ METIERS = {
           "la coordination des rendez-vous et des reprogrammations",
           "les réponses aux questions administratives qui reviennent",
           "les relances de documents manquants"],
-  taux=90, taux_lbl="la valeur de votre heure de consultation",
+  taux=90, taux_lbl="la valeur de votre heure de consultation, HT",
   punch="Les données de santé ne sortent jamais du cabinet. On ne construit que sur "
         "l'administratif : agenda, rappels, courriers types. Aucun contenu de dossier "
         "patient ne passe par un outil externe, jamais.",
@@ -297,7 +303,7 @@ METIERS = {
           "les mails de prospection personnalisés, pas les copiés-collés",
           "la mise à jour du suivi après chaque échange",
           "vos vidéos et vos vocaux découpés en posts, sous-titres compris"],
-  taux=65, taux_lbl="ce que vaut une heure devant un client",
+  taux=65, taux_lbl="ce que vaut une heure devant un client, HT",
   punch="Chaque heure reprise à l'administratif est une heure rendue au terrain. "
         "C'est le seul métier de cette liste où le calcul est aussi direct.",
   reve="",
@@ -319,7 +325,7 @@ METIERS = {
           "les comptes rendus et les prises de notes",
           "la veille de votre secteur, filtrée et sourcée",
           "vos vidéos et vos vocaux découpés en posts, sous-titres compris"],
-  taux=50, taux_lbl="ce que vaut votre heure",
+  taux=50, taux_lbl="ce que vaut votre heure, HT",
   punch="Vous n'avez pas les moyens d'embaucher un assistant. C'est exactement pour "
         "ça que ces heures-là sont les plus rentables à récupérer.",
   reve="",
