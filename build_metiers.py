@@ -41,7 +41,14 @@ MIDS = {p: round((b + h) / 2, 1) for p, (b, h) in BANDES.items()}
 POIDS = {
   "batiment":     [5, 2, 3, 3, 2, 1],
   "immobilier":   [4, 3, 3, 2, 2, 2, 2],
-  "avocat":       [4, 3, 2, 2, 1],
+  # Avocat recale le 22/08 sur source. Un avocat facture 800 a 1 200 h/an et le
+  # non-facturable pese environ un tiers du temps de travail, soit ~607 h/an sur
+  # 1 820 h legales = 12,9 h/sem (le recoupement par les heures facturees donne
+  # 13 a 22 h/sem). Ce non-facturable contient la compta, la gestion, le
+  # developpement et les obligations ordinales : nos 5 workflows visent la part
+  # ecrite et le suivi de dossier, environ un tiers, donc 4 a 7 h/sem.
+  # Source : legalprod.com, tableau de bord avocat.
+  "avocat":       [5, 3, 2, 2, 1],
   "comptable":    [4, 3, 2, 2, 1],
   "architecte":   [4, 3, 3, 3, 2, 2],
   "recrutement":  [2, 4, 4, 3, 2],
