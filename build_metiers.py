@@ -102,9 +102,10 @@ METIERS = {
           "les manipulations répétitives dans Revit ou Rhino, automatisées par script",
           "les notices descriptives et les pièces écrites, dans le vocabulaire de l'agence",
           "les relances des entreprises et des maîtres d'ouvrage"],
-  bas=3, haut=4, taux=80, taux_lbl="la valeur de votre heure",
-  punch="Le projet reste le vôtre. On prend uniquement l'écrit qui se répète d'une "
-        "opération à l'autre.",
+  bas=4, haut=7, taux=80, taux_lbl="la valeur de votre heure",
+  punch="Le projet reste le vôtre, et le dessin aussi. On prend ce qui se répète "
+        "d'une opération à l'autre : le métré, le dépouillement, l'écrit et les "
+        "manipulations qu'on refait cent fois dans le logiciel.",
   reve="",
   faq=("Vous produisez des images de projet ?",
        "On peut, mais c'est un sujet à part et vous jugerez le rendu en professionnel. "
@@ -267,7 +268,7 @@ details p {{ font-size:14.5px; color:var(--muted); line-height:1.7; padding-bott
     <div class="hero-pill">{pill}</div>
     <h1>{h1}</h1>
     <p class="sub">{sub}</p>
-    <a class="btn js-book" href="{agenda}" target="_blank" rel="noopener" data-loc="hero">Choisir un créneau</a>
+    <a class="btn js-book" href="{agenda}" target="_blank" rel="noopener" data-loc="hero">Réserver 30 minutes, gratuit</a>
     <div class="hero-trust">
       <span class="trust-item">Confirmation immédiate</span>
       <span class="trust-item">100 % visio</span>
@@ -290,7 +291,7 @@ details p {{ font-size:14.5px; color:var(--muted); line-height:1.7; padding-bott
     <div class="kicker">Le calcul</div>
     <h2 style="font-size:clamp(26px,5.5vw,40px);max-width:20ch">Ce que ça vous coûte, sur une année.</h2>
     <p class="micro" style="max-width:56ch;font-size:15px;line-height:1.7;margin:16px 0 0">
-      Sur ce métier, ces quatre tâches pèsent en général entre {bas} et {haut} heures par semaine.
+      Sur ce métier, ces tâches pèsent en général entre {bas} et {haut} heures par semaine.
       Déplacez les curseurs sur votre situation réelle.
     </p>
     <div class="calc">
@@ -382,7 +383,7 @@ details p {{ font-size:14.5px; color:var(--muted); line-height:1.7; padding-bott
     <div class="kicker">La suite</div>
     <h2>Une tâche en moins, dès cette semaine.</h2>
     <p>30 minutes en visio pour regarder votre cas. Si ça n'a pas de sens chez vous, je vous le dis.</p>
-    <a class="btn btn-invert js-book" href="{agenda}" target="_blank" rel="noopener" data-loc="final">Choisir un créneau</a>
+    <a class="btn btn-invert js-book" href="{agenda}" target="_blank" rel="noopener" data-loc="final">Réserver 30 minutes, gratuit</a>
     <p class="micro" style="margin-top:22px;color:rgba(253,252,249,.55)">Longueur d'avance · Nantes et sa région</p>
   </div>
 </section>
@@ -393,7 +394,7 @@ details p {{ font-size:14.5px; color:var(--muted); line-height:1.7; padding-bott
       <div><div class="footer-brand">Longueur d'avance</div>
         <div class="footer-tagline">Audit IA · Accompagnement pour cabinets et PME</div></div>
       <a class="cta-text js-book" href="{agenda}" target="_blank" rel="noopener" data-loc="footer">
-        Prendre rendez-vous
+        Réserver 30 minutes, gratuit
         <svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
       </a>
     </div>
