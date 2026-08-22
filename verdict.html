@@ -199,6 +199,11 @@ footer a:hover{color:var(--accent);}
       </div>
 
       <div class="field">
+        <label for="prenom">Votre prénom <span class="opt">(optionnel)</span></label>
+        <input type="text" id="prenom" name="prenom" maxlength="60" autocomplete="given-name" placeholder="Pour vous répondre autrement que par « Bonjour, »">
+      </div>
+
+      <div class="field">
         <label for="email">Votre email</label>
         <input type="email" id="email" name="email" required placeholder="prenom@exemple.fr">
 <p class="micro" style="margin-top:8px;font-size:13px;line-height:1.6;opacity:.75">Votre adresse sert à vous envoyer le rapport. Elle sert aussi à vous recontacter au sujet de nos services, jamais à autre chose, et n'est ni vendue ni transmise. Un mot de refus suffit pour ne plus être contacté. <a href="/confidentialite">Politique de confidentialité</a>.</p>
@@ -229,6 +234,16 @@ footer a:hover{color:var(--accent);}
         </div>
         <input type="text" id="autreDetail" name="profil_autre" placeholder="Précisez si vous voulez" style="display:none">
         <p class="hint">Ça nous aide juste à mieux vous répondre. Rien d'obligatoire.</p>
+      </div>
+
+      <div class="field">
+        <label>Vous êtes combien ? <span class="opt">(optionnel)</span></label>
+        <div class="chips">
+          <label class="chip"><input type="radio" name="taille" value="Seul"><span>Seul</span></label>
+          <label class="chip"><input type="radio" name="taille" value="2 à 5"><span>2 à 5</span></label>
+          <label class="chip"><input type="radio" name="taille" value="6 à 20"><span>6 à 20</span></label>
+          <label class="chip"><input type="radio" name="taille" value="Plus de 20"><span>Plus de 20</span></label>
+        </div>
       </div>
 
       <div class="check">
@@ -372,7 +387,9 @@ profilAutre.addEventListener('change', () => {
       lien: lien,
       question: (d.get('question') || '').toString().trim() || null,
       email: email,
-      profil: (d.get('profil') || '').toString().trim() || null,
+      prenom: (d.get('prenom') || '').toString().trim() || null,
+      taille: (d.get('taille') || '').toString().trim() || null,
+      profil: (d.getAll('profil').join(' · ').trim() || null),
       profil_autre: (d.get('profil_autre') || '').toString().trim() || null,
       piege: (d.get('piege') || '').toString()
     };
