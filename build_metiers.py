@@ -10,6 +10,52 @@ from pathlib import Path
 ICI = Path(__file__).parent
 AGENDA = "https://calendar.app.google/S5K8G7FLFWj4d4sF7"
 
+# ── D'ou sortent les heures affichees ────────────────────────────────────────
+# La fourchette n'est plus saisie a la main : elle est la SOMME du poids de
+# chaque tache. Sinon elle decroche des qu'on ajoute une ligne, ce qui est
+# exactement ce qui s'etait produit (immobilier est passe de 4 a 7 taches sans
+# que les heures bougent).
+#
+# Quatre bandes, en heures par semaine reellement economisees sur UNE tache :
+#   4 · coeur de metier, gros volume (le devis chez l'artisan)   1,0 - 2,0
+#   3 · recurrent, plusieurs fois par semaine                     0,6 - 1,2
+#   2 · recurrent, une fois par semaine                           0,3 - 0,7
+#   1 · episodique (la lettre d'info, la taxe de sejour)         0,15 - 0,4
+#
+# La bande se choisit sur le total HEBDOMADAIRE reel (volume x duree), pas sur
+# la frequence seule : un reporting mensuel fait pour dix clients pese plus
+# lourd qu'une tache hebdomadaire faite une fois.
+#
+# Volontairement prudent : le chiffre doit tenir au premier rendez-vous, et le
+# curseur de la page laisse le client mettre sa vraie valeur.
+BANDES = {4: (1.0, 2.0), 3: (0.6, 1.2), 2: (0.3, 0.7), 1: (0.15, 0.4)}
+
+POIDS = {
+  "batiment":     [4, 2, 3, 1],
+  "immobilier":   [4, 3, 3, 2, 2, 2, 2],
+  "avocat":       [4, 3, 2, 2, 1],
+  "comptable":    [4, 3, 2, 2, 1],
+  "architecte":   [4, 3, 3, 3, 2, 2],
+  "recrutement":  [2, 4, 4, 3, 2],
+  "garage":       [3, 2, 3, 3],
+  "camping":      [3, 4, 1, 3, 2, 1],
+  "communication":[4, 4, 4, 3, 2, 3],
+  "medical":      [3, 3, 4, 3, 2],
+  "commercial":   [4, 4, 3, 3, 3, 2],
+  "solo":         [4, 3, 4, 3, 2, 2],
+}
+
+def fourchette(slug, taches):
+    """Renvoie (bas, haut) en heures/semaine, calcules depuis les poids."""
+    poids = POIDS[slug]
+    assert len(poids) == len(taches), (
+        f"{slug} : {len(taches)} taches mais {len(poids)} poids. "
+        "Toute tache ajoutee doit recevoir son poids, sinon les heures mentent.")
+    bas  = sum(BANDES[p][0] for p in poids)
+    haut = sum(BANDES[p][1] for p in poids)
+    return max(1, round(bas)), round(haut)
+
+
 METIERS = {
 "batiment": dict(
   titre="Artisan du bâtiment : devis et relances · Longueur d'avance",
@@ -22,7 +68,7 @@ METIERS = {
           "la relance des devis restés sans réponse, au bon moment",
           "le compte rendu de chantier dicté à la voix et mis en forme tout seul",
           "votre fiche Google remplie et vivante, là où vos clients vous cherchent"],
-  bas=2, haut=4, taux=45, taux_lbl="votre heure de main d'œuvre",
+  taux=45, taux_lbl="votre heure de main d'œuvre",
   punch="Vous mesurez sur place, comme toujours. Ce qui disparaît, c'est le report des "
         "cotes, le calcul des surfaces, l'application de votre grille de prix et la mise "
         "en forme. Une heure récupérée le soir, c'est une heure de plus sur le chantier "
@@ -49,7 +95,7 @@ METIERS = {
           "les photos d'un bien vide meublées virtuellement, avec la mention exigée depuis août 2026",
           "le contrôle des dossiers de location : les pièces qui manquent, le taux d'effort, "
           "et l'avis d'impôt vérifié auprès de l'administration"],
-  bas=4, haut=6, taux=60, taux_lbl="la valeur de votre heure",
+  taux=60, taux_lbl="la valeur de votre heure",
   punch="Ce n'est pas du temps facturable en plus, c'est du volume de mandats traité "
         "en plus, à effectif constant.",
   reve="Et le réaménagement virtuel d'une pièce vide, ou la vidéo verticale tirée "
@@ -70,7 +116,7 @@ METIERS = {
           "la préparation des pièces avant un rendez-vous client",
           "les relances de documents manquants",
           "la lettre d'information à vos clients, tirée de votre veille"],
-  bas=3, haut=5, taux=200, taux_lbl="votre heure facturée",
+  taux=200, taux_lbl="votre heure facturée",
   punch="Le secret professionnel est le premier sujet qu'on traite, pas le dernier : "
         "on cadre en début de séance ce qui peut passer par un outil externe et ce qui "
         "ne doit jamais en sortir.",
@@ -91,7 +137,7 @@ METIERS = {
           "la synthèse d'un dossier avant un rendez-vous client",
           "les réponses aux questions que vos clients posent tous les mois",
           "la lettre d'information mensuelle à vos clients, tirée du calendrier fiscal"],
-  bas=3, haut=5, taux=90, taux_lbl="le coût horaire d'un collaborateur",
+  taux=90, taux_lbl="le coût horaire d'un collaborateur",
   punch="On ne touche pas à la production comptable ni au calcul fiscal. On prend ce "
         "qui l'entoure et qui n'est facturé nulle part.",
   reve="",
@@ -113,7 +159,7 @@ METIERS = {
           "les manipulations répétitives dans Revit ou Rhino, automatisées par script",
           "les notices descriptives et les pièces écrites, dans le vocabulaire de l'agence",
           "les relances des entreprises et des maîtres d'ouvrage"],
-  bas=4, haut=7, taux=80, taux_lbl="la valeur de votre heure",
+  taux=80, taux_lbl="la valeur de votre heure",
   punch="Le projet reste le vôtre, et le dessin aussi. On prend ce qui se répète "
         "d'une opération à l'autre : le métré, le dépouillement, l'écrit et les "
         "manipulations qu'on refait cent fois dans le logiciel.",
@@ -133,7 +179,7 @@ METIERS = {
           "les comptes rendus d'entretien",
           "les réponses aux candidats non retenus",
           "votre présence LinkedIn de recruteur, alimentée par ce que vous dites déjà en entretien"],
-  bas=5, haut=8, taux=60, taux_lbl="le coût horaire d'un consultant",
+  taux=60, taux_lbl="le coût horaire d'un consultant",
   punch="Répondre à tous les candidats devient possible. C'est votre marque employeur "
         "qui change, pas seulement votre planning.",
   reve="",
@@ -152,7 +198,7 @@ METIERS = {
           "les rappels d'entretien, client par client",
           "le compte rendu de l'intervention envoyé au client",
           "les réponses aux demandes de rendez-vous"],
-  bas=2, haut=3, taux=55, taux_lbl="votre heure d'atelier",
+  taux=55, taux_lbl="votre heure d'atelier",
   punch="Le temps gagné au comptoir, c'est du temps rendu à l'atelier.",
   reve="",
   faq=("Ça se branche sur mon logiciel de garage ?",
@@ -172,7 +218,7 @@ METIERS = {
           "les réponses aux demandes qui reviennent chaque saison",
           "le planning du staff, pré-rempli et vérifié contre les règles de repos",
           "la déclaration de taxe de séjour, remplie depuis le registre des nuitées"],
-  bas=3, haut=5, taux=40, taux_lbl="le coût horaire d'un membre de l'équipe",
+  taux=40, taux_lbl="le coût horaire d'un membre de l'équipe",
   punch="En pleine saison, c'est le temps que personne n'a. C'est exactement là que "
         "ça se voit.",
   reve="Et la vidéo de l'établissement, tirée de vos photos existantes.",
@@ -193,7 +239,7 @@ METIERS = {
           "les relances de validation, côté client",
           "les réponses aux appels d'offres et les recommandations",
           "le montage : une prise de vue découpée en clips sous-titrés, pour vous et pour vos clients"],
-  bas=8, haut=12, taux=70, taux_lbl="votre taux journalier ramené à l'heure",
+  taux=70, taux_lbl="votre taux journalier ramené à l'heure",
   punch="Le créatif reste le vôtre. On prend ce qui se répète à l'identique d'un "
         "client à l'autre, et qui n'a jamais été facturé à son vrai prix.",
   reve="",
@@ -201,7 +247,6 @@ METIERS = {
        "Non, parce qu'on ne touche pas à la création. On automatise le reporting, "
        "les comptes rendus et les relances. Ce qui fait votre valeur reste écrit "
        "par vous, avec vos idées.")),
-
 "medical": dict(
   titre="Cabinet médical : rendez-vous, courriers · Longueur d'avance",
   nom="Cabinets médicaux", pill="Praticiens et cabinets de santé",
@@ -213,7 +258,7 @@ METIERS = {
           "la coordination des rendez-vous et des reprogrammations",
           "les réponses aux questions administratives qui reviennent",
           "les relances de documents manquants"],
-  bas=4, haut=8, taux=90, taux_lbl="la valeur de votre heure de consultation",
+  taux=90, taux_lbl="la valeur de votre heure de consultation",
   punch="Les données de santé ne sortent jamais du cabinet. On ne construit que sur "
         "l'administratif : agenda, rappels, courriers types. Aucun contenu de dossier "
         "patient ne passe par un outil externe, jamais.",
@@ -237,7 +282,7 @@ METIERS = {
           "les mails de prospection personnalisés, pas les copiés-collés",
           "la mise à jour du suivi après chaque échange",
           "vos vidéos et vos vocaux découpés en posts, sous-titres compris"],
-  bas=6, haut=10, taux=65, taux_lbl="ce que vaut une heure devant un client",
+  taux=65, taux_lbl="ce que vaut une heure devant un client",
   punch="Chaque heure reprise à l'administratif est une heure rendue au terrain. "
         "C'est le seul métier de cette liste où le calcul est aussi direct.",
   reve="",
@@ -259,7 +304,7 @@ METIERS = {
           "les comptes rendus et les prises de notes",
           "la veille de votre secteur, filtrée et sourcée",
           "vos vidéos et vos vocaux découpés en posts, sous-titres compris"],
-  bas=6, haut=10, taux=50, taux_lbl="ce que vaut votre heure",
+  taux=50, taux_lbl="ce que vaut votre heure",
   punch="Vous n'avez pas les moyens d'embaucher un assistant. C'est exactement pour "
         "ça que ces heures-là sont les plus rentables à récupérer.",
   reve="",
@@ -475,7 +520,7 @@ details p {{ font-size:14.5px; color:var(--muted); line-height:1.7; padding-bott
       <p>Il n'y a pas de tarif affiché : trois courriers types à automatiser ou toute une
          chaîne de devis à reprendre, ce n'est pas le même travail. On regarde ensemble
          pendant 30 minutes, sans que ce soit facturé, et vous recevez un devis écrit.
-         <a href="/formation.html" style="color:var(--accent)">Le détail est ici.</a></p></details>
+         <a href="/formation" style="color:var(--accent)">Le détail est ici.</a></p></details>
     <details><summary class="faq-q">Et si ça ne marche pas chez moi ?</summary>
       <p>Certaines tâches ne s'automatisent pas proprement. Si c'est le cas de la vôtre,
          je vous le dis pendant l'échange de 30 minutes, avant que vous n'ayez payé quoi que ce soit.</p></details>
@@ -504,7 +549,7 @@ details p {{ font-size:14.5px; color:var(--muted); line-height:1.7; padding-bott
     </div>
     <div class="footer-bottom">
       <span>© Longueur d'avance 2026 · contact@longueur-davance.fr</span>
-      <span><a href="/mentions-legales.html">Mentions légales</a> · <a href="/confidentialite.html">Confidentialité</a> · <a href="/">Accueil</a></span>
+      <span><a href="/mentions-legales">Mentions légales</a> · <a href="/confidentialite">Confidentialité</a> · <a href="/verdict">Le Verdict</a> · <a href="/">Accueil</a></span>
     </div>
   </div></div>
 </footer>
@@ -517,11 +562,11 @@ details p {{ font-size:14.5px; color:var(--muted); line-height:1.7; padding-bott
       res=document.getElementById('res'),det=document.getElementById('det'),
       fmt=new Intl.NumberFormat('fr-FR');
   function maj() {{
-    var hh=parseFloat(h.value),tt=parseInt(t.value,10),an=Math.round(hh*52),g=Math.round(an*tt);
+    var hh=parseFloat(h.value),tt=parseInt(t.value,10),an=Math.round(hh*47),g=Math.round(an*tt);
     hv.textContent=(hh%1?hh.toString().replace('.',','):hh)+' h';
     tv.textContent=tt+' €';
     res.textContent=fmt.format(g);
-    det.textContent=hv.textContent+" par semaine, soit "+fmt.format(an)+" h par an, valorisées à "+tt+" € de l'heure.";
+    det.textContent=hv.textContent+" par semaine sur 47 semaines travaillées, soit "+fmt.format(an)+" h par an, valorisées à "+tt+" € de l'heure.";
   }}
   h.addEventListener('input',maj); t.addEventListener('input',maj); maj();
 
@@ -547,13 +592,14 @@ details p {{ font-size:14.5px; color:var(--muted); line-height:1.7; padding-bott
 
 for slug, m in METIERS.items():
     taches = "\n".join(f"      <li>{t}</li>" for t in m["taches"])
+    bas, haut = fourchette(slug, m["taches"])
     reve = f" {m['reve']}" if m["reve"] else ""
     page = GABARIT.format(
         slug=slug, agenda=AGENDA, nom=m["nom"], pill=m["pill"], h1=m["h1"], sub=m["sub"],
         titre=m.get("titre") or (m["nom"] + " · Longueur d'avance"),
         sub_court=m["sub"][:150], taches_html="\n" + taches + "\n    ",
-        punch=m["punch"], reve_html=reve, bas=m["bas"], haut=m["haut"],
-        defaut_h=(m["bas"] + m["haut"]) / 2, taux=m["taux"], taux_lbl=m["taux_lbl"],
+        punch=m["punch"], reve_html=reve, bas=bas, haut=haut,
+        defaut_h=(bas + haut) / 2, taux=m["taux"], taux_lbl=m["taux_lbl"],
         # les bornes doivent etre des multiples de 5 alignes sur le pas, sinon la
         # valeur par defaut est arrondie a cote (45 affichait 47)
         taux_min=max(20, (int(m["taux"] * 0.5) // 5) * 5),

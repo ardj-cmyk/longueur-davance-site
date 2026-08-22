@@ -129,14 +129,14 @@ details p { font-size:14.5px; color:var(--muted); line-height:1.7; padding-botto
     <div class="kicker">Le calcul</div>
     <h2 style="font-size:clamp(26px,5.5vw,40px);max-width:20ch">Ce que ça vous coûte, sur une année.</h2>
     <p class="micro" style="max-width:56ch;font-size:15px;line-height:1.7;margin:16px 0 0">
-      Sur ce métier, ces tâches pèsent en général entre 3 et 5 heures par semaine.
+      Sur ce métier, ces tâches pèsent en général entre 2 et 5 heures par semaine.
       Déplacez les curseurs sur votre situation réelle.
     </p>
     <div class="calc">
       <span class="calc-badge">Sur votre cas</span>
       <div class="calc-row">
-        <label for="h">Heures répétitives par semaine <span class="calc-val" id="hv">4.0 h</span></label>
-        <input type="range" id="h" min="1" max="12" step="0.5" value="4.0">
+        <label for="h">Heures répétitives par semaine <span class="calc-val" id="hv">3.5 h</span></label>
+        <input type="range" id="h" min="1" max="12" step="0.5" value="3.5">
       </div>
       <div class="calc-row">
         <label for="t">votre heure facturée <span class="calc-val" id="tv">200 €</span></label>
@@ -209,7 +209,7 @@ details p { font-size:14.5px; color:var(--muted); line-height:1.7; padding-botto
       <p>Il n'y a pas de tarif affiché : trois courriers types à automatiser ou toute une
          chaîne de devis à reprendre, ce n'est pas le même travail. On regarde ensemble
          pendant 30 minutes, sans que ce soit facturé, et vous recevez un devis écrit.
-         <a href="/formation.html" style="color:var(--accent)">Le détail est ici.</a></p></details>
+         <a href="/formation" style="color:var(--accent)">Le détail est ici.</a></p></details>
     <details><summary class="faq-q">Et si ça ne marche pas chez moi ?</summary>
       <p>Certaines tâches ne s'automatisent pas proprement. Si c'est le cas de la vôtre,
          je vous le dis pendant l'échange de 30 minutes, avant que vous n'ayez payé quoi que ce soit.</p></details>
@@ -238,7 +238,7 @@ details p { font-size:14.5px; color:var(--muted); line-height:1.7; padding-botto
     </div>
     <div class="footer-bottom">
       <span>© Longueur d'avance 2026 · contact@longueur-davance.fr</span>
-      <span><a href="/mentions-legales.html">Mentions légales</a> · <a href="/confidentialite.html">Confidentialité</a> · <a href="/">Accueil</a></span>
+      <span><a href="/mentions-legales">Mentions légales</a> · <a href="/confidentialite">Confidentialité</a> · <a href="/verdict">Le Verdict</a> · <a href="/">Accueil</a></span>
     </div>
   </div></div>
 </footer>
@@ -251,11 +251,11 @@ details p { font-size:14.5px; color:var(--muted); line-height:1.7; padding-botto
       res=document.getElementById('res'),det=document.getElementById('det'),
       fmt=new Intl.NumberFormat('fr-FR');
   function maj() {
-    var hh=parseFloat(h.value),tt=parseInt(t.value,10),an=Math.round(hh*52),g=Math.round(an*tt);
+    var hh=parseFloat(h.value),tt=parseInt(t.value,10),an=Math.round(hh*47),g=Math.round(an*tt);
     hv.textContent=(hh%1?hh.toString().replace('.',','):hh)+' h';
     tv.textContent=tt+' €';
     res.textContent=fmt.format(g);
-    det.textContent=hv.textContent+" par semaine, soit "+fmt.format(an)+" h par an, valorisées à "+tt+" € de l'heure.";
+    det.textContent=hv.textContent+" par semaine sur 47 semaines travaillées, soit "+fmt.format(an)+" h par an, valorisées à "+tt+" € de l'heure.";
   }
   h.addEventListener('input',maj); t.addEventListener('input',maj); maj();
 
