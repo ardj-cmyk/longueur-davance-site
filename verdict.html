@@ -201,6 +201,12 @@ footer a:hover{color:var(--accent);}
       <div class="field">
         <label for="email">Votre email</label>
         <input type="email" id="email" name="email" required placeholder="prenom@exemple.fr">
+<p class="micro" style="margin-top:8px;font-size:13px;line-height:1.6;opacity:.75">Votre adresse sert à vous envoyer le rapport. Elle sert aussi à vous recontacter au sujet de nos services, jamais à autre chose, et n'est ni vendue ni transmise. Un mot de refus suffit pour ne plus être contacté. <a href="/confidentialite">Politique de confidentialité</a>.</p>
+<div aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden">
+  <label>Ne remplissez pas ce champ
+    <input type="text" name="piege" tabindex="-1" autocomplete="off">
+  </label>
+</div>
         <p class="hint">C'est là qu'on vous envoie votre rapport. Rien d'autre.</p>
       </div>
 
@@ -367,7 +373,8 @@ profilAutre.addEventListener('change', () => {
       question: (d.get('question') || '').toString().trim() || null,
       email: email,
       profil: (d.get('profil') || '').toString().trim() || null,
-      profil_autre: (d.get('profil_autre') || '').toString().trim() || null
+      profil_autre: (d.get('profil_autre') || '').toString().trim() || null,
+      piege: (d.get('piege') || '').toString()
     };
 
     if (bouton) { bouton.disabled = true; bouton.dataset.avant = bouton.textContent; bouton.textContent = 'Envoi…'; }
@@ -389,7 +396,13 @@ profilAutre.addEventListener('change', () => {
     })
     .catch(function (err) {
       console.error('Verdict :', err);
-      message("L'envoi a échoué. Réessaie dans un instant, ou écris-nous directement.", true);
+      var m = String(err && err.message || '');
+      if (m.indexOf('trop rapide') > -1)            message("Vous venez d'envoyer une demande. Réessayez dans quelques minutes.", true);
+      else if (m.indexOf('limite quotidienne') > -1) message("Vous avez atteint la limite de demandes pour aujourd'hui.", true);
+      else if (m.indexOf('sature') > -1)             message("Beaucoup de demandes en ce moment. Réessayez demain.", true);
+      else if (m.indexOf('adresse invalide') > -1)   message("Cette adresse e-mail ne semble pas valide.", true);
+      else if (m.indexOf('lien invalide') > -1)      message("Il faut un lien complet, qui commence par https://", true);
+      else                                           message("L'envoi a échoué. Réessayez dans un instant.", true);
       if (bouton) { bouton.disabled = false; bouton.textContent = bouton.dataset.avant || 'Envoyer'; }
     });
   });
