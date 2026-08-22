@@ -223,7 +223,7 @@ METIERS = {
       "Tout ce qui n'est pas devant un client ne rapporte rien.",
   taches=["les comptes rendus de rendez-vous, dictés en sortant",
           "les relances de prospects, au bon moment et sans en oublier",
-          "la préparation de rendez-vous : qui, quoi, où on en était",
+          "la préparation de la tournée : l'ordre des visites, et pour chacune qui c'est, où on en était, ce qui a été promis",
           "les mails de prospection personnalisés, pas les copiés-collés",
           "la mise à jour du suivi après chaque échange"],
   bas=6, haut=10, taux=65, taux_lbl="ce que vaut une heure devant un client",
