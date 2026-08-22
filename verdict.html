@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Le Verdict — vérifier une promesse IA · Longueur d'avance</title>
+<link rel="canonical" href="https://longueur-davance.fr/verdict">
+<meta name="description" content="Colle le lien d'un reel ou d'une offre IA. On vérifie les affirmations à la source et on t'envoie un rapport : ce qui est vrai, ce qui est survendu, ce qui est trompeur.">
+<meta property="og:title" content="Le Verdict · Longueur d'avance">
+<meta property="og:description" content="On vérifie les promesses IA à la source. Rapport privé, sources à l'appui.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23b4551e'/%3E%3Cpath d='M14 44 L30 28 L38 36 L52 18' stroke='%23fdfcf9' stroke-width='6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="assets/fonts/fonts.css">
+<style>
+/* ── Tokens (identiques à index.html) ─────────────────────── */
+:root{
+  --ink:#12192b; --ink2:#1a2440; --paper:#fdfcf9; --surface:#f4f0e8;
+  --accent:#b4551e; --accent-l:#cc6830; --accent-d:rgba(180,85,30,.12);
+  --muted:#5c6674; --muted-d:#8b93a3; --line:#e3ded4; --gold:#e8b88a;
+  --r:14px; --r-lg:20px;
+  --sh-sm:0 2px 10px rgba(18,25,43,.06);
+  --sh-md:0 8px 28px rgba(18,25,43,.1);
+  --sh-lg:0 24px 64px rgba(18,25,43,.16);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
+body{font-family:'Inter',system-ui,sans-serif;font-size:16px;line-height:1.65;color:var(--ink);background:var(--paper);}
+.wrap{max-width:1080px;margin:0 auto;padding:0 22px;}
+a{color:var(--accent);}
+h1,h2,h3{font-family:'Playfair Display',Georgia,serif;font-weight:700;letter-spacing:-.4px;}
+
+/* ── Boutons (repris d'index.html) ────────────────────────── */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  font-family:'Inter',sans-serif;font-weight:600;font-size:15px;
+  padding:14px 28px;border-radius:var(--r);border:none;
+  cursor:pointer;text-decoration:none;
+  transition:background .2s,transform .18s,box-shadow .18s;
+  white-space:nowrap;background:var(--accent);color:var(--paper);
+  box-shadow:0 4px 16px rgba(180,85,30,.32);
+}
+.btn:hover{background:var(--accent-l);transform:translateY(-2px);box-shadow:0 8px 24px rgba(180,85,30,.4);}
+.btn:active{transform:translateY(0);}
+.btn:disabled{background:var(--muted-d);box-shadow:none;cursor:not-allowed;transform:none;}
+.btn svg{transition:transform .2s;}
+.btn:not(:disabled):hover svg{transform:translateX(3px);}
+
+.cta-text{
+  display:inline-flex;align-items:center;gap:7px;
+  font-size:13.5px;font-weight:600;color:var(--ink);
+  position:relative;padding-bottom:1px;text-decoration:none;transition:color .2s;white-space:nowrap;
+}
+.cta-text::after{content:'';position:absolute;bottom:0;left:0;width:0;height:1px;background:var(--accent);transition:width .28s cubic-bezier(.4,0,.2,1);}
+.cta-text:hover{color:var(--accent);}
+.cta-text:hover::after{width:100%;}
+.cta-text svg{transition:transform .2s;flex-shrink:0;}
+.cta-text:hover svg{transform:translateX(3px);}
+
+/* ── Reveal (repris d'index.html) ─────────────────────────── */
+.rv{opacity:0;transform:translateY(22px);transition:opacity .6s ease,transform .6s ease;}
+.rv.in{opacity:1;transform:none;}
+
+/* ── Header ───────────────────────────────────────────────── */
+header{border-bottom:1px solid var(--line);background:rgba(253,252,249,.9);backdrop-filter:blur(10px);position:sticky;top:0;z-index:30;}
+.hdr{display:flex;align-items:center;justify-content:space-between;padding:14px 0;}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);}
+.logo svg{width:30px;height:30px;}
+.logo-name{font-family:'Playfair Display',Georgia,serif;font-size:18px;font-weight:700;line-height:1.1;letter-spacing:0;}
+.logo-sub{display:block;font-family:'Inter',sans-serif;font-size:9.5px;font-weight:500;letter-spacing:.5px;color:var(--muted);text-transform:uppercase;}
+
+/* ── Hero ─────────────────────────────────────────────────── */
+.hero{padding:64px 0 10px;text-align:center;}
+.eyebrow{font-size:10.5px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);margin-bottom:16px;display:block;}
+h1{font-size:clamp(31px,5.4vw,52px);line-height:1.1;}
+h1 em{font-style:italic;color:var(--accent);}
+.lead{max-width:620px;margin:18px auto 0;font-size:clamp(16px,2vw,18px);color:var(--muted);}
+
+/* ── Formulaire ───────────────────────────────────────────── */
+.card{
+  background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);
+  box-shadow:var(--sh-sm);padding:clamp(24px,4vw,38px);
+  max-width:660px;margin:36px auto 0;text-align:left;
+  transition:box-shadow .3s,border-color .3s;
+}
+.card:focus-within{box-shadow:var(--sh-md);border-color:rgba(180,85,30,.25);}
+.field{margin-bottom:22px;}
+label{display:block;font-size:14.5px;font-weight:600;margin-bottom:8px;}
+label .opt{font-weight:400;color:var(--muted-d);}
+.hint{font-size:12.5px;color:var(--muted);margin-top:6px;}
+input[type=url],input[type=email],textarea{
+  width:100%;font-family:inherit;font-size:15.5px;color:var(--ink);background:var(--paper);
+  border:1.5px solid var(--line);border-radius:var(--r);padding:13px 15px;
+  transition:border-color .2s,background .2s,box-shadow .2s;
+}
+input::placeholder,textarea::placeholder{color:var(--muted-d);}
+input:hover,textarea:hover{border-color:var(--muted-d);}
+input:focus,textarea:focus{outline:none;border-color:var(--accent);background:#fff;box-shadow:0 0 0 3px var(--accent-d);}
+input:valid:not(:placeholder-shown){border-color:rgba(180,85,30,.45);}
+textarea{resize:vertical;min-height:80px;}
+
+.check{
+  display:flex;gap:12px;align-items:flex-start;margin-bottom:14px;
+  padding:14px 16px;border:1.5px solid var(--line);border-radius:var(--r);
+  background:var(--paper);cursor:pointer;
+  transition:border-color .2s,background .2s,transform .15s;
+}
+.check:hover{border-color:var(--muted-d);background:var(--surface);}
+.check:has(input:checked){border-color:var(--accent);background:var(--accent-d);}
+.check input{margin-top:3px;width:17px;height:17px;accent-color:var(--accent);flex-shrink:0;cursor:pointer;}
+.check label{font-size:14px;font-weight:500;margin:0;cursor:pointer;line-height:1.5;}
+.check .sm{display:block;font-size:12.5px;color:var(--muted);font-weight:400;margin-top:3px;}
+.submit-row{margin-top:26px;}
+.btn-full{width:100%;font-size:16px;padding:16px 28px;}
+.legal{font-size:12.5px;color:var(--muted);text-align:center;margin-top:14px;line-height:1.6;}
+
+/* ── Pastilles profil ─────────────────────────────────────── */
+.chips{display:flex;flex-wrap:wrap;gap:9px;}
+.chip{cursor:pointer;}
+.chip input{position:absolute;opacity:0;width:0;height:0;}
+.chip span{display:inline-block;padding:9px 15px;border:1.5px solid var(--line);border-radius:999px;
+  font-size:13.5px;font-weight:500;color:var(--ink);background:var(--paper);transition:border-color .18s,background .18s,color .18s;}
+.chip:hover span{border-color:var(--muted-d);}
+.chip input:checked + span{border-color:var(--accent);background:var(--accent-d);color:var(--accent);font-weight:600;}
+.chip input:focus-visible + span{box-shadow:0 0 0 3px var(--accent-d);}
+#autreDetail{margin-top:11px;}
+
+.proof{max-width:660px;margin:26px auto 0;background:var(--surface);border:1px solid var(--line);
+  border-left:4px solid var(--accent);border-radius:var(--r);padding:18px 22px;text-align:left;}
+.proof-lbl{display:block;font-size:10.5px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:7px;}
+.proof p{font-size:14.5px;color:var(--ink);line-height:1.6;}
+
+/* ── Sections ─────────────────────────────────────────────── */
+.sec{padding:56px 0;}
+.sec-head{text-align:center;max-width:600px;margin:0 auto 34px;}
+.sec-head h2{font-size:clamp(24px,3.6vw,34px);margin-bottom:10px;}
+.sec-head p{color:var(--muted);}
+
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:18px;}
+.step{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:26px 22px;transition:transform .2s,box-shadow .2s;}
+.step:hover{transform:translateY(-3px);box-shadow:var(--sh-md);}
+.step-n{font-size:10.5px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);margin-bottom:10px;}
+.step h3{font-size:17px;margin-bottom:6px;letter-spacing:0;}
+.step p{font-size:14.5px;color:var(--muted);}
+
+.verd{display:grid;grid-template-columns:repeat(auto-fit,minmax(205px,1fr));gap:16px;}
+.v{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:22px;transition:transform .2s,box-shadow .2s,border-color .2s;}
+.v:hover{transform:translateY(-3px);box-shadow:var(--sh-md);border-color:rgba(180,85,30,.2);}
+.v .tag{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:5px 11px;border-radius:8px;margin-bottom:11px;background:var(--surface);color:var(--muted);}
+.v.ok .tag{color:#2f7d4f;background:#e4f1e9;}
+.v.wa .tag{color:#8a5806;background:#f8ecd6;}
+.v.ba .tag{color:#96331f;background:#f6e0d8;}
+.v p{font-size:14.5px;color:var(--muted);}
+
+.trust{background:var(--surface);border-radius:var(--r-lg);padding:clamp(24px,4vw,38px);border:1px solid var(--line);}
+.trust h2{font-size:clamp(22px,3vw,28px);margin-bottom:18px;}
+.trust ul{list-style:none;display:grid;gap:13px;}
+.trust li{display:flex;gap:12px;font-size:15px;align-items:flex-start;}
+.tick{color:var(--accent);font-weight:800;flex-shrink:0;}
+.method-note{font-size:13.5px;color:var(--muted);border-left:2px solid var(--line);padding-left:16px;margin-top:24px;line-height:1.65;}
+
+footer{border-top:1px solid var(--line);padding:30px 0 44px;font-size:13.5px;color:var(--muted);text-align:center;}
+footer a{color:var(--muted);text-decoration:none;transition:color .15s;}
+footer a:hover{color:var(--accent);}
+
+@media (max-width:640px){ .hero{padding:44px 0 4px;} .sec{padding:44px 0;} }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap hdr">
+    <a class="logo" href="index.html" aria-label="Longueur d'avance, accueil">
+      <svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="12" fill="#b4551e"/><path d="M14 44 L30 28 L38 36 L52 18" stroke="#fdfcf9" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <div class="logo-name">Longueur d'avance<span class="logo-sub">Audit IA · Accompagnement</span></div>
+    </a>
+    <a class="cta-text" href="index.html">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      Accueil
+    </a>
+  </div>
+</header>
+
+<main>
+  <section class="wrap hero">
+    <span class="eyebrow rv">Vérification indépendante</span>
+    <div class="hero-pill" id="verdict-pill">Le Verdict</div>
+<h1 class="rv">N'intégrez pas <em>n'importe quoi</em><br>dans votre entreprise.</h1>
+    <p class="lead rv">Un reel vous vend un outil IA ? On vérifie ce qu'il fait <b>vraiment</b>, <b>s'il est conforme RGPD</b>, ce qu'il coûte, ce que deviennent vos données, et <b>ce que ça peut vous coûter</b> si vous n'êtes pas dans les clous.</p>
+
+    <form class="card rv" id="form" novalidate>
+      <div class="field">
+        <label for="lien">Le lien à vérifier</label>
+        <input type="url" id="lien" name="lien" required placeholder="https://www.instagram.com/reel/...">
+        <p class="hint">Reel, TikTok, page de vente, post LinkedIn, tout contenu public.</p>
+      </div>
+
+      <div class="field">
+        <label for="question">Ce qui vous fait douter <span class="opt">(optionnel)</span></label>
+        <textarea id="question" name="question" placeholder="Ex. « il dit que c'est 100 % gratuit et sans risque RGPD, c'est vrai ? »"></textarea>
+      </div>
+
+      <div class="field">
+        <label for="email">Votre email</label>
+        <input type="email" id="email" name="email" required placeholder="prenom@exemple.fr">
+        <p class="hint">C'est là qu'on vous envoie votre rapport. Rien d'autre.</p>
+      </div>
+
+      <div class="field">
+        <label>Vous êtes / votre secteur ? <span class="opt">(optionnel)</span></label>
+        <div class="chips">
+          <label class="chip"><input type="checkbox" name="profil" value="Avocat / juridique"><span>Avocat / juridique</span></label>
+          <label class="chip"><input type="checkbox" name="profil" value="Comptable / finance"><span>Comptable / finance</span></label>
+          <label class="chip"><input type="checkbox" name="profil" value="Profession libérale"><span>Profession libérale</span></label>
+          <label class="chip"><input type="checkbox" name="profil" value="Artisan / BTP"><span>Artisan / BTP</span></label>
+          <label class="chip"><input type="checkbox" name="profil" value="PME / dirigeant"><span>PME / dirigeant</span></label>
+          <label class="chip"><input type="checkbox" name="profil" value="Architecture"><span>Architecture</span></label>
+          <label class="chip"><input type="checkbox" name="profil" value="Immobilier"><span>Immobilier</span></label>
+          <label class="chip"><input type="checkbox" name="profil" value="Commerce / boutique"><span>Commerce / boutique</span></label>
+          <label class="chip"><input type="checkbox" name="profil" value="E-commerce / marque"><span>E-commerce / marque</span></label>
+          <label class="chip"><input type="checkbox" name="profil" value="Commercial / vente"><span>Commercial / vente</span></label>
+          <label class="chip"><input type="checkbox" name="profil" value="Logistique / transport"><span>Logistique / transport</span></label>
+          <label class="chip"><input type="checkbox" name="profil" value="Employé"><span>Employé</span></label>
+          <label class="chip"><input type="checkbox" name="profil" value="Autre" id="profilAutre"><span>Autre</span></label>
+        </div>
+        <input type="text" id="autreDetail" name="profil_autre" placeholder="Précisez si vous voulez" style="display:none">
+        <p class="hint">Ça nous aide juste à mieux vous répondre. Rien d'obligatoire.</p>
+      </div>
+
+      <div class="check">
+        <input type="checkbox" id="consent" name="consent" required value="oui">
+        <label for="consent">J'accepte de recevoir mon rapport de vérification par email.
+          <span class="sm">Obligatoire, c'est le seul moyen de vous livrer le résultat. Voir la <a href="confidentialite.html">politique de confidentialité</a>.</span>
+        </label>
+      </div>
+
+      <div class="check">
+        <input type="checkbox" id="newsletter" name="newsletter" value="oui">
+        <label for="newsletter">Je veux aussi recevoir la newsletter Longueur d'avance.
+          <span class="sm">Optionnel, les débunks et les vraies méthodes IA, une fois par semaine. Désabonnement en 1 clic.</span>
+        </label>
+      </div>
+
+      <div class="submit-row">
+        <button class="btn btn-full" type="submit" id="submit" disabled>
+          Vérifier ce contenu
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+        <p class="legal"><b>1 vérification offerte à l'inscription</b>, et 1 de plus avec la newsletter.<br>Réponse sous 48 h ouvrées · Votre email ne sera ni vendu, ni cédé, ni utilisé pour autre chose.</p>
+      </div>
+    </form>
+
+    <div class="proof rv">
+      <span class="proof-lbl">Exemple réel, vérifié cette semaine</span>
+      <p>Un reel expliquait comment « garder ses données en Europe » avec l'IA. Le réglage montré est bien réel…<br>
+      mais <b>par défaut, vos requêtes transitent quand même par d'autres régions</b> : il manquait une option à désactiver. Un détail invisible dans la vidéo, déterminant pour un cabinet soumis au secret professionnel.</p>
+    </div>
+  </section>
+
+  <section class="wrap sec">
+    <div class="sec-head rv">
+      <h2>Comment ça marche</h2>
+      <p>Pas de magie : de la vérification, à la source, relue par un humain.</p>
+    </div>
+    <div class="steps">
+      <div class="step rv"><div class="step-n">Étape 01</div><h3>Vous collez le lien</h3><p>Le contenu qui vous fait douter, quel qu'il soit.</p></div>
+      <div class="step rv"><div class="step-n">Étape 02</div><h3>On isole les promesses</h3><p>Chaque affirmation factuelle est extraite, une par une.</p></div>
+      <div class="step rv"><div class="step-n">Étape 03</div><h3>On vérifie à la source</h3><p>Documentation officielle, prix réels, conditions. Assisté par IA, relu par nous.</p></div>
+      <div class="step rv"><div class="step-n">Étape 04</div><h3>Vous recevez votre rapport</h3><p>Verdict par point, sources à l'appui, recommandation claire.</p></div>
+    </div>
+  </section>
+
+  <section class="wrap sec" style="padding-top:0">
+    <div class="sec-head rv">
+      <h2>Les verdicts possibles</h2>
+      <p>On ne dit pas juste « vrai » ou « faux ». On nuance, parce que la réalité est nuancée.</p>
+    </div>
+    <div class="verd">
+      <div class="v ok rv"><span class="tag">Vrai</span><p>L'affirmation est exacte et vérifiable à la source.</p></div>
+      <div class="v wa rv"><span class="tag">Survendu</span><p>Le fond est vrai, mais la promesse dépasse la réalité.</p></div>
+      <div class="v ba rv"><span class="tag">Trompeur</span><p>Un élément essentiel est passé sous silence.</p></div>
+      <div class="v rv"><span class="tag">Invérifiable</span><p>Aucune source publique ne permet de trancher. On le dit.</p></div>
+    </div>
+  </section>
+
+  <section class="wrap sec" style="padding-top:0">
+    <div class="trust rv">
+      <h2>Nos règles</h2>
+      <ul>
+        <li><span class="tick">✓</span><span><b>On vérifie l'information, jamais la personne.</b> Aucun nom, aucun visage, aucune mise au pilori. On ne publie rien : votre rapport est privé.</span></li>
+        <li><span class="tick">✓</span><span><b>Chaque verdict est sourcé.</b> Documentation officielle, tarifs publics, conditions d'utilisation. Les liens sont dans le rapport.</span></li>
+        <li><span class="tick">✓</span><span><b>Assisté par IA, relu par un humain.</b> On ne t'envoie pas une sortie brute de modèle.</span></li>
+        <li><span class="tick">✓</span><span><b>Si on ne sait pas, on le dit.</b> « Invérifiable » est un verdict à part entière.</span></li>
+        <li><span class="tick">✓</span><span><b>Votre email sert à te livrer ton rapport.</b> Point. La newsletter est un choix séparé, et se quitte en un clic.</span></li>
+      </ul>
+      <p class="method-note">Ce service est fourni à titre informatif. Il ne constitue ni un conseil juridique, ni un conseil financier, ni une mise en cause de qui que ce soit.</p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p><b>Longueur d'avance</b>, vérification indépendante, à titre informatif.</p>
+    <p style="margin-top:8px"><a href="index.html">Accueil</a> · <a href="confidentialite.html">Confidentialité</a></p>
+  </div>
+</footer>
+
+<script>
+// Reveal au scroll (identique à index.html)
+const io = new IntersectionObserver(
+  es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }),
+  { threshold: 0.1 }
+);
+document.querySelectorAll('.rv').forEach(el => io.observe(el));
+
+// Le bouton s'allume seulement quand le formulaire est valide
+const form = document.getElementById('form');
+const submit = document.getElementById('submit');
+function refresh(){ submit.disabled = !form.checkValidity(); }
+form.addEventListener('input', refresh);
+form.addEventListener('change', refresh);
+refresh();
+
+// "Autre" révèle un champ détail optionnel
+const profilAutre = document.getElementById('profilAutre');
+const autreDetail = document.getElementById('autreDetail');
+profilAutre.addEventListener('change', () => {
+  autreDetail.style.display = profilAutre.checked ? 'block' : 'none';
+  if (!profilAutre.checked) autreDetail.value = '';
+});
+</script>
+
+
+<script>
+// ── Le Verdict : envoi des soumissions vers Supabase ────────────────────────
+// La cle publiable est publique par conception : la securite repose sur RLS
+// (depot autorise, lecture impossible), pas sur le secret de cette cle.
+(function () {
+  var SUPABASE_URL = 'https://lkdoogzfkfhegjkdwcab.supabase.co';
+  var SUPABASE_KEY = 'sb_publishable_G53hXTn6vKb0MCDWstVFnA_7ZrgQZAh';
+
+  var form = document.getElementById('form');
+  if (!form) return;
+  var bouton = form.querySelector('button[type="submit"], input[type="submit"], .btn');
+
+  function message(txt, erreur) {
+    var el = document.getElementById('form-msg');
+    if (!el) {
+      el = document.createElement('p');
+      el.id = 'form-msg';
+      el.style.cssText = 'margin-top:14px;font-weight:600';
+      form.appendChild(el);
+    }
+    el.textContent = txt;
+    el.style.color = erreur ? '#b4551e' : 'inherit';
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var d = new FormData(form);
+    var lien = (d.get('lien') || '').toString().trim();
+    var email = (d.get('email') || '').toString().trim();
+
+    if (!/^https?:\/\/.+/i.test(lien)) { message("Il faut un lien complet, qui commence par https://", true); return; }
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { message("L'adresse e-mail ne semble pas valide.", true); return; }
+
+    var charge = {
+      lien: lien,
+      question: (d.get('question') || '').toString().trim() || null,
+      email: email,
+      profil: (d.get('profil') || '').toString().trim() || null,
+      profil_autre: (d.get('profil_autre') || '').toString().trim() || null
+    };
+
+    if (bouton) { bouton.disabled = true; bouton.dataset.avant = bouton.textContent; bouton.textContent = 'Envoi…'; }
+    message('');
+
+    fetch(SUPABASE_URL + '/rest/v1/soumissions', {
+      method: 'POST',
+      headers: {
+        'apikey': SUPABASE_KEY,
+        'Authorization': 'Bearer ' + SUPABASE_KEY,
+        'Content-Type': 'application/json',
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify(charge)
+    })
+    .then(function (r) {
+      if (r.ok) { window.location.href = '/merci'; return; }
+      return r.text().then(function (t) { throw new Error(t || r.status); });
+    })
+    .catch(function (err) {
+      console.error('Verdict :', err);
+      message("L'envoi a échoué. Réessaie dans un instant, ou écris-nous directement.", true);
+      if (bouton) { bouton.disabled = false; bouton.textContent = bouton.dataset.avant || 'Envoyer'; }
+    });
+  });
+})();
+</script>
+</body>
+</html>

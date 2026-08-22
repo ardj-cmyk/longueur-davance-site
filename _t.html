@@ -1,0 +1,276 @@
+<meta charset="utf-8">
+<title>Mémo d'appel Longueur d'avance</title>
+<style>
+/* Palette Longueur d'avance : encre, ivoire, terracotta.
+   Tous les tokens sont définis sur :root, puis redéfinis pour les deux
+   états sombres (préférence système non stampée, et choix explicite). */
+:root {
+  --ground:  #fdfcf9;
+  --surface: #f4f0e8;
+  --raised:  #ffffff;
+  --text:    #12192b;
+  --muted:   #5c6674;
+  --faint:   #8b93a3;
+  --line:    #e3ded4;
+  --accent:  #b4551e;
+  --accent-soft: rgba(180, 85, 30, .10);
+  --ok:      #1f7a4d;
+  --shadow:  0 1px 2px rgba(18, 25, 43, .05), 0 8px 24px rgba(18, 25, 43, .06);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ground:  #0e1420;
+    --surface: #161e2e;
+    --raised:  #1b2436;
+    --text:    #f1eee7;
+    --muted:   #9aa3b2;
+    --faint:   #6b7486;
+    --line:    #2a3448;
+    --accent:  #e8b88a;
+    --accent-soft: rgba(232, 184, 138, .12);
+    --ok:      #5cc08c;
+    --shadow:  0 1px 2px rgba(0, 0, 0, .3), 0 8px 24px rgba(0, 0, 0, .35);
+  }
+}
+:root[data-theme="dark"] {
+  --ground:  #0e1420;
+  --surface: #161e2e;
+  --raised:  #1b2436;
+  --text:    #f1eee7;
+  --muted:   #9aa3b2;
+  --faint:   #6b7486;
+  --line:    #2a3448;
+  --accent:  #e8b88a;
+  --accent-soft: rgba(232, 184, 138, .12);
+  --ok:      #5cc08c;
+  --shadow:  0 1px 2px rgba(0, 0, 0, .3), 0 8px 24px rgba(0, 0, 0, .35);
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  padding: 28px 18px 64px;
+}
+.wrap { max-width: 680px; margin: 0 auto; display: flex; flex-direction: column; gap: 34px; }
+
+header { display: flex; flex-direction: column; gap: 6px; }
+.eyebrow {
+  font-size: 11px; font-weight: 700; letter-spacing: .16em;
+  text-transform: uppercase; color: var(--accent);
+}
+h1 { margin: 0; font-size: clamp(24px, 6vw, 31px); line-height: 1.12; letter-spacing: -.02em; text-wrap: balance; }
+.chapo { margin: 2px 0 0; color: var(--muted); font-size: 15px; max-width: 58ch; }
+
+section { display: flex; flex-direction: column; gap: 14px; }
+h2 {
+  margin: 0; font-size: 12px; font-weight: 700; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--faint);
+  padding-bottom: 9px; border-bottom: 1px solid var(--line);
+}
+
+/* Le script : le repère de temps est une colonne tabulaire fixe, l'œil
+   retombe toujours au même endroit pendant l'appel. */
+.script { display: flex; flex-direction: column; gap: 2px; }
+.beat {
+  display: grid; grid-template-columns: 46px 1fr; gap: 14px;
+  padding: 13px 0; border-bottom: 1px solid var(--line);
+}
+.beat:last-child { border-bottom: none; }
+.at {
+  font-variant-numeric: tabular-nums; font-size: 12.5px; font-weight: 700;
+  color: var(--accent); padding-top: 3px; letter-spacing: .02em;
+}
+.say { font-size: 16.5px; }
+.beat.pivot .say { font-weight: 650; }
+.beat.pivot { background: var(--accent-soft); margin: 0 -12px; padding: 13px 12px; border-radius: 10px; border-bottom: none; }
+.aside { display: block; margin-top: 5px; font-size: 13px; color: var(--muted); font-style: italic; }
+
+details {
+  background: var(--raised); border: 1px solid var(--line);
+  border-radius: 11px; overflow: hidden;
+}
+details + details { margin-top: 8px; }
+summary {
+  cursor: pointer; list-style: none; padding: 14px 16px;
+  font-weight: 600; font-size: 15px; display: flex; gap: 12px;
+  align-items: center; justify-content: space-between;
+}
+summary::-webkit-details-marker { display: none; }
+summary::after { content: "+"; color: var(--accent); font-size: 20px; line-height: 1; }
+details[open] summary::after { content: "\2212"; }
+details p { margin: 0; padding: 0 16px 16px; color: var(--muted); font-size: 14.5px; }
+
+.msg { background: var(--surface); border-radius: 11px; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+.msg pre {
+  margin: 0; font-family: inherit; font-size: 14.5px; white-space: pre-wrap;
+  color: var(--text);
+}
+.msg .quand { font-size: 12.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--ok); }
+button.copy {
+  align-self: flex-start; border: 1px solid var(--line); background: var(--raised);
+  color: var(--text); font: inherit; font-size: 13.5px; font-weight: 600;
+  padding: 8px 15px; border-radius: 9px; cursor: pointer;
+}
+button.copy:hover { border-color: var(--accent); }
+button.copy:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+button.copy.done { background: var(--ok); border-color: var(--ok); color: #fff; }
+
+.motifs { display: flex; flex-wrap: wrap; gap: 7px; }
+.motifs span {
+  border: 1px solid var(--line); border-radius: 99px;
+  padding: 6px 13px; font-size: 12.5px; color: var(--muted);
+}
+.regle { color: var(--muted); font-size: 14.5px; margin: 0; }
+.regle b { color: var(--text); }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div class="wrap">
+
+  <header>
+    <span class="eyebrow">Longueur d'avance</span>
+    <h1>Mémo d'appel</h1>
+    <p class="chapo">Quatre-vingt-dix secondes. Le moment qui compte est à 0:35 : poser la question, puis se taire.</p>
+  </header>
+
+  <section>
+    <h2>Le script</h2>
+    <div class="script">
+      <div class="beat">
+        <span class="at">0:00</span>
+        <span class="say">Bonjour <em>[prénom]</em>, <em>[votre prénom]</em> à l'appareil. Je vous dérange 30 secondes ?</span>
+      </div>
+      <div class="beat">
+        <span class="at">0:05</span>
+        <span class="say">Je travaille avec Amdy, de Longueur d'avance. On est tombés sur <em>[société]</em> en cherchant les <em>[métier]</em> du secteur.</span>
+      </div>
+      <div class="beat">
+        <span class="at">0:15</span>
+        <span class="say">Il vient de lancer son activité : il automatise <em>[les devis et les relances / les annonces / les courriers types]</em>. Vous dictez, le document sort écrit.</span>
+      </div>
+      <div class="beat pivot">
+        <span class="at">0:35</span>
+        <span class="say">Vous, aujourd'hui, ça vous prend combien de temps par semaine, ce genre de choses ?
+          <span class="aside">Puis se taire. Même si le silence dure cinq secondes. C'est là que l'appel se joue.</span></span>
+      </div>
+      <div class="beat">
+        <span class="at">1:00</span>
+        <span class="say">Ce qu'il vous propose, c'est 30 minutes en visio pour compter précisément ce que ça vous coûte sur une année. Vous avez un créneau la semaine prochaine ?</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Objections</h2>
+    <details>
+      <summary>« J'ai pas le temps. »</summary>
+      <p>C'est exactement pour ça qu'on vous appelle. Le rendez-vous fait 30 minutes, et la seule chose qu'on y fait, c'est compter combien d'heures vous perdez. Si le compte n'est pas bon, vous aurez perdu 30 minutes une fois.</p>
+    </details>
+    <details>
+      <summary>« Ça coûte combien ? »</summary>
+      <p>Honnêtement je ne peux pas vous le dire maintenant, et je préfère ça à un chiffre au hasard. Ça dépend de ce qu'on trouve. Les 30 minutes ne sont pas facturées, et si ça vaut le coup vous recevez un devis écrit. Vous décidez après.</p>
+    </details>
+    <details>
+      <summary>« Envoyez-moi un mail. »</summary>
+      <p>Je le fais, mais franchement il finira en bas de votre boîte comme les autres. Donnez-moi 30 secondes de plus maintenant et vous saurez si ça vous concerne.</p>
+    </details>
+    <details>
+      <summary>« L'IA c'est pas pour moi, je suis pas informaticien. »</summary>
+      <p>Aucun de ses clients ne l'est. Vous n'installez rien, vous ne codez rien. Vous dictez comme vous parlez, et le document sort écrit.</p>
+    </details>
+    <details>
+      <summary>« Je suis sur un chantier, là. »</summary>
+      <p>Je vous rappelle quand ? Demain matin avant que vous partiez, ou ce soir ?</p>
+    </details>
+    <details>
+      <summary>« On a déjà quelqu'un qui s'en occupe. »</summary>
+      <p>Très bien. Et il vous prend combien par mois ? Parce que lui vous forme et s'en va : vous n'avez plus personne à payer après.</p>
+    </details>
+    <details>
+      <summary>« C'est de la prospection ? »</summary>
+      <p>Oui, il démarre son activité et il cherche ses dix premiers clients. On a trouvé votre numéro sur votre site. Si vous ne voulez pas être rappelé, dites-le-moi, je vous retire tout de suite.</p>
+    </details>
+  </section>
+
+  <section>
+    <h2>Il a dit oui</h2>
+    <div class="msg">
+      <span class="quand">À envoyer tout de suite, tant qu'il est chaud</span>
+      <pre id="m1">Bonjour [prénom],
+
+Merci pour votre temps au téléphone, c'est [votre prénom] qui vous a appelé. Voici le lien pour choisir votre créneau de 30 minutes, la confirmation est immédiate :
+https://calendar.app.google/S5K8G7FLFWj4d4sF7
+
+On regardera ensemble ce que vos tâches répétitives vous coûtent sur une année.
+
+Si vous voulez voir ce qu'on fait avant : https://longueur-davance.fr/batiment
+
+À très vite,
+[votre prénom] et Amdy
+Longueur d'avance
+contact@longueur-davance.fr</pre>
+      <button class="copy" data-cible="m1">Copier le message</button>
+    </div>
+  </section>
+
+  <section>
+    <h2>Il n'a pas répondu</h2>
+    <div class="msg">
+      <span class="quand">Le lendemain, une seule fois</span>
+      <pre id="m2">Bonjour [prénom],
+
+J'ai essayé de vous joindre hier. Je travaille avec Amdy, de Longueur d'avance : il automatise les tâches qui reviennent chaque semaine et qui ne se facturent nulle part.
+
+Il cherche ses dix premiers clients. Si vous avez un créneau, 30 minutes suffisent à voir si ça vous concerne.
+
+Si ça ne vous parle pas, dites-le-moi et je ne vous relance pas.
+
+[votre prénom]</pre>
+      <button class="copy" data-cible="m2">Copier le message</button>
+    </div>
+  </section>
+
+  <section>
+    <h2>S'il refuse, noter pourquoi</h2>
+    <div class="motifs">
+      <span>Pas le temps</span><span>Trop cher</span><span>Voit pas l'intérêt</span>
+      <span>A déjà quelqu'un</span><span>Trop petit, travaille seul</span><span>Se méfie de l'IA</span>
+      <span>Pas le décideur</span><span>Part à la retraite</span><span>Raccroche au nez</span><span>Autre</span>
+    </div>
+    <p class="regle">Le motif compte autant que le refus. <b>Beaucoup de « pas le temps »</b> veut dire que l'accroche est à revoir ; <b>beaucoup de « trop cher »</b>, que le chiffre n'a pas été posé avant le prix ; <b>beaucoup de « pas le décideur »</b>, qu'on appelle le mauvais numéro.</p>
+  </section>
+
+  <section>
+    <h2>Les trois règles</h2>
+    <p class="regle"><b>Une seule question, puis le silence.</b> Celle de 0:35. Ne la sauvez pas en enchaînant.</p>
+    <p class="regle"><b>Jamais deux fois la même personne.</b> Un appel, un message le lendemain si personne ne décroche, puis on passe au suivant.</p>
+    <p class="regle"><b>Tout noter, surtout les refus.</b> Une phrase entendue au téléphone vaut plus que cent appels comptés.</p>
+  </section>
+
+</div>
+
+<script>
+document.querySelectorAll("button.copy").forEach(function (b) {
+  b.addEventListener("click", function () {
+    var t = document.getElementById(b.dataset.cible).textContent;
+    var done = function () {
+      var old = b.textContent;
+      b.textContent = "Copié";
+      b.classList.add("done");
+      setTimeout(function () { b.textContent = old; b.classList.remove("done"); }, 1800);
+    };
+    if (navigator.clipboard) { navigator.clipboard.writeText(t).then(done, done); }
+    else {
+      var a = document.createElement("textarea");
+      a.value = t; document.body.appendChild(a); a.select();
+      document.execCommand("copy"); document.body.removeChild(a); done();
+    }
+  });
+});
+</script>
