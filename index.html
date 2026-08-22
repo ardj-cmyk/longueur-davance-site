@@ -422,6 +422,16 @@ header {
 .car-btn:active { transform: scale(.92); }
 .car-btn:disabled { opacity: .3; cursor: default; }
 
+/* Les fleches vivent sur le carrousel, pas douze liens plus bas. */
+.car-zone { position: relative; }
+.car-nav {
+  position: absolute; top: 50%; margin-top: -20px; z-index: 3;
+  box-shadow: 0 3px 14px rgba(0,0,0,.12);
+}
+.car-nav-prev { left: 0; }
+.car-nav-next { right: 0; }
+@media (max-width: 579px) { .car-nav { display: none; } }
+
 .car-dots { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
 .car-dot {
   width: 6px; height: 6px; border-radius: 50%;
@@ -708,7 +718,7 @@ a.car-slide { padding-bottom: 42px; }
       <span class="marquee-item"><a href="/immobilier">Agence immobilière</a><span class="marquee-sep">·</span></span>
       <span class="marquee-item"><a href="/comptable">Cabinet comptable</a><span class="marquee-sep">·</span></span>
       <span class="marquee-item"><a href="/batiment">Artisan · TPE</a><span class="marquee-sep">·</span></span>
-      <span class="marquee-item">Agence de communication<span class="marquee-sep">·</span></span>
+      <span class="marquee-item"><a href="/communication">Agence de communication</a><span class="marquee-sep">·</span></span>
       <span class="marquee-item"><a href="/medical">Cabinet médical</a><span class="marquee-sep">·</span></span>
       <span class="marquee-item"><a href="/architecte">Architecte</a><span class="marquee-sep">·</span></span>
       <span class="marquee-item"><a href="/commercial">Commercial indépendant</a><span class="marquee-sep">·</span></span>
@@ -718,7 +728,7 @@ a.car-slide { padding-bottom: 42px; }
       <span class="marquee-item"><a href="/immobilier">Agence immobilière</a><span class="marquee-sep">·</span></span>
       <span class="marquee-item"><a href="/comptable">Cabinet comptable</a><span class="marquee-sep">·</span></span>
       <span class="marquee-item"><a href="/batiment">Artisan · TPE</a><span class="marquee-sep">·</span></span>
-      <span class="marquee-item">Agence de communication<span class="marquee-sep">·</span></span>
+      <span class="marquee-item"><a href="/communication">Agence de communication</a><span class="marquee-sep">·</span></span>
       <span class="marquee-item"><a href="/medical">Cabinet médical</a><span class="marquee-sep">·</span></span>
       <span class="marquee-item"><a href="/architecte">Architecte</a><span class="marquee-sep">·</span></span>
       <span class="marquee-item"><a href="/commercial">Commercial indépendant</a><span class="marquee-sep">·</span></span>
@@ -774,82 +784,95 @@ a.car-slide { padding-bottom: 42px; }
     <h2 class="rv">Ce que ça représente, métier par métier</h2>
 
     <!-- Carousel -->
-    <div class="car-outer" id="car-outer">
-      <div class="car-track" id="car-track" role="region" aria-label="Carrousel des métiers" aria-live="polite">
-
-        <a class="car-slide" href="/avocat" role="group" aria-label="Cabinet d'avocat : voir la page métier">
-          <div class="car-stat-num" data-count="26">26</div>
-          <div class="car-stat-unit">h / semaine perdues</div>
-          <div class="car-sector">Cabinet d'avocat</div>
-          <div class="car-lbl">Individuel + assistante</div>
-          <p class="car-desc">Soit <b>~110 000 €/an</b> — jusqu'à <b>20 % de temps facturable</b> récupérable, soit 1 à 2 dossiers de plus par mois.</p>
-        </a>
-
-        <a class="car-slide" href="/immobilier" role="group" aria-label="Agence immobilière : voir la page métier">
-          <div class="car-stat-num" data-count="8">8</div>
-          <div class="car-stat-unit">h / semaine perdues</div>
-          <div class="car-sector">Agence immobilière</div>
-          <div class="car-lbl">Mandats + visites</div>
-          <p class="car-desc">Annonces, relances, comptes-rendus. Levier révélé souvent : créer vos <b>visites 3D vous-même</b>, sans prestataire.</p>
-        </a>
-
-        <a class="car-slide" href="/comptable" role="group" aria-label="Cabinet comptable : voir la page métier">
-          <div class="car-stat-num" data-count="15">15</div>
-          <div class="car-stat-unit">h / semaine perdues</div>
-          <div class="car-sector">Cabinet comptable</div>
-          <div class="car-lbl">2-5 collaborateurs</div>
-          <p class="car-desc">Relances de pièces, saisies, courriers types : <b>10 à 20 h/semaine</b> cumulées — l'équivalent d'un <b>mi-temps</b> absorbé.</p>
-        </a>
-
-        <a class="car-slide" href="/batiment" role="group" aria-label="Artisan · TPE : voir la page métier">
-          <div class="car-stat-num" data-count="8">8</div>
-          <div class="car-stat-unit">h / semaine perdues</div>
-          <div class="car-sector">Artisan · TPE</div>
-          <div class="car-lbl">Gérant seul ou en binôme</div>
-          <p class="car-desc">Devis, relances impayés, réponses répétitives : des <b>soirées rendues</b> et des devis qui partent le jour même.</p>
-        </a>
-
-        <a class="car-slide" href="/communication" role="group" aria-label="Agence de com : voir la page métier">
-          <div class="car-stat-num" data-count="10">10</div>
-          <div class="car-stat-unit">h / semaine perdues</div>
-          <div class="car-sector">Agence de com</div>
-          <div class="car-lbl">Studio ou freelance</div>
-          <p class="car-desc">Reporting client, calendriers, comptes-rendus : <b>8 à 12 h/semaine</b> d'admin — du temps repris sur le <b>créatif facturé</b>.</p>
-        </a>
-
-        <a class="car-slide" href="/medical" role="group" aria-label="Cabinet médical : voir la page métier">
-          <div class="car-stat-num" data-count="6">6</div>
-          <div class="car-stat-unit">h / semaine perdues</div>
-          <div class="car-sector">Cabinet médical</div>
-          <div class="car-lbl">Praticien ou petit cabinet</div>
-          <p class="car-desc">Prise de RDV, rappels, coordination : plusieurs heures d'admin — et des <b>rendez-vous manqués en moins</b>.</p>
-        </a>
-
-        <a class="car-slide" href="/architecte" role="group" aria-label="Architecte : voir la page métier">
-          <div class="car-stat-num" data-count="8">8</div>
-          <div class="car-stat-unit">h / semaine perdues</div>
-          <div class="car-sector">Architecte</div>
-          <div class="car-lbl">Libéral ou petite agence</div>
-          <p class="car-desc">Dossiers, permis, comptes-rendus de chantier : plusieurs heures par semaine — et des <b>rendus qui partent plus vite</b>.</p>
-        </a>
-
-        <a class="car-slide" href="/commercial" role="group" aria-label="Commercial indépendant : voir la page métier">
-          <div class="car-stat-num" data-count="8">8</div>
-          <div class="car-stat-unit">h / semaine perdues</div>
-          <div class="car-sector">Commercial indépendant</div>
-          <div class="car-lbl">Agent co, apporteur d'affaires</div>
-          <p class="car-desc">Prospection, relances, CRM : <b>6 à 10 h/semaine</b> hors vente — du temps rendu au terrain qui rapporte.</p>
-        </a>
-
-        <a class="car-slide" href="/solo" role="group" aria-label="Solo · Créateur d'entreprise : voir la page métier">
-          <div class="car-stat-num" data-count="10">10</div>
-          <div class="car-stat-unit">h / semaine perdues</div>
-          <div class="car-sector">Solo · Créateur d'entreprise</div>
-          <div class="car-lbl">Budget serré</div>
-          <p class="car-desc">L'IA maîtrisée vous donne <b>l'assistant, le rédacteur et l'analyste</b> que vous ne pouvez pas encore payer.</p>
-        </a>
-
+    <div class="car-zone">
+      <div class="car-outer" id="car-outer">
+        <div class="car-track" id="car-track" role="region" aria-label="Carrousel des métiers" aria-live="polite">
+  
+          <a class="car-slide" href="/avocat" role="group" aria-label="Cabinet d'avocat : voir la page métier">
+            <div class="car-stat-num" data-count="5">5</div>
+            <div class="car-stat-unit">h / semaine récupérables</div>
+            <div class="car-sector">Cabinet d'avocat</div>
+            <div class="car-lbl">Individuel + assistante</div>
+            <p class="car-desc">Courriers types, synthèses de dossier, relances de pièces : autant d'heures rendues au temps facturable.</p>
+          </a>
+  
+          <a class="car-slide" href="/immobilier" role="group" aria-label="Agence immobilière : voir la page métier">
+            <div class="car-stat-num" data-count="7">7</div>
+            <div class="car-stat-unit">h / semaine récupérables</div>
+            <div class="car-sector">Agence immobilière</div>
+            <div class="car-lbl">Mandats + visites</div>
+            <p class="car-desc">Annonces, comptes rendus de visite, portails. Et le réaménagement virtuel d'un bien vide, avec sa mention obligatoire.</p>
+          </a>
+  
+          <a class="car-slide" href="/comptable" role="group" aria-label="Cabinet comptable : voir la page métier">
+            <div class="car-stat-num" data-count="5">5</div>
+            <div class="car-stat-unit">h / semaine récupérables</div>
+            <div class="car-sector">Cabinet comptable</div>
+            <div class="car-lbl">2-5 collaborateurs</div>
+            <p class="car-desc">Relances de pièces, courriers types, synthèses avant rendez-vous : l'administratif qui ne se facture nulle part.</p>
+          </a>
+  
+          <a class="car-slide" href="/batiment" role="group" aria-label="Artisan · TPE : voir la page métier">
+            <div class="car-stat-num" data-count="8">8</div>
+            <div class="car-stat-unit">h / semaine récupérables</div>
+            <div class="car-sector">Artisan · TPE</div>
+            <div class="car-lbl">Gérant seul ou en binôme</div>
+            <p class="car-desc">Devis, impayés relancés, demandes entrantes, comptes rendus de chantier : des soirées rendues et des devis qui partent le jour même.</p>
+          </a>
+  
+          <a class="car-slide" href="/communication" role="group" aria-label="Agence de com : voir la page métier">
+            <div class="car-stat-num" data-count="9">9</div>
+            <div class="car-stat-unit">h / semaine récupérables</div>
+            <div class="car-sector">Agence de com</div>
+            <div class="car-lbl">Studio ou freelance</div>
+            <p class="car-desc">Reportings clients, comptes rendus, calendriers éditoriaux. Et le montage, découpé automatiquement.</p>
+          </a>
+  
+          <a class="car-slide" href="/medical" role="group" aria-label="Cabinet médical : voir la page métier">
+            <div class="car-stat-num" data-count="6">6</div>
+            <div class="car-stat-unit">h / semaine récupérables</div>
+            <div class="car-sector">Cabinet médical</div>
+            <div class="car-lbl">Praticien ou petit cabinet</div>
+            <p class="car-desc">Prise de rendez-vous, rappels, coordination : de l'administratif en moins et des rendez-vous manqués en moins.</p>
+          </a>
+  
+          <a class="car-slide" href="/architecte" role="group" aria-label="Architecte : voir la page métier">
+            <div class="car-stat-num" data-count="7">7</div>
+            <div class="car-stat-unit">h / semaine récupérables</div>
+            <div class="car-sector">Architecte</div>
+            <div class="car-lbl">Libéral ou petite agence</div>
+            <p class="car-desc">Comptes rendus de chantier, dépouillements, métrés : les heures que le projet ne paie pas.</p>
+          </a>
+  
+          <a class="car-slide" href="/commercial" role="group" aria-label="Commercial indépendant : voir la page métier">
+            <div class="car-stat-num" data-count="8">8</div>
+            <div class="car-stat-unit">h / semaine récupérables</div>
+            <div class="car-sector">Commercial indépendant</div>
+            <div class="car-lbl">Agent co, apporteur d'affaires</div>
+            <p class="car-desc">Prospection, relances, suivi tenu le soir : du temps rendu au terrain, le seul qui rapporte.</p>
+          </a>
+  
+          <a class="car-slide" href="/solo" role="group" aria-label="Solo · Créateur d'entreprise : voir la page métier">
+            <div class="car-stat-num" data-count="8">8</div>
+            <div class="car-stat-unit">h / semaine récupérables</div>
+            <div class="car-sector">Solo · Créateur d'entreprise</div>
+            <div class="car-lbl">Budget serré</div>
+            <p class="car-desc">Devis, factures, relances, comptes rendus : tout ce que vous faites après la journée de travail.</p>
+          </a>
+  
+        </div>
       </div>
+      <button class="car-btn car-nav car-nav-prev" id="car-prev" aria-label="Métier précédent">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 3L5 8l5 5"/></svg>
+      </button>
+      <button class="car-btn car-nav car-nav-next" id="car-next" aria-label="Métier suivant">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 3l5 5-5 5"/></svg>
+      </button>
+    </div>
+
+    <div class="car-controls">
+      <div class="car-dots" id="car-dots" role="tablist" aria-label="Navigation du carrousel"></div>
+      <div class="car-progress" id="car-progress" aria-live="polite"></div>
     </div>
 
     <p class="micro" style="text-align:center;margin-top:26px;font-size:15px;opacity:.8">Votre métier, en une page :</p>
@@ -868,19 +891,6 @@ a.car-slide { padding-bottom: 42px; }
       <a href="/solo">Solo &amp; créateur</a>
     </nav>
 
-    <!-- Controls -->
-    <div class="car-controls">
-      <div class="car-arrows">
-        <button class="car-btn" id="car-prev" aria-label="Précédent">
-          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 3L5 8l5 5"/></svg>
-        </button>
-        <button class="car-btn" id="car-next" aria-label="Suivant">
-          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 3l5 5-5 5"/></svg>
-        </button>
-      </div>
-      <div class="car-dots" id="car-dots" role="tablist" aria-label="Navigation du carrousel"></div>
-      <div class="car-progress" id="car-progress" aria-live="polite"></div>
-    </div>
 
     <p class="method-note rv">Votre métier n'y figure pas ? La méthode s'adapte à toute activité qui répète des tâches. Chaque chiffre est sourcé : vos propres déclarations, votre taux horaire, un calcul conservateur (46 semaines/an). Ce qui ne peut pas être justifié n'apparaît pas.</p>
   </div>
@@ -1010,7 +1020,7 @@ a.car-slide { padding-bottom: 42px; }
       </div>
       <div class="footer-bottom">
         <span>© Longueur d'avance 2026 · contact@longueur-davance.fr</span>
-        <span><a href="/confidentialite">Confidentialité</a>
+        <span><a href="/confidentialite">Confidentialité</a> · <a href="/verdict">Le Verdict</a>
         <a href="/cgv">CGV</a> · <a href="/mentions-legales">Mentions légales</a></span>
         <span class="micro">Aussi pour : <a href="/garage">garages</a> · <a href="/camping">campings</a> · <a href="/recrutement">recrutement</a></span>
       </div>

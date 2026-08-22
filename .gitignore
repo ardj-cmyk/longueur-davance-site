@@ -2,3 +2,4 @@
 .vercel
 node_modules
 assets/portrait-original.jpg
+__pycache__/
