@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "longueur-davance",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8129", "--directory", "/Users/richardjouanguy/ARDJ/site/landing"],
+      "port": 8129
+    }
+  ]
+}

@@ -55,6 +55,11 @@ POIDS = {
   "garage":       [3, 2, 3, 3],
   "camping":      [3, 4, 1, 3, 2, 1],
   "communication":[4, 4, 4, 3, 2, 3],
+  # Traiteur evenementiel. Source de calage : ~15 h d'administratif par semaine,
+  # dont 5 h de devis, 3 h de relances, 3 h de facturation, 4 h de planning des
+  # extras (editeurs de logiciels traiteurs, donc partie interessee : ordre de
+  # grandeur, pas mesure). On ne revendique qu'environ la moitie de ces 15 h.
+  "traiteur":     [4, 4, 3, 2, 2, 2, 2],
   "medical":      [3, 3, 4, 3, 2],
   "commercial":   [4, 4, 3, 3, 3, 2],
   "solo":         [4, 3, 4, 3, 2, 2],
@@ -275,6 +280,29 @@ METIERS = {
        "Non, parce qu'on ne touche pas à la création. On automatise le reporting, "
        "les comptes rendus et les relances. Ce qui fait votre valeur reste écrit "
        "par vous, avec vos idées.")),
+"traiteur": dict(
+  titre="Traiteur événementiel : devis et relances · Longueur d'avance",
+  nom="Traiteurs", pill="Traiteurs et événementiel",
+  h1="Le devis du mardi, pour la prestation de samedi.",
+  sub="Vous produisez le week-end et vous administrez la semaine. Le devis, la "
+      "relance, les commandes : c'est là que part le temps, et c'est là que "
+      "partent aussi les affaires qu'on n'a pas relancées.",
+  taches=["le devis événementiel rédigé et chiffré depuis un brief",
+          "la relance des devis restés sans réponse, au bon moment",
+          "la facturation et le suivi des acomptes",
+          "les réponses aux demandes entrantes, avec la disponibilité vérifiée",
+          "les fiches techniques et le coût de revient quand un prix bouge",
+          "la liste de production et les commandes fournisseurs de la semaine",
+          "les étiquettes et la liste des allergènes"],
+  taux=45, taux_lbl="le coût horaire chargé de la personne qui fait vos devis",
+  punch="Un devis relancé se signe bien plus souvent qu'un devis oublié. Sur ce "
+        "métier, le temps récupéré compte moins que les affaires rattrapées.",
+  reve="Et le planning des extras du week-end, pré-rempli et vérifié.",
+  faq=("On a déjà un logiciel de devis.",
+       "Tant mieux, on ne le remplace pas. Un logiciel vous donne un modèle à "
+       "remplir ; ce qu'on installe, c'est ce qui le remplit à partir de votre "
+       "brief, et ce qui relance tout seul quand la réponse ne vient pas.")),
+
 "medical": dict(
   titre="Cabinet médical : rendez-vous, courriers · Longueur d'avance",
   nom="Cabinets médicaux", pill="Praticiens et cabinets de santé",
