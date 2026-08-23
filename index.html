@@ -1136,31 +1136,44 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu();
   outer.addEventListener('mouseleave', startAuto);
 
   // ── Drag / swipe
+  // On ne capture le pointeur qu'une fois le glissement reellement engage.
+  // Capturer des l'appui envoyait le click sur la piste au lieu du lien de la
+  // carte : les cartes n'etaient plus cliquables du tout.
+  let pretAGlisser = false;
+  const SEUIL = 6;
   track.addEventListener('pointerdown', e => {
-    isDragging = true;
+    pretAGlisser = true;
+    isDragging = false;
     dragStartX = e.clientX;
     startOffset = idx * slideW();
-    track.setPointerCapture(e.pointerId);
-    track.classList.add('dragging');
-    stopAuto();
   });
   track.addEventListener('pointermove', e => {
-    if (!isDragging) return;
+    if (!pretAGlisser) return;
+    const delta = dragStartX - e.clientX;
+    if (!isDragging) {
+      if (Math.abs(delta) < SEUIL) return;   // simple clic : on ne touche a rien
+      isDragging = true;
+      track.setPointerCapture(e.pointerId);
+      track.classList.add('dragging');
+      stopAuto();
+    }
     dragCurrentX = e.clientX;
-    const delta = dragStartX - dragCurrentX;
     track.style.transition = 'none';
     track.style.transform = `translateX(-${startOffset + delta}px)`;
   });
   track.addEventListener('pointerup', e => {
-    if (!isDragging) return;
+    pretAGlisser = false;
+    if (!isDragging) return;                 // c'etait un clic, le lien s'ouvre
     isDragging = false;
     track.classList.remove('dragging');
+    if (track.hasPointerCapture(e.pointerId)) track.releasePointerCapture(e.pointerId);
     const delta = dragStartX - e.clientX;
     if (Math.abs(delta) > 50) { delta > 0 ? next() : prev(); }
     else goto(idx);
     startAuto();
   });
   track.addEventListener('pointercancel', () => {
+    pretAGlisser = false;
     isDragging = false;
     track.classList.remove('dragging');
     goto(idx);
