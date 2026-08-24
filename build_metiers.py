@@ -60,6 +60,10 @@ POIDS = {
   # extras (editeurs de logiciels traiteurs, donc partie interessee : ordre de
   # grandeur, pas mesure). On ne revendique qu'environ la moitie de ces 15 h.
   "traiteur":     [4, 4, 3, 2, 2, 2, 2],
+  # Transport. Aucun chiffre d'heures independant trouve : les seules sources
+  # qui donnent des gains sont des editeurs de logiciels de transport, parties
+  # interessees. Ponderation prudente, a corriger au premier vrai audit.
+  "transport":    [4, 4, 3, 3, 2, 3, 2],
   "medical":      [3, 3, 4, 3, 2],
   "commercial":   [4, 4, 3, 3, 3, 2],
   "solo":         [4, 3, 4, 3, 2, 2],
@@ -302,6 +306,31 @@ METIERS = {
        "Tant mieux, on ne le remplace pas. Un logiciel vous donne un modèle à "
        "remplir ; ce qu'on installe, c'est ce qui le remplit à partir de votre "
        "brief, et ce qui relance tout seul quand la réponse ne vient pas.")),
+
+"transport": dict(
+  titre="Transport et logistique : cotations, litiges · Longueur d'avance",
+  nom="Transport et logistique", pill="Transporteurs et logisticiens",
+  h1="La cotation part demain. Le camion, lui, roule à vide aujourd'hui.",
+  sub="Une cotation qui part dans l'heure gagne contre une meilleure cotation "
+      "qui part le lendemain. Le reste du temps s'en va dans les litiges, les "
+      "pièces de tournée et les relances que personne n'a le temps de faire.",
+  taches=["la cotation chiffrée et rédigée depuis les paramètres du trajet",
+          "la relance des cotations restées sans réponse",
+          "le dossier de litige : courrier, pièces à joindre, délais rappelés",
+          "les pièces de la tournée, pré-remplies depuis les commandes",
+          "les questions qui reviennent des donneurs d'ordre",
+          "la facturation et la relance des impayés",
+          "l'alerte avant expiration des licences et attestations"],
+  taux=45, taux_lbl="le coût horaire chargé de la personne qui traite l'exploitation",
+  punch="Une cotation oubliée n'est pas du temps perdu, c'est un camion qui roule "
+        "à vide. Sur ce métier, la relance rapporte plus que tout le reste réuni.",
+  reve="Et l'alerte avant qu'une licence expire, parce qu'une licence expirée "
+       "immobilise.",
+  faq=("On a déjà un logiciel d'exploitation.",
+       "On ne le remplace pas. Un logiciel range et suit ce que vous saisissez. "
+       "Ce qu'on installe, c'est ce qui écrit à votre place : la cotation depuis "
+       "la demande, le courrier de litige depuis les faits, la relance qui part "
+       "sans que personne y pense.")),
 
 "medical": dict(
   titre="Cabinet médical : rendez-vous, courriers · Longueur d'avance",
