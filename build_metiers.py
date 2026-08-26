@@ -137,10 +137,11 @@ METIERS = {
         "en plus, à effectif constant.",
   reve="Et le réaménagement virtuel d'une pièce vide, ou la vidéo verticale tirée "
        "des photos de l'annonce.",
-  faq=("Vous faites de la visite 3D ?",
-       "Non, et personne ne peut le faire sans caméra sur place : une visite virtuelle "
-       "est un problème de captation, pas de génération. En revanche, le réaménagement "
-       "virtuel d'une photo existante et la vidéo tirée des photos de l'annonce, oui.")),
+  faq=("Vous faites la visite virtuelle à notre place ?",
+       "Non, on vous apprend à la faire vous-même. Elle se capture aujourd'hui avec un "
+       "téléphone, l'application est gratuite, et l'abonnement se compte en dizaines "
+       "d'euros par mois quand un prestataire facture 149 à 249 € par bien. On installe "
+       "la méthode, vous gardez la compétence, et vous arrêtez de payer à chaque mandat.")),
 
 "avocat": dict(
   titre="Avocat : courriers, synthèses de dossier · Longueur d'avance",
