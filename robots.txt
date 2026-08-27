@@ -2,6 +2,8 @@ User-agent: *
 Allow: /
 Disallow: /merci
 Disallow: /merci.html
+Disallow: /fiches
+Disallow: /fiches.html
 
 # Robots des moteurs de reponse : autorises explicitement.
 User-agent: GPTBot

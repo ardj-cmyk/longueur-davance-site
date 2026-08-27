@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Fiches d'appel</title>
+<style>
+ html,body{margin:0;background:#fdfcf9;color:#1a2332;
+   font-family:-apple-system,"Helvetica Neue",Arial,sans-serif}
+ .att{max-width:520px;margin:22vh auto;padding:0 24px;text-align:center;line-height:1.6}
+ .att b{display:block;font-size:19px;margin-bottom:8px}
+ .att span{color:#6b7280;font-size:14.5px}
+</style></head>
+<body>
+<div class="att" id="att"><b>Chargement des fiches…</b><span>Quelques secondes.</span></div>
+<script>
+/* Cette page ne contient AUCUNE donnee prospect : le depot du site est public
+   sur GitHub, y committer des noms, des portables et des adresses mail serait
+   une republication de donnees personnelles indexable par tous.
+
+   Les fiches vivent sur le stockage prive, a une adresse tiree au hasard, et
+   cette adresse voyage dans le fragment (#) du lien. Un fragment n'est jamais
+   transmis au serveur : il n'apparait donc ni dans les journaux de Vercel, ni
+   dans les referrers, ni chez qui que ce soit d'autre que le navigateur.
+
+   document.write et pas innerHTML : innerHTML n'execute pas les <script>, la
+   page serait morte (aucun bouton ne repondrait). L'origine reste celle du
+   site, donc le localStorage de l'appelante survit d'une session a l'autre. */
+(function () {
+  var src = decodeURIComponent(location.hash.slice(1));
+  var att = document.getElementById('att');
+  function echec(m, d) {
+    att.innerHTML = '<b>' + m + '</b><span>' + d + '</span>';
+  }
+  if (!/^https:\/\/[a-z0-9]+\.supabase\.co\/storage\/v1\/object\/public\//.test(src))
+    return echec('Lien incomplet',
+      'Le lien a ete coupe en route. Redemandez-le a Amdy et ouvrez-le en entier.');
+  fetch(src)
+    .then(function (r) { if (!r.ok) throw 0; return r.text(); })
+    .then(function (h) {
+      if (h.indexOf('<html') === -1) throw 0;
+      document.open(); document.write(h); document.close();
+    })
+    .catch(function () {
+      echec('Fiches introuvables',
+        'Verifiez que vous avez du reseau, puis rechargez la page. ' +
+        'Si ca recommence, prevenez Amdy.');
+    });
+})();
+</script>
+</body></html>
