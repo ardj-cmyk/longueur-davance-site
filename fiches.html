@@ -34,7 +34,16 @@
   if (!/^https:\/\/[a-z0-9]+\.supabase\.co\/storage\/v1\/object\/public\//.test(src))
     return echec('Lien incomplet',
       'Le lien a ete coupe en route. Redemandez-le a Amdy et ouvrez-le en entier.');
-  fetch(src)
+  /* Parametre anti-cache. Mesure du 28/08/2026 : le stockage renvoie bien
+     cache-control: no-cache, MAIS Cloudflare sert quand meme l'ancienne version
+     (cf-cache-status: HIT, etag de la version precedente, trois essais de suite).
+     Un lot corrige au meme nom continuait donc d'afficher les anciennes fiches.
+     Avec un parametre different a chaque chargement, la reponse est toujours
+     fraiche, verifie. Consequence : un lien devient DEFINITIF. On corrige un lot
+     autant de fois qu'on veut sans tuer le lien deja parti sur le telephone de
+     l'appelante, ce qui est arrive une fois et lui a fait perdre sa liste. */
+  fetch(src + (src.indexOf('?') === -1 ? '?' : '&') + 'v=' + Date.now(),
+        { cache: 'no-store' })
     .then(function (r) { if (!r.ok) throw 0; return r.text(); })
     .then(function (h) {
       if (h.indexOf('<html') === -1) throw 0;
