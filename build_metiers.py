@@ -159,10 +159,19 @@ METIERS = {
         "on cadre en début de séance ce qui peut passer par un outil externe et ce qui "
         "ne doit jamais en sortir.",
   reve="",
+  # Seul metier qui porte le bloc classeur pour l'instant : c'est celui ou la
+  # sortie doit imiter une ecriture personnelle pour etre seulement envoyable.
+  classeur=True,
   faq=("Et le secret professionnel ?",
        "C'est le point de départ de la séance. On identifie ensemble ce qui peut sortir "
        "du cabinet et ce qui ne le peut pas, et on construit uniquement sur la première "
-       "catégorie. Aucune donnée de dossier ne transite par nous, jamais.")),
+       "catégorie. Aucune donnée de dossier ne transite par nous, jamais."),
+  faq2=("Vous allez lire mes dossiers pour construire ce classeur ?",
+        "Non. On travaille sur des modèles vidés de leur contenu, pendant la séance, sur "
+        "votre écran. Un dossier réel n'a aucune raison d'entrer dans le classeur, et n'y "
+        "entre pas. On regarde aussi votre abonnement : selon la formule, un service d'IA "
+        "conserve les échanges et peut s'en servir pour entraîner ses modèles. C'est un "
+        "réglage à vérifier avant la première ligne, pas après.")),
 
 "comptable": dict(
   titre="Expert-comptable : relances de pièces · Longueur d'avance",
@@ -472,6 +481,9 @@ GABARIT = """<!DOCTYPE html>
 .dark {{ background:var(--ink); color:var(--paper); }}
 .dark h2 {{ color:var(--paper); }} .dark p {{ color:rgba(253,252,249,.76); }}
 .dark .kicker {{ color:var(--gold); }} .dark .kicker::before {{ background:var(--gold); }}
+.clas {{ display:grid; gap:0; margin-top:30px; border-top:1px solid var(--line); }}
+.clas div {{ border-bottom:1px solid var(--line); padding:18px 0; font-size:15.5px; line-height:1.65; }}
+.clas strong {{ display:block; font-weight:600; margin-bottom:4px; color:var(--accent); }}
 .nope {{ display:grid; gap:14px; grid-template-columns:1fr; margin-top:26px; }}
 @media (min-width:700px) {{ .nope {{ grid-template-columns:repeat(2,1fr); }} }}
 .nope div {{ border-left:2px solid var(--accent); padding:4px 0 4px 16px; font-size:14.5px; line-height:1.65; }}
@@ -591,7 +603,7 @@ details p {{ font-size:14.5px; color:var(--muted); line-height:1.7; padding-bott
     </ol>
   </div>
 </section>
-
+{classeur_html}
 <section class="dark">
   <div class="wrap rv">
     <div class="kicker">La règle du jeu</div>
@@ -614,7 +626,7 @@ details p {{ font-size:14.5px; color:var(--muted); line-height:1.7; padding-bott
   <div class="wrap rv" style="max-width:760px">
     <div class="kicker">Questions</div>
     <h2 style="font-size:clamp(26px,5.5vw,40px);margin-bottom:24px">Avant de réserver.</h2>
-    <details><summary class="faq-q">{faq_q}</summary><p>{faq_r}</p></details>
+    <details><summary class="faq-q">{faq_q}</summary><p>{faq_r}</p></details>{faq2_html}
     <details><summary class="faq-q">Je n'y connais rien en informatique.</summary>
       <p>C'est le cas de la plupart des gens que j'accompagne. Rien à installer avant,
          rien à coder pendant, et la marche à suivre vous est remise par écrit.</p></details>
@@ -727,6 +739,41 @@ details p {{ font-size:14.5px; color:var(--muted); line-height:1.7; padding-bott
 </html>
 """
 
+# Ce bloc n'existe que sur les metiers ou la sortie doit ressembler a une
+# ecriture personnelle pour etre seulement envoyable. La quatrieme ligne
+# (« ce qui part ») a l'air d'un aveu et c'est voulu : sans elle le lecteur
+# comprend « mon classeur reste chez moi donc rien ne sort », ce qui est faux,
+# et le decouvrir apres coup coute la confiance definitivement.
+BLOC_CLASSEUR = """
+<section>
+  <div class="wrap rv">
+    <div class="kicker">Ce qui change tout</div>
+    <h2 style="font-size:clamp(26px,5.5vw,40px);max-width:18ch">Votre façon de rédiger, pas celle d'une IA.</h2>
+    <p class="micro" style="max-width:58ch;font-size:15.5px;line-height:1.75;margin:16px 0 0">
+      Un outil qui ne connaît pas votre cabinet vous rend un courrier qu'il faut
+      réécrire. Vous avez perdu du temps, pas gagné.</p>
+    <p class="micro" style="max-width:58ch;font-size:15.5px;line-height:1.75;margin:14px 0 0">
+      La première séance sert donc à autre chose : on constitue <b>le classeur du
+      cabinet</b>. Vos trames, vos clauses habituelles, la structure de vos
+      conclusions, les formules que vous employez avec un confrère et celles que
+      vous n'employez jamais. Une fois. Après ça, chaque courrier, chaque synthèse,
+      chaque bordereau sort déjà écrit comme vous l'écrivez.</p>
+    <div class="clas">
+      <div><strong>Ce que le classeur contient</strong>Vos modèles et vos clauses,
+        vidés de leur contenu pendant la séance.</div>
+      <div><strong>Ce qu'il ne contient jamais</strong>Un dossier, un nom de client, une pièce.</div>
+      <div><strong>Où le classeur est rangé</strong>Chez vous, dans vos documents.
+        Vous le modifiez, vous le supprimez, il ne dépend d'aucun abonnement.
+        Nous n'en avons aucune copie.</div>
+      <div><strong>Ce qui part quand vous vous en servez</strong>Son contenu est envoyé
+        au service d'IA que vous avez choisi, à chaque utilisation. C'est précisément
+        pour ça qu'il ne contient aucun dossier, et qu'on regarde votre abonnement
+        dès la première séance.</div>
+    </div>
+  </div>
+</section>
+"""
+
 for slug, m in METIERS.items():
     bas, haut = fourchette(slug, m["taches"])
     poids = POIDS[slug]
@@ -753,7 +800,10 @@ for slug, m in METIERS.items():
         # valeur par defaut est arrondie a cote (45 affichait 47)
         taux_min=max(20, (int(m["taux"] * 0.5) // 5) * 5),
         taux_max=int(m["taux"] * 2),
-        faq_q=m["faq"][0], faq_r=m["faq"][1])
+        faq_q=m["faq"][0], faq_r=m["faq"][1],
+        classeur_html=BLOC_CLASSEUR if m.get("classeur") else "",
+        faq2_html=("\n    <details><summary class=\"faq-q\">%s</summary><p>%s</p></details>"
+                   % m["faq2"]) if m.get("faq2") else "")
     (ICI / f"{slug}.html").write_text(page, encoding="utf-8")
     print(f"  {slug}.html")
 print(f"\n{len(METIERS)} pages metier generees")
