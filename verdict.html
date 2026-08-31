@@ -86,7 +86,11 @@ h1 em{font-style:italic;color:var(--accent);}
 label{display:block;font-size:14.5px;font-weight:600;margin-bottom:8px;}
 label .opt{font-weight:400;color:var(--muted-d);}
 .hint{font-size:12.5px;color:var(--muted);margin-top:6px;}
-input[type=url],input[type=email],textarea{
+/* input[type=text] etait absent de ce selecteur : le champ prenom et le champ
+   « Precisez » ne recevaient AUCUN style et tombaient sur le rendu par defaut
+   du navigateur, d'ou les coins carres au milieu d'un formulaire arrondi, la
+   largeur par defaut de 20 caracteres, et Arial 13,3px au lieu d'Inter. */
+input[type=url],input[type=email],input[type=text],textarea{
   width:100%;font-family:inherit;font-size:15.5px;color:var(--ink);background:var(--paper);
   border:1.5px solid var(--line);border-radius:var(--r);padding:13px 15px;
   transition:border-color .2s,background .2s,box-shadow .2s;
@@ -96,6 +100,25 @@ input:hover,textarea:hover{border-color:var(--muted-d);}
 input:focus,textarea:focus{outline:none;border-color:var(--accent);background:#fff;box-shadow:0 0 0 3px var(--accent-d);}
 input:valid:not(:placeholder-shown){border-color:rgba(180,85,30,.45);}
 textarea{resize:vertical;min-height:80px;}
+
+/* Le lien est le seul champ sans lequel le formulaire n'a aucun sens : on ne
+   peut rien verifier sans lui. Il etait pourtant le premier d'une pile de
+   champs tous identiques, donc rien ne le distinguait. Il est sorti de la pile
+   et pose sur un fond accentue, avec une icone qui dit ce qu'on attend. */
+.field-lead{
+  background:var(--accent-d);border:1px solid rgba(180,85,30,.22);
+  border-radius:var(--r-lg);padding:20px 20px 18px;margin-bottom:26px;
+}
+.field-lead label{font-size:16.5px;}
+.field-lead input{font-size:17px;padding:16px 16px 16px 46px;border-width:2px;background:#fff;}
+.field-lead .hint{color:var(--muted);}
+.with-icon{position:relative;}
+.with-icon svg{
+  position:absolute;left:16px;top:50%;transform:translateY(-50%);
+  width:18px;height:18px;pointer-events:none;
+  stroke:var(--muted-d);transition:stroke .2s;
+}
+.with-icon:focus-within svg{stroke:var(--accent);}
 
 .check{
   display:flex;gap:12px;align-items:flex-start;margin-bottom:14px;
@@ -187,9 +210,12 @@ footer a:hover{color:var(--accent);}
     <p class="lead rv">Un reel vous vend un outil IA ? On vérifie ce qu'il fait <b>vraiment</b>, <b>s'il est conforme RGPD</b>, ce qu'il coûte, ce que deviennent vos données, et <b>ce que ça peut vous coûter</b> si vous n'êtes pas dans les clous.</p>
 
     <form class="card rv" id="form" novalidate>
-      <div class="field">
-        <label for="lien">Le lien à vérifier</label>
-        <input type="url" id="lien" name="lien" required placeholder="https://www.instagram.com/reel/...">
+      <div class="field field-lead">
+        <label for="lien">Collez le lien à vérifier</label>
+        <div class="with-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg>
+          <input type="url" id="lien" name="lien" required placeholder="https://www.instagram.com/reel/...">
+        </div>
         <p class="hint">Reel, TikTok, page de vente, post LinkedIn, tout contenu public.</p>
       </div>
 
