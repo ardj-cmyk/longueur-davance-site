@@ -579,6 +579,283 @@ a.car-slide { padding-bottom: 42px; }
   color: var(--ink); text-decoration: none; background: #fff;
 }
 .metiers-liste a:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ═══════════════════════════════════════════════════════════════
+   REFONTE DYNAMIQUE — couche ajoutee le 06/10/2026.
+   Ne remplace rien : elle se superpose aux regles ci-dessus.
+   ═══════════════════════════════════════════════════════════════ */
+
+:root{
+  --ease:cubic-bezier(.22,.61,.36,1);
+  --z1:0 1px 2px rgba(18,25,43,.04),0 2px 8px rgba(18,25,43,.05);
+  --z2:0 2px 4px rgba(18,25,43,.05),0 10px 26px rgba(18,25,43,.09);
+  --z3:0 6px 12px rgba(18,25,43,.07),0 26px 60px rgba(18,25,43,.14);
+  --z4:0 10px 20px rgba(18,25,43,.09),0 44px 96px rgba(18,25,43,.2);
+}
+section{padding:96px 0}
+.wrap{max-width:1180px}
+
+/* jauge */
+.progress{position:fixed;top:0;left:0;height:2px;width:100%;z-index:200;pointer-events:none}
+.progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--gold),var(--accent));box-shadow:0 0 12px rgba(180,85,30,.45)}
+
+/* ═══ 1. HERO PLEIN ECRAN ═══ */
+.hero{min-height:100svh;display:flex;flex-direction:column;justify-content:center;
+  position:relative;overflow:hidden;padding:88px 0 72px}
+.hero::before{content:'';position:absolute;inset:-30% -10% auto -10%;height:150%;
+  background:
+    radial-gradient(40% 44% at 14% 22%, rgba(232,184,138,.34), transparent 68%),
+    radial-gradient(36% 40% at 86% 14%, rgba(180,85,30,.14), transparent 70%),
+    radial-gradient(54% 48% at 62% 96%, rgba(18,25,43,.06), transparent 72%);
+  animation:drift 28s ease-in-out infinite alternate;pointer-events:none}
+@keyframes drift{0%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(-2.5%,1.5%,0) scale(1.07)}100%{transform:translate3d(2%,-1%,0) scale(1.02)}}
+.hero::after{content:'';position:absolute;inset:0;pointer-events:none;opacity:.34;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='.32'/%3E%3C/svg%3E")}
+.hero .wrap{position:relative;z-index:2}
+.hero-head{max-width:100%;margin-bottom:34px}
+.hero-grid{display:grid;grid-template-columns:1fr .92fr;gap:56px;align-items:center}
+.hero-pill{display:inline-flex;align-items:center;gap:9px;background:var(--accent-d);color:var(--accent);
+  font-size:12.5px;font-weight:600;padding:8px 16px;border-radius:999px;margin-bottom:26px}
+.hero-pill::before{display:none!important}
+.hero-pill i{width:6px;height:6px;border-radius:50%;background:var(--accent);
+  animation:blip 2.4s ease-in-out infinite}
+@keyframes blip{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.7)}}
+
+h1.big{font-size:clamp(34px,5.1vw,68px);line-height:1.0;letter-spacing:-.032em;
+  max-width:none;width:100%}
+/* le metier bascule */
+.slot{display:block;color:var(--accent);position:relative;height:1.06em;overflow:hidden}
+.slot span{position:absolute;left:0;top:0;white-space:nowrap;
+  opacity:0;transform:translateY(.3em);
+  transition:opacity .38s var(--ease),transform .5s var(--ease)}
+.slot span.on{opacity:1;transform:none;transition-delay:.24s}
+.slot span.out{opacity:0;transform:translateY(-.3em);transition:opacity .26s var(--ease),transform .4s var(--ease)}
+
+.hero .sub{font-size:clamp(16px,1.35vw,19px);color:var(--muted);max-width:52ch;margin:0 0 30px}
+.hero-trust{display:flex;gap:20px;flex-wrap:wrap;margin-top:20px;font-size:13.5px;color:var(--muted)}
+.hero-trust span::before{content:'✓';color:var(--accent);font-weight:700;margin-right:7px}
+.scrollcue{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);z-index:3;
+  font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted-d);
+  display:flex;flex-direction:column;align-items:center;gap:9px}
+.scrollcue i{display:block;width:1px;height:34px;background:linear-gradient(var(--muted-d),transparent);
+  animation:cue 2.2s ease-in-out infinite}
+@keyframes cue{0%,100%{transform:scaleY(.4);transform-origin:top;opacity:.4}50%{transform:scaleY(1);opacity:1}}
+
+/* scene 3D */
+.scene{position:relative;perspective:1200px;perspective-origin:52% 42%;min-height:400px;
+  display:flex;align-items:center;justify-content:center}
+.stage{position:relative;width:100%;max-width:520px;aspect-ratio:480/320;will-change:transform;
+  transform-style:preserve-3d;transform:rotateX(var(--rx,2deg)) rotateY(var(--ry,-9deg));
+  transition:transform .5s var(--ease)}
+.stage.live{transition:transform .14s linear}
+.layer{position:absolute;inset:0;transform-style:preserve-3d}
+.layer svg{width:100%;height:100%;overflow:visible}
+.l-floor{transform:translateZ(-60px)}.l-base{transform:translateZ(18px)}
+.l-main{transform:translateZ(78px)}.l-gap{transform:translateZ(120px)}.l-tag{transform:translateZ(156px)}
+.anim{position:absolute;inset:0;opacity:0;transform:translateY(26px);
+  transition:opacity .85s var(--ease),transform .85s var(--ease)}
+.in .anim{opacity:1;transform:none}
+.in .l-base .anim{transition-delay:.1s}.in .l-main .anim{transition-delay:.26s}
+.in .l-gap .anim{transition-delay:.46s}.in .l-tag .anim{transition-delay:.6s}
+.floor{position:absolute;left:-18%;right:-18%;bottom:19%;height:68%;
+  transform:rotateX(76deg);transform-origin:50% 100%;
+  background-image:linear-gradient(to right,rgba(18,25,43,.26) 1px,transparent 1px),
+                   linear-gradient(to bottom,rgba(18,25,43,.26) 1px,transparent 1px);
+  background-size:40px 40px}
+.floor::after{content:'';position:absolute;inset:-1px;
+  background:radial-gradient(64% 96% at 50% 100%,transparent 12%,var(--paper) 74%)}
+.draw{stroke-dasharray:var(--len,520);stroke-dashoffset:var(--len,520);
+  transition:stroke-dashoffset 1.9s var(--ease) .35s}
+.in .draw{stroke-dashoffset:0}
+.pulse{transform-box:fill-box;transform-origin:center;animation:pulse 3.2s ease-in-out infinite;opacity:0}
+.in .pulse{opacity:1;transition:opacity .4s 2s}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:.22}50%{transform:scale(1.9);opacity:.05}}
+.tag{position:absolute;right:16%;top:47%;max-width:178px;background:var(--paper);
+  border:1px solid var(--line);border-radius:12px;padding:8px 12px;box-shadow:var(--z3)}
+.tag b{font-family:'Playfair Display',serif;font-size:19px;color:var(--accent);display:block;line-height:1.1}
+.tag span{font-size:9.5px;letter-spacing:.07em;line-height:1.3;display:block;margin-top:2px;
+  text-transform:uppercase;color:var(--muted)}
+
+/* ═══ 2. BANDE HORIZONTALE DES DOULEURS ═══ */
+.band{background:var(--ink);color:var(--paper);padding:0;position:relative}
+.band-rail{height:340vh}
+.band-stick{position:sticky;top:0;height:100svh;display:flex;flex-direction:column;
+  justify-content:center;overflow:hidden}
+.band-head{padding:0 clamp(20px,5vw,64px);margin-bottom:38px;max-width:1180px;
+  margin-left:auto;margin-right:auto;width:100%}
+.band-head h2{color:var(--paper);font-size:clamp(28px,4.4vw,52px);line-height:1.04}
+.band-head p{color:rgba(253,252,249,.68);margin-top:14px;max-width:58ch;font-size:16.5px}
+.band-track{display:flex;gap:28px;padding:0 clamp(20px,5vw,64px);
+  will-change:transform;transform:translate3d(var(--tx,0),0,0)}
+.slab{flex:0 0 clamp(290px,34vw,440px);background:rgba(253,252,249,.05);
+  border:1px solid rgba(253,252,249,.11);border-radius:22px;padding:34px 30px;
+  display:flex;flex-direction:column;justify-content:space-between;min-height:320px;
+  transition:background .3s,border-color .3s}
+.slab:hover{background:rgba(253,252,249,.085);border-color:rgba(232,184,138,.42)}
+.slab .num{font-family:'Playfair Display',serif;font-size:58px;line-height:1;
+  color:rgba(232,184,138,.26);margin-bottom:18px}
+.slab q{display:block;font-family:'Playfair Display',serif;font-size:clamp(21px,2.1vw,27px);
+  font-style:italic;line-height:1.3;color:var(--gold);margin-bottom:16px}
+.slab p{font-size:15px;color:rgba(253,252,249,.68);line-height:1.62}
+.slab.last{background:var(--accent);border-color:var(--accent);justify-content:center}
+.slab.last q{color:var(--paper);font-style:normal;font-size:clamp(22px,2.3vw,30px)}
+.band-prog{position:absolute;left:clamp(20px,5vw,64px);right:clamp(20px,5vw,64px);bottom:46px;
+  height:2px;background:rgba(253,252,249,.14);border-radius:2px}
+.band-prog i{display:block;height:100%;width:0;background:var(--gold);border-radius:2px}
+
+/* ═══ 3. LE MODULE METIER ═══ */
+.jobs{background:var(--surface)}
+.jobs h2{font-size:clamp(28px,4vw,50px);line-height:1.04;max-width:20ch}
+.jobs .lead{color:var(--muted);max-width:62ch;margin-top:16px;font-size:16.5px}
+.fams{display:flex;gap:8px;flex-wrap:wrap;margin:34px 0 0}
+.fams button{font-family:'Inter',sans-serif;font-size:13px;font-weight:600;
+  padding:10px 16px;min-height:44px;border-radius:10px;cursor:pointer;
+  border:1px solid transparent;background:transparent;color:var(--muted);
+  transition:background .2s,color .2s,border-color .2s}
+.fams button:hover{color:var(--ink);background:rgba(18,25,43,.04)}
+.fams button[aria-selected="true"]{color:var(--accent);background:var(--accent-d);border-color:rgba(180,85,30,.22)}
+.fams button:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.picker{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0 10px;
+  padding-top:14px;border-top:1px solid var(--line)}
+.picker button{font-family:'Inter',sans-serif;font-size:14.5px;font-weight:600;
+  padding:11px 20px;min-height:44px;border-radius:999px;cursor:pointer;
+  border:1px solid var(--line);background:var(--paper);color:var(--muted);
+  transition:background .2s,color .2s,border-color .2s,box-shadow .2s}
+.picker button:hover{color:var(--ink);border-color:var(--muted-d)}
+.picker button[aria-selected="true"]{background:var(--ink);color:var(--paper);
+  border-color:var(--ink);box-shadow:var(--z2)}
+.picker button:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+
+.cols{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:30px;perspective:1400px}
+.col{background:var(--paper);border:1px solid var(--line);border-radius:var(--r-lg);
+  padding:22px 20px;box-shadow:var(--z1);display:flex;flex-direction:column}
+.col-h{display:flex;align-items:baseline;justify-content:space-between;gap:10px;
+  padding-bottom:14px;margin-bottom:16px;border-bottom:1px solid var(--line)}
+.col-h b{font-family:'Playfair Display',serif;font-size:18.5px;line-height:1.15}
+.col-h em{font-style:normal;font-size:12px;font-weight:700;color:var(--muted-d);flex-shrink:0}
+.col ul{list-style:none;display:flex;flex-direction:column;gap:11px}
+.col li{font-size:14px;line-height:1.5;color:var(--muted);padding-left:17px;position:relative;
+  opacity:0;transform:translateY(10px) rotateX(-18deg);transform-origin:50% 0}
+.col li.show{opacity:1;transform:none;transition:opacity .42s var(--ease),transform .42s var(--ease)}
+.col li::before{content:'';position:absolute;left:0;top:8px;width:7px;height:7px;border-radius:2px}
+.c-keep{border-top:3px solid var(--muted-d)}
+.c-keep li::before{background:var(--muted-d)}
+.c-aug{border-top:3px solid var(--gold)}
+.c-aug li::before{background:var(--gold)}
+.c-auto{border-top:3px solid var(--accent);box-shadow:var(--z3)}
+.c-auto li::before{background:var(--accent)}
+.c-auto .col-h b{color:var(--accent)}
+.c-new{border-top:3px solid var(--ink)}
+.c-new li::before{background:var(--ink)}
+.jobs-foot{display:flex;justify-content:space-between;align-items:center;gap:20px;
+  flex-wrap:wrap;margin-top:26px;font-size:13px;color:var(--muted)}
+.jobs-foot a{color:var(--accent);text-decoration:underline;text-underline-offset:3px}
+.jobs-foot a.btn{color:var(--paper);text-decoration:none}
+
+/* ═══ 4. LE RAPPORT EN OBJET ═══ */
+.report{background:var(--paper);overflow:hidden}
+.report-grid{display:grid;grid-template-columns:.92fr 1.08fr;gap:60px;align-items:center}
+.report h2{font-size:clamp(26px,3.6vw,46px);line-height:1.05}
+.report p{color:var(--muted);margin-top:18px;max-width:46ch;font-size:16.5px}
+.deck{perspective:1500px;height:460px;display:flex;align-items:center;justify-content:center;min-width:0}
+.deck-in{position:relative;width:300px;height:400px;transform-style:preserve-3d;
+  transform:rotateX(14deg) rotateY(-26deg) rotateZ(2deg);
+  transition:transform .7s var(--ease)}
+.deck:hover .deck-in{transform:rotateX(8deg) rotateY(-14deg)}
+.page{position:absolute;inset:0;background:var(--paper);border:1px solid var(--line);
+  border-radius:12px;box-shadow:var(--z3);padding:26px 24px;
+  transition:transform .7s var(--ease),box-shadow .7s var(--ease)}
+.page:nth-child(4){transform:translateZ(0)}
+.page:nth-child(3){transform:translateZ(26px) translate(14px,-14px)}
+.page:nth-child(2){transform:translateZ(52px) translate(28px,-28px)}
+.page:nth-child(1){transform:translateZ(78px) translate(42px,-42px)}
+.deck:hover .page:nth-child(3){transform:translateZ(60px) translate(34px,-30px)}
+.deck:hover .page:nth-child(2){transform:translateZ(120px) translate(68px,-60px)}
+.deck:hover .page:nth-child(1){transform:translateZ(180px) translate(102px,-90px)}
+.page .pk{font-size:9.5px;letter-spacing:.17em;text-transform:uppercase;color:var(--accent);font-weight:700}
+.page h4{font-family:'Playfair Display',serif;font-size:20px;margin:9px 0 16px;line-height:1.15}
+.bar{height:7px;border-radius:4px;background:var(--surface);margin-bottom:9px}
+.bar i{display:block;height:100%;border-radius:4px;background:var(--line)}
+.bar.hot i{background:var(--accent)}
+.bar.warm i{background:var(--gold)}
+.big-fig{font-family:'Playfair Display',serif;font-size:40px;color:var(--accent);line-height:1;margin:14px 0 6px}
+.fig-note{font-size:11px;color:var(--muted-d)}
+
+
+/* ═══ 4bis. QUI VOUS ACCOMPAGNE ═══ */
+.who{background:var(--surface)}
+.who h2{font-size:clamp(26px,3.6vw,46px);line-height:1.06;max-width:21ch}
+.who-grid{display:grid;grid-template-columns:1fr .78fr;gap:56px;align-items:start;margin-top:30px}
+.who-text p{color:var(--muted);font-size:16px;line-height:1.68;margin-top:16px;max-width:56ch}
+.who-text p strong{color:var(--ink)}
+.team{display:grid;grid-template-columns:1fr 1fr;gap:20px;perspective:1100px}
+.who-card{margin:0;transform-style:preserve-3d;
+  transition:transform .45s var(--ease)}
+.who-card:hover{transform:translateY(-6px) rotateX(3deg) rotateY(-3deg)}
+.portrait{aspect-ratio:4/5;border-radius:var(--r-lg);overflow:hidden;
+  background:linear-gradient(150deg,var(--line),var(--surface));
+  box-shadow:var(--z3);transition:box-shadow .45s var(--ease)}
+.who-card:hover .portrait{box-shadow:var(--z4)}
+.portrait img{width:100%;height:100%;object-fit:cover;display:block}
+.who-card figcaption{margin-top:14px}
+.who-card b{display:block;font-family:'Playfair Display',serif;font-size:18px;line-height:1.2}
+.who-card span{display:block;font-size:12.5px;color:var(--accent);font-weight:600;margin-top:3px}
+@media(max-width:1020px){.who-grid{grid-template-columns:1fr;gap:34px}}
+@media(max-width:420px){.team{gap:14px}.who-card b{font-size:16px}}
+
+/* ═══ 5. FINAL ═══ */
+.final{background:var(--ink);color:var(--paper);text-align:center}
+.final h2{color:var(--paper);font-size:clamp(28px,4.4vw,54px);line-height:1.05;max-width:17ch;margin:0 auto}
+.final p{color:rgba(253,252,249,.7);margin:20px auto 32px;max-width:52ch;font-size:16.5px}
+
+.rvv{opacity:0;transform:translateY(24px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.rvv.in{opacity:1;transform:none}
+
+
+@media(max-width:1020px){
+  .cols{grid-template-columns:repeat(2,1fr)}
+  .hero-grid,.report-grid{grid-template-columns:1fr;gap:38px}
+  .deck{height:380px}
+}
+@media(max-width:700px){
+  section{padding:68px 0}
+  /* le metier le plus long doit tenir sur une ligne a 390px */
+  .slot{font-size:.76em;height:1.1em}
+  .cols{grid-template-columns:1fr}
+  .band-rail{height:auto}
+  .band-stick{position:static;height:auto;padding:68px 0}
+  .band-track{flex-direction:column;transform:none!important}
+  .slab{flex:1 1 auto;min-height:0}
+  .band-prog{display:none}
+  .scrollcue{display:none}
+  .scene{min-height:300px}
+}
+/* Au doigt il n'y a pas de survol : le paquet 3D ne pourrait jamais s'ouvrir et
+   3 pages sur 4 resteraient invisibles. On sort donc du 3D et on passe au geste
+   que le telephone connait, le glissement lateral. */
+@media(hover:none),(max-width:700px){
+  .deck{height:auto;perspective:none;display:block;min-width:0;max-width:100%;
+    margin-left:calc(-1 * clamp(20px,5vw,24px));
+    margin-right:calc(-1 * clamp(20px,5vw,24px))}
+  .deck-in{position:static;width:auto;max-width:100%;height:auto;transform:none!important;
+    transform-style:flat;display:flex;gap:14px;overflow-x:auto;
+    scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;
+    padding:4px clamp(20px,5vw,24px) 16px;scrollbar-width:none}
+  .deck-in::-webkit-scrollbar{display:none}
+  .deck .page{position:static;flex:0 0 min(270px,74vw);transform:none!important;
+    scroll-snap-align:center;box-shadow:var(--z2);min-height:330px}
+  .deck-hint{display:block}
+}
+.deck-hint{display:none;text-align:center;font-size:11.5px;color:var(--muted-d);margin-top:4px}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .anim,.rvv,.col li{opacity:1!important;transform:none!important}
+  .draw{stroke-dashoffset:0!important}
+  .stage{transform:none!important}
+  .band-rail{height:auto}.band-stick{position:static;height:auto;padding:68px 0}
+  .band-track{flex-direction:column;transform:none!important}
+}
+
 </style>
 <script type="application/ld+json">
 {
@@ -649,6 +926,7 @@ a.car-slide { padding-bottom: 42px; }
 </script>
 </head>
 <body>
+<div class="progress"><i id="bar"></i></div>
 
 <!-- ═══ HEADER ═══════════════════════════════════════════════ -->
 <header id="header">
@@ -692,10 +970,20 @@ a.car-slide { padding-bottom: 42px; }
 <!-- ═══ HERO ══════════════════════════════════════════════════ -->
 <section class="hero">
   <div class="wrap">
+    <div class="hero-head">
+      <div class="hero-pill"><i></i>Pour cabinets et PME</div>
+      <h1 class="big">
+        <span class="slot" id="slot" aria-live="polite">
+          <span class="on">Votre cabinet d'avocat</span>
+          <span>Votre agence immobilière</span>
+          <span>Votre cabinet comptable</span>
+          <span>Votre entreprise du bâtiment</span>
+        </span>
+        perd des heures que personne ne chiffre.
+      </h1>
+    </div>
     <div class="hero-grid">
       <div>
-        <div class="hero-pill">Pour cabinets et PME</div>
-        <h1>Votre activité perd des heures que personne ne chiffre.</h1>
         <p class="sub">Nous écoutons votre quotidien, nous chiffrons ce que les tâches répétitives vous coûtent réellement, puis nous vous formons à les réduire — <strong>sans vous vendre d'outil, sans toucher vos données</strong>.</p>
         <a class="btn" href="https://calendar.app.google/S5K8G7FLFWj4d4sF7" target="_blank" rel="noopener noreferrer">Réserver mon échange — 30 min</a>
         <div class="hero-trust">
@@ -704,28 +992,36 @@ a.car-slide { padding-bottom: 42px; }
           <span class="trust-item">100 % gratuit</span>
         </div>
       </div>
-      <div class="rv">
-        <div class="chart-box">
-          <svg viewBox="0 0 480 310" role="img" aria-label="Deux trajectoires qui divergent sur douze mois" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <line x1="56" y1="260" x2="456" y2="260" stroke="#e3ded4" stroke-width="1.5"/>
-            <line x1="56" y1="50"  x2="56"  y2="260" stroke="#e3ded4" stroke-width="1.5"/>
-            <line x1="56" y1="175" x2="456" y2="175" stroke="#e3ded4" stroke-width="1" stroke-dasharray="5 7"/>
-            <line x1="56" y1="110" x2="456" y2="110" stroke="#e3ded4" stroke-width="1" stroke-dasharray="5 7"/>
-            <path d="M56 248 C 150 244, 300 238, 456 228" stroke="#8b93a3" stroke-width="2" fill="none" stroke-dasharray="8 6"/>
-            <path d="M56 248 C 150 232, 270 172, 456 60 L 456 260 L 56 260 Z" fill="rgba(180,85,30,.07)"/>
-            <path d="M56 248 C 150 232, 270 172, 456 60" stroke="#b4551e" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-            <circle cx="456" cy="60"  r="6.5" fill="#b4551e"/>
-            <circle cx="456" cy="60"  r="13"  fill="rgba(180,85,30,.18)"/>
-            <circle cx="456" cy="228" r="5"   fill="#8b93a3"/>
-            <line x1="463" y1="72" x2="463" y2="216" stroke="rgba(18,25,43,.3)" stroke-width="1.5" stroke-dasharray="4 4"/>
-            <text x="472" y="145" font-size="11" fill="#12192b" font-family="Inter,sans-serif" dominant-baseline="middle">l'écart</text>
-            <text x="56"  y="278" font-size="11" fill="#8b93a3" font-family="Inter,sans-serif" text-anchor="middle">Aujourd'hui</text>
-            <text x="456" y="278" font-size="11" fill="#8b93a3" font-family="Inter,sans-serif" text-anchor="middle">Dans 12 mois</text>
-            <text x="446" y="48"  font-size="11.5" font-weight="600" fill="#b4551e" font-family="Inter,sans-serif" text-anchor="end">Avec l'IA intégrée</text>
-            <text x="446" y="244" font-size="10.5" fill="#8b93a3" font-family="Inter,sans-serif" text-anchor="end">Sans changement</text>
-          </svg>
-          <p class="chart-caption">La même année de travail — deux trajectoires.</p>
+      <div>
+        <div class="scene" id="scene">
+          <div class="stage" id="stage">
+            <div class="layer l-floor"><div class="anim"><div class="floor"></div></div></div>
+            <div class="layer l-base"><div class="anim">
+              <svg viewBox="0 0 480 320" aria-hidden="true">
+                <path d="M56 248 C 150 244, 300 238, 456 228" stroke="#8b93a3" stroke-width="2" fill="none" stroke-dasharray="8 6"/>
+                <circle cx="456" cy="228" r="5" fill="#8b93a3"/>
+                <text x="446" y="246" font-size="11" fill="#8b93a3" font-family="Inter,sans-serif" text-anchor="end">Sans changement</text>
+              </svg></div></div>
+            <div class="layer l-main"><div class="anim">
+              <svg viewBox="0 0 480 320" role="img" aria-label="Deux trajectoires qui divergent sur douze mois">
+                <path d="M56 248 C 150 232, 270 172, 456 60 L 456 260 L 56 260 Z" fill="rgba(180,85,30,.09)"/>
+                <path class="draw" d="M56 248 C 150 232, 270 172, 456 60" stroke="#b4551e" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+                <circle class="pulse" cx="456" cy="60" r="13" fill="#b4551e"/>
+                <circle cx="456" cy="60" r="6.5" fill="#b4551e"/>
+                <text x="446" y="44" font-size="11.5" font-weight="600" fill="#b4551e" font-family="Inter,sans-serif" text-anchor="end">Avec l'IA intégrée</text>
+              </svg></div></div>
+            <div class="layer l-gap"><div class="anim">
+              <svg viewBox="0 0 480 320" aria-hidden="true">
+                <line x1="463" y1="72" x2="463" y2="216" stroke="rgba(18,25,43,.34)" stroke-width="1.5" stroke-dasharray="4 4"/>
+                <text x="56" y="278" font-size="11" fill="#8b93a3" font-family="Inter,sans-serif" text-anchor="middle">Aujourd'hui</text>
+                <text x="456" y="278" font-size="11" fill="#8b93a3" font-family="Inter,sans-serif" text-anchor="middle">Dans 12 mois</text>
+              </svg></div></div>
+            <div class="layer l-tag"><div class="anim">
+              <div class="tag"><b>l'écart</b><span>ce qui ne revient pas</span></div>
+            </div></div>
+          </div>
         </div>
+        <p class="chart-caption">La même année de travail — deux trajectoires.<span class="scene-hint">Bougez la souris sur le graphique.</span></p>
       </div>
     </div>
   </div>
@@ -762,17 +1058,22 @@ a.car-slide { padding-bottom: 42px; }
 </section>
 
 <!-- ═══ PAINS ═════════════════════════════════════════════════ -->
-<section class="pains">
-  <div class="wrap">
-    <div class="kicker">L'écart se creuse maintenant</div>
-    <h2 class="rv">Dans un an, la différence se lira dans les chiffres.</h2>
-    <p class="lead rv">Pas dans les discours — dans les heures facturées, les devis envoyés, les dossiers acceptés. Ces heures partent aujourd'hui dans trois endroits :</p>
-    <div class="pain-grid">
-      <div class="pain rv"><q>Toujours les mêmes documents à refaire.</q><span>Courriers, devis, comptes-rendus, relances — une heure par jour à rédiger des variantes de la même chose.</span></div>
-      <div class="pain rv"><q>Rien que me remettre dans le dossier, j'y passe une heure.</q><span>Chaque dossier qui revient exige de tout relire avant d'écrire la moindre ligne.</span></div>
-      <div class="pain rv"><q>On ressaisit tout, et on en oublie.</q><span>Les mêmes informations recopiées d'un mail vers un tableur vers un logiciel — avec les erreurs qui vont avec.</span></div>
+<section class="pains" id="band">
+  <div class="band-rail" id="rail">
+    <div class="band-stick">
+      <div class="band-head">
+        <div class="kicker">L'écart se creuse maintenant</div>
+        <h2>Dans un an, la différence<br>se lira dans les chiffres.</h2>
+        <p>Pas dans les discours — dans les heures facturées, les devis envoyés, les dossiers acceptés. Ces heures partent aujourd'hui dans trois endroits.</p>
+      </div>
+      <div class="band-track" id="track">
+        <div class="slab"><div><div class="num">01</div><q>Toujours les mêmes documents à refaire.</q></div><p>Courriers, devis, comptes-rendus, relances — une heure par jour à rédiger des variantes de la même chose.</p></div>
+        <div class="slab"><div><div class="num">02</div><q>Rien que me remettre dans le dossier, j'y passe une heure.</q></div><p>Chaque dossier qui revient exige de tout relire avant d'écrire la moindre ligne.</p></div>
+        <div class="slab"><div><div class="num">03</div><q>On ressaisit tout, et on en oublie.</q></div><p>Les mêmes informations recopiées d'un mail vers un tableur vers un logiciel — avec les erreurs qui vont avec.</p></div>
+        <div class="slab last"><q>Chacune de ces heures a une valeur. La seule question est de savoir qui la récupérera le premier : vous, ou un concurrent.</q></div>
+      </div>
+      <div class="band-prog"><i id="bandbar"></i></div>
     </div>
-    <p class="closer rv">Chacune de ces heures a une valeur. La seule question est de savoir qui la récupérera le premier : vous, ou un concurrent.</p>
   </div>
 </section>
 
@@ -797,6 +1098,58 @@ a.car-slide { padding-bottom: 42px; }
         <h3>On vous forme</h3>
         <p>Des sessions en visio, sur VOS dossiers réels. Les 2-3 leviers qui comptent pour vous — pas un catalogue. Vous repartez autonome, pas dépendant.</p>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ VOTRE MÉTIER, TÂCHE PAR TÂCHE ═════════════════════════ -->
+<section class="jobs" id="taches">
+  <div class="wrap">
+    <div class="kicker">Votre métier, tâche par tâche</div>
+    <h2 class="rvv">Tout ne s'automatise pas. Encore faut-il savoir quoi.</h2>
+    <p class="lead rvv">Un métier n'est pas un bloc, c'est un paquet de tâches. Certaines ne bougeront jamais, d'autres sont simplement assistées, d'autres disparaissent de votre semaine, et il en apparaît de nouvelles. Choisissez votre métier.</p>
+    <div class="fams" role="tablist" id="fams"></div>
+    <div class="picker" role="tablist" id="picker"></div>
+    <div class="cols" id="cols">
+      <div class="col c-keep"><div class="col-h"><b>Ce qui ne bougera pas</b><em id="n0"></em></div><ul id="u0"></ul></div>
+      <div class="col c-aug"><div class="col-h"><b>Ce qui est augmenté</b><em id="n1"></em></div><ul id="u1"></ul></div>
+      <div class="col c-auto"><div class="col-h"><b>Ce qui s'automatise</b><em id="n2"></em></div><ul id="u2"></ul></div>
+      <div class="col c-new"><div class="col-h"><b>Ce qui apparaît</b><em id="n3"></em></div><ul id="u3"></ul></div>
+    </div>
+    <div class="jobs-foot">
+      <span>Cadre d'analyse en quatre catégories repris de l'étude d'Anthropic sur le futur du travail. <a href="https://www.anthropic.com/institute/econ-scenarios" target="_blank" rel="noopener noreferrer">Voir la source</a></span>
+      <a class="btn" href="https://calendar.app.google/S5K8G7FLFWj4d4sF7" target="_blank" rel="noopener noreferrer">Faire chiffrer les miennes</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ LE RAPPORT ════════════════════════════════════════════ -->
+<section class="report">
+  <div class="wrap">
+    <div class="report-grid">
+      <div class="rvv">
+        <div class="kicker">Ce que vous recevez</div>
+        <h2>Un rapport de 4 pages, pas un devis déguisé.</h2>
+        <p>Vos tâches récurrentes en heures et en euros, vos trois priorités, et ce qu'on écarte volontairement — avec les raisons. Il est à vous, que vous travailliez avec nous ou non.</p>
+        <a class="btn" href="https://calendar.app.google/S5K8G7FLFWj4d4sF7" target="_blank" rel="noopener noreferrer" style="margin-top:26px">Réserver mon échange — 30 min</a>
+      </div>
+      <div class="deck">
+        <div class="deck-in">
+          <div class="page"><div class="pk">Page 1</div><h4>Vos tâches, relevées</h4>
+            <div class="bar"><i style="width:92%"></i></div><div class="bar"><i style="width:70%"></i></div><div class="bar"><i style="width:81%"></i></div><div class="bar"><i style="width:55%"></i></div><div class="bar"><i style="width:63%"></i></div>
+            <p style="font-size:12px;color:var(--muted);margin-top:14px;line-height:1.5">Ce que vous faites vraiment, dans vos mots.</p></div>
+          <div class="page"><div class="pk">Page 2</div><h4>En heures et en euros</h4>
+            <div class="big-fig">— h / an</div><div class="fig-note">Chiffre construit avec vous pendant l'échange, jamais annoncé à l'avance.</div>
+            <div class="bar warm" style="margin-top:18px"><i style="width:72%"></i></div><div class="bar"><i style="width:36%"></i></div></div>
+          <div class="page"><div class="pk">Page 3</div><h4>Vos 3 priorités</h4>
+            <div class="bar hot"><i style="width:88%"></i></div><div class="bar hot"><i style="width:64%"></i></div><div class="bar warm"><i style="width:47%"></i></div>
+            <p style="font-size:12px;color:var(--muted);margin-top:14px;line-height:1.5">Classées par heures récupérables, pas par facilité.</p></div>
+          <div class="page"><div class="pk">Page 4</div><h4>Ce qu'on écarte</h4>
+            <div class="bar"><i style="width:40%"></i></div><div class="bar"><i style="width:28%"></i></div><div class="bar"><i style="width:52%"></i></div>
+            <p style="font-size:12px;color:var(--muted);margin-top:14px;line-height:1.5">Les pistes volontairement mises de côté, et pourquoi.</p></div>
+        </div>
+      </div>
+      <p class="deck-hint">Les 4 pages du rapport — faites glisser</p>
     </div>
   </div>
 </section>
@@ -1299,6 +1652,209 @@ form.addEventListener('submit', async e => {
     status.style.display = 'block';
   }
 });
+</script>
+
+<!-- Couche refonte dynamique -->
+<script>
+(function(){
+var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ── Données : tâches réelles tirées de taches_metiers.py et de build_metiers.py.
+   Les colonnes « augmenté » et « automatisé » sont le texte exact du dépôt.
+   Les colonnes « ne bougera pas » et « apparaît » sont rédigées, à valider. ── */
+var FAMS=[
+ {id:"cab",  label:"Cabinets et professions libérales", jobs:["avocat","comptable","medical","architecte"]},
+ {id:"terr", label:"Terrain et chantier",               jobs:["batiment","garage","transport"]},
+ {id:"vente",label:"Vente et relation client",          jobs:["immobilier","commercial","recrutement"]},
+ {id:"indep",label:"Accueil, création et indépendants",  jobs:["camping","traiteur","communication","solo"]}
+];
+var DATA={
+ avocat:{label:"Cabinet d'avocat",
+  keep:["plaider à l'audience","conseiller un client en face à face","négocier avec la partie adverse","engager votre responsabilité sur une stratégie"],
+  aug:["la synthèse d'un dossier avant rendez-vous ou audience","la synthèse des pièces adverses","les courriers au confrère, au notaire, à l'expert","la veille jurisprudentielle sur vos matières"],
+  auto:["le bordereau de pièces","les relances de documents manquants","le suivi des délais de procédure","l'accueil d'un nouveau dossier et ses pièces","le tri de la boîte de réception"],
+  neuf:["relire et valider ce qu'un modèle propose avant signature","tenir à jour la base des modèles du cabinet","vérifier qu'aucune pièce client ne sort du cabinet"]},
+ comptable:{label:"Cabinet comptable",
+  keep:["le conseil au dirigeant","l'arbitrage fiscal","la signature du bilan","la relation de confiance"],
+  aug:["la note qui explique un bilan en français","la préparation du rendez-vous bilan","les réponses aux questions fiscales courantes","la veille fiscale, filtrée et sourcée"],
+  auto:["les relances de pièces manquantes, client par client","le traitement des documents reçus en masse","le suivi des échéances déclaratives","la facture et sa relance","le tri de la boîte de réception"],
+  neuf:["contrôler ce que le modèle a extrait d'une pièce","tenir les modèles de courrier du cabinet","expliquer au client ce qui est automatisé chez vous"]},
+ medical:{label:"Cabinet médical",
+  keep:["l'examen clinique","le diagnostic","l'annonce faite à un patient","le geste technique"],
+  aug:["la préparation d'une consultation depuis le dossier","les comptes rendus dictés à la voix","les courriers types au confrère et au correspondant","la veille de votre spécialité, filtrée et sourcée"],
+  auto:["les rappels de rendez-vous et la réduction des oublis","le tri des messages et des demandes entrantes","les relances de documents manquants","les réponses aux questions que les patients posent tous les jours","la facturation et son suivi"],
+  neuf:["relire le compte rendu dicté avant de l'envoyer","vérifier qu'aucune donnée de santé ne sort du cabinet","tenir vos modèles de courrier à jour"]},
+ architecte:{label:"Architecte",
+  keep:["le parti pris architectural","l'esquisse à la main devant le client","la visite de chantier et le coup d'œil sur l'exécution","engager votre responsabilité sur un détail constructif"],
+  aug:["la notice descriptive et le CCTP","le mémoire technique de réponse à concours","la lecture ciblée du PLU d'une commune","le dépouillement des offres d'entreprises"],
+  auto:["le compte rendu de réunion de chantier","le quantitatif sorti de la maquette","le placement des vues sur les feuilles","le suivi des situations de travaux","les courriers d'affaire récurrents"],
+  neuf:["relire le CCTP généré avant de l'engager","écrire les scripts qui automatisent vos tâches dans le logiciel","contrôler la cohérence de la maquette à chaque export"]},
+ batiment:{label:"Artisan · TPE du bâtiment",
+  keep:["poser, construire, réparer","le coup d'œil sur un chantier","la parole donnée à un client","la relation avec vos compagnons"],
+  aug:["le devis chiffré depuis vos notes, vos métrés ou un vocal pris sur place","le métré calculé depuis les surfaces relevées","le temps de main-d'œuvre estimé avant de s'engager","le comparatif des devis fournisseurs, ligne à ligne"],
+  auto:["la relance des devis restés sans réponse, au bon moment","la facture de situation et la relance des impayés","les demandes entrantes, triées et pré-répondues","le compte rendu de chantier dicté à la voix","le rappel de fin de chantier et la demande d'avis"],
+  neuf:["relire le devis avant de l'envoyer","dicter vos notes au lieu de les écrire le soir","tenir à jour vos prix de référence"]},
+ garage:{label:"Garage · mécanique",
+  keep:["le diagnostic sous le capot","la réparation elle-même","l'essai routier","la confiance du client qui revient"],
+  aug:["le devis et l'ordre de réparation, rédigés depuis vos constats","l'explication de la réparation, en français, au client","le suivi des commandes de pièces"],
+  auto:["les rappels d'entretien périodique, client par client","les rappels de contrôle technique","les rappels de rendez-vous, pour les oublis","le devis refusé, relancé une fois proprement","la facture et sa relance","le tri de la boîte de réception"],
+  neuf:["relire le devis avant de le remettre","dicter vos constats au lieu de les écrire","tenir à jour vos temps de référence"]},
+ transport:{label:"Transport et logistique",
+  keep:["conduire et charger","la connaissance du terrain et des tournées","la parole donnée au donneur d'ordre","l'arbitrage quand tout se décale"],
+  aug:["la cotation chiffrée et rédigée depuis les paramètres du trajet","le dossier de litige : courrier, pièces à joindre, délais rappelés","les pièces de la tournée, pré-remplies depuis les commandes"],
+  auto:["la relance des cotations restées sans réponse","les questions qui reviennent des donneurs d'ordre","la facturation et la relance des impayés","l'alerte avant expiration des licences et attestations"],
+  neuf:["relire la cotation avant de l'envoyer","vérifier les pièces jointes au dossier de litige","tenir à jour vos paramètres de prix"]},
+ immobilier:{label:"Agence immobilière",
+  keep:["faire visiter","lire une famille dans un salon","négocier le prix","rassurer un vendeur qui doute"],
+  aug:["l'estimation documentée et ses comparables","le compte rendu de visite envoyé au vendeur le soir même","l'annonce rédigée depuis les caractéristiques du bien","le rapprochement entre les acheteurs du fichier et les biens"],
+  auto:["la déclinaison de l'annonce pour chaque portail","le tri et la qualification des demandes entrantes","la relance des anciens contacts du fichier","le contrôle des dossiers de location","le dossier de vente et ses pièces"],
+  neuf:["relire l'annonce générée avant publication","vérifier la mention obligatoire sur les photos meublées virtuellement","tenir le fichier acquéreurs propre"]},
+ commercial:{label:"Commercial indépendant",
+  keep:["le rendez-vous en face à face","la négociation","la relation qui se construit dans la durée","le moment où ça se signe"],
+  aug:["la préparation de la tournée : qui, où on en était, ce qui a été promis","le devis rédigé depuis vos notes","les mails de prospection personnalisés, pas les copiés-collés","le résumé d'un document long avant de décider","la veille de votre secteur, filtrée et sourcée"],
+  auto:["les relances de prospects, au bon moment et sans oubli","le débrief dicté en sortant du rendez-vous","la mise à jour du suivi après chaque échange","les réponses aux questions qui reviennent toujours","le tri de la boîte de réception"],
+  neuf:["relire le mail de prospection avant l'envoi","dicter le débrief en sortant plutôt que le taper le soir","tenir votre fichier à jour"]},
+ recrutement:{label:"Recrutement · intérim",
+  keep:["l'entretien","le jugement porté sur une personne","la recommandation que vous assumez","la relation avec le client"],
+  aug:["le tri et le résumé des candidatures reçues","la fiche de poste écrite depuis un brief oral","la synthèse de candidature envoyée au client","les comptes rendus d'entretien"],
+  auto:["les réponses aux candidats non retenus, personnalisées","la relance des candidats en cours de process","le point d'avancement au client","la reprise du vivier sur un nouveau poste","le tri de la boîte de réception"],
+  neuf:["relire la synthèse avant de l'envoyer au client","vérifier qu'aucun critère discriminant ne s'est glissé dans un tri","tenir le vivier à jour"]},
+ camping:{label:"Camping · hôtellerie",
+  keep:["l'accueil à l'arrivée","l'ambiance du site","régler un problème sur place","le contact qui fait revenir"],
+  aug:["les réponses aux demandes de réservation","les descriptifs traduits pour la clientèle étrangère","les réponses aux avis en ligne, une par une","la déclaration de taxe de séjour depuis le registre des nuitées"],
+  auto:["les mails d'avant-séjour, envoyés au bon moment","la relance des acomptes et des soldes","le planning des arrivées et des départs du jour","le message d'après-séjour et la demande d'avis","la relance des réservataires de l'an dernier"],
+  neuf:["relire une réponse à un avis avant publication","vérifier la traduction d'un descriptif","tenir à jour vos réponses aux questions de saison"]},
+ traiteur:{label:"Traiteur événementiel",
+  keep:["cuisiner","dresser","le service le jour J","le goût et le tour de main"],
+  aug:["le devis événementiel rédigé et chiffré depuis un brief","les fiches techniques et le coût de revient quand un prix bouge","la liste de production et les commandes fournisseurs de la semaine"],
+  auto:["la relance des devis restés sans réponse, au bon moment","la facturation et le suivi des acomptes","les réponses aux demandes entrantes, avec la disponibilité vérifiée","les étiquettes et la liste des allergènes"],
+  neuf:["relire le devis avant de l'envoyer","vérifier la liste des allergènes avant impression","tenir à jour vos coûts de revient"]},
+ communication:{label:"Agence de communication",
+  keep:["l'idée","la direction artistique","le tournage","la relation avec le client"],
+  aug:["les textes tirés de ce qui a déjà été dit en vidéo","les réponses aux appels d'offres et les recommandations","le montage : une prise de vue découpée en clips sous-titrés","les calendriers éditoriaux et les déclinaisons par plateforme"],
+  auto:["les reportings clients, mois après mois, au même format","les comptes rendus de réunion et les relevés de décisions","les relances de validation, côté client","les réponses aux commentaires et aux messages privés","la facture et sa relance"],
+  neuf:["relire ce qui part au nom d'un client","tenir la charte éditoriale de chaque compte","vérifier les droits sur ce qui est généré"]},
+ solo:{label:"Solo · créateur d'entreprise",
+  keep:["le métier lui-même","la relation client","ce que vous acceptez et ce que vous refusez","le prix que vous fixez"],
+  aug:["les devis rédigés depuis vos notes","les comptes rendus depuis une note vocale","le résumé d'un document long avant de décider","la veille de votre secteur, filtrée et sourcée"],
+  auto:["les factures et leurs relances","la relance de tout ce qui n'a pas eu de réponse","les mails qui reviennent toujours","le tri de la boîte de réception","le suivi de ce qui est en cours"],
+  neuf:["relire avant d'envoyer","dicter au lieu de taper","tenir vos modèles à jour"]}
+};
+
+var famEl=document.getElementById('fams'), picker=document.getElementById('picker');
+var CURFAM=null, CUR=null;
+
+FAMS.forEach(function(f){
+  var b=document.createElement('button');
+  b.type='button'; b.textContent=f.label; b.dataset.fam=f.id;
+  b.setAttribute('role','tab'); b.setAttribute('aria-selected','false');
+  b.addEventListener('click',function(){ selectFam(f.id); });
+  famEl.appendChild(b);
+});
+
+function selectFam(id, keepJob){
+  if(id===CURFAM) return;
+  CURFAM=id;
+  [].forEach.call(famEl.children,function(b){ b.setAttribute('aria-selected', b.dataset.fam===id?'true':'false'); });
+  var f=FAMS.filter(function(x){return x.id===id;})[0];
+  picker.innerHTML='';
+  f.jobs.forEach(function(k){
+    var b=document.createElement('button');
+    b.type='button'; b.textContent=DATA[k].label; b.dataset.job=k;
+    b.setAttribute('role','tab'); b.setAttribute('aria-selected','false');
+    b.addEventListener('click',function(){ select(k); });
+    picker.appendChild(b);
+  });
+  select(keepJob && f.jobs.indexOf(keepJob)>-1 ? keepJob : f.jobs[0], true);
+}
+
+function select(k, force){
+  if(k===CUR && !force) return; CUR=k;
+  [].forEach.call(picker.children,function(b){ b.setAttribute('aria-selected', b.dataset.job===k?'true':'false'); });
+  var d=DATA[k], sets=[d.keep,d.aug,d.auto,d.neuf];
+  sets.forEach(function(list,c){
+    var ul=document.getElementById('u'+c); ul.innerHTML='';
+    document.getElementById('n'+c).textContent=list.length;
+    list.forEach(function(t,j){
+      var li=document.createElement('li'); li.textContent=t; ul.appendChild(li);
+      if(reduce){ li.classList.add('show'); }
+      else { setTimeout(function(){ li.classList.add('show'); }, 34*j + 60*c); }
+    });
+  });
+}
+
+/* ── Le métier bascule dans le titre ── */
+var slot=document.getElementById('slot'), items=slot.querySelectorAll('span'), idx=0;
+if(!reduce && items.length>1){
+  setInterval(function(){
+    items[idx].classList.remove('on'); items[idx].classList.add('out');
+    var prev=idx; idx=(idx+1)%items.length;
+    items[idx].classList.remove('out'); items[idx].classList.add('on');
+    setTimeout(function(){ items[prev].classList.remove('out'); },700);
+  }, 3200);
+}
+
+/* ── Jauge de lecture ── */
+var bar=document.getElementById('bar');
+function prog(){ var h=document.documentElement.scrollHeight-innerHeight;
+  bar.style.width=(h>0?(scrollY/h)*100:0)+'%'; }
+
+/* ── Bande horizontale pilotée par le scroll ── */
+var rail=document.getElementById('rail'), track=document.getElementById('track'), bb=document.getElementById('bandbar');
+function band(){
+  if(!rail||!track) return;
+  if(reduce || innerWidth<=700){ track.style.setProperty('--tx','0px'); return; }
+  var r=rail.getBoundingClientRect();
+  var total=rail.offsetHeight-innerHeight;
+  if(total<=0) return;
+  var p=Math.min(1,Math.max(0,(-r.top)/total));
+  var dist=Math.max(0, track.scrollWidth-innerWidth+40);
+  track.style.setProperty('--tx', (-p*dist).toFixed(1)+'px');
+  if(bb) bb.style.width=(p*100).toFixed(1)+'%';
+}
+
+var ticking=false;
+addEventListener('scroll',function(){
+  if(ticking) return; ticking=true;
+  requestAnimationFrame(function(){ prog(); band(); ticking=false; });
+},{passive:true});
+addEventListener('resize',band,{passive:true});
+prog(); band();
+
+/* ── Révélations ── */
+var io=new IntersectionObserver(function(es){
+  es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+},{threshold:.2});
+function watch(el){
+  if(!el) return;
+  var r=el.getBoundingClientRect();
+  if(r.top<innerHeight*.92 && r.bottom>0){ requestAnimationFrame(function(){ el.classList.add('in'); }); }
+  else io.observe(el);
+}
+watch(document.getElementById('scene'));
+document.querySelectorAll('.rvv').forEach(watch);
+var jobsEl=document.getElementById('jobs');
+selectFam('cab');
+
+/* ── Scène 3D qui suit la souris ── */
+if(!reduce && matchMedia('(hover:hover)').matches){
+  var scene=document.getElementById('scene'), stage=document.getElementById('stage');
+  var tx=-9,ty=2,cx=-9,cy=2,raf=null;
+  scene.addEventListener('pointermove',function(e){
+    var r=scene.getBoundingClientRect();
+    tx=(((e.clientX-r.left)/r.width)-.5)*-26;
+    ty=(((e.clientY-r.top)/r.height)-.5)*14;
+    stage.classList.add('live'); if(!raf) raf=requestAnimationFrame(loop);
+  });
+  scene.addEventListener('pointerleave',function(){ tx=-9;ty=2;stage.classList.remove('live'); });
+  function loop(){
+    cx+=(tx-cx)*.12; cy+=(ty-cy)*.12;
+    stage.style.setProperty('--ry',cx.toFixed(2)+'deg');
+    stage.style.setProperty('--rx',cy.toFixed(2)+'deg');
+    if(Math.abs(tx-cx)>.05||Math.abs(ty-cy)>.05){ raf=requestAnimationFrame(loop); } else { raf=null; }
+  }
+}
+})();
 </script>
 </body>
 </html>
