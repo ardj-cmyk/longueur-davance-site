@@ -40,7 +40,11 @@ MIDS = {p: round((b + h) / 2, 1) for p, (b, h) in BANDES.items()}
 
 POIDS = {
   "batiment":     [5, 2, 3, 3, 2, 1],
-  "immobilier":   [4, 3, 3, 2, 2, 2, 2],
+  # La 8e tache (ressaisie d'un outil a l'autre) etait en prod avec un poids
+  # arbitraire de 1 h, hors des cinq paliers. Ramenee au palier 3 (recurrent,
+  # plusieurs fois par semaine, 0,6-1,2 h) : 0,9 h au lieu de 1 h, le total du
+  # defaut passe de 6,3 a 6,2 h. La grille reste la seule source des heures.
+  "immobilier":   [4, 3, 3, 2, 2, 2, 2, 3],
   # Avocat recale le 22/08 sur source. Un avocat facture 800 a 1 200 h/an et le
   # non-facturable pese environ un tiers du temps de travail, soit ~607 h/an sur
   # 1 820 h legales = 12,9 h/sem (le recoupement par les heures facturees donne
@@ -131,12 +135,15 @@ METIERS = {
           "votre présence d'agent : vos visites et vos vocaux découpés en clips sous-titrés",
           "les photos d'un bien vide meublées virtuellement, avec la mention exigée depuis août 2026",
           "le contrôle des dossiers de location : les pièces qui manquent, le taux d'effort, "
-          "et l'avis d'impôt vérifié auprès de l'administration"],
+          "et l'avis d'impôt vérifié auprès de l'administration",
+          "la même information ressaisie d'un outil à l'autre, et la fiche client reconstituée "
+          "à partir des pièces (titre, avis d'imposition, justificatifs)"],
   taux=60, taux_lbl="la valeur de votre heure, HT",
   punch="Ce n'est pas du temps facturable en plus, c'est du volume de mandats traité "
-        "en plus, à effectif constant.",
-  reve="Et le réaménagement virtuel d'une pièce vide, ou la vidéo verticale tirée "
-       "des photos de l'annonce.",
+        "en plus, à effectif constant. Et surtout le mandat rentré, le compte rendu "
+        "envoyé, la demande qualifiée avant que le client n'ait le temps d'appeler ailleurs.",
+  reve="Le réaménagement virtuel d'une pièce vide ou la vidéo verticale tirée "
+       "des photos de l'annonce comptent aussi.",
   faq=("Vous faites la visite virtuelle à notre place ?",
        "Non, on vous apprend à la faire vous-même. Elle se capture aujourd'hui avec un "
        "téléphone, l'application est gratuite, et l'abonnement se compte en dizaines "
@@ -557,15 +564,14 @@ details p {{ font-size:14.5px; color:var(--muted); line-height:1.7; padding-bott
     <div class="kicker">Le calcul</div>
     <h2 style="font-size:clamp(26px,5.5vw,40px);max-width:20ch">Ce que ça vous coûte, sur une année.</h2>
     <p class="micro" style="max-width:56ch;font-size:15px;line-height:1.7;margin:16px 0 0">
-      Sur ce métier, ces tâches pèsent en général entre {bas} et {haut} heures par semaine.
-      Déplacez les curseurs sur votre situation réelle.
+      {calc_intro}
     </p>
     <div class="calc">
       <span class="calc-badge">Sur votre cas</span>
       <div class="calc-row">
-        <label for="h">Heures répétitives par semaine <span class="calc-val" id="hv">{defaut_h} h</span></label>
+        <label for="h">Heures répétitives par semaine{par_personne} <span class="calc-val" id="hv">{defaut_h} h</span></label>
         <input type="range" id="h" min="0" max="12" step="0.1" value="{defaut_h}">
-      </div>
+      </div>{equipe_html}
       <div class="calc-row">
         <label for="t">{taux_lbl} <span class="calc-val" id="tv">{taux} €</span></label>
         <input type="range" id="t" min="{taux_min}" max="{taux_max}" step="5" value="{taux}">
@@ -616,8 +622,10 @@ details p {{ font-size:14.5px; color:var(--muted); line-height:1.7; padding-bott
       <div><strong>On ne vous rend pas dépendant.</strong> L'objectif de la séance est que vous
         sachiez le refaire seul.</div>
       <div><strong>On ne promet pas de miracle.</strong> Certaines tâches ne s'automatisent pas
-        proprement, et certains calculs ne doivent surtout pas être confiés à une IA.
-        Quand c'est le cas, on vous le dit.</div>
+        proprement, et certains calculs ne doivent surtout pas être confiés à une IA : un résultat
+        qui doit être juste à tous les coups n'est pas le métier d'un modèle. Quand c'est le cas,
+        on vous le dit, et c'est le seul cas où on vous écrit un petit programme sur mesure,
+        fiable et vérifiable. Il reste le vôtre, sans abonnement et sans qu'on héberge quoi que ce soit.</div>
     </div>
   </div>
 </section>
@@ -629,7 +637,7 @@ details p {{ font-size:14.5px; color:var(--muted); line-height:1.7; padding-bott
     <details><summary class="faq-q">{faq_q}</summary><p>{faq_r}</p></details>{faq2_html}
     <details><summary class="faq-q">Je n'y connais rien en informatique.</summary>
       <p>C'est le cas de la plupart des gens que j'accompagne. Rien à installer avant,
-         rien à coder pendant, et la marche à suivre vous est remise par écrit.</p></details>
+         rien à coder pendant, et la marche à suivre vous est remise par écrit.</p></details>{faq_equipe}
     <details><summary class="faq-q">Et mes données ?</summary>
       <p>Elles restent chez vous. On travaille sur votre écran, avec vos outils. Les outils
          mis en place sont choisis pour leur conformité au RGPD, avec un hébergement dans
@@ -677,21 +685,30 @@ details p {{ font-size:14.5px; color:var(--muted); line-height:1.7; padding-bott
 <script>
 (function () {{
   var h=document.getElementById('h'),t=document.getElementById('t'),
+      n=document.getElementById('n'),nv=document.getElementById('nv'),
       hv=document.getElementById('hv'),tv=document.getElementById('tv'),
       res=document.getElementById('res'),det=document.getElementById('det'),
       fmt=new Intl.NumberFormat('fr-FR');
   var out=document.getElementById('out'),
       cases=Array.prototype.slice.call(document.querySelectorAll('.tk'));
   function maj() {{
-    var hh=parseFloat(h.value),tt=parseInt(t.value,10),an=Math.round(hh*47),g=Math.round(an*tt);
+    // nb vaut 1 quand la page n'a pas de curseur equipe (metier forcement solo),
+    // le calcul reste donc identique a l'ancien sur ces pages-la.
+    var hh=parseFloat(h.value),tt=parseInt(t.value,10),nb=n?parseInt(n.value,10):1,
+        an=Math.round(hh*47),par=Math.round(an*tt),g=par*nb;
     hv.textContent=(hh%1?hh.toFixed(1).replace('.',','):hh)+' h';
     tv.textContent=tt+' €';
+    if (nv) nv.textContent=nb;
     // Sous une heure par semaine, on affiche la phrase plutot qu'un montant
     // derisoire. C'est ce que la page promet trois ecrans plus haut.
     if (hh < 1) {{ out.classList.add('is-low'); det.textContent=''; return; }}
     out.classList.remove('is-low');
     res.textContent=fmt.format(g);
-    det.textContent=hv.textContent+" par semaine sur 47 semaines travaillées, soit "+fmt.format(an)+" h par an, valorisées à "+tt+" € de l'heure.";
+    if (nb>1) {{
+      det.textContent=hv.textContent+" par semaine et par personne, sur 47 semaines travaillées, valorisées à "+tt+" € de l'heure, soit "+fmt.format(par)+" € par personne et par an, × "+nb+" personnes.";
+    }} else {{
+      det.textContent=hv.textContent+" par semaine sur 47 semaines travaillées, soit "+fmt.format(an)+" h par an, valorisées à "+tt+" € de l'heure.";
+    }}
   }}
   // Le curseur suit les cases TANT QUE le visiteur n'y a pas touche lui-meme.
   // Deux commandes sur un seul chiffre, sinon elles se contredisent : les cases
@@ -705,6 +722,7 @@ details p {{ font-size:14.5px; color:var(--muted); line-height:1.7; padding-bott
   }}
   h.addEventListener('input',function(){{ pilote=false; maj(); }});
   t.addEventListener('input',maj);
+  if (n) n.addEventListener('input',maj);
   maj();
 
   var io=new IntersectionObserver(function(es){{es.forEach(function(e){{
@@ -744,6 +762,36 @@ details p {{ font-size:14.5px; color:var(--muted); line-height:1.7; padding-bott
 # (« ce qui part ») a l'air d'un aveu et c'est voulu : sans elle le lecteur
 # comprend « mon classeur reste chez moi donc rien ne sort », ce qui est faux,
 # et le decouvrir apres coup coute la confiance definitivement.
+# Metiers ou une seule personne fait les taches par definition : pas de curseur equipe.
+SANS_EQUIPE = {"solo"}
+
+# Chapeau du bloc calcul. Deux versions, parce que la phrase doit dire la verite
+# du curseur affiche juste en dessous : avec curseur equipe, les heures sont
+# individuelles et s'additionnent, sans curseur elles sont deja le total.
+INTRO_EQUIPE = ("Ces heures sont individuelles : sur ce métier, elles pèsent en général entre "
+                "{bas} et {haut} heures par semaine et par personne. Si plusieurs collaborateurs "
+                "font la même chose, le calcul les additionne. Comptez celles et ceux qui font "
+                "réellement ces tâches, certaines sont individuelles, d'autres tenues par un "
+                "seul poste.")
+INTRO_SOLO   = ("Sur ce métier, ces tâches pèsent en général entre {bas} et {haut} heures par "
+                "semaine. Déplacez les curseurs sur votre situation réelle.")
+
+# FAQ servie sur les seuls metiers a curseur equipe : des qu'on additionne des
+# personnes, la premiere objection est celle des collegues rétifs a l'outil.
+FAQ_EQUIPE = """
+    <details><summary class="faq-q">Et mon équipe ? Tout le monde n'est pas à l'aise avec l'informatique.</summary>
+      <p>On forme chaque personne concernée, à son rythme, y compris celles qui ne touchent
+         jamais un ordinateur. On part de zéro, on avance sur vos vrais dossiers, et la marche
+         à suivre reste écrite pour celles et ceux qui la reprennent plus tard.</p></details>"""
+
+# Curseur equipe. Depart a 1 pour que la page s'ouvre sur le cas le plus petit :
+# c'est le visiteur qui monte le chiffre lui-meme, pas nous qui le lui imposons.
+BLOC_EQUIPE = """
+      <div class="calc-row">
+        <label for="n">Personnes qui font ces tâches <span class="calc-val" id="nv">1</span></label>
+        <input type="range" id="n" min="1" max="40" step="1" value="1">
+      </div>"""
+
 BLOC_CLASSEUR = """
 <section>
   <div class="wrap rv">
@@ -796,6 +844,14 @@ for slug, m in METIERS.items():
         sub_court=m["sub"][:150], taches_html="\n" + taches + "\n    ",
         punch=m["punch"], reve_html=reve, bas=bas, haut=haut,
         defaut_h=defaut, taux=m["taux"], taux_lbl=m["taux_lbl"],
+        # Le curseur equipe multiplie le gain annuel. Il n'a de sens que sur les
+        # metiers ou plusieurs personnes font LES MEMES taches. Sur solo, il
+        # promettrait un chiffre que le visiteur sait faux d'avance.
+        equipe_html="" if slug in SANS_EQUIPE else BLOC_EQUIPE,
+        par_personne="" if slug in SANS_EQUIPE else ", par personne",
+        faq_equipe="" if slug in SANS_EQUIPE else FAQ_EQUIPE,
+        calc_intro=(INTRO_SOLO if slug in SANS_EQUIPE else INTRO_EQUIPE).format(
+            bas=bas, haut=haut),
         # les bornes doivent etre des multiples de 5 alignes sur le pas, sinon la
         # valeur par defaut est arrondie a cote (45 affichait 47)
         taux_min=max(20, (int(m["taux"] * 0.5) // 5) * 5),
