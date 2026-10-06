@@ -203,6 +203,7 @@ METIERS = {
 "architecte": dict(
   titre="Architecte : métré, comptes rendus · Longueur d'avance",
   nom="Architectes", pill="Agences d'architecture",
+  demo=("/maquette-3d", "Voir un exemple de maquette 3D"),
   h1="Ce qui vous prend du temps n'est pas le projet.",
   sub="Le dessin, c'est votre métier, et personne ne va vous le prendre. Mais le métré, "
       "le dépouillement, les comptes rendus et les pièces écrites reviennent à chaque "
@@ -540,7 +541,7 @@ details p {{ font-size:14.5px; color:var(--muted); line-height:1.7; padding-bott
     <div class="hero-pill">{pill}</div>
     <h1>{h1}</h1>
     <p class="sub">{sub}</p>
-    <a class="btn js-book" href="{agenda}" target="_blank" rel="noopener" data-loc="hero">Réserver 30 minutes, gratuit</a>
+    <a class="btn js-book" href="{agenda}" target="_blank" rel="noopener" data-loc="hero">Réserver 30 minutes, gratuit</a>{demo_html}
     <div class="hero-trust">
       <span class="trust-item">Confirmation immédiate</span>
       <span class="trust-item">100 % visio</span>
@@ -858,6 +859,9 @@ for slug, m in METIERS.items():
         taux_max=int(m["taux"] * 2),
         faq_q=m["faq"][0], faq_r=m["faq"][1],
         classeur_html=BLOC_CLASSEUR if m.get("classeur") else "",
+        # lien secondaire vers une demo propre au metier (architecte : maquette 3D)
+        demo_html=('\n    <a class="btn btn-line" href="%s" target="_blank" rel="noopener">%s</a>'
+                   % m["demo"]) if m.get("demo") else "",
         faq2_html=("\n    <details><summary class=\"faq-q\">%s</summary><p>%s</p></details>"
                    % m["faq2"]) if m.get("faq2") else "")
     (ICI / f"{slug}.html").write_text(page, encoding="utf-8")

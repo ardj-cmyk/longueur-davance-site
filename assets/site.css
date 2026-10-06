@@ -191,6 +191,9 @@ section { padding: 72px 0; }
 .btn:active { transform: translateY(0); }
 .btn-invert { background: var(--paper); color: var(--accent); box-shadow: 0 6px 20px rgba(0,0,0,.18); }
 .btn-invert:hover { background: #fff; color: var(--accent); }
+.btn-line { background: transparent; color: var(--accent); box-shadow: inset 0 0 0 2px var(--accent); margin-left: 10px; }
+.btn-line:hover { background: var(--accent); color: var(--paper); }
+@media (max-width: 560px) { .btn-line { margin: 10px 0 0; } }
 
 /* ── Minimal text CTA (nav + footer) ─────────────────────── */
 .cta-text {
