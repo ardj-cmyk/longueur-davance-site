@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kit de démarrage Claude · Longueur d'avance</title>
+<meta name="robots" content="noindex">
+<meta name="description" content="L'essentiel pour démarrer avec Claude sans se noyer : lexique, vraies peurs, liens officiels, bonnes pratiques.">
+<style>
+@font-face{font-family:'Inter';font-style:normal;font-weight:400 800;font-display:swap;src:url(/assets/fonts/Inter-latin.woff2) format('woff2')}
+@font-face{font-family:'Inter';font-style:normal;font-weight:400 800;font-display:swap;src:url(/assets/fonts/Inter-latinext.woff2) format('woff2');unicode-range:U+0100-02BA,U+1E00-1EFF}
+@font-face{font-family:'Playfair Display';font-style:normal;font-weight:600 900;font-display:swap;src:url(/assets/fonts/PlayfairDisplay-latin.woff2) format('woff2')}
+@font-face{font-family:'Playfair Display';font-style:italic;font-weight:600 900;font-display:swap;src:url(/assets/fonts/PlayfairDisplay-italic-latin.woff2) format('woff2')}
+:root{--encre:#12192b;--ivoire:#fdfcf9;--fond:#faf6ee;--terra:#a3461a;--terra-vif:#b4551e;--trait:#e3ded4;--doux:#5b6375}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--fond);color:var(--encre);font:400 17px/1.6 'Inter',system-ui,sans-serif;padding:0 18px 64px}
+main{max-width:640px;margin:0 auto}
+header{padding:48px 0 28px;border-bottom:2px solid var(--encre);margin-bottom:28px}
+.marque{font:700 13px/1 'Inter';letter-spacing:.14em;text-transform:uppercase;color:var(--terra)}
+h1{font:800 clamp(34px,9vw,52px)/1.04 'Playfair Display',Georgia,serif;margin:14px 0 16px;text-wrap:balance}
+h1 em{font-style:italic;color:var(--terra)}
+.chapo{font-size:19px;color:var(--encre)}
+.chapo b{font-weight:700}
+nav{display:flex;flex-wrap:wrap;gap:8px;margin:22px 0 0}
+nav a{font:600 14px 'Inter';color:var(--encre);text-decoration:none;border:2px solid var(--encre);border-radius:999px;padding:6px 14px;background:var(--ivoire)}
+section{padding:30px 0;border-bottom:1px solid var(--trait)}
+h2{font:800 26px/1.15 'Playfair Display',Georgia,serif;margin-bottom:16px;display:flex;gap:12px;align-items:baseline}
+h2 span{font:800 15px 'Inter';color:var(--ivoire);background:var(--encre);border-radius:999px;min-width:30px;height:30px;display:inline-flex;align-items:center;justify-content:center;flex:none;transform:translateY(-3px)}
+dl{display:grid;gap:12px}
+.mot{background:var(--ivoire);border:2px solid var(--encre);border-radius:16px;padding:12px 16px}
+dt{font-weight:800}
+dd{color:var(--encre)}
+details{background:var(--ivoire);border:2px solid var(--encre);border-radius:16px;margin-bottom:10px;overflow:hidden}
+summary{cursor:pointer;font-weight:700;padding:14px 16px;list-style:none;display:flex;justify-content:space-between;gap:12px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:'+';font-weight:800;color:var(--terra)}
+details[open] summary::after{content:'−'}
+details p{padding:0 16px 14px}
+ul.liens{list-style:none;display:grid;gap:10px}
+ul.liens li{background:var(--ivoire);border:2px solid var(--encre);border-radius:16px;padding:12px 16px}
+ul.liens a{color:var(--terra);font-weight:700;word-break:break-word}
+.alerte{margin:16px 0;padding:14px 16px;border-radius:16px;background:#f3e3d6;border:2px solid var(--terra);font-weight:600}
+.cmd{margin:10px 0 0}
+.cmd p{font-weight:700;margin-bottom:6px}
+.code{display:flex;align-items:stretch;gap:0;border:2px solid var(--encre);border-radius:12px;overflow:hidden;background:var(--encre)}
+.code code{flex:1;min-width:0;overflow-x:auto;white-space:nowrap;color:var(--ivoire);font:500 14px/1.4 ui-monospace,Menlo,monospace;padding:12px 14px}
+.code button{flex:none;border:0;background:var(--terra);color:var(--ivoire);font:700 13px 'Inter';padding:0 14px;cursor:pointer}
+ol.pratiques{list-style:none;counter-reset:p;display:grid;gap:10px}
+ol.pratiques li{counter-increment:p;background:var(--ivoire);border:2px solid var(--encre);border-radius:16px;padding:12px 16px 12px 56px;position:relative}
+ol.pratiques li::before{content:counter(p);position:absolute;left:14px;top:12px;width:28px;height:28px;border-radius:999px;background:var(--terra);color:var(--ivoire);font-weight:800;display:flex;align-items:center;justify-content:center}
+.fin{padding:34px 0 0}
+.fin h2{display:block}
+.cta{display:inline-block;margin-top:18px;background:var(--encre);color:var(--ivoire);text-decoration:none;font:800 18px 'Inter';padding:16px 26px;border-radius:999px;box-shadow:0 6px 0 var(--terra)}
+.signature{margin-top:26px;color:var(--doux);font-size:15px}
+</style>
+</head>
+<body>
+<main>
+<header>
+  <div class="marque">Longueur d'avance · Kit de démarrage</div>
+  <h1>Claude, l'essentiel <em>sans se noyer</em></h1>
+  <p class="chapo">Tu n'as pas raté le train. On ne t'a juste pas expliqué les bases. Voici la carte pour t'y mettre <b>sans te noyer</b>. Garde-la sous la main.</p>
+  <nav aria-label="Sommaire">
+    <a href="#lexique">Lexique</a><a href="#faq">Vraies peurs</a><a href="#liens">Liens officiels</a><a href="#pratiques">Bonnes pratiques</a>
+  </nav>
+</header>
+
+<section id="lexique">
+  <h2><span>1</span>Le lexique, les mots qu'on te balance</h2>
+  <dl>
+    <div class="mot"><dt>Claude</dt><dd>Une IA, comme ChatGPT. Sérieuse sur l'écriture, le raisonnement et le code.</dd></div>
+    <div class="mot"><dt>Claude Code</dt><dd>Claude installé sur ton ordi, qui <em>agit</em> (lit, écrit, exécute) au lieu de juste répondre.</dd></div>
+    <div class="mot"><dt>Modèle</dt><dd>Une version de Claude. Opus (le plus malin), Sonnet (l'équilibré), Haiku (le plus rapide).</dd></div>
+    <div class="mot"><dt>Token</dt><dd>Un bout de mot (environ ¾ d'un mot). L'IA lit et écrit en tokens, et c'est ce qui est facturé.</dd></div>
+    <div class="mot"><dt>Fenêtre de contexte</dt><dd>La quantité de texte qu'elle garde en tête. Au-delà, elle « oublie » le plus ancien.</dd></div>
+    <div class="mot"><dt>Prompt</dt><dd>Ta consigne. Bonne recette : rôle + contexte + format voulu.</dd></div>
+    <div class="mot"><dt>Hallucination</dt><dd>Quand l'IA invente une info qui a l'air vraie. Vérifie toujours ce qui engage ta responsabilité.</dd></div>
+    <div class="mot"><dt>Fichier .md (markdown)</dt><dd>Du texte simple et structuré (titres, listes). L'IA adore.</dd></div>
+    <div class="mot"><dt>CLAUDE.md</dt><dd>Le fichier de tes instructions permanentes : ton activité, ton style, tes règles.</dd></div>
+    <div class="mot"><dt>Mémoire</dt><dd>Des fichiers où Claude note ce qui compte, pour te reconnaître d'une fois sur l'autre.</dd></div>
+    <div class="mot"><dt>Skill</dt><dd>Une compétence toute prête que tu donnes à Claude (audit SEO, présentation, mail de prospection…).</dd></div>
+    <div class="mot"><dt>MCP</dt><dd>Une prise entre Claude et tes outils (Gmail, Slack, une base de données…).</dd></div>
+    <div class="mot"><dt>Hook</dt><dd>Un réflexe automatique : « à chaque fois que X, fais Y ».</dd></div>
+  </dl>
+</section>
+
+<section id="faq">
+  <h2><span>2</span>Les vraies peurs</h2>
+  <details><summary>Claude va accéder à tous mes fichiers ?</summary><p>Non. Uniquement aux dossiers que TU lui montres, et il demande la permission avant chaque action.</p></details>
+  <details><summary>Je vais me faire pirater en l'installant ?</summary><p>Claude vient d'Anthropic, ce n'est pas un virus. Le seul truc à vérifier, ce sont les <b>skills tiers</b> que tu ajoutes.</p></details>
+  <details><summary>Faut savoir coder ?</summary><p>Non. Pour commencer, le chat sur claude.ai suffit. Claude Code est plus technique, mais on peut débuter sans être développeur.</p></details>
+  <details><summary>Ça coûte cher ?</summary><p>Le chat sur claude.ai a une version gratuite pour découvrir. Claude Code, lui, demande un abonnement payant : la version gratuite n'y donne pas accès. Tu paies quand tu passes à un usage sérieux.</p></details>
+  <details><summary>L'IA se trompe, non ?</summary><p>Parfois, oui. Tu gardes le contrôle : tu vérifies ce qui engage ta responsabilité. Jamais d'automatisation aveugle.</p></details>
+</section>
+
+<section id="liens">
+  <h2><span>3</span>Les liens officiels</h2>
+  <ul class="liens">
+    <li><b>Discuter avec Claude</b><br><a href="https://claude.ai" rel="noopener">claude.ai</a></li>
+    <li><b>Claude Code</b>, la version qui bosse sur ton ordi<br><a href="https://claude.com/download" rel="noopener">claude.com/download</a> (l'appli, le plus simple)</li>
+    <li><b>VS Code</b>, ta fenêtre sur le travail<br><a href="https://code.visualstudio.com" rel="noopener">code.visualstudio.com</a></li>
+  </ul>
+  <p class="alerte">Ne télécharge jamais depuis un lien au hasard trouvé dans un reel. Toujours le site officiel.</p>
+  <div class="cmd">
+    <p>Installer Claude Code en une commande, pour les plus à l'aise.<br>Mac ou Linux, dans le Terminal :</p>
+    <div class="code"><code>curl -fsSL https://claude.ai/install.sh | bash</code><button type="button" data-copie>Copier</button></div>
+  </div>
+  <div class="cmd">
+    <p>Windows, dans PowerShell :</p>
+    <div class="code"><code>irm https://claude.ai/install.ps1 | iex</code><button type="button" data-copie>Copier</button></div>
+  </div>
+  <p style="margin-top:12px">Ensuite, tape <b>claude</b> : ton navigateur s'ouvre pour te connecter.</p>
+</section>
+
+<section id="pratiques">
+  <h2><span>4</span>Les 5 bonnes pratiques qui comptent</h2>
+  <ol class="pratiques">
+    <li><b>Ne colle jamais</b> ta clé API, tes mots de passe ou tes données sensibles dans un chat.</li>
+    <li><b>Vérifie un skill ou un outil tiers avant de l'installer</b> : qui l'a fait, que fait-il ?</li>
+    <li><b>Garde la main</b> : Claude demande la permission, lis avant de valider.</li>
+    <li><b>Commence petit</b> : automatise UNE tâche répétitive, pas tout d'un coup.</li>
+    <li><b>Une consigne claire = un bon résultat</b> : rôle + contexte + format.</li>
+  </ol>
+</section>
+
+<section class="fin">
+  <h2>Et maintenant ?</h2>
+  <p>Passer de « je comprends » à « ça me fait gagner des heures », ça se joue sur TON activité, tes tâches, tes chiffres. C'est exactement ce que je fais avec les entreprises : je chiffre ce que tes tâches répétitives te coûtent, et je t'accompagne pour les réduire. Sans jargon, sans dépendance.</p>
+  <a class="cta" href="/">Le premier échange est gratuit</a>
+  <p class="signature">Amdy · Longueur d'avance. Suis-moi, je décrypte l'IA sans bullshit, tous les jours.</p>
+</section>
+</main>
+<script>
+document.querySelectorAll('[data-copie]').forEach(function(b){
+  b.addEventListener('click',function(){
+    var t=b.previousElementSibling.textContent;
+    function ok(){b.textContent='Copié';setTimeout(function(){b.textContent='Copier'},1500)}
+    if(navigator.clipboard){navigator.clipboard.writeText(t).then(ok,function(){})}
+  });
+});
+</script>
+</body>
+</html>
