@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Quel modèle Claude pour quelle tâche · Longueur d'avance</title>
+<meta name="robots" content="noindex">
+<meta name="description" content="L'antisèche : Haiku, Sonnet, Opus, Fable, Mythos. Quel modèle Claude choisir pour quelle tâche, et ce qu'ils coûtent.">
+<style>
+@font-face{font-family:'Inter';font-style:normal;font-weight:400 800;font-display:swap;src:url(/assets/fonts/Inter-latin.woff2) format('woff2')}
+@font-face{font-family:'Inter';font-style:normal;font-weight:400 800;font-display:swap;src:url(/assets/fonts/Inter-latinext.woff2) format('woff2');unicode-range:U+0100-02BA,U+1E00-1EFF}
+@font-face{font-family:'Playfair Display';font-style:normal;font-weight:600 900;font-display:swap;src:url(/assets/fonts/PlayfairDisplay-latin.woff2) format('woff2')}
+@font-face{font-family:'Playfair Display';font-style:italic;font-weight:600 900;font-display:swap;src:url(/assets/fonts/PlayfairDisplay-italic-latin.woff2) format('woff2')}
+:root{--encre:#12192b;--ivoire:#fdfcf9;--fond:#faf6ee;--terra:#a3461a;--trait:#e3ded4;--doux:#5b6375}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--fond);color:var(--encre);font:400 17px/1.6 'Inter',system-ui,sans-serif;padding:0 18px 64px}
+main{max-width:640px;margin:0 auto}
+header{padding:48px 0 28px;border-bottom:2px solid var(--encre);margin-bottom:28px}
+.marque{font:700 13px/1 'Inter';letter-spacing:.14em;text-transform:uppercase;color:var(--terra)}
+h1{font:800 clamp(32px,8.5vw,50px)/1.05 'Playfair Display',Georgia,serif;margin:14px 0 16px;text-wrap:balance}
+h1 em{font-style:italic;color:var(--terra)}
+.chapo{font-size:19px}
+section{padding:28px 0;border-bottom:1px solid var(--trait)}
+h2{font:800 26px/1.15 'Playfair Display',Georgia,serif;margin-bottom:16px}
+.cartes{display:grid;gap:12px}
+.carte{background:var(--ivoire);border:2px solid var(--encre);border-radius:16px;padding:14px 16px;display:grid;grid-template-columns:44px 1fr;gap:4px 12px;align-items:start}
+.carte .ico{font-size:26px;line-height:1.2;grid-row:span 3}
+.carte .nom{font:800 18px/1.2 'Inter'}
+.carte .nom b{color:var(--terra)}
+.carte p{font-size:16px}
+.carte .prix{font:600 14px 'Inter';color:var(--doux)}
+.carte.ferme{background:#efeae0;border-style:dashed}
+.regle{background:var(--encre);color:var(--ivoire);border-radius:16px;padding:18px 18px}
+.regle h2{color:var(--ivoire);font-size:22px;margin-bottom:10px}
+.regle ol{list-style:none;display:grid;gap:8px;counter-reset:r}
+.regle li{counter-increment:r;padding-left:36px;position:relative}
+.regle li::before{content:counter(r);position:absolute;left:0;top:1px;width:26px;height:26px;border-radius:999px;background:var(--terra);color:var(--ivoire);font-weight:800;font-size:14px;display:flex;align-items:center;justify-content:center}
+table{width:100%;border-collapse:collapse;font-size:16px;background:var(--ivoire);border:2px solid var(--encre);border-radius:16px;overflow:hidden}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--trait)}
+th{font:700 12px 'Inter';letter-spacing:.08em;text-transform:uppercase;color:var(--doux)}
+td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+.note{margin-top:12px;font-size:15px;color:var(--doux)}
+.fin h2{margin-bottom:10px}
+.cta{display:inline-block;margin-top:18px;background:var(--encre);color:var(--ivoire);text-decoration:none;font:800 18px 'Inter';padding:16px 26px;border-radius:999px;box-shadow:0 6px 0 var(--terra)}
+.signature{margin-top:26px;color:var(--doux);font-size:15px}
+</style>
+</head>
+<body>
+<main>
+<header>
+  <div class="marque">Longueur d'avance · L'antisèche</div>
+  <h1>Quel modèle Claude <em>pour quelle tâche</em></h1>
+  <p class="chapo">Mythos, Fable, Opus, Sonnet, Haiku. Ce sont les versions de Claude, et tu n'as pas besoin du plus puissant pour reformuler un mail. Voici lequel prendre, et ce que chacun coûte.</p>
+</header>
+
+<section>
+  <h2>Les cinq modèles</h2>
+  <div class="cartes">
+    <div class="carte"><div class="ico">🐇</div><div class="nom">Haiku 5.5 · <b>le volume</b></div><p>Trier des mails, extraire des infos d'un PDF, classer des fiches. Le plus rapide et le moins cher.</p><div class="prix">0,10 $ / 0,50 $ par million de tokens</div></div>
+    <div class="carte"><div class="ico">⚡</div><div class="nom">Sonnet 5.5 · <b>faire</b></div><p>Rédiger, coder, la plupart des tâches du quotidien. Le meilleur équilibre, deux fois moins cher qu'Opus.</p><div class="prix">2 $ / 10 $ par million de tokens</div></div>
+    <div class="carte"><div class="ico">🎯</div><div class="nom">Opus 5.5 · <b>réfléchir</b></div><p>Planifier, analyser un dossier compliqué, prendre une décision. Celui qui pense avant d'agir.</p><div class="prix">4 $ / 20 $ par million de tokens</div></div>
+    <div class="carte"><div class="ico">🏃</div><div class="nom">Fable 5.1 · <b>les marathons</b></div><p>Un agent qui travaille seul pendant des heures ou des jours. Le plus puissant ouvert au public, et le plus cher.</p><div class="prix">10 $ / 50 $ par million de tokens</div></div>
+    <div class="carte ferme"><div class="ico">🔒</div><div class="nom">Mythos · <b>pas pour toi</b> (ni pour moi)</div><p>Accès limité, réservé à quelques organisations. Tu ne peux pas le choisir.</p></div>
+  </div>
+</section>
+
+<section>
+  <div class="regle">
+    <h2>La règle simple</h2>
+    <ol>
+      <li><b>Commence par Sonnet.</b> Il fait très bien la grande majorité des tâches.</li>
+      <li><b>Monte à Opus</b> si la réponse manque de réflexion, de plan ou de recul.</li>
+      <li><b>Descends à Haiku</b> si tu refais la même tâche cent fois.</li>
+    </ol>
+  </div>
+</section>
+
+<section>
+  <h2>Ce que ça coûte</h2>
+  <table>
+    <thead><tr><th>Modèle</th><th style="text-align:right">Entrée</th><th style="text-align:right">Sortie</th></tr></thead>
+    <tbody>
+      <tr><td>Haiku 5.5</td><td class="n">0,10 $</td><td class="n">0,50 $</td></tr>
+      <tr><td>Sonnet 5.5</td><td class="n">2 $</td><td class="n">10 $</td></tr>
+      <tr><td>Opus 5.5</td><td class="n">4 $</td><td class="n">20 $</td></tr>
+      <tr><td>Fable 5.1</td><td class="n">10 $</td><td class="n">50 $</td></tr>
+    </tbody>
+  </table>
+  <p class="note">Prix par million de tokens, en API, c'est-à-dire pour ceux qui branchent Claude dans leurs propres outils. Sur un abonnement (Pro, Max), tu paies un forfait, pas au token. Source : la page des tarifs d'Anthropic, vérifiée le 12/10/2026.</p>
+</section>
+
+<section class="fin">
+  <h2>Et maintenant ?</h2>
+  <p>Le bon modèle, c'est celui qui colle à TES tâches. C'est ce que je fais avec les entreprises : je chiffre ce que leurs tâches répétitives leur coûtent, et je les accompagne pour les réduire. Sans jargon, sans dépendance.</p>
+  <a class="cta" href="/">Le premier échange est gratuit</a>
+  <p class="signature">Amdy · Longueur d'avance. Suis-moi, je décrypte l'IA sans bullshit, tous les jours.</p>
+</section>
+</main>
+</body>
+</html>
