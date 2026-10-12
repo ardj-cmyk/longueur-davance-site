@@ -823,6 +823,14 @@ BLOC_CLASSEUR = """
 </section>
 """
 
+import os, sys
+if os.environ.get("LDA_ANCIENNES_PAGES") != "1":
+    # Depuis le 12/10/2026 les pages metier en ligne sont generees par build_v4_metiers.py
+    # (nouveau design). Ce fichier reste la source des DONNEES metier (titre, accroche,
+    # taches, FAQ). Pour regenerer les anciennes pages : LDA_ANCIENNES_PAGES=1.
+    print("Pages metier : utiliser build_v4_metiers.py --prod (ce script ne fournit plus que les donnees).")
+    sys.exit(0)
+
 for slug, m in METIERS.items():
     bas, haut = fourchette(slug, m["taches"])
     poids = POIDS[slug]
