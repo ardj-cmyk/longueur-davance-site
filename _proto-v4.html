@@ -1182,7 +1182,7 @@ avocat:{label:'un cabinet d’avocat',rows:[['Courriers et actes types','chaque 
  book:{t:'Prendre rendez-vous',h:'Premier rendez-vous, en visio',slots:OFF,extra:['Pièces à joindre','facultatif'],toast:['Rendez-vous confirmé, 11:30','lien visio envoyé']},
  caps:[['Le rapport chiffré','L’écrit et les temps, en heures'],['Les honoraires relancés','Sans y passer vos soirées'],['Votre site, avant et après','Vous voyez la nouvelle version avant de décider'],['Le rendez-vous en ligne','Sans échange de mails']]},
 compta:{label:'un cabinet comptable',rows:[['Relances de pièces manquantes','chaque mois',180],['Saisie et rapprochements','chaque semaine',120],['Questions clients répétitives','chaque jour',75]],
- auto:{t:'Pièces',h:'Pièces à récupérer',items:[['Dossier Martin','3 factures · septembre'],['Dossier Bernard','relevé bancaire · août'],['Dossier SARL Lemoine','notes de frais · septembre'],['Dossier Petit','2 factures fournisseurs']],wait:'Manquant',ok:'Demandé ✓',toast:['4 demandes envoyées','avec la liste exacte des pièces']},
+ auto:{t:'Pièces',h:'Pièces à récupérer',items:[['Dossier Martin','3 factures · septembre'],['Dossier Bernard','relevé bancaire · août'],['SARL Lemoine','notes de frais · sept.'],['Dossier Petit','2 factures d’achat']],wait:'Manquant',ok:'Demandé ✓',toast:['4 demandes envoyées','avec la liste exacte des pièces']},
  site:{dom:'votre-cabinet-comptable.fr',h:'Vos chiffres,<br><em>enfin lisibles.</em>',p:'Création, tenue, bilan, social. Un interlocuteur dédié par dossier.',cta:'Estimer mon forfait',ill:'doc',q:'Combien de factures par mois ?',lo:'10',hi:'300',rl:'Formule conseillée,<br>à confirmer ensemble',rv:'Essentiel +',form:'Recevoir ma proposition',toast:'Nouvelle demande de devis'},
  book:{t:'Rendez-vous',h:'Point bilan, 45 minutes',slots:OFF,extra:['Documents à préparer','liste envoyée'],toast:['Rendez-vous confirmé, 11:30','liste des pièces envoyée']},
  caps:[['Le rapport chiffré','Le temps passé à courir après les pièces'],['Les pièces réclamées seules','Le bon document, au bon client'],['Votre site, avant et après','Vous voyez la nouvelle version avant de décider'],['Le rendez-vous préparé','Le client arrive avec ses pièces']]},
@@ -1240,7 +1240,7 @@ conseil:{label:'un cabinet de conseil',rows:[['Préparation des comités','chaqu
  book:{t:'Prendre rendez-vous',h:'Premier échange, 30 minutes',slots:OFF,extra:['Contexte','facultatif'],toast:['Rendez-vous confirmé, 11:30','lien visio envoyé']},
  caps:[['Le rapport chiffré','Le temps hors mission'],['Les propositions relancées','Sans y penser'],['Votre site, avant et après','Vous voyez la nouvelle version avant de décider'],['Le rendez-vous en ligne','Sans échange de mails']]},
 comm:{label:'une agence de communication',rows:[['Reporting clients','chaque mois',110],['Allers-retours de validation','chaque semaine',90],['Devis et facturation','chaque mois',50]],
- auto:{t:'Validations',h:'Contenus en attente client',items:[['Post · Maison Lenoir','envoyé il y a 3 jours'],['Bannière · Atelier Corail','envoyée il y a 5 jours'],['Newsletter · Brasserie Volta','envoyée hier'],['Vidéo · Les Jardins d’Ilona','envoyée il y a 4 jours']],wait:'En attente',ok:'Relancé ✓',toast:['4 relances de validation','le planning tient']},
+ auto:{t:'Validations',h:'Contenus en attente client',items:[['Post · Lenoir','envoyé il y a 3 jours'],['Bannière · Corail','envoyée il y a 5 jours'],['Newsletter · Volta','envoyée hier'],['Vidéo · Ilona','envoyée il y a 4 jours']],wait:'En attente',ok:'Relancé ✓',toast:['4 relances de validation','le planning tient']},
  site:{dom:'votre-agence.fr',h:'Des idées<br><em>qui se voient.</em>',p:'Identité, contenus, réseaux sociaux, campagnes.',cta:'Voir nos projets',ill:'doc',q:'Votre budget mensuel',lo:'500 €',hi:'10 000 €',rl:'Accompagnement conseillé,<br>à confirmer',rv:'Contenus + réseaux',form:'Parler de mon projet',toast:'Nouveau brief reçu'},
  book:{t:'Brief',h:'30 minutes pour cadrer',slots:OFF,extra:['Exemples aimés','facultatif'],toast:['Brief confirmé, 11:30','questionnaire envoyé']},
  caps:[['Le rapport chiffré','L’admin qui mange le créatif'],['Les validations relancées','Le planning tient'],['Votre site, avant et après','Vous voyez la nouvelle version avant de décider'],['Le brief réservé en ligne','Le client arrive préparé']]},
@@ -1323,9 +1323,9 @@ function place(){const w=window.innerWidth<700?150:250;slides.forEach((s,i)=>{le
   s.style.transform=`translateX(calc(-50% + ${d*w}px)) translateZ(${-a*170}px) rotateY(${-d*24}deg) scale(${1-a*.06})`;s.style.opacity=a>1?0:(a?0.45:1);s.style.filter=a?'saturate(.6) blur(1px)':'none';s.style.zIndex=10-a;s.classList.toggle('on',d===0)});
   [...dots.children].forEach((b,i)=>b.classList.toggle('on',i===cur));play()}
 function play(){timers.forEach(clearTimeout);timers=[];
-  $$('.odo').forEach(o=>runOdo(o,false));$$('.relance').forEach(r=>r.classList.remove('done'));$$('.toast').forEach(t=>t.classList.remove('show'));$$('#slots span').forEach(s=>s.classList.remove('pick'));
+  $$('#stage .odo').forEach(o=>runOdo(o,false));$$('#stage .relance').forEach(r=>r.classList.remove('done'));$$('#stage .toast').forEach(t=>t.classList.remove('show'));$$('#slots span').forEach(s=>s.classList.remove('pick'));
   const s=slides[cur], k=+s.dataset.i;
-  $$('.igrid .post').forEach(p=>p.classList.remove('done'));$('#toast4').classList.remove('show');
+  $$('#stage .igrid .post').forEach(p=>p.classList.remove('done'));$('#toast4').classList.remove('show');
   if(k===4){s.querySelectorAll('.post').forEach((p,i)=>timers.push(setTimeout(()=>p.classList.add('done'),600+i*420)));timers.push(setTimeout(()=>$('#toast4').classList.add('show'),3400))}
   if(k===0)timers.push(setTimeout(()=>s.querySelectorAll('.odo').forEach(o=>runOdo(o,true)),500));
   if(k===1){s.querySelectorAll('.relance').forEach((r,i)=>timers.push(setTimeout(()=>r.classList.add('done'),700+i*650)));timers.push(setTimeout(()=>$('#toast1').classList.add('show'),3500))}
