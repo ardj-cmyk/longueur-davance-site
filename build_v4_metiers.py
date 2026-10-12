@@ -101,21 +101,17 @@ PROD = "--prod" in sys.argv
 SITE = "https://longueur-davance.fr"
 
 def prod(t, chemin, titre_og, desc_og):
-    """Passe une page du prototype en page de production : indexable, canonical, partage, liens propres."""
+    """Passe une page du prototype en page de production : indexable, canonical, partage, référencement, liens propres."""
+    from seo import appliquer
     t = t.replace('<meta name="robots" content="noindex, nofollow">\n', '')
-    head = (f'<link rel="canonical" href="{SITE}{chemin}">\n'
-            f'<meta property="og:type" content="website">\n'
-            f'<meta property="og:title" content="{html.escape(titre_og)}">\n'
-            f'<meta property="og:description" content="{html.escape(desc_og)}">\n'
-            f'<meta property="og:url" content="{SITE}{chemin}">\n')
-    t = t.replace('<link rel="icon"', head + '<link rel="icon"', 1)
+    t = appliquer(t, chemin.strip("/"), titre_og, desc_og)
     return t.replace('/_v4-', '/')
 
 for slug, m in METIERS.items():
     if slug not in PROFIL: continue
     t = page(slug, m)
     if PROD:
-        (ICI / f"{slug}.html").write_text(prod(t, f"/{slug}", m["titre"], m["sub"][:200]), encoding="utf-8")
+        (ICI / f"{slug}.html").write_text(prod(t, f"/{slug}", m["h1"], m["sub"][:200]), encoding="utf-8")
         print("prod", slug)
     else:
         (ICI / f"_v4-{slug}.html").write_text(t, encoding="utf-8")

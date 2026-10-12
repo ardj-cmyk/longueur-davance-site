@@ -1,0 +1,39 @@
+# Longueur d'avance
+
+> Longueur d'avance accompagne les PME, artisans et professions libérales dans l'usage de l'intelligence artificielle. On chiffre en heures et en euros ce que coûtent les tâches répétitives d'une entreprise, puis on met en place avec elle les automatisations qui rapportent le plus, dans les logiciels qu'elle utilise déjà. On conçoit aussi des sites premium qui font venir les clients. Basé à Nantes, en visio partout en France.
+
+Fondée par Amdy Richard Diop Jouanguy (entrepreneur individuel, SIREN 108 172 792), avec Nathan, cofondateur. Contact : contact@longueur-davance.fr.
+
+Points clés :
+- Premier échange gratuit de 30 minutes en visio, sans engagement.
+- Un rapport de 4 pages : les tâches récurrentes chiffrées en heures et en euros, trois priorités, et ce qui est écarté avec les raisons.
+- Des sessions en visio sur les vrais dossiers du client jusqu'à l'autonomie, puis trois mois de suivi.
+- Aucun outil revendu, aucun partenariat caché avec un éditeur. Les données restent dans les outils du client.
+- Pas de prix affiché : un devis écrit après l'échange, selon ce qui a été chiffré.
+
+## Accompagnement IA par métier
+
+- [Avocats et notaires](https://longueur-davance.fr/avocat): synthèses de dossier, courriers types, préparation des pièces, relances
+- [Experts-comptables](https://longueur-davance.fr/comptable): relances de pièces manquantes, courriers récurrents, synthèses avant rendez-vous
+- [Artisans du bâtiment](https://longueur-davance.fr/batiment): devis rédigés depuis les notes de visite, relances, comptes rendus de chantier, impayés
+- [Agences immobilières](https://longueur-davance.fr/immobilier): annonces, comptes rendus de visite, tri des demandes, diffusion sur les portails
+- [Architectes](https://longueur-davance.fr/architecte): métré, dépouillement des devis, comptes rendus de chantier, pièces écrites, maquette 3D à partir des plans
+- [Cabinets médicaux](https://longueur-davance.fr/medical): rappels de rendez-vous, courriers aux confrères, questions administratives
+- [Traiteurs](https://longueur-davance.fr/traiteur): devis événementiels, relances, acomptes, fiches techniques, commandes fournisseurs
+- [Garages](https://longueur-davance.fr/garage): devis expliqués, rappels d'entretien, comptes rendus d'intervention, rendez-vous
+- [Transport et logistique](https://longueur-davance.fr/transport): cotations, relances, dossiers de litige, facturation
+- [Campings et hôtels](https://longueur-davance.fr/camping): réponses aux avis, mails de réservation, descriptifs traduits, taxe de séjour
+- [Recrutement](https://longueur-davance.fr/recrutement): annonces, tri et résumé des CV, comptes rendus d'entretien
+- [Agences de communication](https://longueur-davance.fr/communication): reportings clients, comptes rendus, calendriers éditoriaux
+- [Commerciaux indépendants](https://longueur-davance.fr/commercial): comptes rendus dictés, relances, préparation de tournée, suivi à jour
+- [Indépendants](https://longueur-davance.fr/solo): devis et factures, relances, mails récurrents, veille
+
+## Ressources
+
+- [Le Verdict](https://longueur-davance.fr/verdict): vérification à la source d'une promesse ou d'une offre IA vue en ligne
+- [Quel modèle Claude pour quelle tâche](https://longueur-davance.fr/modeles): antisèche des modèles et de leurs prix
+
+## Optional
+
+- [Accueil](https://longueur-davance.fr/)
+- [Mentions légales](https://longueur-davance.fr/mentions-legales)
