@@ -379,12 +379,13 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:100;o
 
 /* flat beauty scene */
 .ill svg.flat{width:100%;max-width:240px;height:auto;border-radius:14px;box-shadow:0 10px 30px rgba(18,25,43,.12)}
+.ill img.flat{display:block;width:100%;max-width:240px;height:auto;aspect-ratio:300/270;object-fit:cover;border-radius:14px;box-shadow:0 10px 30px rgba(18,25,43,.12)}
 .flat .nail{fill:#ecd5c3;animation:pol 6s ease-in-out infinite}
 .flat .n0{animation-delay:-.56s}.flat .n1{animation-delay:1.24s}.flat .n2{animation-delay:2.14s}.flat .n3{animation-delay:3.14s}
 .flat .n4{fill:#b4551e;animation:none}
 @keyframes pol{0%,8%{fill:#ecd5c3}16%,86%{fill:#b4551e}96%,100%{fill:#ecd5c3}}
 .flat .manu{animation:manu 6s ease-in-out infinite}
-@keyframes manu{0%,12%{transform:translate(-16px,-27px)}24%,32%{transform:translate(-6px,4px)}40%,48%{transform:translate(-17px,34px)}57%,80%{transform:translate(-45px,58px)}94%,100%{transform:translate(-16px,-27px)}}
+@keyframes manu{0%,12%{transform:translate(-6px,-24px)}24%,32%{transform:translate(6px,4px)}40%,48%{transform:translate(-4px,30px)}57%,80%{transform:translate(-32px,56px)}94%,100%{transform:translate(-6px,-24px)}}
 .slide:not(.on) .flat .nail,.slide:not(.on) .flat .manu{animation-play-state:paused}
 
 
@@ -1128,9 +1129,9 @@ const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
     if(t0 && t>GO){const me=R.find(r=>r.me);
       if(!me.go){me.go=1; me.v=2.6; me.x=.3;}                          // première impulsion : déjà un pas d'avance
       R.forEach(r=>{ if(!r.me && t<GO+.08) return;                       // les autres réagissent 0,12 s plus tard
-        const done=finished&&r.x>=100.5,tg=done?0:9.4*r.k*(r.me?1.05:1); r.v+=(tg-r.v)*Math.min(1,dt*(done?1.1:(r.me?1.2:1.15))); r.x+=r.v*dt; r.dist+=r.v*dt});
+        const done=finished&&r.x>=100.5, duel=r.me?1.05:1+.05*Math.sin(t*.85+r.l*1.9)+.03*Math.sin(t*2.2+r.l*3.3), tg=done?0:9.4*r.k*duel; r.v+=(tg-r.v)*Math.min(1,dt*(done?1.1:(r.me?1.2:1.15))); r.x+=r.v*dt; r.dist+=r.v*dt});
       const pack=Math.max(...R.filter(r=>!r.me).map(r=>r.x));
-      if(!finished){if(me.x-pack>2.85)R.forEach(r=>{if(!r.me)r.v+=(me.v-r.v)*Math.min(1,dt*.9)});if(me.x-pack>3.45)me.v-=(me.x-pack-3.45)*dt*3}
+      if(!finished){ const lead=Math.min(2.9,.5+(t-GO)*.32); R.forEach(r=>{ if(r.me) return; if(r.x>me.x-lead) r.v=Math.min(r.v,me.v*.95); if(r.x<me.x-7.5) r.v+= dt*1.5; }); if(me.x-pack>3.6) me.v-=(me.x-pack-3.6)*dt*3 }
       camX+=((me.x-.6)-camX)*Math.min(1,dt*6);
       if(!finished&&me.x>=100){finished=true;finT=t}
       if(finished){me.cel=Math.min(1,(t-finT)*2.2);if(t-finT>6){reset();t0=performance.now();last=t0}}}
@@ -1310,6 +1311,7 @@ solo:{label:'un indépendant',rows:[['Devis et factures','chaque semaine',90],['
  book:{t:'Prendre rendez-vous',h:'Premier échange',slots:OFF,extra:['Votre projet','en deux lignes'],toast:['Rendez-vous confirmé, 11:30','lien visio envoyé']},
  caps:[['Le rapport chiffré','Le temps de l’admin'],['Les relances qui partent seules','Vous restez sur votre métier'],['Votre site, avant et après','Vous voyez la nouvelle version avant de décider'],['Le rendez-vous en ligne','Sans échange de mails']]}
 };
+
 const QKEY=['avocat','compta','btp','immo','archi','sante','resto','beaute','commerce','transport','garage','tech','conseil','comm','commercial','tourisme','rh','solo','gen'];
 const QNAME=['Cabinet d’avocat, notaire','Expert-comptable','Artisan, bâtiment','Immobilier','Architecte','Santé','Restauration, traiteur','Beauté, bien-être','Commerce, boutique','Transport, logistique','Garage, automobile','Tech, informatique','Conseil, consultant','Communication, marketing','Commercial, agent','Tourisme, camping','Recrutement, RH','Indépendant','Autre activité'];
 

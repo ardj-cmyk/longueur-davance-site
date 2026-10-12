@@ -22,6 +22,9 @@ PROFIL = {"avocat": "avocat", "comptable": "compta", "batiment": "btp", "immobil
           "camping": "tourisme", "recrutement": "rh", "solo": "solo"}
 
 modele = (ICI / "_proto-v4.html").read_text(encoding="utf-8")
+import sys as _sys, re as _re
+if "--sans-scenes" in _sys.argv:   # garde en ligne les anciens visuels tant que les nouvelles scènes ne sont pas validées
+    modele = _re.sub(r"\n/\* scènes flat par métier \(proposition 12/10\) \*/.*?(?=const QKEY=)", "\n", modele, count=1, flags=_re.S)
 CHECK = ('<svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M5 9.5l2.5 2.5L13 6.5" '
          'stroke="#b4551e" stroke-width="1.8" fill="none" stroke-linecap="round"/></svg>')
 
