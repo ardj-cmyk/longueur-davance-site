@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cowork : 10 exemples concrets par métier</title>
+<meta name="description" content="Ce que Claude peut faire de ton travail de bureau : 10 exemples concrets pour 10 métiers, de l&#x27;avocat à l&#x27;artisan.">
+<style>
+@font-face{font-family:'Inter';font-style:normal;font-weight:400 800;font-display:swap;src:url(/assets/fonts/Inter-latin.woff2) format('woff2')}
+@font-face{font-family:'Inter';font-style:normal;font-weight:400 800;font-display:swap;src:url(/assets/fonts/Inter-latinext.woff2) format('woff2');unicode-range:U+0100-02BA,U+1E00-1EFF}
+@font-face{font-family:'Playfair Display';font-style:normal;font-weight:600 900;font-display:swap;src:url(/assets/fonts/PlayfairDisplay-latin.woff2) format('woff2')}
+@font-face{font-family:'Playfair Display';font-style:italic;font-weight:600 900;font-display:swap;src:url(/assets/fonts/PlayfairDisplay-italic-latin.woff2) format('woff2')}
+:root{--encre:#12192b;--ivoire:#fdfcf9;--fond:#faf6ee;--terra:#a3461a;--trait:#e3ded4;--doux:#5b6375;--vert:#2f6b45}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--fond);color:var(--encre);font:400 17px/1.6 'Inter',system-ui,sans-serif;padding:0 18px 64px}
+main{max-width:640px;margin:0 auto}
+a{color:var(--terra);font-weight:600}
+header{padding:48px 0 28px;border-bottom:2px solid var(--encre);margin-bottom:28px}
+.marque{font:700 13px/1 'Inter';letter-spacing:.14em;text-transform:uppercase;color:var(--terra)}
+h1{font:800 clamp(32px,8.5vw,50px)/1.05 'Playfair Display',Georgia,serif;margin:14px 0 16px;text-wrap:balance}
+h1 em{font-style:italic;color:var(--terra)}
+.chapo{font-size:19px}
+section{padding:28px 0;border-bottom:1px solid var(--trait)}
+section>p+p,section>p+ul,section>ul+p,section>p+.cartes,section>.cartes+p{margin-top:12px}
+h2{font:800 26px/1.15 'Playfair Display',Georgia,serif;margin-bottom:16px}
+h2 .num{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:999px;background:var(--terra);color:var(--ivoire);font:800 19px 'Inter';margin-right:10px;vertical-align:4px}
+h3{font:800 18px/1.25 'Inter';margin:18px 0 8px}
+ul.liste{list-style:none;display:grid;gap:10px}
+ul.liste li{padding-left:26px;position:relative}
+ul.liste li::before{content:"";position:absolute;left:4px;top:.62em;width:9px;height:9px;border-radius:999px;background:var(--terra)}
+.cartes{display:grid;gap:12px}
+.carte{background:var(--ivoire);border:2px solid var(--encre);border-radius:16px;padding:14px 16px}
+.carte .nom{font:800 18px/1.2 'Inter';margin-bottom:4px}
+.carte .nom b{color:var(--terra)}
+.carte p{font-size:16px}
+.carte .prix{font:700 15px 'Inter';color:var(--terra);margin-top:6px}
+.carte.ferme{background:#efeae0;border-style:dashed}
+.encadre{background:var(--ivoire);border-left:5px solid var(--terra);border-radius:0 14px 14px 0;padding:14px 16px;font-size:16px}
+.encadre+.encadre{margin-top:12px}
+.encadre b:first-child{display:block;margin-bottom:2px}
+.regle{background:var(--encre);color:var(--ivoire);border-radius:16px;padding:18px}
+.regle h2{color:var(--ivoire);font-size:22px;margin-bottom:10px}
+ol.etapes{list-style:none;display:grid;gap:12px;counter-reset:e}
+ol.etapes>li{counter-increment:e;padding-left:40px;position:relative}
+ol.etapes>li::before{content:counter(e);position:absolute;left:0;top:0;width:28px;height:28px;border-radius:999px;background:var(--terra);color:var(--ivoire);font-weight:800;font-size:14px;display:flex;align-items:center;justify-content:center}
+.regle ol.etapes>li::before{background:var(--terra)}
+pre{background:var(--encre);color:#f3efe6;border-radius:12px;padding:12px 14px;margin:8px 0;font:500 14px/1.5 ui-monospace,Menlo,monospace;white-space:pre-wrap;word-break:break-all}
+code{font:500 .9em ui-monospace,Menlo,monospace;background:#efe8da;border-radius:6px;padding:1px 5px}
+pre code{background:none;padding:0;font-size:inherit}
+.avant-apres{display:grid;gap:10px}
+.avant-apres div{border-radius:14px;padding:12px 14px;font-size:16px}
+.avant-apres .av{background:#f3e3d6}
+.avant-apres .ap{background:#e2efe5}
+.avant-apres small{display:block;font:800 12px 'Inter';letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px}
+.avant-apres .av small{color:var(--terra)}
+.avant-apres .ap small{color:var(--vert)}
+table{width:100%;border-collapse:collapse;font-size:15px;background:var(--ivoire);border:2px solid var(--encre);border-radius:16px;overflow:hidden}
+th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--trait);vertical-align:top}
+th{font:700 11px 'Inter';letter-spacing:.08em;text-transform:uppercase;color:var(--doux)}
+td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+.tab{overflow-x:auto;-webkit-overflow-scrolling:touch}
+details{background:var(--ivoire);border:2px solid var(--encre);border-radius:14px;margin-bottom:10px}
+details summary{cursor:pointer;list-style:none;padding:13px 16px;font:800 17px 'Inter';display:flex;justify-content:space-between;align-items:center;gap:10px}
+details summary::-webkit-details-marker{display:none}
+details summary::after{content:"+";font:800 22px 'Inter';color:var(--terra)}
+details[open] summary::after{content:"–"}
+details .dedans{padding:0 16px 14px}
+details ol{padding-left:22px;display:grid;gap:6px;font-size:16px}
+.tag{display:inline-block;font:700 11px 'Inter';letter-spacing:.06em;text-transform:uppercase;border-radius:999px;padding:2px 8px;margin-right:6px;vertical-align:2px}
+.tag.app{background:#e2efe5;color:var(--vert)}
+.tag.code{background:#f3e3d6;color:var(--terra)}
+.note{margin-top:12px;font-size:15px;color:var(--doux)}
+.sources{font-size:14px;color:var(--doux)}
+.sources a{font-weight:500;color:var(--doux)}
+.fin h2{margin-bottom:10px}
+.cta{display:inline-block;margin-top:18px;background:var(--encre);color:var(--ivoire);text-decoration:none;font:800 18px 'Inter';padding:16px 26px;border-radius:999px;box-shadow:0 6px 0 var(--terra)}
+.signature{margin-top:26px;color:var(--doux);font-size:15px}
+</style>
+<link rel="canonical" href="https://longueur-davance.fr/cowork">
+<meta property="og:url" content="https://longueur-davance.fr/cowork">
+<meta property="og:title" content="Cowork : 10 exemples concrets par métier">
+<meta property="og:description" content="Ce que Claude peut faire de ton travail de bureau : 10 exemples concrets pour 10 métiers, de l&#x27;avocat à l&#x27;artisan.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Longueur d'avance">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:image" content="https://longueur-davance.fr/og/cowork.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon-48.png" sizes="48x48" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+</head>
+<body>
+<main>
+<header>
+  <div class="marque">Longueur d'avance · Les bases de l&#x27;IA · 05</div>
+  <h1>10 exemples concrets <em>par métier</em></h1>
+  <p class="chapo">Cowork, c'est Claude qui fait ton travail de bureau à ta place : il ouvre tes fichiers, produit des documents, trie, prépare des rapports. Voici ce que ça donne, métier par métier.</p>
+</header>
+<section>
+  <div class="encadre"><b>Ça a changé de nom</b>Depuis peu, Anthropic a fondu Cowork dans Claude : « Claude Cowork est désormais simplement Claude ». Le déploiement commence par les forfaits Pro et Max. Les exemples ci-dessous restent valables, ils se font simplement dans l'application Claude.</div>
+</section>
+
+<section>
+  <h2>Choisis ton métier</h2>
+  <p style="margin-bottom:14px"><span class="tag app">Appli</span>se fait dans l'application Claude, sans rien installer. <span class="tag code">Claude Code</span>construit un outil qui tourne tout seul ensuite.</p>
+    <details><summary>Cabinet d'avocat</summary><div class="dedans"><ol><li><span class="tag app">Appli</span>Résumer un dossier de 200 pages en note de synthèse.</li><li><span class="tag app">Appli</span>Préparer une trame de conclusions à partir de tes modèles.</li><li><span class="tag app">Appli</span>Comparer deux versions d'un contrat et lister les changements.</li><li><span class="tag app">Appli</span>Trier et renommer les pièces d'un dossier.</li><li><span class="tag app">Appli</span>Faire le point hebdomadaire des échéances et délais de procédure.</li><li><span class="tag code">Claude Code</span>Un outil interne de suivi des dossiers (statut, échéances, alertes).</li><li><span class="tag code">Claude Code</span>Générer automatiquement les courriers types.</li><li><span class="tag code">Claude Code</span>Remonter les mails urgents chaque matin.</li><li><span class="tag code">Claude Code</span>Une base interne interrogeable : modèles, notes, procédures.</li><li><span class="tag code">Claude Code</span>Un tableau de bord de l'activité du cabinet.</li></ol></div></details>
+    <details><summary>Agence immobilière</summary><div class="dedans"><ol><li><span class="tag app">Appli</span>Rédiger les annonces à partir des caractéristiques du bien.</li><li><span class="tag app">Appli</span>Préparer les dossiers de visite en PDF.</li><li><span class="tag app">Appli</span>Faire un comparatif de biens pour un acheteur.</li><li><span class="tag app">Appli</span>Trier et classer les photos par bien.</li><li><span class="tag app">Appli</span>Faire le point hebdomadaire des mandats, visites et offres.</li><li><span class="tag code">Claude Code</span>Un outil qui rapproche acheteurs et biens.</li><li><span class="tag code">Claude Code</span>Relancer automatiquement les prospects par mail.</li><li><span class="tag code">Claude Code</span>Un tableau de bord : délai de vente, prix au m².</li><li><span class="tag code">Claude Code</span>Une veille des nouveaux biens du secteur.</li><li><span class="tag code">Claude Code</span>Un mini-site de présentation pour un bien d'exception.</li></ol></div></details>
+    <details><summary>Cabinet comptable</summary><div class="dedans"><ol><li><span class="tag app">Appli</span>Préparer un tableau de bord financier client (Excel avec formules).</li><li><span class="tag app">Appli</span>Rédiger la note de synthèse d'un bilan.</li><li><span class="tag app">Appli</span>Trier et classer les pièces comptables reçues.</li><li><span class="tag app">Appli</span>Lister les pièces manquantes et rédiger les relances.</li><li><span class="tag app">Appli</span>Faire le rapport mensuel de chaque client.</li><li><span class="tag code">Claude Code</span>Importer et catégoriser les relevés bancaires.</li><li><span class="tag code">Claude Code</span>Automatiser les rapprochements simples.</li><li><span class="tag code">Claude Code</span>Une alerte sur les échéances fiscales.</li><li><span class="tag code">Claude Code</span>Un tableau de bord de rentabilité par client.</li><li><span class="tag code">Claude Code</span>Extraire les données de ton logiciel de compta.</li></ol></div></details>
+    <details><summary>Artisan, bâtiment</summary><div class="dedans"><ol><li><span class="tag app">Appli</span>Rédiger et chiffrer un devis à partir de tes tarifs.</li><li><span class="tag app">Appli</span>Sortir une facture propre en PDF.</li><li><span class="tag app">Appli</span>Faire le compte-rendu de chantier pour le client.</li><li><span class="tag app">Appli</span>Ranger et nommer les photos de chantier.</li><li><span class="tag app">Appli</span>Préparer les réponses aux demandes de devis.</li><li><span class="tag code">Claude Code</span>Un suivi des chantiers et de la marge.</li><li><span class="tag code">Claude Code</span>Relancer automatiquement les devis non signés.</li><li><span class="tag code">Claude Code</span>Un planning simple des interventions.</li><li><span class="tag code">Claude Code</span>Un formulaire de demande de devis sur ton site.</li><li><span class="tag code">Claude Code</span>Un tableau des achats de matériaux.</li></ol></div></details>
+    <details><summary>Restaurant, traiteur</summary><div class="dedans"><ol><li><span class="tag app">Appli</span>Calculer le coût de revient d'une fiche recette.</li><li><span class="tag app">Appli</span>Rédiger la carte et ses descriptions.</li><li><span class="tag app">Appli</span>Répondre aux avis clients dans ton ton.</li><li><span class="tag app">Appli</span>Préparer le planning de la semaine à partir des disponibilités.</li><li><span class="tag app">Appli</span>Faire le point du mois : chiffre d'affaires, achats, coût matière.</li><li><span class="tag code">Claude Code</span>Un tableau qui suit le coût matière en continu.</li><li><span class="tag code">Claude Code</span>Rassembler les factures fournisseurs au même endroit.</li><li><span class="tag code">Claude Code</span>Un formulaire de devis pour les groupes et événements.</li><li><span class="tag code">Claude Code</span>Une alerte quand un produit dépasse son prix habituel.</li><li><span class="tag code">Claude Code</span>Un tableau de bord de la semaine.</li></ol></div></details>
+    <details><summary>Agence de communication</summary><div class="dedans"><ol><li><span class="tag app">Appli</span>Décliner un brief en plan de contenu.</li><li><span class="tag app">Appli</span>Proposer des variantes de posts et d'accroches.</li><li><span class="tag app">Appli</span>Faire le rapport de performance des campagnes.</li><li><span class="tag app">Appli</span>Préparer les présentations client.</li><li><span class="tag app">Appli</span>Organiser les fichiers par client et par projet.</li><li><span class="tag code">Claude Code</span>Un outil de planification des contenus.</li><li><span class="tag code">Claude Code</span>Automatiser le reporting de plusieurs plateformes.</li><li><span class="tag code">Claude Code</span>Générer des pages d'atterrissage pour tes clients.</li><li><span class="tag code">Claude Code</span>Une veille concurrentielle automatique.</li><li><span class="tag code">Claude Code</span>Un tableau de suivi des projets.</li></ol></div></details>
+    <details><summary>Cabinet médical, santé</summary><div class="dedans"><ol><li><span class="tag app">Appli</span>Mettre en forme des comptes-rendus à partir de tes notes.</li><li><span class="tag app">Appli</span>Rédiger les courriers types (confrères, patients).</li><li><span class="tag app">Appli</span>Faire le rapport d'activité de la semaine.</li><li><span class="tag app">Appli</span>Organiser les protocoles et la documentation interne.</li><li><span class="tag app">Appli</span>Préparer des fiches d'information patient.</li><li><span class="tag code">Claude Code</span>Un outil de rappel des rendez-vous.</li><li><span class="tag code">Claude Code</span>Préparer automatiquement la journée du lendemain.</li><li><span class="tag code">Claude Code</span>Un tableau de bord d'activité.</li><li><span class="tag code">Claude Code</span>Un formulaire de pré-consultation.</li><li><span class="tag code">Claude Code</span>Un annuaire interne des correspondants.</li></ol></div></details>
+    <details><summary>Architecte</summary><div class="dedans"><ol><li><span class="tag app">Appli</span>Rédiger les notices descriptives à partir de tes modèles.</li><li><span class="tag app">Appli</span>Préparer les dossiers de présentation projet.</li><li><span class="tag app">Appli</span>Faire le rapport d'avancement de chantier.</li><li><span class="tag app">Appli</span>Organiser plans et documents par projet.</li><li><span class="tag app">Appli</span>Comparer les devis des entreprises dans un tableau.</li><li><span class="tag code">Claude Code</span>Un suivi de projet : phases, échéances, budget.</li><li><span class="tag code">Claude Code</span>Générer les documents administratifs.</li><li><span class="tag code">Claude Code</span>Un tableau de rentabilité par projet.</li><li><span class="tag code">Claude Code</span>Un espace client pour valider les étapes.</li><li><span class="tag code">Claude Code</span>Une veille sur les normes.</li></ol></div></details>
+    <details><summary>Commercial</summary><div class="dedans"><ol><li><span class="tag app">Appli</span>Préparer une proposition commerciale.</li><li><span class="tag app">Appli</span>Faire le compte-rendu d'un rendez-vous à partir de tes notes.</li><li><span class="tag app">Appli</span>Faire le point hebdomadaire de ton portefeuille.</li><li><span class="tag app">Appli</span>Personnaliser tes mails de prospection.</li><li><span class="tag app">Appli</span>Résumer une fiche prospect avant un appel.</li><li><span class="tag code">Claude Code</span>Un fichier clients simple et sur mesure.</li><li><span class="tag code">Claude Code</span>Automatiser les relances.</li><li><span class="tag code">Claude Code</span>Classer tes prospects par priorité.</li><li><span class="tag code">Claude Code</span>Un tableau de bord des ventes.</li><li><span class="tag code">Claude Code</span>Envoyer tes mails directement dans ton fichier clients.</li></ol></div></details>
+    <details><summary>Indépendant, solo</summary><div class="dedans"><ol><li><span class="tag app">Appli</span>Tenir une compta simplifiée dans un tableau.</li><li><span class="tag app">Appli</span>Rédiger tes contenus (site, réseaux).</li><li><span class="tag app">Appli</span>Préparer factures et relances.</li><li><span class="tag app">Appli</span>Organiser tes fichiers et ta documentation.</li><li><span class="tag app">Appli</span>Résumer ta veille et tes lectures.</li><li><span class="tag code">Claude Code</span>Automatiser ta facturation.</li><li><span class="tag code">Claude Code</span>Un mini-site ou un portfolio.</li><li><span class="tag code">Claude Code</span>Un suivi de tes missions.</li><li><span class="tag code">Claude Code</span>Une veille automatique sur ton secteur.</li><li><span class="tag code">Claude Code</span>Un tableau de bord de ton activité.</li></ol></div></details>
+</section>
+
+<section>
+  <h2>Les deux règles d'or</h2>
+  <ol class="etapes">
+    <li><b>Tu vérifies ce qui engage ta responsabilité.</b> Un chiffre, une date, une clause : Claude prépare, tu valides.</li>
+    <li><b>Données sensibles, prudence.</b> Secret professionnel, données de santé, données clients : jamais dans un compte personnel sans avoir vérifié les réglages et la formule adaptée. Demande avant.</li>
+  </ol>
+</section>
+<section><p class="sources">Sources vérifiées le 13/10/2026 : <a href="https://claude.com/fr/pricing">Formules Claude</a></p></section>
+<section class="fin">
+  <h2>Et maintenant ?</h2>
+  <p>Ton métier n'est pas dans la liste, ou tu ne sais pas par où commencer ? C'est exactement le point de départ de mon accompagnement : je regarde tes tâches, je chiffre ce qu'elles te coûtent, et on commence par celle qui rapporte le plus.</p>
+  <a class="cta" href="/">Le premier échange est gratuit</a>
+  <p class="signature">Amdy · Longueur d'avance. Suis-moi sur Instagram (<a href="https://www.instagram.com/ardj.87/">@ardj.87</a>), je décrypte l'IA sans bullshit, une notion par jour.</p>
+</section>
+</main>
+</body>
+</html>
