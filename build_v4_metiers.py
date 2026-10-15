@@ -67,13 +67,13 @@ M3D_CSS = """<style>
 @media(max-width:640px){.m3d canvas{height:380px}.m3d-ui{position:static;max-height:none;padding:10px;background:var(--paper);border-top:1px solid var(--line)}.m3d-sl{flex-wrap:wrap}.m3d-sl .m3d-h{flex:1 1 100%}.m3d-ui{gap:6px}.m3d-ui button,.m3d-h{font-size:12.5px;padding:8px 11px;min-height:38px}.m3d-h input{width:80px}}
 </style>"""
 
-RESTO_URL = "https://eden-garden-proposition.vercel.app/"
+RESTO_URL = "https://restaurant-afro-caribeen.vercel.app/"
 RESTO = """<section class="pad rd" id="exemple">
   <div class="wrap rd-grid">
     <div>
       <span class="eyebrow rv">Exemple réel · restaurant</span>
       <h2 class="title rv d1">Un vrai site, <em>pour un vrai restaurant.</em></h2>
-      <p class="lead rv d2">Proposition réalisée pour Eden Garden, deux restaurants à Nantes. Faites défiler dans le téléphone : tout fonctionne.</p>
+      <p class="lead rv d2">Exemple réalisé pour un restaurant afro-caribéen à deux adresses, à Nantes. Faites défiler dans le téléphone : tout fonctionne.</p>
       <ul class="tlist rd-list">
         <li class="rv">CHECK<span>La carte lisible au téléphone, sans PDF à télécharger</span></li>
         <li class="rv">CHECK<span>Les deux adresses, la réservation et la commande à emporter</span></li>
@@ -82,8 +82,8 @@ RESTO = """<section class="pad rd" id="exemple">
       </ul>
       <div class="cta-row rv"><a class="btn" href="URL" target="_blank" rel="noopener">Ouvrir le site en grand <span class="arr">→</span></a></div>
     </div>
-    <div class="rd-phone rv" aria-label="Le site Eden Garden dans un téléphone">
-      <div class="rd-screen"><iframe src="URL" title="Site Eden Garden, proposition de Longueur d'avance" loading="lazy" referrerpolicy="no-referrer"></iframe></div>
+    <div class="rd-phone rv" aria-label="Le site du restaurant dans un téléphone">
+      <div class="rd-screen"><iframe src="URL" title="Site de démonstration d'un restaurant, par Longueur d'avance" loading="lazy" referrerpolicy="no-referrer"></iframe></div>
     </div>
   </div>
 </section>
