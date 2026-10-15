@@ -67,6 +67,41 @@ M3D_CSS = """<style>
 @media(max-width:640px){.m3d canvas{height:380px}.m3d-ui{position:static;max-height:none;padding:10px;background:var(--paper);border-top:1px solid var(--line)}.m3d-sl{flex-wrap:wrap}.m3d-sl .m3d-h{flex:1 1 100%}.m3d-ui{gap:6px}.m3d-ui button,.m3d-h{font-size:12.5px;padding:8px 11px;min-height:38px}.m3d-h input{width:80px}}
 </style>"""
 
+RESTO_URL = "https://eden-garden-proposition.vercel.app/"
+RESTO = """<section class="pad rd" id="exemple">
+  <div class="wrap rd-grid">
+    <div>
+      <span class="eyebrow rv">Exemple réel · restaurant</span>
+      <h2 class="title rv d1">Un vrai site, <em>pour un vrai restaurant.</em></h2>
+      <p class="lead rv d2">Proposition réalisée pour Eden Garden, deux restaurants à Nantes. Faites défiler dans le téléphone : tout fonctionne.</p>
+      <ul class="tlist rd-list">
+        <li class="rv">CHECK<span>La carte lisible au téléphone, sans PDF à télécharger</span></li>
+        <li class="rv">CHECK<span>Les deux adresses, la réservation et la commande à emporter</span></li>
+        <li class="rv">CHECK<span>Le plan et l'itinéraire depuis la position du client, à pied, à vélo ou en voiture</span></li>
+        <li class="rv">CHECK<span>Ses couleurs, ses photos et sa vraie carte, pas un modèle</span></li>
+      </ul>
+      <div class="cta-row rv"><a class="btn" href="URL" target="_blank" rel="noopener">Ouvrir le site en grand <span class="arr">→</span></a></div>
+    </div>
+    <div class="rd-phone rv" aria-label="Le site Eden Garden dans un téléphone">
+      <div class="rd-screen"><iframe src="URL" title="Site Eden Garden, proposition de Longueur d'avance" loading="lazy" referrerpolicy="no-referrer"></iframe></div>
+    </div>
+  </div>
+</section>
+<script>
+(function(){var s=document.querySelector('.rd-screen'),f=s&&s.querySelector('iframe');if(!f)return;
+function cale(){var k=s.clientWidth/375;f.style.transform='scale('+k+')';s.style.height=(812*k)+'px'}
+cale();addEventListener('resize',cale)})();
+</script>
+"""
+RESTO_CSS = """<style>
+.rd-grid{display:grid;gap:44px;align-items:center}
+.rd-list{margin-top:22px}
+.rd-phone{width:min(340px,100%);margin:0 auto;background:var(--ink);border-radius:46px;padding:12px;box-shadow:var(--sh-lg)}
+.rd-screen{position:relative;width:100%;height:640px;border-radius:34px;overflow:hidden;background:#e6d8c1}
+.rd-screen iframe{position:absolute;top:0;left:0;width:375px;height:812px;border:0;transform-origin:0 0}
+@media(min-width:900px){.rd-grid{grid-template-columns:1fr 380px}}
+</style>"""
+
 def page(slug, m):
     e = html.escape
     t = modele
@@ -90,6 +125,9 @@ def page(slug, m):
     if slug == "architecte":
         bloc = M3D + bloc
         t = t.replace("</head>", M3D_CSS + "\n</head>", 1)
+    if slug == "traiteur":
+        bloc = RESTO.replace("CHECK", CHECK).replace("URL", RESTO_URL) + bloc
+        t = t.replace("</head>", RESTO_CSS + "\n</head>", 1)
     t = t.replace("<!--METIER-TACHES-->", bloc, 1)
     if m.get("faq"):
         q, r = m["faq"]

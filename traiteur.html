@@ -373,13 +373,12 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:100;o
 
 /* flat beauty scene */
 .ill svg.flat{width:100%;max-width:240px;height:auto;border-radius:14px;box-shadow:0 10px 30px rgba(18,25,43,.12)}
-.ill img.flat{display:block;width:100%;max-width:240px;height:auto;aspect-ratio:300/270;object-fit:cover;border-radius:14px;box-shadow:0 10px 30px rgba(18,25,43,.12)}
 .flat .nail{fill:#ecd5c3;animation:pol 6s ease-in-out infinite}
 .flat .n0{animation-delay:-.56s}.flat .n1{animation-delay:1.24s}.flat .n2{animation-delay:2.14s}.flat .n3{animation-delay:3.14s}
 .flat .n4{fill:#b4551e;animation:none}
 @keyframes pol{0%,8%{fill:#ecd5c3}16%,86%{fill:#b4551e}96%,100%{fill:#ecd5c3}}
 .flat .manu{animation:manu 6s ease-in-out infinite}
-@keyframes manu{0%,12%{transform:translate(-6px,-24px)}24%,32%{transform:translate(6px,4px)}40%,48%{transform:translate(-4px,30px)}57%,80%{transform:translate(-32px,56px)}94%,100%{transform:translate(-6px,-24px)}}
+@keyframes manu{0%,12%{transform:translate(-16px,-27px)}24%,32%{transform:translate(-6px,4px)}40%,48%{transform:translate(-17px,34px)}57%,80%{transform:translate(-45px,58px)}94%,100%{transform:translate(-16px,-27px)}}
 .slide:not(.on) .flat .nail,.slide:not(.on) .flat .manu{animation-play-state:paused}
 
 
@@ -566,6 +565,14 @@ footer{background:var(--ink);color:var(--muted-d);border-top:1px solid var(--lin
 <link rel="icon" href="/favicon-48.png" sizes="48x48" type="image/png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"ProfessionalService","@id":"https://longueur-davance.fr/#org","name":"Longueur d'avance","alternateName":["Longueur d'avance IA","longueur-davance.fr"],"url":"https://longueur-davance.fr/","logo":"https://longueur-davance.fr/assets/logo-512.png","image":"https://longueur-davance.fr/og/accueil.png","description":"Accompagnement des PME, artisans et professions libérales dans l'usage de l'intelligence artificielle : audit chiffré des tâches répétitives, automatisations installées avec le client, sites premium.","email":"contact@longueur-davance.fr","telephone":"+33743761687","address":{"@type":"PostalAddress","addressLocality":"Nantes","postalCode":"44000","addressRegion":"Pays de la Loire","addressCountry":"FR"},"areaServed":{"@type":"Country","name":"France"},"founder":{"@type":"Person","name":"Amdy Richard Diop Jouanguy"},"knowsAbout":["intelligence artificielle en entreprise","automatisation des tâches administratives","audit IA","sites internet premium"],"sameAs":["https://www.instagram.com/amdy.dpj/","https://www.facebook.com/profile.php?id=61594097434681"]},{"@type":"Service","name":"Accompagnement IA pour traiteurs","serviceType":"Accompagnement IA","description":"Devis événementiels chiffrés depuis un brief, relances, acomptes, fiches techniques, commandes fournisseurs : l'IA pour traiteurs, sur vos vraies prestations.","provider":{"@id":"https://longueur-davance.fr/#org"},"areaServed":{"@type":"Country","name":"France"},"audience":{"@type":"BusinessAudience","audienceType":"Traiteurs"},"url":"https://longueur-davance.fr/traiteur"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Accueil","item":"https://longueur-davance.fr/"},{"@type":"ListItem","position":2,"name":"Traiteurs","item":"https://longueur-davance.fr/traiteur"}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"On a déjà un logiciel de devis.","acceptedAnswer":{"@type":"Answer","text":"Tant mieux, on ne le remplace pas. Un logiciel vous donne un modèle à remplir ; ce qu'on installe, c'est ce qui le remplit à partir de votre brief, et ce qui relance tout seul quand la réponse ne vient pas."}},{"@type":"Question","name":"Combien ça coûte ?","acceptedAnswer":{"@type":"Answer","text":"Rien n'est affiché d'avance parce que le prix dépend de ce qu'on chiffre ensemble : le nombre de tâches à reprendre, ou ce que votre site doit faire. Après l'échange gratuit, vous recevez un devis écrit. Vous décidez ensuite, sans relance insistante."}},{"@type":"Question","name":"Faut-il être à l'aise avec l'IA ?","acceptedAnswer":{"@type":"Answer","text":"Non. On part de vos tâches, dans vos mots, et on travaille dans les outils que vous utilisez déjà. Le but est que vous soyez autonome, pas que vous deveniez technicien."}},{"@type":"Question","name":"J'ai déjà un site. Faut-il le refaire ?","acceptedAnswer":{"@type":"Answer","text":"Pas forcément. Si votre site fait déjà venir des demandes, on vous le dira. S'il en fait perdre, on vous montre une première version de ce qu'il pourrait être, et vous comparez."}},{"@type":"Question","name":"Que devient mon site si on arrête de travailler ensemble ?","acceptedAnswer":{"@type":"Answer","text":"Il reste à vous. Le nom de domaine, le code et les accès sont à votre nom dès le départ."}},{"@type":"Question","name":"Mes données sont-elles en sécurité ?","acceptedAnswer":{"@type":"Answer","text":"Vos données restent dans vos outils. On ne les récupère pas pour les traiter ailleurs, et on ne vous fait pas changer de logiciel pour notre confort."}}]}]}</script>
+<style>
+.rd-grid{display:grid;gap:44px;align-items:center}
+.rd-list{margin-top:22px}
+.rd-phone{width:min(340px,100%);margin:0 auto;background:var(--ink);border-radius:46px;padding:12px;box-shadow:var(--sh-lg)}
+.rd-screen{position:relative;width:100%;height:640px;border-radius:34px;overflow:hidden;background:#e6d8c1}
+.rd-screen iframe{position:absolute;top:0;left:0;width:375px;height:812px;border:0;transform-origin:0 0}
+@media(min-width:900px){.rd-grid{grid-template-columns:1fr 380px}}
+</style>
 </head>
 <body data-metier="resto">
 
@@ -839,6 +846,30 @@ footer{background:var(--ink);color:var(--muted-d);border-top:1px solid var(--lin
 </section>
 
 <!-- METHOD -->
+<section class="pad rd" id="exemple">
+  <div class="wrap rd-grid">
+    <div>
+      <span class="eyebrow rv">Exemple réel · restaurant</span>
+      <h2 class="title rv d1">Un vrai site, <em>pour un vrai restaurant.</em></h2>
+      <p class="lead rv d2">Proposition réalisée pour Eden Garden, deux restaurants à Nantes. Faites défiler dans le téléphone : tout fonctionne.</p>
+      <ul class="tlist rd-list">
+        <li class="rv"><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M5 9.5l2.5 2.5L13 6.5" stroke="#b4551e" stroke-width="1.8" fill="none" stroke-linecap="round"/></svg><span>La carte lisible au téléphone, sans PDF à télécharger</span></li>
+        <li class="rv"><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M5 9.5l2.5 2.5L13 6.5" stroke="#b4551e" stroke-width="1.8" fill="none" stroke-linecap="round"/></svg><span>Les deux adresses, la réservation et la commande à emporter</span></li>
+        <li class="rv"><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M5 9.5l2.5 2.5L13 6.5" stroke="#b4551e" stroke-width="1.8" fill="none" stroke-linecap="round"/></svg><span>Le plan et l'itinéraire depuis la position du client, à pied, à vélo ou en voiture</span></li>
+        <li class="rv"><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M5 9.5l2.5 2.5L13 6.5" stroke="#b4551e" stroke-width="1.8" fill="none" stroke-linecap="round"/></svg><span>Ses couleurs, ses photos et sa vraie carte, pas un modèle</span></li>
+      </ul>
+      <div class="cta-row rv"><a class="btn" href="https://eden-garden-proposition.vercel.app/" target="_blank" rel="noopener">Ouvrir le site en grand <span class="arr">→</span></a></div>
+    </div>
+    <div class="rd-phone rv" aria-label="Le site Eden Garden dans un téléphone">
+      <div class="rd-screen"><iframe src="https://eden-garden-proposition.vercel.app/" title="Site Eden Garden, proposition de Longueur d'avance" loading="lazy" referrerpolicy="no-referrer"></iframe></div>
+    </div>
+  </div>
+</section>
+<script>
+(function(){var s=document.querySelector('.rd-screen'),f=s&&s.querySelector('iframe');if(!f)return;
+function cale(){var k=s.clientWidth/375;f.style.transform='scale('+k+')';s.style.height=(812*k)+'px'}
+cale();addEventListener('resize',cale)})();
+</script>
 <section class="pad taches" id="taches">
   <div class="wrap">
     <span class="eyebrow rv">Traiteurs</span>
@@ -1145,9 +1176,9 @@ const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
     if(t0 && t>GO){const me=R.find(r=>r.me);
       if(!me.go){me.go=1; me.v=2.6; me.x=.3;}                          // première impulsion : déjà un pas d'avance
       R.forEach(r=>{ if(!r.me && t<GO+.08) return;                       // les autres réagissent 0,12 s plus tard
-        const done=finished&&r.x>=100.5, duel=r.me?1.05:1+.05*Math.sin(t*.85+r.l*1.9)+.03*Math.sin(t*2.2+r.l*3.3), tg=done?0:9.4*r.k*duel; r.v+=(tg-r.v)*Math.min(1,dt*(done?1.1:(r.me?1.2:1.15))); r.x+=r.v*dt; r.dist+=r.v*dt});
+        const done=finished&&r.x>=100.5,tg=done?0:9.4*r.k*(r.me?1.05:1); r.v+=(tg-r.v)*Math.min(1,dt*(done?1.1:(r.me?1.2:1.15))); r.x+=r.v*dt; r.dist+=r.v*dt});
       const pack=Math.max(...R.filter(r=>!r.me).map(r=>r.x));
-      if(!finished){ const lead=Math.min(2.9,.5+(t-GO)*.32); R.forEach(r=>{ if(r.me) return; if(r.x>me.x-lead) r.v=Math.min(r.v,me.v*.95); if(r.x<me.x-7.5) r.v+= dt*1.5; }); if(me.x-pack>3.6) me.v-=(me.x-pack-3.6)*dt*3 }
+      if(!finished){if(me.x-pack>2.85)R.forEach(r=>{if(!r.me)r.v+=(me.v-r.v)*Math.min(1,dt*.9)});if(me.x-pack>3.45)me.v-=(me.x-pack-3.45)*dt*3}
       camX+=((me.x-.6)-camX)*Math.min(1,dt*6);
       if(!finished&&me.x>=100){finished=true;finT=t}
       if(finished){me.cel=Math.min(1,(t-finT)*2.2);if(t-finT>6){reset();t0=performance.now();last=t0}}}
@@ -1327,7 +1358,6 @@ solo:{label:'un indépendant',rows:[['Devis et factures','chaque semaine',90],['
  book:{t:'Prendre rendez-vous',h:'Premier échange',slots:OFF,extra:['Votre projet','en deux lignes'],toast:['Rendez-vous confirmé, 11:30','lien visio envoyé']},
  caps:[['Le rapport chiffré','Le temps de l’admin'],['Les relances qui partent seules','Vous restez sur votre métier'],['Votre site, avant et après','Vous voyez la nouvelle version avant de décider'],['Le rendez-vous en ligne','Sans échange de mails']]}
 };
-
 const QKEY=['avocat','compta','btp','immo','archi','sante','resto','beaute','commerce','transport','garage','tech','conseil','comm','commercial','tourisme','rh','solo','gen'];
 const QNAME=['Cabinet d’avocat, notaire','Expert-comptable','Artisan, bâtiment','Immobilier','Architecte','Santé','Restauration, traiteur','Beauté, bien-être','Commerce, boutique','Transport, logistique','Garage, automobile','Tech, informatique','Conseil, consultant','Communication, marketing','Commercial, agent','Tourisme, camping','Recrutement, RH','Indépendant','Autre activité'];
 
