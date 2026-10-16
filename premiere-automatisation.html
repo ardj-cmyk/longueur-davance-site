@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ta première automatisation avec Claude : le guide pour te lancer</title>
+<meta name="description" content="Choisir la bonne tâche, la décrire comme à un nouvel assistant avec une trame prête à remplir, puis la faire tourner dans un Projet ou en tâche planifiée.">
+<style>
+@font-face{font-family:'Inter';font-style:normal;font-weight:400 800;font-display:swap;src:url(/assets/fonts/Inter-latin.woff2) format('woff2')}
+@font-face{font-family:'Inter';font-style:normal;font-weight:400 800;font-display:swap;src:url(/assets/fonts/Inter-latinext.woff2) format('woff2');unicode-range:U+0100-02BA,U+1E00-1EFF}
+@font-face{font-family:'Playfair Display';font-style:normal;font-weight:600 900;font-display:swap;src:url(/assets/fonts/PlayfairDisplay-latin.woff2) format('woff2')}
+@font-face{font-family:'Playfair Display';font-style:italic;font-weight:600 900;font-display:swap;src:url(/assets/fonts/PlayfairDisplay-italic-latin.woff2) format('woff2')}
+:root{--encre:#12192b;--ivoire:#fdfcf9;--fond:#faf6ee;--terra:#a3461a;--trait:#e3ded4;--doux:#5b6375;--vert:#2f6b45}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--fond);color:var(--encre);font:400 17px/1.6 'Inter',system-ui,sans-serif;padding:0 18px 64px}
+main{max-width:640px;margin:0 auto}
+a{color:var(--terra);font-weight:600}
+header{padding:48px 0 28px;border-bottom:2px solid var(--encre);margin-bottom:28px}
+.marque{font:700 13px/1 'Inter';letter-spacing:.14em;text-transform:uppercase;color:var(--terra)}
+h1{font:800 clamp(32px,8.5vw,50px)/1.05 'Playfair Display',Georgia,serif;margin:14px 0 16px;text-wrap:balance}
+h1 em{font-style:italic;color:var(--terra)}
+.chapo{font-size:19px}
+section{padding:28px 0;border-bottom:1px solid var(--trait)}
+section>p+p,section>p+ul,section>ul+p,section>p+.cartes,section>.cartes+p{margin-top:12px}
+h2{font:800 26px/1.15 'Playfair Display',Georgia,serif;margin-bottom:16px}
+h2 .num{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:999px;background:var(--terra);color:var(--ivoire);font:800 19px 'Inter';margin-right:10px;vertical-align:4px}
+h3{font:800 18px/1.25 'Inter';margin:18px 0 8px}
+ul.liste{list-style:none;display:grid;gap:10px}
+ul.liste li{padding-left:26px;position:relative}
+ul.liste li::before{content:"";position:absolute;left:4px;top:.62em;width:9px;height:9px;border-radius:999px;background:var(--terra)}
+.cartes{display:grid;gap:12px}
+.carte{background:var(--ivoire);border:2px solid var(--encre);border-radius:16px;padding:14px 16px}
+.carte .nom{font:800 18px/1.2 'Inter';margin-bottom:4px}
+.carte .nom b{color:var(--terra)}
+.carte p{font-size:16px}
+.carte .prix{font:700 15px 'Inter';color:var(--terra);margin-top:6px}
+.carte.ferme{background:#efeae0;border-style:dashed}
+.encadre{background:var(--ivoire);border-left:5px solid var(--terra);border-radius:0 14px 14px 0;padding:14px 16px;font-size:16px}
+.encadre+.encadre{margin-top:12px}
+.encadre b:first-child{display:block;margin-bottom:2px}
+.regle{background:var(--encre);color:var(--ivoire);border-radius:16px;padding:18px}
+.regle h2{color:var(--ivoire);font-size:22px;margin-bottom:10px}
+ol.etapes{list-style:none;display:grid;gap:12px;counter-reset:e}
+ol.etapes>li{counter-increment:e;padding-left:40px;position:relative}
+ol.etapes>li::before{content:counter(e);position:absolute;left:0;top:0;width:28px;height:28px;border-radius:999px;background:var(--terra);color:var(--ivoire);font-weight:800;font-size:14px;display:flex;align-items:center;justify-content:center}
+.regle ol.etapes>li::before{background:var(--terra)}
+pre{background:var(--encre);color:#f3efe6;border-radius:12px;padding:12px 14px;margin:8px 0;font:500 14px/1.5 ui-monospace,Menlo,monospace;white-space:pre-wrap;word-break:break-all}
+code{font:500 .9em ui-monospace,Menlo,monospace;background:#efe8da;border-radius:6px;padding:1px 5px}
+pre code{background:none;padding:0;font-size:inherit}
+.avant-apres{display:grid;gap:10px}
+.avant-apres div{border-radius:14px;padding:12px 14px;font-size:16px}
+.avant-apres .av{background:#f3e3d6}
+.avant-apres .ap{background:#e2efe5}
+.avant-apres small{display:block;font:800 12px 'Inter';letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px}
+.avant-apres .av small{color:var(--terra)}
+.avant-apres .ap small{color:var(--vert)}
+table{width:100%;border-collapse:collapse;font-size:15px;background:var(--ivoire);border:2px solid var(--encre);border-radius:16px;overflow:hidden}
+th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--trait);vertical-align:top}
+th{font:700 11px 'Inter';letter-spacing:.08em;text-transform:uppercase;color:var(--doux)}
+td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+.tab{overflow-x:auto;-webkit-overflow-scrolling:touch}
+details{background:var(--ivoire);border:2px solid var(--encre);border-radius:14px;margin-bottom:10px}
+details summary{cursor:pointer;list-style:none;padding:13px 16px;font:800 17px 'Inter';display:flex;justify-content:space-between;align-items:center;gap:10px}
+details summary::-webkit-details-marker{display:none}
+details summary::after{content:"+";font:800 22px 'Inter';color:var(--terra)}
+details[open] summary::after{content:"–"}
+details .dedans{padding:0 16px 14px}
+details ol{padding-left:22px;display:grid;gap:6px;font-size:16px}
+.tag{display:inline-block;font:700 11px 'Inter';letter-spacing:.06em;text-transform:uppercase;border-radius:999px;padding:2px 8px;margin-right:6px;vertical-align:2px}
+.tag.app{background:#e2efe5;color:var(--vert)}
+.tag.code{background:#f3e3d6;color:var(--terra)}
+.note{margin-top:12px;font-size:15px;color:var(--doux)}
+.sources{font-size:14px;color:var(--doux)}
+.sources a{font-weight:500;color:var(--doux)}
+.fin h2{margin-bottom:10px}
+.cta{display:inline-block;margin-top:18px;background:var(--encre);color:var(--ivoire);text-decoration:none;font:800 18px 'Inter';padding:16px 26px;border-radius:999px;box-shadow:0 6px 0 var(--terra)}
+.signature{margin-top:26px;color:var(--doux);font-size:15px}
+</style>
+<link rel="canonical" href="https://longueur-davance.fr/premiere-automatisation">
+<meta property="og:url" content="https://longueur-davance.fr/premiere-automatisation">
+<meta property="og:title" content="Ta première automatisation : le guide">
+<meta property="og:description" content="Choisir la bonne tâche, la décrire comme à un nouvel assistant avec une trame prête à remplir, puis la faire tourner dans un Projet ou en tâche planifiée.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Longueur d'avance">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:image" content="https://longueur-davance.fr/og/premiere-automatisation.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon-48.png" sizes="48x48" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+</head>
+<body>
+<main>
+<header>
+  <div class="marque">Longueur d'avance · Les bases de l&#x27;IA · 27</div>
+  <h1>Ta première <em>automatisation</em></h1>
+  <p class="chapo">C'est le moment où l'IA arrête d'être un gadget. Une seule tâche, celle que tu répètes le plus, décrite une fois, précisément, comme si tu formais un nouvel assistant. Voici comment passer de l'idée à la tâche qui tourne.</p>
+</header>
+<section>
+  <h2><span class="num">1</span>Choisis la bonne tâche</h2>
+  <p>Tes devis, tes relances, tes comptes rendus. La bonne candidate coche ces cases :</p>
+  <ul class="liste">
+    <li><b>Elle revient souvent,</b> chaque semaine ou plus.</li>
+    <li><b>Elle suit toujours le même chemin.</b> Les mêmes étapes, le même format à la fin.</li>
+    <li><b>Tu sais à quoi ressemble un bon résultat.</b> Tu en as déjà des exemples.</li>
+    <li><b>Une erreur se rattrape.</b> Pour commencer, évite ce qui engage ta responsabilité sans relecture.</li>
+  </ul>
+  <p class="note">Le test : si tu peux l'expliquer à un stagiaire en dix minutes, Claude peut la faire.</p>
+</section>
+
+<section>
+  <h2><span class="num">2</span>Décris-la comme à un nouvel assistant</h2>
+  <p>La trame, à remplir une fois :</p>
+  <pre><code>Tâche : [son nom]
+Quand : [chaque lundi, à chaque nouvelle demande...]
+Ce que je te donne : [mes notes, un tableau, le mail du client]
+Ce que tu produis : [le format exact, la longueur, le ton]
+Les règles : [ce qui ne doit jamais arriver]
+Un exemple réussi : [colle un ancien résultat dont tu es content]</code></pre>
+  <p>La dernière ligne compte plus que les autres. D'après Anthropic, un exemple est l'un des moyens les plus fiables d'obtenir le bon format et le bon ton. Les bases du prompt : <a href="/prompt">les trois règles</a>.</p>
+</section>
+
+<section>
+  <h2><span class="num">3</span>Fais-la tourner</h2>
+  <div class="encadre"><b>Niveau 1 : un Projet (même en gratuit)</b>Crée un projet, colle ta trame dans ses instructions, et ajoute tes modèles dans ses fichiers. Ensuite, chaque nouvelle conversation du projet, c'est la tâche faite en un message : tu colles les éléments du jour, Claude produit. Le gratuit permet jusqu'à 5 projets.</div>
+  <div class="encadre"><b>Niveau 2 : une tâche planifiée (forfaits payants)</b>Pour une tâche qui doit tourner toute seule à heure fixe. Dans une conversation, décris la tâche et sa fréquence, réponds aux questions de Claude, vérifie, puis clique « Planifier ». Tu la retrouves dans « Planifiées », dans la barre latérale. Fréquences possibles : toutes les heures, chaque jour, chaque semaine, les jours de semaine, ou à la demande. Elle tourne à distance, même si ton ordinateur est en veille ou l'appli fermée, sauf si elle a besoin de fichiers ou d'applis de ton ordinateur.</div>
+</section>
+
+<section>
+  <div class="regle">
+    <h2>Les 3 règles pour te lancer</h2>
+    <ol class="etapes">
+      <li><b>Une tâche. Une seule.</b> La deuxième viendra quand la première tournera sans toi.</li>
+      <li><b>Relis tout ce qui part chez un client,</b> au moins les premières fois. Tu restes responsable de ce qui sort.</li>
+      <li><b>Note le temps avant et après.</b> La première fois qu'elle te rend une heure, tu ne reviens plus en arrière.</li>
+    </ol>
+  </div>
+</section>
+<section><p class="sources">Sources vérifiées le 16/10/2026 : <a href="https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices">Anthropic : Prompting best practices</a> · <a href="https://support.claude.com/en/articles/9519177-how-can-i-create-and-manage-projects">Aide Claude : créer et gérer des projets</a> · <a href="https://support.claude.com/fr/articles/13854387-schedule-recurring-tasks-in-claude-cowork">Aide Claude : tâches planifiées</a></p></section>
+<section class="fin">
+  <h2>Et maintenant ?</h2>
+  <p>Ce que je fais avec les entreprises : je chiffre ce que leurs tâches répétitives leur coûtent, et je les accompagne pour les réduire avec l'IA. Sans jargon, sans dépendance.</p>
+  <a class="cta" href="/">Le premier échange est gratuit</a>
+  <p class="signature">Amdy · Longueur d'avance. Suis-moi sur Instagram (<a href="https://www.instagram.com/ardj.87/">@ardj.87</a>), je décrypte l'IA sans bullshit, une notion par jour.</p>
+</section>
+</main>
+</body>
+</html>
