@@ -640,10 +640,22 @@ PAGES["vscode"] = dict(
     og_pill="Les bases de l'IA · 25", og_titre="VS Code : quand tu en as besoin, et quand non",
     marque="Les bases de l'IA · 25",
     h1="VS Code : <em>quand tu en as besoin</em>, et quand non",
-    chapo="Ces sites impressionnants que tu vois passer, ce n'est pas VS Code qui les construit. C'est Claude Code. VS Code, c'est un éditeur de code gratuit : l'endroit où tu regardes le chantier. La vraie question n'est pas l'un ou l'autre, c'est où tu fais tourner Claude Code.",
-    verifie="16/10/2026",
+    chapo="Tu veux créer ton site avec l'IA, et on te dit d'installer VS Code ? Pour démarrer, ce n'est pas ce qu'il te faut. Ce qu'il te faut, c'est Claude Code. VS Code, c'est un éditeur gratuit qui affiche tes fichiers : utile plus tard, quand ton projet grossit.",
+    verifie="23/10/2026",
     sources=[SRC_VSCODE_FAQ, SRC_CC_VSCODE],
     corps="""
+<section>
+  <div class="regle">
+    <h2>Pour démarrer : l'appli Claude, onglet Code</h2>
+    <ol class="etapes">
+      <li><b>Télécharge l'appli Claude</b> sur claude.com/download, pour Mac ou Windows, et connecte-toi.</li>
+      <li><b>Ouvre l'onglet Code</b> et choisis le dossier de ton projet sur ton ordinateur.</li>
+      <li><b>Décris ce que tu veux</b>, en français. Claude Code crée et modifie les fichiers dans ce dossier.</li>
+    </ol>
+  </div>
+  <p class="note">Claude Code demande un forfait payant (Pro ou Max). Pas de VS Code à installer pour ça.</p>
+</section>
+
 <section>
   <h2><span class="num">1</span>Deux outils, deux rôles</h2>
   <div class="encadre"><b>VS Code, l'atelier</b>Un éditeur de code de Microsoft, gratuit pour un usage privé comme professionnel, sur Mac, Windows et Linux.</div>
