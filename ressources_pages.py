@@ -340,3 +340,70 @@ PAGES["cowork"] = dict(
 """,
     fin="Ton métier n'est pas dans la liste, ou tu ne sais pas par où commencer ? C'est exactement le point de départ de mon accompagnement : je regarde tes tâches, je chiffre ce qu'elles te coûtent, et on commence par celle qui rapporte le plus.",
 )
+
+SRC_CONNECTEURS_FR = ("Aide Claude : connecteurs personnalisés (MCP distant)", "https://support.claude.com/fr/articles/11175166-get-started-with-custom-connectors-using-remote-mcp")
+SRC_PLANIFIEES_FR = ("Aide Claude : tâches planifiées", "https://support.claude.com/fr/articles/13854387-schedule-recurring-tasks-in-claude-cowork")
+PAGES["jarvis"] = dict(
+    video="29 · Mon Jarvis",
+    title="Ton Jarvis personnel avec Claude : le premier à copier",
+    desc="Un assistant qui te briefe chaque matin, construit avec Claude, sans installer de projet inconnu. La règle, le brief du matin prêt à copier, et les pièges à éviter.",
+    og_pill="Les bases de l'IA · 29", og_titre="Ton Jarvis personnel : le premier à copier",
+    marque="Les bases de l'IA · 29",
+    h1="Ton <em>Jarvis</em> personnel",
+    chapo="Pas besoin d'installer un projet GitHub inconnu. Un Jarvis, c'est Claude, des tâches programmées, et une règle. Voici comment j'ai construit le mien, et le premier à copier dès ce soir.",
+    verifie="26/10/2026",
+    sources=[SRC_FORFAITS, SRC_PLANIFIEES_FR, SRC_CONNECTEURS_FR],
+    corps="""
+<section>
+  <h2><span class="num">1</span>Ce qu'il te faut</h2>
+  <ul class="liste">
+    <li><b>Un forfait Claude payant</b> (Pro, environ 18 € par mois) : les tâches planifiées et Claude Code y sont inclus.</li>
+    <li><b>L'appli Claude sur ton ordinateur.</b></li>
+    <li><b>Tes outils branchés</b> : dans Claude, active les connecteurs de ton agenda et de ta boîte mail (Paramètres, Connecteurs).</li>
+  </ul>
+  <p class="note">Rien d'autre à installer. Pas de clé à coller, pas de projet inconnu.</p>
+</section>
+
+<section>
+  <h2><span class="num">2</span>La règle, avant tout</h2>
+  <p>Colle-la une fois dans les instructions de ton projet, ou au début de chaque tâche :</p>
+  <pre><code>Tu prépares, tu n'envoies jamais.
+Tu ne réponds jamais à ma place, tu n'achètes rien, tu ne supprimes rien.
+Tu me montres ce que tu as préparé, et c'est moi qui décide.</code></pre>
+  <p>C'est ce qui fait la différence entre un assistant et un risque.</p>
+</section>
+
+<section>
+  <h2><span class="num">3</span>Ton premier Jarvis : le brief du matin</h2>
+  <p>Dans une conversation Claude, colle ceci, puis clique « Planifier » et choisis « les jours de semaine, à 8 h » :</p>
+  <pre><code>Chaque matin :
+1. Lis mon agenda d'aujourd'hui : heure, titre, lieu ou lien de visio.
+2. Regarde mes mails non lus des dernières 24 heures.
+   Garde les 3 plus importants (clients et prospects d'abord),
+   ignore les newsletters et les notifications.
+3. Écris-moi un brief de 5 phrases maximum :
+   mes rendez-vous, les 3 mails à traiter, et la priorité du jour.
+Tu ne réponds à aucun mail. Tu prépares seulement.</code></pre>
+  <div class="encadre"><b>Le bonus : qu'il te le dise à voix haute</b>Le Mac sait lire un texte avec une voix française gratuite, déjà installée (Thomas). Si tu fais tourner la tâche dans Claude Code sur ton ordinateur, ajoute à la fin : « Puis lis le brief à voix haute avec la commande say -v Thomas ». Pour ça, l'ordinateur doit être allumé à 8 h.</div>
+</section>
+
+<section>
+  <h2><span class="num">4</span>Les autres Jarvis que j'ai construits</h2>
+  <ul class="liste">
+    <li><b>Les mails clients</b> : il prépare la réponse en brouillon, je relis et j'envoie.</li>
+    <li><b>Les alertes</b> : il me prévient sur un canal Telegram privé quand quelque chose d'important arrive.</li>
+    <li><b>La veille</b> : il trie ce que je me mets de côté et me résume ce qui compte.</li>
+  </ul>
+  <p>Chacun repose sur la même règle : il prépare, je décide.</p>
+</section>
+
+<section>
+  <h2>Ce qu'il ne faut pas faire</h2>
+  <ol class="etapes">
+    <li><b>Installer un projet GitHub sans le lire.</b> C'est du code qui tourne sur ta machine, avec tes accès. Vérifie d'où il vient avant.</li>
+    <li><b>Lui donner le droit d'envoyer seul.</b> Un mail piégé peut contenir des consignes cachées. Tant que c'est toi qui appuies sur Envoyer, il ne peut rien faire à ta place.</li>
+  </ol>
+</section>
+""",
+    fin="Tu veux ton Jarvis construit sur mesure, sur tes outils et ton métier ? Écris-moi sur Instagram, @ardj.87 : on regarde ensemble ce qu'il peut te faire gagner.",
+)

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ton Jarvis personnel avec Claude : le premier à copier</title>
+<meta name="description" content="Un assistant qui te briefe chaque matin, construit avec Claude, sans installer de projet inconnu. La règle, le brief du matin prêt à copier, et les pièges à éviter.">
+<style>
+@font-face{font-family:'Inter';font-style:normal;font-weight:400 800;font-display:swap;src:url(/assets/fonts/Inter-latin.woff2) format('woff2')}
+@font-face{font-family:'Inter';font-style:normal;font-weight:400 800;font-display:swap;src:url(/assets/fonts/Inter-latinext.woff2) format('woff2');unicode-range:U+0100-02BA,U+1E00-1EFF}
+@font-face{font-family:'Playfair Display';font-style:normal;font-weight:600 900;font-display:swap;src:url(/assets/fonts/PlayfairDisplay-latin.woff2) format('woff2')}
+@font-face{font-family:'Playfair Display';font-style:italic;font-weight:600 900;font-display:swap;src:url(/assets/fonts/PlayfairDisplay-italic-latin.woff2) format('woff2')}
+:root{--encre:#12192b;--ivoire:#fdfcf9;--fond:#faf6ee;--terra:#a3461a;--trait:#e3ded4;--doux:#5b6375;--vert:#2f6b45}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--fond);color:var(--encre);font:400 17px/1.6 'Inter',system-ui,sans-serif;padding:0 18px 64px}
+main{max-width:640px;margin:0 auto}
+a{color:var(--terra);font-weight:600}
+header{padding:48px 0 28px;border-bottom:2px solid var(--encre);margin-bottom:28px}
+.marque{font:700 13px/1 'Inter';letter-spacing:.14em;text-transform:uppercase;color:var(--terra)}
+h1{font:800 clamp(32px,8.5vw,50px)/1.05 'Playfair Display',Georgia,serif;margin:14px 0 16px;text-wrap:balance}
+h1 em{font-style:italic;color:var(--terra)}
+.chapo{font-size:19px}
+section{padding:28px 0;border-bottom:1px solid var(--trait)}
+section>p+p,section>p+ul,section>ul+p,section>p+.cartes,section>.cartes+p{margin-top:12px}
+h2{font:800 26px/1.15 'Playfair Display',Georgia,serif;margin-bottom:16px}
+h2 .num{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:999px;background:var(--terra);color:var(--ivoire);font:800 19px 'Inter';margin-right:10px;vertical-align:4px}
+h3{font:800 18px/1.25 'Inter';margin:18px 0 8px}
+ul.liste{list-style:none;display:grid;gap:10px}
+ul.liste li{padding-left:26px;position:relative}
+ul.liste li::before{content:"";position:absolute;left:4px;top:.62em;width:9px;height:9px;border-radius:999px;background:var(--terra)}
+.cartes{display:grid;gap:12px}
+.carte{background:var(--ivoire);border:2px solid var(--encre);border-radius:16px;padding:14px 16px}
+.carte .nom{font:800 18px/1.2 'Inter';margin-bottom:4px}
+.carte .nom b{color:var(--terra)}
+.carte p{font-size:16px}
+.carte .prix{font:700 15px 'Inter';color:var(--terra);margin-top:6px}
+.carte.ferme{background:#efeae0;border-style:dashed}
+.encadre{background:var(--ivoire);border-left:5px solid var(--terra);border-radius:0 14px 14px 0;padding:14px 16px;font-size:16px}
+.encadre+.encadre{margin-top:12px}
+.encadre b:first-child{display:block;margin-bottom:2px}
+.regle{background:var(--encre);color:var(--ivoire);border-radius:16px;padding:18px}
+.regle h2{color:var(--ivoire);font-size:22px;margin-bottom:10px}
+ol.etapes{list-style:none;display:grid;gap:12px;counter-reset:e}
+ol.etapes>li{counter-increment:e;padding-left:40px;position:relative}
+ol.etapes>li::before{content:counter(e);position:absolute;left:0;top:0;width:28px;height:28px;border-radius:999px;background:var(--terra);color:var(--ivoire);font-weight:800;font-size:14px;display:flex;align-items:center;justify-content:center}
+.regle ol.etapes>li::before{background:var(--terra)}
+pre{background:var(--encre);color:#f3efe6;border-radius:12px;padding:12px 14px;margin:8px 0;font:500 14px/1.5 ui-monospace,Menlo,monospace;white-space:pre-wrap;word-break:break-all}
+code{font:500 .9em ui-monospace,Menlo,monospace;background:#efe8da;border-radius:6px;padding:1px 5px}
+pre code{background:none;padding:0;font-size:inherit}
+.avant-apres{display:grid;gap:10px}
+.avant-apres div{border-radius:14px;padding:12px 14px;font-size:16px}
+.avant-apres .av{background:#f3e3d6}
+.avant-apres .ap{background:#e2efe5}
+.avant-apres small{display:block;font:800 12px 'Inter';letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px}
+.avant-apres .av small{color:var(--terra)}
+.avant-apres .ap small{color:var(--vert)}
+table{width:100%;border-collapse:collapse;font-size:15px;background:var(--ivoire);border:2px solid var(--encre);border-radius:16px;overflow:hidden}
+th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--trait);vertical-align:top}
+th{font:700 11px 'Inter';letter-spacing:.08em;text-transform:uppercase;color:var(--doux)}
+td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+.tab{overflow-x:auto;-webkit-overflow-scrolling:touch}
+details{background:var(--ivoire);border:2px solid var(--encre);border-radius:14px;margin-bottom:10px}
+details summary{cursor:pointer;list-style:none;padding:13px 16px;font:800 17px 'Inter';display:flex;justify-content:space-between;align-items:center;gap:10px}
+details summary::-webkit-details-marker{display:none}
+details summary::after{content:"+";font:800 22px 'Inter';color:var(--terra)}
+details[open] summary::after{content:"–"}
+details .dedans{padding:0 16px 14px}
+details ol{padding-left:22px;display:grid;gap:6px;font-size:16px}
+.tag{display:inline-block;font:700 11px 'Inter';letter-spacing:.06em;text-transform:uppercase;border-radius:999px;padding:2px 8px;margin-right:6px;vertical-align:2px}
+.tag.app{background:#e2efe5;color:var(--vert)}
+.tag.code{background:#f3e3d6;color:var(--terra)}
+.note{margin-top:12px;font-size:15px;color:var(--doux)}
+.sources{font-size:14px;color:var(--doux)}
+.sources a{font-weight:500;color:var(--doux)}
+.fin h2{margin-bottom:10px}
+.cta{display:inline-block;margin-top:18px;background:var(--encre);color:var(--ivoire);text-decoration:none;font:800 18px 'Inter';padding:16px 26px;border-radius:999px;box-shadow:0 6px 0 var(--terra)}
+.signature{margin-top:26px;color:var(--doux);font-size:15px}
+</style>
+<link rel="canonical" href="https://longueur-davance.fr/jarvis">
+<meta property="og:url" content="https://longueur-davance.fr/jarvis">
+<meta property="og:title" content="Ton Jarvis personnel : le premier à copier">
+<meta property="og:description" content="Un assistant qui te briefe chaque matin, construit avec Claude, sans installer de projet inconnu. La règle, le brief du matin prêt à copier, et les pièges à éviter.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Longueur d'avance">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:image" content="https://longueur-davance.fr/og/jarvis.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon-48.png" sizes="48x48" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+</head>
+<body>
+<main>
+<header>
+  <div class="marque">Longueur d'avance · Les bases de l&#x27;IA · 29</div>
+  <h1>Ton <em>Jarvis</em> personnel</h1>
+  <p class="chapo">Pas besoin d'installer un projet GitHub inconnu. Un Jarvis, c'est Claude, des tâches programmées, et une règle. Voici comment j'ai construit le mien, et le premier à copier dès ce soir.</p>
+</header>
+<section>
+  <h2><span class="num">1</span>Ce qu'il te faut</h2>
+  <ul class="liste">
+    <li><b>Un forfait Claude payant</b> (Pro, environ 18 € par mois) : les tâches planifiées et Claude Code y sont inclus.</li>
+    <li><b>L'appli Claude sur ton ordinateur.</b></li>
+    <li><b>Tes outils branchés</b> : dans Claude, active les connecteurs de ton agenda et de ta boîte mail (Paramètres, Connecteurs).</li>
+  </ul>
+  <p class="note">Rien d'autre à installer. Pas de clé à coller, pas de projet inconnu.</p>
+</section>
+
+<section>
+  <h2><span class="num">2</span>La règle, avant tout</h2>
+  <p>Colle-la une fois dans les instructions de ton projet, ou au début de chaque tâche :</p>
+  <pre><code>Tu prépares, tu n'envoies jamais.
+Tu ne réponds jamais à ma place, tu n'achètes rien, tu ne supprimes rien.
+Tu me montres ce que tu as préparé, et c'est moi qui décide.</code></pre>
+  <p>C'est ce qui fait la différence entre un assistant et un risque.</p>
+</section>
+
+<section>
+  <h2><span class="num">3</span>Ton premier Jarvis : le brief du matin</h2>
+  <p>Dans une conversation Claude, colle ceci, puis clique « Planifier » et choisis « les jours de semaine, à 8 h » :</p>
+  <pre><code>Chaque matin :
+1. Lis mon agenda d'aujourd'hui : heure, titre, lieu ou lien de visio.
+2. Regarde mes mails non lus des dernières 24 heures.
+   Garde les 3 plus importants (clients et prospects d'abord),
+   ignore les newsletters et les notifications.
+3. Écris-moi un brief de 5 phrases maximum :
+   mes rendez-vous, les 3 mails à traiter, et la priorité du jour.
+Tu ne réponds à aucun mail. Tu prépares seulement.</code></pre>
+  <div class="encadre"><b>Le bonus : qu'il te le dise à voix haute</b>Le Mac sait lire un texte avec une voix française gratuite, déjà installée (Thomas). Si tu fais tourner la tâche dans Claude Code sur ton ordinateur, ajoute à la fin : « Puis lis le brief à voix haute avec la commande say -v Thomas ». Pour ça, l'ordinateur doit être allumé à 8 h.</div>
+</section>
+
+<section>
+  <h2><span class="num">4</span>Les autres Jarvis que j'ai construits</h2>
+  <ul class="liste">
+    <li><b>Les mails clients</b> : il prépare la réponse en brouillon, je relis et j'envoie.</li>
+    <li><b>Les alertes</b> : il me prévient sur un canal Telegram privé quand quelque chose d'important arrive.</li>
+    <li><b>La veille</b> : il trie ce que je me mets de côté et me résume ce qui compte.</li>
+  </ul>
+  <p>Chacun repose sur la même règle : il prépare, je décide.</p>
+</section>
+
+<section>
+  <h2>Ce qu'il ne faut pas faire</h2>
+  <ol class="etapes">
+    <li><b>Installer un projet GitHub sans le lire.</b> C'est du code qui tourne sur ta machine, avec tes accès. Vérifie d'où il vient avant.</li>
+    <li><b>Lui donner le droit d'envoyer seul.</b> Un mail piégé peut contenir des consignes cachées. Tant que c'est toi qui appuies sur Envoyer, il ne peut rien faire à ta place.</li>
+  </ol>
+</section>
+<section><p class="sources">Sources vérifiées le 26/10/2026 : <a href="https://claude.com/fr/pricing">Formules Claude</a> · <a href="https://support.claude.com/fr/articles/13854387-schedule-recurring-tasks-in-claude-cowork">Aide Claude : tâches planifiées</a> · <a href="https://support.claude.com/fr/articles/11175166-get-started-with-custom-connectors-using-remote-mcp">Aide Claude : connecteurs personnalisés (MCP distant)</a></p></section>
+<section class="fin">
+  <h2>Et maintenant ?</h2>
+  <p>Tu veux ton Jarvis construit sur mesure, sur tes outils et ton métier ? Écris-moi sur Instagram, @ardj.87 : on regarde ensemble ce qu'il peut te faire gagner.</p>
+  <a class="cta" href="/">Le premier échange est gratuit</a>
+  <p class="signature">Amdy · Longueur d'avance. Suis-moi sur Instagram (<a href="https://www.instagram.com/ardj.87/">@ardj.87</a>), je décrypte l'IA sans bullshit, une notion par jour.</p>
+</section>
+</main>
+</body>
+</html>
