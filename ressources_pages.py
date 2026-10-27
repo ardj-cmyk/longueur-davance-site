@@ -407,3 +407,64 @@ Tu ne réponds à aucun mail. Tu prépares seulement.</code></pre>
 """,
     fin="Tu veux ton Jarvis construit sur mesure, sur tes outils et ton métier ? Écris-moi sur Instagram, @ardj.87 : on regarde ensemble ce qu'il peut te faire gagner.",
 )
+
+SRC_CODEX_PLUGIN = ("OpenAI : extension Codex pour Claude Code (README officiel)", "https://github.com/openai/codex-plugin-cc")
+SRC_CODEX_PRIX = ("OpenAI : limites d'usage de Codex", "https://developers.openai.com/codex/pricing")
+SRC_ARENA = ("Classement Arena (votes à l'aveugle)", "https://arena.ai/leaderboard")
+PAGES["claude-chatgpt"] = dict(
+    video="30 · Claude + ChatGPT",
+    title="Connecter ChatGPT à Claude : l'installation pas à pas",
+    desc="L'extension officielle d'OpenAI pour Claude Code : Claude confie du code et des relectures à ChatGPT, sur ton compte ChatGPT. Ce qu'il te faut, les 4 commandes, et les règles à garder.",
+    og_pill="Les bases de l'IA · 30", og_titre="Connecter ChatGPT à Claude, pas à pas",
+    marque="Les bases de l'IA · 30",
+    h1="Connecter <em>ChatGPT</em> à Claude",
+    chapo="Claude reste ton tableau de bord. ChatGPT devient son renfort : Claude lui confie du code ou une relecture, et ce travail est décompté sur ton compte ChatGPT. L'outil est officiel, publié par OpenAI. Voici exactement comment je l'ai installé.",
+    verifie="27/10/2026",
+    sources=[SRC_CODEX_PLUGIN, SRC_CODEX_PRIX, SRC_FORFAITS, SRC_ARENA],
+    corps="""
+<section>
+  <h2><span class="num">1</span>Ce qu'il te faut</h2>
+  <ul class="liste">
+    <li><b>Un forfait Claude payant</b> (Pro, environ 18 € par mois) : Claude Code y est inclus.</li>
+    <li><b>Un compte ChatGPT.</b> D'après OpenAI, même le compte gratuit marche. Le travail confié est décompté sur tes limites Codex (Codex, c'est l'agent de ChatGPT).</li>
+    <li><b>Claude Code dans un terminal</b>, et Node.js 18.18 ou plus récent sur ton ordinateur.</li>
+  </ul>
+</section>
+
+<section>
+  <h2><span class="num">2</span>L'installer : 4 commandes</h2>
+  <p>Dans Claude Code, tape ces commandes une par une :</p>
+  <pre><code>/plugin marketplace add openai/codex-plugin-cc
+/plugin install codex@openai-codex
+/reload-plugins
+/codex:setup</code></pre>
+  <p><b>/codex:setup</b> vérifie que tout est prêt. S'il manque Codex, il propose de l'installer pour toi. S'il te demande de te connecter, tape <b>!codex login</b> et connecte-toi avec ton compte ChatGPT.</p>
+  <p class="note">Avant d'installer, vérifie toujours la source : ici, c'est le dépôt <b>openai/codex-plugin-cc</b>, publié par OpenAI. Méfie-toi des copies au nom proche.</p>
+</section>
+
+<section>
+  <h2><span class="num">3</span>L'utiliser</h2>
+  <ul class="liste">
+    <li><b>/codex:review</b> : ChatGPT relit le travail en cours, sans rien modifier. Un deuxième avis.</li>
+    <li><b>/codex:rescue</b> : Claude lui confie une tâche (écrire du code, chercher la cause d'un bug).</li>
+    <li><b>/codex:status</b> et <b>/codex:result</b> : où il en est, et ce qu'il a rendu.</li>
+  </ul>
+  <p>Tu peux aussi le dire en français à Claude : « confie ça à Codex, puis relis ce qu'il a fait ».</p>
+</section>
+
+<section>
+  <h2><span class="num">4</span>Mes règles</h2>
+  <ol class="etapes">
+    <li><b>Claude a le dernier mot.</b> Tout ce que ChatGPT rend, Claude le relit avant de l'utiliser.</li>
+    <li><b>Aucune donnée client chez OpenAI.</b> Ce que tu confies à Codex part sur les serveurs d'OpenAI, sous ton compte. Jamais de contrat, de fichier client ou de donnée personnelle.</li>
+    <li><b>Pas de relecture automatique à chaque fin de tâche.</b> L'option existe, elle est coupée par défaut : laisse-la coupée, elle vide tes limites très vite.</li>
+  </ol>
+</section>
+
+<section>
+  <h2>Pourquoi Claude au centre</h2>
+  <p>Au classement Arena, où les utilisateurs votent à l'aveugle, relevé le 27/10/2026 : en création de sites et d'applis, Claude Opus 5.5 est premier et GPT-6 Astra deuxième. En conversation, le meilleur modèle d'OpenAI est 21e (Gemini 4 est premier, Claude deuxième). Ces classements bougent chaque mois : vérifie la date.</p>
+</section>
+""",
+    fin="Tu veux une organisation comme la mienne, adaptée à ton métier ? Écris-moi sur Instagram, @ardj.87 : on regarde ensemble ce que ça peut te faire gagner.",
+)
