@@ -429,6 +429,7 @@ PAGES["claude-chatgpt"] = dict(
     <li><b>Un compte ChatGPT.</b> D'après OpenAI, même le compte gratuit marche. Le travail confié est décompté sur tes limites Codex (Codex, c'est l'agent de ChatGPT).</li>
     <li><b>Claude Code dans un terminal</b>, et Node.js 18.18 ou plus récent sur ton ordinateur.</li>
   </ul>
+  <p class="note"><b>Pas besoin d'installer Codex avant.</b> Les 4 commandes ci-dessous suffisent : si Codex manque, <b>/codex:setup</b> propose de l'installer pour toi.</p>
 </section>
 
 <section>
