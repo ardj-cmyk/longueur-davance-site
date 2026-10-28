@@ -469,3 +469,96 @@ PAGES["claude-chatgpt"] = dict(
 """,
     fin="Tu veux une organisation comme la mienne, adaptée à ton métier ? Écris-moi sur Instagram, @ardj.87 : on regarde ensemble ce que ça peut te faire gagner.",
 )
+
+# ─────────────────────────────── 31 · LE MONTAGE AVEC CLAUDE
+SRC_ADOBE_PODCAST = ("Adobe Podcast : offres et limites de la version gratuite", "https://podcast.adobe.com/en/plans")
+SRC_HYPERFRAMES = ("HyperFrames (HeyGen), dépôt officiel, licence Apache 2.0", "https://github.com/heygen-com/hyperframes")
+SRC_FAL_KONTEXT = ("fal.ai : modèle FLUX.1 Kontext (édition d'image)", "https://fal.ai/models/fal-ai/flux-pro/kontext")
+
+PAGES["montage-ia"] = dict(
+    video="31 · Le montage avec Claude",
+    title="Monter ses vidéos avec Claude : le pas à pas complet",
+    desc="Tout ce qu'il faut pour que Claude monte tes vidéos à partir de ta voix : les outils, les prix, les consignes à copier, et les pièges. Gratuit, sans rien à acheter en plus de Claude.",
+    og_pill="Je te montre tout", og_titre="Monter ses vidéos avec Claude, pas à pas",
+    marque="Je te montre tout",
+    h1="Monter ses vidéos avec <em>Claude</em>",
+    chapo="Mes vidéos, je ne les monte pas. J'enregistre ma voix, et Claude fabrique tout le reste : les coupes, les sous-titres, le personnage, les dessins, les bruitages. Voici exactement ce qu'il te faut, et les consignes que je lui donne.",
+    verifie="28/10/2026",
+    sources=[SRC_FORFAITS, SRC_ADOBE_PODCAST, SRC_HYPERFRAMES, SRC_FAL_KONTEXT],
+    corps="""
+<section>
+  <h2><span class="num">1</span>Ce qu'il te faut</h2>
+  <ul class="liste">
+    <li><b>Un forfait Claude payant</b> (Pro, environ 18 € par mois) : Claude Code y est inclus.</li>
+    <li><b>L'application Claude sur ton ordinateur, onglet Code.</b> Pas le site dans le navigateur : Claude doit pouvoir lire tes fichiers audio et écrire la vidéo sur ton disque.</li>
+    <li><b>Adobe Podcast</b> (fonction Enhance Speech) pour nettoyer ta voix. Gratuit jusqu'à 1 heure d'audio par jour, 30 minutes maximum par fichier.</li>
+    <li><b>Un personnage, si tu ne veux pas te filmer.</b> Dessine-le une fois (Canva, ou un illustrateur), puis fais fabriquer ses poses par une IA d'image : une clé <b>fal.ai</b>, payée à l'usage (0,04 $ l'image chez nous en octobre 2026), ou ton compte <b>Canva</b> (attention, son quota d'images IA s'épuise vite : 3 images chez nous).</li>
+  </ul>
+  <p class="note"><b>Le reste est gratuit, et c'est Claude qui l'installe :</b> FFmpeg (couper et assembler le son et l'image), Whisper (transcrire ta voix mot à mot, en local), Node.js et <b>HyperFrames</b> (l'outil open source de HeyGen qui transforme une page web animée en vidéo MP4).</p>
+</section>
+
+<section>
+  <h2><span class="num">2</span>Installer les outils</h2>
+  <p>Ouvre l'application Claude, onglet Code, choisis un dossier vide (par exemple « Montage »), et colle :</p>
+  <pre><code>Installe sur mon ordinateur FFmpeg, whisper.cpp avec un modèle
+qui comprend le français, Node.js, et HyperFrames (dépôt officiel
+heygen-com/hyperframes). Vérifie chaque outil après l'installation
+et dis-moi ce qui manque. Ne télécharge rien d'autre sans me demander.</code></pre>
+  <p class="note">Avant chaque installation, vérifie la source : HyperFrames vient du dépôt <b>heygen-com/hyperframes</b>. Méfie-toi des copies au nom proche.</p>
+</section>
+
+<section>
+  <h2><span class="num">3</span>Enregistrer ta voix</h2>
+  <ul class="liste">
+    <li><b>Pièce calme, micro près de la bouche</b> (celui du téléphone suffit).</li>
+    <li><b>Tu rates une phrase ? Tu la redis</b>, sans couper l'enregistrement. Claude gardera la dernière bonne version.</li>
+    <li><b>Vise 75 à 85 secondes.</b> TikTok ne rémunère que les vidéos de plus d'une minute, et si tu accélères la vidéo au montage, elle raccourcit.</li>
+  </ul>
+  <p>Passe ensuite le fichier dans Adobe Podcast (Enhance Speech) : il enlève le souffle, l'écho et le bruit de la pièce. Télécharge le résultat dans ton dossier.</p>
+</section>
+
+<section>
+  <h2><span class="num">4</span>Le montage de la voix</h2>
+  <p>Mets ton texte et ta prise dans le dossier, puis colle :</p>
+  <pre><code>Voici ma prise (voix.wav) et mon texte (texte.txt).
+Transcris la prise mot à mot avec whisper, avec l'heure de chaque mot.
+Pour chaque phrase du texte, garde ma dernière version sans erreur,
+enlève les ratés, les hésitations et les silences trop longs,
+et assemble un nouveau fichier.
+Puis retranscris ce fichier et vérifie qu'il ne manque aucun mot.</code></pre>
+</section>
+
+<section>
+  <h2><span class="num">5</span>La vidéo</h2>
+  <p>Mets les poses de ton personnage dans un sous-dossier « poses », puis colle :</p>
+  <pre><code>Fabrique une vidéo verticale 1080 x 1920 avec HyperFrames, sur ma voix montée.
+Sous-titres mot à mot, calés sur la transcription.
+Une pose du personnage par phrase, choisie selon le sens.
+Une carte dessinée à chaque chiffre, outil ou étape que je cite,
+qui apparaît exactement quand je prononce le mot.
+Un fond qui change entre les parties.
+Ajoute des bruitages discrets sur les apparitions,
+règle le volume pour qu'il soit régulier, puis rends la vidéo en MP4.</code></pre>
+  <p class="note">Sur un ordinateur de 8 Go, lance <b>un seul rendu à la fois</b>. Le rendu passe par un navigateur Chrome invisible : si l'ordinateur rame après, demande à Claude de fermer les Chrome restés ouverts.</p>
+</section>
+
+<section>
+  <h2><span class="num">6</span>Relire et corriger</h2>
+  <p>Regarde la vidéo en entier, comme un spectateur. Puis parle à Claude comme à un monteur, avec le moment précis :</p>
+  <pre><code>À 0:12, la carte arrive trop tôt : cale-la sur le mot « gratuit ».
+À 0:40, le sous-titre cache le personnage : remonte-le.
+Le bruit de la coche n'est pas agréable : enlève-le.</code></pre>
+  <p>Il corrige et refait le rendu. Une fois que tout te va, demande-lui aussi une image de couverture et la légende du post.</p>
+</section>
+
+<section>
+  <h2>Mes règles</h2>
+  <ol class="etapes">
+    <li><b>C'est moi qui écris et qui décide.</b> Claude fabrique, il ne choisit pas le message.</li>
+    <li><b>Chaque chiffre est vérifié à la source</b>, avec la date, avant d'être dit.</li>
+    <li><b>Un vrai son ou rien.</b> Un bruitage qui sonne faux fait plus de mal que le silence.</li>
+  </ol>
+</section>
+""",
+    fin="Tu veux qu'on mette ça en place pour toi, adapté à ton métier ? Écris-moi sur Instagram, @ardj.87.",
+)
