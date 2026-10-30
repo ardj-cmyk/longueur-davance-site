@@ -659,3 +659,124 @@ ne saisis aucune information de paiement.
 """,
     fin="Tu veux qu'on automatise ce genre de tâche pour ton activité ? Écris-moi sur Instagram, @ardj.87.",
 )
+
+
+SRC_CLAUDE_PROMPTS = ("Anthropic : bonnes pratiques de prompt (rôle, exemples)", "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices")
+SRC_OPENAI_META = ("OpenAI Cookbook : améliorer ses prompts par le meta prompting", "https://developers.openai.com/cookbook/examples/enhance_your_prompts_with_meta_prompting")
+
+PAGES["meta"] = dict(
+    video="33 · La méthode PRECISE",
+    title="La méthode PRECISE et le métaprompt : la trame à copier",
+    desc="La trame PRECISE en 7 lettres, mon exemple rempli pour le montage de mes vidéos, et le métaprompt qui la remplit à ta place. Tout est à copier-coller.",
+    og_pill="Je te montre tout", og_titre="La méthode PRECISE et le métaprompt",
+    marque="Je te montre tout",
+    h1="La méthode <em>PRECISE</em>",
+    chapo="Deux minutes à mettre en place, et ce sont les fondations de ton projet. Sans elle, ta demande est floue, et le résultat est moyen. Voici la trame, mon exemple rempli, et le métaprompt qui la remplit à ta place.",
+    verifie="30/10/2026",
+    sources=[SRC_CLAUDE_PROMPTS, SRC_OPENAI_META],
+    corps="""
+<section>
+  <h2><span class="num">1</span>Les 7 lettres</h2>
+  <ul class="liste">
+    <li><b>P, le persona</b> : qui l'IA doit être.</li>
+    <li><b>R, le rôle</b> : ce qu'elle doit te rendre.</li>
+    <li><b>E, explicite</b> : la tâche, dite sans sous-entendu.</li>
+    <li><b>C, le contexte</b> : les infos de fond.</li>
+    <li><b>I, les instructions</b> : longueur, ton, format, ce qu'il faut éviter.</li>
+    <li><b>S, les steps</b> : les étapes, dans l'ordre.</li>
+    <li><b>E, les exemples</b> : à quoi ressemble le bon résultat.</li>
+  </ul>
+  <p class="note">PRECISE, c'est ma méthode, pas une norme officielle. Les deux points qu'Anthropic met en avant dans ses conseils, donner un rôle et donner des exemples, sont dedans.</p>
+</section>
+
+<section>
+  <h2><span class="num">2</span>La trame vide, à copier</h2>
+  <pre><code>[P · PERSONA] Qui tu dois être.
+Tu es [un métier, une expertise précise].
+
+[R · RÔLE] Ce que tu dois me rendre.
+Ta mission : [le livrable, en une phrase].
+
+[E · EXPLICITE] La tâche, sans sous-entendu.
+[Ce que j'attends exactement.]
+
+[C · CONTEXTE] Les infos de fond.
+[Mon activité, mon public, ma situation, mes contraintes.]
+
+[I · INSTRUCTIONS] Les règles.
+Longueur : [...]. Ton : [...]. Format : [...]. À éviter : [...].
+
+[S · STEPS] Les étapes, dans l'ordre.
+1) [...] 2) [...] 3) [...]
+
+[E · EXEMPLES] Le modèle du bon résultat.
+[Un ou deux exemples de ce que j'aime.]</code></pre>
+</section>
+
+<section>
+  <h2><span class="num">3</span>Mon exemple rempli : le montage de mes vidéos</h2>
+  <pre><code>[P] Tu es un réalisateur de reels Instagram,
+spécialiste de la vidéo verticale.
+
+[R] Ta mission : me rendre une vidéo montée, prête à poster.
+Avoir une vision, caler chaque image sur ma voix,
+varier les angles et les plans pour garder l'attention
+jusqu'au bout.
+
+[E] Nettoie le son avec Adobe Podcast, dans Chrome.
+Garde ma meilleure prise de chaque phrase.
+Coupe les ratés et les silences.
+
+[C] Je parle d'IA à des entrepreneurs.
+Vidéo verticale d'une minute, pour Instagram et TikTok.
+
+[I] Sous-titres mot à mot. Une pose du personnage
+par phrase. Une carte à chaque chiffre.
+Des mouvements sobres : une image arrive, puis reste figée.
+
+[S] 1) La voix  2) Les sous-titres  3) Les poses
+4) Les cartes  5) Le rendu
+
+[E] Je joins une vidéo que j'aime.
+Inspire-toi de son rythme, sans la copier.</code></pre>
+  <p>Ça marche pour tout. Un <b>devis</b>, un <b>contrat</b>, un <b>audit</b> : tu changes le persona, le livrable et le contexte, la trame reste la même.</p>
+</section>
+
+<section>
+  <h2><span class="num">4</span>Le métaprompt : la trame se remplit sans toi</h2>
+  <p>Un métaprompt, c'est un prompt qui écrit un prompt. OpenAI appelle ça le « meta prompting ». C'est le seul moment où j'utilise le chat, et pas Claude Code.</p>
+  <ol class="etapes">
+    <li>Ouvre une conversation dans le chat de Claude.</li>
+    <li>Colle la consigne ci-dessous, suivie de la trame vide de la partie 2.</li>
+    <li>Raconte ton besoin, en vrac, avec tes mots.</li>
+    <li>Il rédige le prompt. Tu relis, tu corriges.</li>
+    <li>Tu le colles au début de ton projet dans Claude Code.</li>
+  </ol>
+  <pre><code>Tu es un expert en rédaction de prompts.
+Je vais te donner une trame en 7 parties (PRECISE),
+puis te raconter mon besoin.
+Remplis-moi ce prompt, partie par partie,
+comme le ferait un expert de mon domaine.
+S'il te manque une information importante,
+pose-moi tes questions avant d'écrire.
+Rends-moi le prompt final en un seul bloc, prêt à copier.
+
+Voici la trame :
+[colle ici la trame vide]
+
+Mon besoin :
+[raconte ici]</code></pre>
+  <p class="note">Comme ça, chaque conversation démarre avec la trame d'un expert du domaine.</p>
+</section>
+
+<section>
+  <h2>Mes règles</h2>
+  <ol class="etapes">
+    <li><b>Je relis toujours le prompt</b> avant de m'en servir. Un mot faux au départ, et tout le projet part de travers.</li>
+    <li><b>Les exemples inspirent, ils ne se copient pas.</b> Je montre ce que j'aime, et je demande le même niveau, pas la même vidéo.</li>
+    <li><b>Un projet, un prompt.</b> Chaque nouveau projet repart de la trame.</li>
+  </ol>
+</section>
+""",
+    fin="Tu veux qu'on écrive ensemble les prompts de ton activité ? Écris-moi sur Instagram, @ardj.87.",
+)
