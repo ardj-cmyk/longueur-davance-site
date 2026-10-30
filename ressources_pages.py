@@ -573,3 +573,89 @@ Le bruit de la coche n'est pas agréable : enlève-le.</code></pre>
 """,
     fin="Tu veux qu'on mette ça en place pour toi, adapté à ton métier ? Écris-moi sur Instagram, @ardj.87.",
 )
+
+# ─────────────────────────────── 32 · LES CODES PROMO
+SRC_CHROME = ("Aide Claude : démarrer avec Claude pour Chrome", "https://support.claude.com/fr/articles/12012173-demarrage-avec-claude-pour-chrome")
+SRC_TG_BOTFATHER = ("Telegram : créer un bot avec BotFather", "https://core.telegram.org/bots/tutorial")
+SRC_TG_API = ("Telegram : API des bots (getUpdates, sendMessage)", "https://core.telegram.org/bots/api")
+
+PAGES["promo"] = dict(
+    video="32 · Les codes promo avec Claude",
+    title="Trouver les codes promo avec Claude : le pas à pas",
+    desc="Claude cherche les codes promo, les teste un par un dans ton panier et te prévient sur Telegram dès qu'un code fait vraiment baisser le total. Le pas à pas et la consigne à copier.",
+    og_pill="Je te montre tout", og_titre="Les codes promo avec Claude, pas à pas",
+    marque="Je te montre tout",
+    h1="Les codes promo avec <em>Claude</em>",
+    chapo="Claude cherche les codes, les teste un par un dans ton panier, et te prévient sur Telegram dès qu'un code fait vraiment baisser le total. Toi, tu payes. Voici exactement comment je fais, et la consigne à copier.",
+    verifie="30/10/2026",
+    sources=[SRC_FORFAITS, SRC_CHROME, SRC_TG_BOTFATHER, SRC_TG_API],
+    corps="""
+<section>
+  <h2><span class="num">1</span>Ce qu'il te faut</h2>
+  <ul class="liste">
+    <li><b>Un forfait Claude payant</b> (Pro, environ 18 € par mois).</li>
+    <li><b>L'extension Claude pour Chrome.</b> Incluse dans tous les forfaits payants (Pro, Max, Team, Enterprise), pas dans le gratuit. Elle marche dans Google Chrome, sur ordinateur.</li>
+    <li><b>Telegram</b>, gratuit, pour être prévenu sur ton téléphone.</li>
+  </ul>
+</section>
+
+<section>
+  <h2><span class="num">2</span>Créer ton bot Telegram (deux minutes)</h2>
+  <ol class="etapes">
+    <li>Dans Telegram, cherche <b>@BotFather</b> (le compte officiel, avec le badge bleu) et écris-lui <b>/newbot</b>.</li>
+    <li>Donne un nom à ton bot, puis un identifiant qui finit par « bot » (par exemple « mespromos_bot »).</li>
+    <li>BotFather te répond avec un <b>jeton</b> (une longue suite de chiffres et de lettres). Garde-le de côté.</li>
+    <li>Ouvre la conversation avec ton nouveau bot et envoie-lui « bonjour ».</li>
+    <li>Dans Chrome, ouvre cette adresse en remplaçant TON_JETON :<br><code>https://api.telegram.org/botTON_JETON/getUpdates</code><br>Repère <b>"chat":{"id":</b> suivi d'un nombre : c'est ton numéro de conversation.</li>
+  </ol>
+  <p class="note">Le jeton ne donne accès qu'à ton bot, pas à ton compte Telegram ni à tes messages. Ne le publie quand même nulle part : avec lui, n'importe qui peut écrire au nom de ton bot.</p>
+</section>
+
+<section>
+  <h2><span class="num">3</span>Remplir ton panier, sans payer</h2>
+  <p>Va sur le site, connecte-toi si tu as un compte, et mets dans le panier ce que tu veux vraiment acheter. Pas encore décidé ? Fais la liste des produits, toutes marques confondues, et donne-la à Claude.</p>
+</section>
+
+<section>
+  <h2><span class="num">4</span>La consigne à copier</h2>
+  <p>Sur l'onglet de ton panier, ouvre Claude (l'icône de l'extension), et colle en remplaçant TON_JETON et TON_NUMERO :</p>
+  <pre><code>Je suis sur mon panier. Ne paie rien, ne valide aucune commande,
+ne saisis aucune information de paiement.
+1. Note le total actuel du panier, frais de port compris.
+2. Cherche tous les codes promo de cette marque : sur le web
+   (sites de codes compris), sur son compte Instagram et son compte X,
+   et chez les influenceurs qui travaillent avec elle.
+3. Teste les codes un par un dans le champ « code promo ».
+   Retire le code précédent avant chaque essai.
+4. Ne te fie jamais au message « code appliqué » : regarde le total.
+   S'il ne baisse pas, le code ne marche pas, passe au suivant.
+5. Garde dans le panier le code qui donne le plus petit total.
+6. Dès qu'un code fait baisser le total, préviens-moi en ouvrant
+   dans un nouvel onglet :
+   https://api.telegram.org/botTON_JETON/sendMessage?chat_id=TON_NUMERO&amp;text=
+   suivi du code et du nouveau total.
+7. À la fin, fais-moi un tableau : code, où tu l'as trouvé, total obtenu.</code></pre>
+  <p class="note">Claude te demande l'autorisation avant d'agir sur un nouveau site : accepte pour le site de la marque. Reste à côté pendant qu'il travaille, et ne lui donne jamais tes coordonnées bancaires. <b>C'est toujours toi qui payes.</b></p>
+</section>
+
+<section>
+  <h2><span class="num">5</span>Ce que mon test m'a appris</h2>
+  <ul class="liste">
+    <li><b>Mon panier du 29/10</b> : 3 pots de whey de 1 kg chez Nutrimuscle, 212,85 € affichés. La promo du site retire 31,92 €, le code d'influenceur trouvé par Claude 9,04 € de plus. Total : <b>171,89 €</b>.</li>
+    <li><b>Le chiffre annoncé n'est pas le vrai.</b> Les codes étaient annoncés à 10, 15 ou 20 % sur les sites de codes. Dans le panier, ils donnaient tous 5 %.</li>
+    <li><b>Il n'y a pas toujours de code.</b> Sur le pot de 4 kg, aucun ne passait (« valide, mais non applicable »). Chez certaines marques, les remises sont liées à ton compte (étudiant, anniversaire, livraison).</li>
+    <li><b>Les codes ne se cumulent pas entre eux</b>, mais un code peut s'ajouter à la promo du site. D'où l'intérêt de tester sur le vrai panier.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Mes règles</h2>
+  <ol class="etapes">
+    <li><b>C'est toujours moi qui paie.</b> Claude cherche et teste, il ne valide jamais la commande.</li>
+    <li><b>Le total fait foi</b>, jamais le message du site.</li>
+    <li><b>Un code réservé à quelqu'un d'autre, on ne force pas.</b> Je ne garde que les codes publics.</li>
+  </ol>
+</section>
+""",
+    fin="Tu veux qu'on automatise ce genre de tâche pour ton activité ? Écris-moi sur Instagram, @ardj.87.",
+)

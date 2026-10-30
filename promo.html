@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Trouver les codes promo avec Claude : le pas à pas</title>
+<meta name="description" content="Claude cherche les codes promo, les teste un par un dans ton panier et te prévient sur Telegram dès qu&#x27;un code fait vraiment baisser le total. Le pas à pas et la consigne à copier.">
+<style>
+@font-face{font-family:'Inter';font-style:normal;font-weight:400 800;font-display:swap;src:url(/assets/fonts/Inter-latin.woff2) format('woff2')}
+@font-face{font-family:'Inter';font-style:normal;font-weight:400 800;font-display:swap;src:url(/assets/fonts/Inter-latinext.woff2) format('woff2');unicode-range:U+0100-02BA,U+1E00-1EFF}
+@font-face{font-family:'Playfair Display';font-style:normal;font-weight:600 900;font-display:swap;src:url(/assets/fonts/PlayfairDisplay-latin.woff2) format('woff2')}
+@font-face{font-family:'Playfair Display';font-style:italic;font-weight:600 900;font-display:swap;src:url(/assets/fonts/PlayfairDisplay-italic-latin.woff2) format('woff2')}
+:root{--encre:#12192b;--ivoire:#fdfcf9;--fond:#faf6ee;--terra:#a3461a;--trait:#e3ded4;--doux:#5b6375;--vert:#2f6b45}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--fond);color:var(--encre);font:400 17px/1.6 'Inter',system-ui,sans-serif;padding:0 18px 64px}
+main{max-width:640px;margin:0 auto}
+a{color:var(--terra);font-weight:600}
+header{padding:48px 0 28px;border-bottom:2px solid var(--encre);margin-bottom:28px}
+.marque{font:700 13px/1 'Inter';letter-spacing:.14em;text-transform:uppercase;color:var(--terra)}
+h1{font:800 clamp(32px,8.5vw,50px)/1.05 'Playfair Display',Georgia,serif;margin:14px 0 16px;text-wrap:balance}
+h1 em{font-style:italic;color:var(--terra)}
+.chapo{font-size:19px}
+section{padding:28px 0;border-bottom:1px solid var(--trait)}
+section>p+p,section>p+ul,section>ul+p,section>p+.cartes,section>.cartes+p{margin-top:12px}
+h2{font:800 26px/1.15 'Playfair Display',Georgia,serif;margin-bottom:16px}
+h2 .num{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:999px;background:var(--terra);color:var(--ivoire);font:800 19px 'Inter';margin-right:10px;vertical-align:4px}
+h3{font:800 18px/1.25 'Inter';margin:18px 0 8px}
+ul.liste{list-style:none;display:grid;gap:10px}
+ul.liste li{padding-left:26px;position:relative}
+ul.liste li::before{content:"";position:absolute;left:4px;top:.62em;width:9px;height:9px;border-radius:999px;background:var(--terra)}
+.cartes{display:grid;gap:12px}
+.carte{background:var(--ivoire);border:2px solid var(--encre);border-radius:16px;padding:14px 16px}
+.carte .nom{font:800 18px/1.2 'Inter';margin-bottom:4px}
+.carte .nom b{color:var(--terra)}
+.carte p{font-size:16px}
+.carte .prix{font:700 15px 'Inter';color:var(--terra);margin-top:6px}
+.carte.ferme{background:#efeae0;border-style:dashed}
+.encadre{background:var(--ivoire);border-left:5px solid var(--terra);border-radius:0 14px 14px 0;padding:14px 16px;font-size:16px}
+.encadre+.encadre{margin-top:12px}
+.encadre b:first-child{display:block;margin-bottom:2px}
+.regle{background:var(--encre);color:var(--ivoire);border-radius:16px;padding:18px}
+.regle h2{color:var(--ivoire);font-size:22px;margin-bottom:10px}
+ol.etapes{list-style:none;display:grid;gap:12px;counter-reset:e}
+ol.etapes>li{counter-increment:e;padding-left:40px;position:relative}
+ol.etapes>li::before{content:counter(e);position:absolute;left:0;top:0;width:28px;height:28px;border-radius:999px;background:var(--terra);color:var(--ivoire);font-weight:800;font-size:14px;display:flex;align-items:center;justify-content:center}
+.regle ol.etapes>li::before{background:var(--terra)}
+pre{background:var(--encre);color:#f3efe6;border-radius:12px;padding:12px 14px;margin:8px 0;font:500 14px/1.5 ui-monospace,Menlo,monospace;white-space:pre-wrap;word-break:break-all}
+code{font:500 .9em ui-monospace,Menlo,monospace;background:#efe8da;border-radius:6px;padding:1px 5px}
+pre code{background:none;padding:0;font-size:inherit}
+.avant-apres{display:grid;gap:10px}
+.avant-apres div{border-radius:14px;padding:12px 14px;font-size:16px}
+.avant-apres .av{background:#f3e3d6}
+.avant-apres .ap{background:#e2efe5}
+.avant-apres small{display:block;font:800 12px 'Inter';letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px}
+.avant-apres .av small{color:var(--terra)}
+.avant-apres .ap small{color:var(--vert)}
+table{width:100%;border-collapse:collapse;font-size:15px;background:var(--ivoire);border:2px solid var(--encre);border-radius:16px;overflow:hidden}
+th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--trait);vertical-align:top}
+th{font:700 11px 'Inter';letter-spacing:.08em;text-transform:uppercase;color:var(--doux)}
+td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+.tab{overflow-x:auto;-webkit-overflow-scrolling:touch}
+details{background:var(--ivoire);border:2px solid var(--encre);border-radius:14px;margin-bottom:10px}
+details summary{cursor:pointer;list-style:none;padding:13px 16px;font:800 17px 'Inter';display:flex;justify-content:space-between;align-items:center;gap:10px}
+details summary::-webkit-details-marker{display:none}
+details summary::after{content:"+";font:800 22px 'Inter';color:var(--terra)}
+details[open] summary::after{content:"–"}
+details .dedans{padding:0 16px 14px}
+details ol{padding-left:22px;display:grid;gap:6px;font-size:16px}
+.tag{display:inline-block;font:700 11px 'Inter';letter-spacing:.06em;text-transform:uppercase;border-radius:999px;padding:2px 8px;margin-right:6px;vertical-align:2px}
+.tag.app{background:#e2efe5;color:var(--vert)}
+.tag.code{background:#f3e3d6;color:var(--terra)}
+.note{margin-top:12px;font-size:15px;color:var(--doux)}
+.sources{font-size:14px;color:var(--doux)}
+.sources a{font-weight:500;color:var(--doux)}
+.fin h2{margin-bottom:10px}
+.cta{display:inline-block;margin-top:18px;background:var(--encre);color:var(--ivoire);text-decoration:none;font:800 18px 'Inter';padding:16px 26px;border-radius:999px;box-shadow:0 6px 0 var(--terra)}
+.signature{margin-top:26px;color:var(--doux);font-size:15px}
+</style>
+<link rel="canonical" href="https://longueur-davance.fr/promo">
+<meta property="og:url" content="https://longueur-davance.fr/promo">
+<meta property="og:title" content="Les codes promo avec Claude, pas à pas">
+<meta property="og:description" content="Claude cherche les codes promo, les teste un par un dans ton panier et te prévient sur Telegram dès qu&#x27;un code fait vraiment baisser le total. Le pas à pas et la consigne à copier.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Longueur d'avance">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:image" content="https://longueur-davance.fr/og/promo.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon-48.png" sizes="48x48" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+</head>
+<body>
+<main>
+<header>
+  <div class="marque">Longueur d'avance · Je te montre tout</div>
+  <h1>Les codes promo avec <em>Claude</em></h1>
+  <p class="chapo">Claude cherche les codes, les teste un par un dans ton panier, et te prévient sur Telegram dès qu'un code fait vraiment baisser le total. Toi, tu payes. Voici exactement comment je fais, et la consigne à copier.</p>
+</header>
+<section>
+  <h2><span class="num">1</span>Ce qu'il te faut</h2>
+  <ul class="liste">
+    <li><b>Un forfait Claude payant</b> (Pro, environ 18 € par mois).</li>
+    <li><b>L'extension Claude pour Chrome.</b> Incluse dans tous les forfaits payants (Pro, Max, Team, Enterprise), pas dans le gratuit. Elle marche dans Google Chrome, sur ordinateur.</li>
+    <li><b>Telegram</b>, gratuit, pour être prévenu sur ton téléphone.</li>
+  </ul>
+</section>
+
+<section>
+  <h2><span class="num">2</span>Créer ton bot Telegram (deux minutes)</h2>
+  <ol class="etapes">
+    <li>Dans Telegram, cherche <b>@BotFather</b> (le compte officiel, avec le badge bleu) et écris-lui <b>/newbot</b>.</li>
+    <li>Donne un nom à ton bot, puis un identifiant qui finit par « bot » (par exemple « mespromos_bot »).</li>
+    <li>BotFather te répond avec un <b>jeton</b> (une longue suite de chiffres et de lettres). Garde-le de côté.</li>
+    <li>Ouvre la conversation avec ton nouveau bot et envoie-lui « bonjour ».</li>
+    <li>Dans Chrome, ouvre cette adresse en remplaçant TON_JETON :<br><code>https://api.telegram.org/botTON_JETON/getUpdates</code><br>Repère <b>"chat":{"id":</b> suivi d'un nombre : c'est ton numéro de conversation.</li>
+  </ol>
+  <p class="note">Le jeton ne donne accès qu'à ton bot, pas à ton compte Telegram ni à tes messages. Ne le publie quand même nulle part : avec lui, n'importe qui peut écrire au nom de ton bot.</p>
+</section>
+
+<section>
+  <h2><span class="num">3</span>Remplir ton panier, sans payer</h2>
+  <p>Va sur le site, connecte-toi si tu as un compte, et mets dans le panier ce que tu veux vraiment acheter. Pas encore décidé ? Fais la liste des produits, toutes marques confondues, et donne-la à Claude.</p>
+</section>
+
+<section>
+  <h2><span class="num">4</span>La consigne à copier</h2>
+  <p>Sur l'onglet de ton panier, ouvre Claude (l'icône de l'extension), et colle en remplaçant TON_JETON et TON_NUMERO :</p>
+  <pre><code>Je suis sur mon panier. Ne paie rien, ne valide aucune commande,
+ne saisis aucune information de paiement.
+1. Note le total actuel du panier, frais de port compris.
+2. Cherche tous les codes promo de cette marque : sur le web
+   (sites de codes compris), sur son compte Instagram et son compte X,
+   et chez les influenceurs qui travaillent avec elle.
+3. Teste les codes un par un dans le champ « code promo ».
+   Retire le code précédent avant chaque essai.
+4. Ne te fie jamais au message « code appliqué » : regarde le total.
+   S'il ne baisse pas, le code ne marche pas, passe au suivant.
+5. Garde dans le panier le code qui donne le plus petit total.
+6. Dès qu'un code fait baisser le total, préviens-moi en ouvrant
+   dans un nouvel onglet :
+   https://api.telegram.org/botTON_JETON/sendMessage?chat_id=TON_NUMERO&amp;text=
+   suivi du code et du nouveau total.
+7. À la fin, fais-moi un tableau : code, où tu l'as trouvé, total obtenu.</code></pre>
+  <p class="note">Claude te demande l'autorisation avant d'agir sur un nouveau site : accepte pour le site de la marque. Reste à côté pendant qu'il travaille, et ne lui donne jamais tes coordonnées bancaires. <b>C'est toujours toi qui payes.</b></p>
+</section>
+
+<section>
+  <h2><span class="num">5</span>Ce que mon test m'a appris</h2>
+  <ul class="liste">
+    <li><b>Mon panier du 29/10</b> : 3 pots de whey de 1 kg chez Nutrimuscle, 212,85 € affichés. La promo du site retire 31,92 €, le code d'influenceur trouvé par Claude 9,04 € de plus. Total : <b>171,89 €</b>.</li>
+    <li><b>Le chiffre annoncé n'est pas le vrai.</b> Les codes étaient annoncés à 10, 15 ou 20 % sur les sites de codes. Dans le panier, ils donnaient tous 5 %.</li>
+    <li><b>Il n'y a pas toujours de code.</b> Sur le pot de 4 kg, aucun ne passait (« valide, mais non applicable »). Chez certaines marques, les remises sont liées à ton compte (étudiant, anniversaire, livraison).</li>
+    <li><b>Les codes ne se cumulent pas entre eux</b>, mais un code peut s'ajouter à la promo du site. D'où l'intérêt de tester sur le vrai panier.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Mes règles</h2>
+  <ol class="etapes">
+    <li><b>C'est toujours moi qui paie.</b> Claude cherche et teste, il ne valide jamais la commande.</li>
+    <li><b>Le total fait foi</b>, jamais le message du site.</li>
+    <li><b>Un code réservé à quelqu'un d'autre, on ne force pas.</b> Je ne garde que les codes publics.</li>
+  </ol>
+</section>
+<section><p class="sources">Sources vérifiées le 30/10/2026 : <a href="https://claude.com/fr/pricing">Formules Claude</a> · <a href="https://support.claude.com/fr/articles/12012173-demarrage-avec-claude-pour-chrome">Aide Claude : démarrer avec Claude pour Chrome</a> · <a href="https://core.telegram.org/bots/tutorial">Telegram : créer un bot avec BotFather</a> · <a href="https://core.telegram.org/bots/api">Telegram : API des bots (getUpdates, sendMessage)</a></p></section>
+<section class="fin">
+  <h2>Et maintenant ?</h2>
+  <p>Tu veux qu'on automatise ce genre de tâche pour ton activité ? Écris-moi sur Instagram, @ardj.87.</p>
+  <a class="cta" href="/">Le premier échange est gratuit</a>
+  <p class="signature">Amdy · Longueur d'avance. Suis-moi sur Instagram (<a href="https://www.instagram.com/ardj.87/">@ardj.87</a>), je décrypte l'IA sans bullshit, une notion par jour.</p>
+</section>
+</main>
+</body>
+</html>
