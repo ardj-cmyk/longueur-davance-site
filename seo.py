@@ -78,7 +78,7 @@ def org():
         "founder": {"@type": "Person", "name": "Amdy Richard Diop Jouanguy"},
         "knowsAbout": ["intelligence artificielle en entreprise", "automatisation des tâches administratives",
                        "audit IA", "sites internet premium"],
-        "sameAs": ["https://www.instagram.com/amdy.dpj/",
+        "sameAs": ["https://www.instagram.com/ardj.87/", "https://www.instagram.com/amdy.dpj/",
                    "https://www.facebook.com/profile.php?id=61594097434681"],
     }
 

@@ -1,9 +1,7 @@
 User-agent: *
 Allow: /
-Disallow: /merci
-Disallow: /merci.html
-Disallow: /fiches
-Disallow: /fiches.html
+# /merci, /fiches, /cgv, /mentions-legales, /confidentialite : balise noindex dans la page.
+# Ne pas les bloquer ici, sinon Google ne lit jamais le noindex.
 
 # Robots des moteurs de reponse : autorises explicitement.
 User-agent: GPTBot

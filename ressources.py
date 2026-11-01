@@ -162,3 +162,5 @@ if __name__ == "__main__":
         (ICI / f"{s}.html").write_text(page(s, PAGES[s]), encoding="utf-8"); print("page", s)
     if "--og" in sys.argv:
         og(slugs)
+    import seo_ressources  # données structurées, page /ressources, sitemap
+    seo_ressources.main(og="--og" in sys.argv)
