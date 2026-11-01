@@ -780,3 +780,103 @@ Mon besoin :
 """,
     fin="Tu veux qu'on écrive ensemble les prompts de ton activité ? Écris-moi sur Instagram, @ardj.87.",
 )
+
+
+SRC_GOOGLE_SITE = ("Google Search Central : l'opérateur site:", "https://developers.google.com/search/docs/monitor-debug/search-operators/all-search-site")
+SRC_GOOGLE_SC = ("Google : ajouter une propriété dans la Search Console", "https://support.google.com/webmasters/answer/9008080")
+SRC_BING_IMPORT = ("Bing : importer ses sites depuis la Search Console", "https://blogs.bing.com/webmaster/september-2019/Import-sites-from-Search-Console-to-Bing-Webmaster-Tools")
+SRC_OPENAI_BOTS = ("OpenAI : ses robots (GPTBot, OAI-SearchBot, ChatGPT-User)", "https://developers.openai.com/api/docs/bots")
+SRC_ANTHROPIC_BOTS = ("Anthropic : ses robots (ClaudeBot, Claude-SearchBot, Claude-User)", "https://support.claude.com/en/articles/8896518-does-anthropic-crawl-data-from-the-web-and-how-can-site-owners-block-the-crawler")
+SRC_GOOGLE_CRAWLERS = ("Google : ses robots, dont Google-Extended", "https://developers.google.com/search/docs/crawling-indexing/google-common-crawlers")
+SRC_PERPLEXITY_BOTS = ("Perplexity : ses robots", "https://docs.perplexity.ai/guides/bots")
+
+PAGES["seo-geo"] = dict(
+    video="43 · SEO & GEO, partie 1",
+    title="Es-tu référencé sur Google et dans les IA ? La checklist",
+    desc="Le test en 30 secondes, les trois inscriptions à faire une fois (Search Console, Bing, fiche Google), les robots à laisser entrer, et la checklist complète pour être trouvé par Google et par les IA.",
+    og_pill="SEO & GEO · Partie 1/3", og_titre="Es-tu référencé ? La checklist",
+    marque="SEO & GEO · Partie 1/3",
+    h1="Les IA savent-elles que tu <em>existes</em> ?",
+    chapo="Google te donne une place dans une liste. L'IA te donne une place dans sa réponse, ou aucune. Voici comment vérifier où tu en es, et la checklist pour être trouvé par les deux.",
+    verifie="01/11/2026",
+    sources=[SRC_GOOGLE_SITE, SRC_GOOGLE_SC, SRC_BING_IMPORT, SRC_OPENAI_BOTS, SRC_ANTHROPIC_BOTS, SRC_GOOGLE_CRAWLERS, SRC_PERPLEXITY_BOTS],
+    corps="""
+<section>
+  <h2><span class="num">1</span>Le test en 30 secondes</h2>
+  <ol class="etapes">
+    <li><b>Sur Google</b>, tape <code>site:tonsite.fr</code> (le mot site, deux-points, ton adresse, sans espace). Tu vois les pages que Google connaît. Zéro résultat : tu n'es pas dans son index.</li>
+    <li><b>Sur Bing</b>, tape ton adresse entre guillemets : <code>"tonsite.fr"</code>. Sur mon site, la commande site: de Bing a renvoyé des résultats sans rapport. Le chiffre fiable, c'est Bing Webmaster Tools qui le donne (partie 2).</li>
+    <li><b>Dans les IA</b>, recherche web activée, demande à ChatGPT, Claude et Gemini : « le meilleur [ton métier] à [ta ville] ». Note qui est cité.</li>
+  </ol>
+  <p class="note">Le nombre de résultats de site: est une estimation. Le vrai compte de tes pages indexées est dans la Search Console.</p>
+</section>
+
+<section>
+  <h2><span class="num">2</span>Les trois inscriptions, à faire une fois</h2>
+  <ol class="etapes">
+    <li><b>La Search Console de Google.</b> Ajoute une propriété « Domaine ». Google te donne une ligne à ajouter dans les réglages de ton nom de domaine (chez ton hébergeur ou ton registraire) pour prouver que le site est à toi. Puis envoie ton sitemap, souvent à l'adresse <code>tonsite.fr/sitemap.xml</code>.</li>
+    <li><b>Bing Webmaster Tools.</b> Choisis « Importer », connecte ton compte Google : Bing reprend ton site et ton sitemap depuis la Search Console. C'est Bing que ChatGPT utilise notamment pour chercher sur le web.</li>
+    <li><b>Ta fiche Google Business Profile</b>, si tes clients sont près de chez toi : horaires, photos, avis. Google peut te demander une courte vidéo pour prouver que ton activité existe.</li>
+  </ol>
+  <p class="note">Juste après l'envoi, la Search Console peut afficher « Impossible de récupérer » pour le sitemap. Je l'ai eu le jour même : revérifie quelques jours plus tard avant de chercher une panne.</p>
+</section>
+
+<section>
+  <h2><span class="num">3</span>Laisse entrer les robots</h2>
+  <p>Le fichier <code>robots.txt</code>, à la racine de ton site, dit aux robots ce qu'ils ont le droit de lire. Le plus simple, pour être lu par tout le monde :</p>
+  <pre><code>User-agent: *
+Allow: /
+
+Sitemap: https://tonsite.fr/sitemap.xml</code></pre>
+  <p>Les robots des IA, et ce qu'ils font :</p>
+  <ul class="liste">
+    <li><b>OpenAI</b> : GPTBot (entraînement des modèles), OAI-SearchBot (la recherche de ChatGPT), ChatGPT-User (quand un utilisateur demande une page).</li>
+    <li><b>Anthropic</b> : ClaudeBot (entraînement), Claude-SearchBot (la recherche de Claude), Claude-User (quand un utilisateur demande une page).</li>
+    <li><b>Google</b> : Google-Extended règle l'entraînement de Gemini. Le bloquer ne te retire pas de Google Search.</li>
+    <li><b>Perplexity</b> : PerplexityBot.</li>
+  </ul>
+  <p class="note"><b>Le piège :</b> si tu nommes un robot dans ton robots.txt, il ne suit plus que les règles écrites sous son nom, plus celles de « * ». Tu ne veux pas nourrir l'entraînement mais rester visible ? Bloque GPTBot et ClaudeBot, et laisse passer OAI-SearchBot, Claude-SearchBot et Claude-User.</p>
+</section>
+
+<section>
+  <h2><span class="num">4</span>La checklist complète</h2>
+  <ol class="etapes">
+    <li>Je tape <code>site:monsite.fr</code> sur Google : mes pages y sont.</li>
+    <li>Search Console : site vérifié, sitemap envoyé.</li>
+    <li>Bing Webmaster Tools : site importé, sitemap envoyé.</li>
+    <li>robots.txt : les robots de Google, de Bing et des IA ne sont pas bloqués.</li>
+    <li>Toutes mes pages utiles sont dans le sitemap.</li>
+    <li>Mon texte s'affiche sans JavaScript (les robots des IA ne l'exécutent pas).</li>
+    <li>Chaque page commence par une réponse directe, pas par trois paragraphes d'intro.</li>
+    <li>Des chiffres, des sources, une date de mise à jour.</li>
+    <li>Ma fiche Google Business Profile est à jour, si j'ai une clientèle locale.</li>
+    <li>On parle de moi ailleurs : avis, annuaires, comparatifs, Reddit, YouTube.</li>
+    <li>Chaque mois, je pose dix questions de mes clients aux IA, et je note qui est cité.</li>
+  </ol>
+</section>
+
+<section>
+  <h2><span class="num">5</span>La consigne à donner à Claude Code</h2>
+  <p>Ouvre Claude Code dans le dossier de ton site, ou donne-lui l'adresse, et colle :</p>
+  <pre><code>Vérifie le référencement de base de mon site [adresse].
+1. robots.txt : les robots de Google, Bing, OpenAI, Anthropic
+   et Perplexity sont-ils autorisés ?
+2. sitemap : toutes mes pages utiles y sont-elles ?
+   Liste celles qui manquent.
+3. Le texte de chaque page s'affiche-t-il sans JavaScript ?
+4. Chaque page a-t-elle un titre et une description uniques ?
+Ne devine pas : si tu ne peux pas vérifier un point, dis-le.
+Montre-moi les changements avant de modifier quoi que ce soit.</code></pre>
+</section>
+
+<section>
+  <h2>Mes règles</h2>
+  <ol class="etapes">
+    <li><b>Pas de SEO, pas de GEO.</b> Si Google et Bing ne te connaissent pas, l'IA ne te trouve pas en recherche.</li>
+    <li><b>Je vérifie, je ne suppose pas.</b> Le test site:, la Search Console et une question aux IA, plutôt qu'une impression.</li>
+    <li><b>Une page, une question de client.</b> C'est la partie 2.</li>
+  </ol>
+</section>
+""",
+    fin="Tu veux qu'on regarde ensemble comment ton activité ressort sur Google et dans les IA ? Écris-moi sur Instagram, @ardj.87.",
+)
