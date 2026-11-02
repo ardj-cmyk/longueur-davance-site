@@ -880,3 +880,87 @@ Montre-moi les changements avant de modifier quoi que ce soit.</code></pre>
 """,
     fin="Tu veux qu'on regarde ensemble comment ton activité ressort sur Google et dans les IA ? Écris-moi sur Instagram, @ardj.87.",
 )
+
+
+SRC_GOOGLE_IA = ("Google Search Central : la recherche Google et les contenus générés par IA", "https://developers.google.com/search/blog/2023/02/google-search-and-ai-content")
+SRC_GOOGLE_SPAM = ("Google : règles anti-spam, abus de contenu à grande échelle", "https://developers.google.com/search/docs/essentials/spam-policies#scaled-content")
+SRC_GOOGLE_SITEMAP = ("Google : créer et envoyer un sitemap", "https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap")
+SRC_GBP_VERIF = ("Aide Google Business Profile : valider son établissement", "https://support.google.com/business/answer/7107242?hl=fr")
+
+PAGES["seo-ia"] = dict(
+    video="35 · SEO & GEO, partie 2",
+    title="Le référencement Google avec l'IA : le prompt d'audit à coller",
+    desc="Ce que Google autorise avec l'IA, les cinq étapes (questions clients, premiers jets, audit technique, Search Console et Bing, fiche Google), et le prompt d'audit à coller dans Claude Code.",
+    og_pill="SEO & GEO · Partie 2/3", og_titre="Le prompt d'audit à coller",
+    marque="SEO & GEO · Partie 2/3",
+    h1="Le référencement Google, <em>avec l'IA</em>",
+    chapo="L'IA peut faire une grosse partie du travail. Mais cent pages écrites d'un coup, ça se retourne contre toi. Voici ce que Google dit, les cinq étapes, et le prompt d'audit à coller.",
+    verifie="02/11/2026",
+    sources=[SRC_GOOGLE_IA, SRC_GOOGLE_SPAM, SRC_GOOGLE_SITEMAP, SRC_GOOGLE_SC, SRC_BING_IMPORT, SRC_GBP_VERIF],
+    corps="""
+<section>
+  <h2><span class="num">1</span>Ce que Google dit</h2>
+  <p>Utiliser l'IA, ce n'est pas interdit : Google écrit qu'un usage approprié de l'IA ou de l'automatisation ne va pas contre ses règles.</p>
+  <p>Ce qu'il sanctionne, c'est de générer beaucoup de pages dans le but principal de manipuler le classement, sans rien apporter au lecteur. Il appelle ça l'abus de contenu à grande échelle, et il cite en exemple les pages produites en masse avec l'IA générative.</p>
+  <p class="note">La règle simple : une page doit répondre à une vraie question, avec ce que toi seul peux apporter.</p>
+</section>
+
+<section>
+  <h2><span class="num">2</span>Les cinq étapes</h2>
+  <ol class="etapes">
+    <li><b>Les vraies questions de tes clients.</b> Demande à Claude de lister les questions qu'on te pose vraiment (devis, délais, prix, cas particuliers). Une question, une page.</li>
+    <li><b>Le premier jet.</b> Claude écrit la page et place la réponse dès la première ligne. Toi, tu ajoutes ce que toi seul sais : tes chiffres, tes exemples, tes photos.</li>
+    <li><b>L'audit technique, avec Claude Code.</b> Il vérifie que chaque page est dans ton sitemap (la liste de tes pages que tu donnes à Google) et il ajoute celles qui manquent.</li>
+    <li><b>La Search Console, puis Bing.</b> Tu inscris ton site sur la Search Console. Google te donne un code à coller chez celui qui gère ton nom de domaine : ça prouve que le site est à toi. Tu envoies ton sitemap. Ensuite, sur Bing Webmaster Tools, tu importes tout depuis la Search Console.</li>
+    <li><b>Ta fiche Google Business Profile</b>, si tes clients sont près de chez toi. Pour valider la fiche, Google peut proposer une vidéo de ton établissement, selon ce qu'il ouvre à ta fiche.</li>
+  </ol>
+  <p class="note">Claude peut s'occuper de la plus grande partie : les questions, les premiers jets, le sitemap. Pour la Search Console et Bing, avec Claude dans Chrome, il fait les clics avec toi, et c'est toi qui te connectes à tes comptes.</p>
+</section>
+
+<section>
+  <h2><span class="num">3</span>Le prompt d'audit à coller</h2>
+  <p>Ouvre Claude Code dans le dossier de ton site et colle :</p>
+  <pre><code>Fais l'audit de référencement Google de mon site [adresse].
+
+1. Sitemap : liste toutes les pages utiles du site, puis compare
+   avec sitemap.xml. Donne-moi les pages qui manquent.
+2. robots.txt : vérifie que Google et Bing ne sont pas bloqués,
+   et que le sitemap y est indiqué.
+3. Chaque page : un titre et une description uniques ?
+   Un seul titre principal (h1) ?
+4. Le texte s'affiche-t-il sans JavaScript ?
+5. Contenu : la réponse arrive-t-elle dès les premières lignes ?
+   Repère les pages trop proches les unes des autres.
+6. Liste 10 questions que mes clients se posent et qui n'ont
+   pas encore leur page.
+
+Pour chaque point : ce qui va, ce qui ne va pas, la correction.
+Ne devine pas : si tu ne peux pas vérifier, dis-le.
+Montre-moi chaque changement avant de modifier un fichier.</code></pre>
+</section>
+
+<section>
+  <h2><span class="num">4</span>Le prompt pour une page</h2>
+  <p>Pour chaque question de client retenue :</p>
+  <pre><code>Écris une page pour mon site qui répond à cette question
+de client : [question].
+- La réponse directe dans les deux premières phrases.
+- Puis le détail, en langage simple, sans jargon.
+- Laisse des emplacements [À COMPLÉTER] pour mes chiffres,
+  un exemple réel et une photo.
+- Un titre et une description pour Google.
+N'invente aucun chiffre, aucun client, aucun avis.</code></pre>
+  <p class="note">Les emplacements [À COMPLÉTER], c'est ta part. Une page sans tes chiffres ni tes exemples ressemble à toutes les autres.</p>
+</section>
+
+<section>
+  <h2>Mes règles</h2>
+  <ol class="etapes">
+    <li><b>Une page, une question.</b> Jamais cent pages d'un coup.</li>
+    <li><b>L'IA écrit le premier jet, je signe le reste.</b> Mes chiffres, mes exemples, mes photos.</li>
+    <li><b>Je vérifie dans la Search Console</b> quelles pages Google connaît, plutôt que de le supposer.</li>
+  </ol>
+</section>
+""",
+    fin="Tu veux qu'on regarde ensemble le référencement de ton site ? Écris-moi sur Instagram, @ardj.87.",
+)
