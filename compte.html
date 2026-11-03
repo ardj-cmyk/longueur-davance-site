@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Votre espace · Le Verdict</title>
+<meta name="robots" content="noindex">
+<link rel="canonical" href="https://longueur-davance.fr/compte">
+<meta name="description" content="Connectez-vous à votre espace Le Verdict en deux clics : vos crédits et vos vérifications au même endroit.">
+<link rel="stylesheet" href="assets/fonts/fonts.css">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon-48.png" sizes="48x48" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<style>
+/* ── Tokens (identiques à verdict.html) ───────────────────── */
+:root{
+  --ink:#12192b; --paper:#fdfcf9; --surface:#f4f0e8;
+  --accent:#b4551e; --accent-l:#cc6830; --accent-d:rgba(180,85,30,.12);
+  --muted:#5c6674; --muted-d:#8b93a3; --line:#e3ded4;
+  --r:14px; --r-lg:20px;
+  --sh-sm:0 2px 10px rgba(18,25,43,.06);
+  --sh-md:0 8px 28px rgba(18,25,43,.1);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{-webkit-text-size-adjust:100%;}
+body{font-family:'Inter',system-ui,sans-serif;font-size:16px;line-height:1.6;color:var(--ink);background:var(--paper);min-height:100vh;display:flex;flex-direction:column;}
+main{flex:1;}
+.wrap{max-width:1080px;margin:0 auto;padding:0 16px;}
+a{color:var(--accent);}
+h1,h2{font-family:'Playfair Display',Georgia,serif;font-weight:700;letter-spacing:-.4px;}
+
+/* ── Header (repris de verdict.html) ──────────────────────── */
+header{border-bottom:1px solid var(--line);background:rgba(253,252,249,.9);backdrop-filter:blur(10px);position:sticky;top:0;z-index:30;}
+.hdr{display:flex;align-items:center;justify-content:space-between;padding:14px 0;}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);}
+.logo svg{width:30px;height:30px;}
+.logo-name{font-family:'Playfair Display',Georgia,serif;font-size:18px;font-weight:700;line-height:1.1;}
+.logo-sub{display:block;font-family:'Inter',sans-serif;font-size:9.5px;font-weight:500;letter-spacing:.5px;color:var(--muted);text-transform:uppercase;}
+.cta-text{display:inline-flex;align-items:center;gap:7px;font-size:13.5px;font-weight:600;color:var(--ink);text-decoration:none;white-space:nowrap;}
+.cta-text:hover{color:var(--accent);}
+
+/* ── Carte ────────────────────────────────────────────────── */
+.box{max-width:440px;margin:40px auto 56px;text-align:center;}
+.eyebrow{font-size:10.5px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);margin-bottom:12px;display:block;}
+h1{font-size:clamp(28px,7vw,38px);line-height:1.15;}
+.lead{margin:12px auto 0;font-size:16px;color:var(--muted);max-width:360px;}
+.card{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--sh-sm);padding:24px 20px;margin-top:28px;text-align:left;}
+
+/* Boutons de connexion : un par fournisseur, chacun à ses couleurs officielles */
+.sso{display:flex;align-items:center;justify-content:center;gap:12px;width:100%;min-height:52px;
+  font-family:inherit;font-size:16px;font-weight:600;border-radius:var(--r);cursor:pointer;
+  border:1.5px solid transparent;transition:transform .15s,box-shadow .15s,opacity .15s;}
+.sso + .sso{margin-top:12px;}
+.sso:hover{transform:translateY(-1px);box-shadow:var(--sh-md);}
+.sso:active{transform:none;}
+.sso:disabled{opacity:.55;cursor:wait;transform:none;box-shadow:none;}
+.sso svg{width:20px;height:20px;flex-shrink:0;}
+.sso-google{background:#fff;color:#1f1f1f;border-color:#dadce0;}
+.sso-apple{background:#000;color:#fff;}
+.sso-facebook{background:#1877f2;color:#fff;}
+
+.sep{display:flex;align-items:center;gap:12px;margin:22px 0;color:var(--muted-d);font-size:13px;}
+.sep::before,.sep::after{content:'';flex:1;height:1px;background:var(--line);}
+
+label{display:block;font-size:14.5px;font-weight:600;margin-bottom:8px;}
+input[type=email]{width:100%;font-family:inherit;font-size:16px;color:var(--ink);background:var(--paper);
+  border:1.5px solid var(--line);border-radius:var(--r);padding:14px 15px;min-height:52px;}
+input[type=email]:focus{outline:none;border-color:var(--accent);background:#fff;box-shadow:0 0 0 3px var(--accent-d);}
+.btn{display:flex;align-items:center;justify-content:center;width:100%;min-height:52px;margin-top:12px;
+  font-family:inherit;font-weight:600;font-size:16px;border:none;border-radius:var(--r);cursor:pointer;
+  background:var(--accent);color:var(--paper);box-shadow:0 4px 16px rgba(180,85,30,.32);text-decoration:none;}
+.btn:hover{background:var(--accent-l);}
+.btn:disabled{background:var(--muted-d);box-shadow:none;cursor:wait;}
+.btn-ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line);box-shadow:none;}
+.btn-ghost:hover{background:var(--surface);}
+
+.msg{margin-top:14px;font-size:14px;border-radius:var(--r);padding:12px 14px;display:none;}
+.msg.ok{display:block;background:rgba(46,125,50,.08);color:#2e5f31;}
+.msg.err{display:block;background:var(--accent-d);color:#8a3d12;}
+.legal{margin-top:18px;font-size:12.5px;color:var(--muted);text-align:center;}
+
+/* Espace connecté */
+.solde{display:flex;align-items:baseline;justify-content:center;gap:8px;margin:6px 0 4px;}
+.solde b{font-family:'Playfair Display',Georgia,serif;font-size:52px;line-height:1;color:var(--accent);}
+.solde span{font-size:16px;color:var(--muted);}
+.qui{font-size:14px;color:var(--muted);text-align:center;word-break:break-all;}
+.note{font-size:13.5px;color:var(--muted);text-align:center;margin-top:6px;}
+[hidden]{display:none !important;}
+
+footer{border-top:1px solid var(--line);padding:22px 0;font-size:13px;color:var(--muted);text-align:center;}
+footer a{color:var(--muted);}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap hdr">
+    <a class="logo" href="index.html" aria-label="Longueur d'avance, accueil">
+      <svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="12" fill="#b4551e"/><path d="M14 44 L30 28 L38 36 L52 18" stroke="#fdfcf9" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <div class="logo-name">Longueur d'avance<span class="logo-sub">Audit IA · Accompagnement</span></div>
+    </a>
+    <a class="cta-text" href="verdict.html">Le Verdict</a>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- ── Non connecté ─────────────────────────────────────── -->
+  <section class="box" id="vue-connexion">
+    <span class="eyebrow">Le Verdict</span>
+    <h1 data-t="titre">Votre espace</h1>
+    <p class="lead" data-t="lead">Connectez-vous en deux clics. Vos crédits et vos vérifications restent au même endroit, sans mot de passe.</p>
+
+    <div class="card">
+      <button class="sso sso-google" data-fournisseur="google" type="button">
+        <svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.6 5.4 2.6 13.3l7.9 6.2C12.4 13.6 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.1 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.4c-.5 2.9-2.2 5.3-4.6 6.9l7.4 5.7c4.3-4 6.9-9.9 6.9-17.1z"/><path fill="#FBBC05" d="M10.5 28.6c-.5-1.4-.8-3-.8-4.6s.3-3.2.8-4.6l-7.9-6.2C1 16.5 0 20.1 0 24s1 7.5 2.6 10.8l7.9-6.2z"/><path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.4-5.7c-2.1 1.4-4.8 2.3-8.5 2.3-6.3 0-11.6-4.1-13.5-9.9l-7.9 6.2C6.6 42.6 14.6 48 24 48z"/></svg>
+        <span data-t="google">Continuer avec Google</span>
+      </button>
+      <button class="sso sso-apple" data-fournisseur="apple" type="button">
+        <svg viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M16.37 12.6c-.03-2.5 2.04-3.7 2.13-3.76-1.16-1.7-2.97-1.93-3.61-1.96-1.54-.16-3 .9-3.78.9-.78 0-1.98-.88-3.26-.86-1.68.03-3.23.98-4.09 2.48-1.75 3.03-.45 7.5 1.25 9.96.83 1.2 1.82 2.55 3.12 2.5 1.25-.05 1.72-.81 3.23-.81 1.5 0 1.93.81 3.25.78 1.34-.02 2.19-1.22 3.01-2.43.95-1.39 1.34-2.74 1.36-2.81-.03-.01-2.6-1-2.62-3.99zM13.9 5.27c.69-.84 1.16-2 1.03-3.16-1 .04-2.2.67-2.92 1.5-.64.74-1.2 1.93-1.05 3.06 1.11.09 2.25-.56 2.94-1.4z"/></svg>
+        <span data-t="apple">Continuer avec Apple</span>
+      </button>
+      <button class="sso sso-facebook" data-fournisseur="facebook" type="button">
+        <svg viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.05V9.41c0-3.02 1.79-4.7 4.53-4.7 1.31 0 2.68.24 2.68.24v2.97h-1.51c-1.49 0-1.96.93-1.96 1.88v2.27h3.33l-.53 3.49h-2.8V24C19.61 23.1 24 18.1 24 12.07z"/></svg>
+        <span data-t="facebook">Continuer avec Facebook</span>
+      </button>
+
+      <div class="sep" data-t="ou">ou par email</div>
+
+      <form id="form-email" novalidate>
+        <label for="email" data-t="email">Votre email</label>
+        <input type="email" id="email" name="email" autocomplete="email" inputmode="email" placeholder="vous@exemple.fr" data-tp="exemple" required>
+        <button class="btn" type="submit" id="btn-email" data-t="envoyer">Recevoir mon lien de connexion</button>
+      </form>
+      <p class="msg" id="msg-connexion" role="status"></p>
+    </div>
+
+    <p class="legal"><span data-t="legal">En vous connectant, vous acceptez que votre email serve à vous livrer vos rapports. Il n'est ni vendu ni transmis.</span> <a href="confidentialite.html" data-t="confid">Confidentialité</a></p>
+  </section>
+
+  <!-- ── Connecté ─────────────────────────────────────────── -->
+  <section class="box" id="vue-espace" hidden>
+    <span class="eyebrow">Le Verdict</span>
+    <h1 id="bonjour">Bonjour</h1>
+    <p class="qui" id="qui"></p>
+
+    <div class="card">
+      <div class="solde"><b id="credits">…</b><span id="credits-mot">crédits</span></div>
+      <p class="note" data-t="note">1 crédit = 1 vérification de lien.</p>
+      <a class="btn" href="verdict.html" data-t="lancer">Lancer une vérification</a>
+      <button class="btn btn-ghost" type="button" id="btn-sortir" data-t="sortir">Se déconnecter</button>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <a href="index.html" data-t="accueil">Accueil</a> · <a href="verdict.html">Le Verdict</a> · <a href="confidentialite.html" data-t="confid">Confidentialité</a>
+    <p style="margin-top:10px"><label for="langue" style="display:inline;font-weight:500;font-size:13px" data-t="langue">Langue</label>
+    <select id="langue" style="font:inherit;font-size:13px;margin-left:6px;padding:4px 8px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--ink)"></select></p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.58.0/dist/umd/supabase.js"></script>
+<script>
+// ── Le Verdict : connexion (Supabase Auth) ─────────────────────────────────
+// Même projet et même clé publique que verdict.html. La clé publique ne donne
+// accès qu'à ce que les règles RLS autorisent : ici, sa propre ligne de profil.
+(function(){
+  // ── Textes par langue ────────────────────────────────────────────────────
+  // Ajouter une langue = ajouter un bloc ici, rien d'autre à toucher.
+  // RTL liste les langues qui s'écrivent de droite à gauche.
+  var TEXTES = {
+    fr: {
+      nom: 'Français',
+      titre: 'Votre espace',
+      lead: 'Connectez-vous en deux clics. Vos crédits et vos vérifications restent au même endroit, sans mot de passe.',
+      google: 'Continuer avec Google', apple: 'Continuer avec Apple', facebook: 'Continuer avec Facebook',
+      ou: 'ou par email', email: 'Votre email', exemple: 'vous@exemple.fr', envoyer: 'Recevoir mon lien de connexion',
+      legal: "En vous connectant, vous acceptez que votre email serve à vous livrer vos rapports. Il n'est ni vendu ni transmis.",
+      confid: 'Confidentialité', accueil: 'Accueil', langue: 'Langue',
+      bonjour: 'Bonjour', credit: 'crédit', credits: 'crédits',
+      note: '1 crédit = 1 vérification de lien.', lancer: 'Lancer une vérification', sortir: 'Se déconnecter',
+      e_charge: "La connexion n'a pas pu se charger. Rechargez la page.",
+      e_sso: "Cette connexion n'est pas encore disponible. Utilisez une autre option ou votre email.",
+      e_adresse: 'Vérifiez votre adresse email.',
+      ok_envoi: 'C’est envoyé. Ouvrez le mail reçu sur {email} et touchez le lien pour vous connecter.',
+      e_envoi: "L'envoi n'a pas marché. Réessayez dans une minute."
+    },
+    en: {
+      nom: 'English',
+      titre: 'Your account',
+      lead: 'Sign in with two taps. Your credits and your checks stay in one place, no password needed.',
+      google: 'Continue with Google', apple: 'Continue with Apple', facebook: 'Continue with Facebook',
+      ou: 'or with email', email: 'Your email', exemple: 'you@example.com', envoyer: 'Send me a sign-in link',
+      legal: 'By signing in, you agree that your email is used to deliver your reports. It is never sold or shared.',
+      confid: 'Privacy', accueil: 'Home', langue: 'Language',
+      bonjour: 'Hello', credit: 'credit', credits: 'credits',
+      note: '1 credit = 1 link check.', lancer: 'Start a check', sortir: 'Sign out',
+      e_charge: 'Sign-in could not load. Please reload the page.',
+      e_sso: 'This sign-in option is not available yet. Use another option or your email.',
+      e_adresse: 'Please check your email address.',
+      ok_envoi: 'Sent. Open the email we sent to {email} and tap the link to sign in.',
+      e_envoi: 'Sending failed. Please try again in a minute.'
+    }
+  };
+  var RTL = ['ar', 'he', 'fa', 'ur'];
+
+  function choisirLangue(){
+    var demandee = new URLSearchParams(location.search).get('lang');
+    var gardee = null;
+    try { gardee = localStorage.getItem('lda-langue'); } catch (e) {}
+    var candidates = [demandee, gardee].concat(navigator.languages || [navigator.language]);
+    for (var i = 0; i < candidates.length; i++){
+      var code = (candidates[i] || '').slice(0, 2).toLowerCase();
+      if (TEXTES[code]) return code;
+    }
+    return 'fr';
+  }
+  var LANGUE = choisirLangue();
+  var T = TEXTES[LANGUE];
+
+  function appliquerLangue(){
+    document.documentElement.lang = LANGUE;
+    document.documentElement.dir = RTL.indexOf(LANGUE) >= 0 ? 'rtl' : 'ltr';
+    document.querySelectorAll('[data-t]').forEach(function(el){
+      var cle = el.getAttribute('data-t');
+      if (T[cle]) el.textContent = T[cle];
+    });
+    document.querySelectorAll('[data-tp]').forEach(function(el){
+      var cle = el.getAttribute('data-tp');
+      if (T[cle]) el.placeholder = T[cle];
+    });
+    document.title = T.titre + ' · Le Verdict';
+  }
+  var menu = document.getElementById('langue');
+  Object.keys(TEXTES).forEach(function(code){
+    var o = document.createElement('option');
+    o.value = code; o.textContent = TEXTES[code].nom;
+    if (code === LANGUE) o.selected = true;
+    menu.appendChild(o);
+  });
+  menu.addEventListener('change', function(){
+    LANGUE = menu.value; T = TEXTES[LANGUE];
+    try { localStorage.setItem('lda-langue', LANGUE); } catch (e) {}
+    appliquerLangue();
+    if (sbSession) montrerEspace(sbSession);
+  });
+  appliquerLangue();
+  var sbSession = null;
+
+  var SUPABASE_URL = 'https://lkdoogzfkfhegjkdwcab.supabase.co';
+  var SUPABASE_KEY = 'sb_publishable_G53hXTn6vKb0MCDWstVFnA_7ZrgQZAh';
+  var RETOUR = location.origin + '/compte';
+
+  var vueConnexion = document.getElementById('vue-connexion');
+  var vueEspace = document.getElementById('vue-espace');
+  var msg = document.getElementById('msg-connexion');
+
+  function afficher(texte, type){
+    msg.textContent = texte;
+    msg.className = 'msg ' + type;
+  }
+
+  if (!window.supabase){
+    afficher(T.e_charge, 'err');
+    return;
+  }
+  var sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  // Google, Apple, Facebook : redirection vers le fournisseur, retour ici.
+  document.querySelectorAll('.sso').forEach(function(bouton){
+    bouton.addEventListener('click', function(){
+      document.querySelectorAll('.sso').forEach(function(b){ b.disabled = true; });
+      var options = { redirectTo: RETOUR };
+      if (bouton.dataset.fournisseur === 'facebook') options.scopes = 'email';
+      sb.auth.signInWithOAuth({ provider: bouton.dataset.fournisseur, options: options })
+        .then(function(r){
+          if (r.error) throw r.error;
+        })
+        .catch(function(){
+          document.querySelectorAll('.sso').forEach(function(b){ b.disabled = false; });
+          afficher(T.e_sso, 'err');
+        });
+    });
+  });
+
+  // Lien magique par email : pas de mot de passe.
+  document.getElementById('form-email').addEventListener('submit', function(e){
+    e.preventDefault();
+    var champ = document.getElementById('email');
+    var email = champ.value.trim();
+    if (!/^[^@\s]+@[^@\s]+\.[a-zA-Z]{2,}$/.test(email)){
+      afficher(T.e_adresse, 'err');
+      champ.focus();
+      return;
+    }
+    var bouton = document.getElementById('btn-email');
+    bouton.disabled = true;
+    sb.auth.signInWithOtp({ email: email, options: { emailRedirectTo: RETOUR } })
+      .then(function(r){
+        if (r.error) throw r.error;
+        afficher(T.ok_envoi.replace('{email}', email), 'ok');
+      })
+      .catch(function(){
+        afficher(T.e_envoi, 'err');
+      })
+      .then(function(){ bouton.disabled = false; });
+  });
+
+  // Espace connecté : prénom, email, solde de crédits.
+  function montrerEspace(session){
+    sbSession = session;
+    var u = session.user;
+    var meta = u.user_metadata || {};
+    var prenom = meta.given_name || (meta.full_name || meta.name || '').split(' ')[0];
+    document.getElementById('bonjour').textContent = prenom ? T.bonjour + ' ' + prenom : T.bonjour;
+    document.getElementById('qui').textContent = u.email || '';
+    vueConnexion.hidden = true;
+    vueEspace.hidden = false;
+
+    sb.from('profils').select('credits').eq('id', u.id).maybeSingle()
+      .then(function(r){
+        var n = (r.data && typeof r.data.credits === 'number') ? r.data.credits : 0;
+        document.getElementById('credits').textContent = n;
+        document.getElementById('credits-mot').textContent = n > 1 ? T.credits : T.credit;
+      });
+  }
+
+  function montrerConnexion(){
+    sbSession = null;
+    vueEspace.hidden = true;
+    vueConnexion.hidden = false;
+  }
+
+  sb.auth.getSession().then(function(r){
+    if (r.data && r.data.session) montrerEspace(r.data.session);
+  });
+  sb.auth.onAuthStateChange(function(evenement, session){
+    if (session) montrerEspace(session); else montrerConnexion();
+  });
+
+  document.getElementById('btn-sortir').addEventListener('click', function(){
+    sb.auth.signOut();
+  });
+})();
+</script>
+</body>
+</html>
