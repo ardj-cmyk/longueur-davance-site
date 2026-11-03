@@ -167,6 +167,8 @@ h2{font-family:var(--serif);font-weight:600;font-size:clamp(28px,7vw,42px);line-
 .regles-note li{list-style:none;display:flex;gap:10px;color:var(--muted);font-size:15px;margin-top:8px;}
 .regles-note li::before{content:'';flex:none;width:7px;height:7px;border-radius:50%;background:var(--accent);margin-top:9px;}
 .regles-note b{color:var(--ink);}
+.origine{margin:18px auto 4px;max-width:560px;font-family:var(--serif);font-style:italic;font-size:19px;line-height:1.45;color:var(--ink);}
+.origine cite{display:block;margin-top:10px;font-family:var(--sans);font-style:normal;font-size:13.5px;color:var(--accent);}
 .principe{max-width:860px;margin:18px auto 0;text-align:center;font-family:var(--serif);font-style:italic;font-size:20px;color:var(--accent);}
 
 /* Exemple de rapport */
@@ -244,7 +246,7 @@ textarea{resize:vertical;min-height:84px;}
 .fin .dm a{color:var(--accent);}
 .info{max-width:760px;margin:26px auto 0;text-align:center;font-size:12.5px;color:var(--muted-d);}
 /* Chiffres alignés : Playfair dessine des chiffres bas par défaut */
-h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b{font-variant-numeric:lining-nums;} /* .lining */
+h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b,.origine{font-variant-numeric:lining-nums;} /* .lining */
 </style>
 </head>
 <body>
@@ -267,10 +269,11 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b{font-variant-numeric:lining-
     <h1><em data-t="accroche">Fini le blabla.</em><span data-t="titre">Chaque promesse vérifiée, point par point.</span></h1>
     <p class="lead" data-t="lead">Un reel, une pub, une formation qui promet tout ? Collez le lien. On vérifie chaque affirmation à la source, et vous recevez le verdict, noté sur 10.</p>
     <a class="btn" href="#verifier" data-t="cta">Vérifier un reel</a>
-    <span class="offert" data-th="offert">Vos <b>10 premières vérifications sont offertes</b>.</span>
+    <span class="offert" data-th="offert">Vos <b>5 premières vérifications sont offertes</b>.</span>
     <div class="ticks">
       <span><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span data-t="t1">Sources à l'appui</span></span>
-      <span><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span data-t="t2">Relu par un humain</span></span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span data-t="t2">Vérifié par Claude</span></span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span data-t="t4">Rapport en 10 min environ</span></span>
       <span><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span data-t="t3">Rapport privé</span></span>
     </div>
   </section>
@@ -335,7 +338,7 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b{font-variant-numeric:lining-
       </div>
       <button class="btn" type="submit" id="submit" data-t="f_envoyer">Vérifier ce contenu</button>
       <p class="msg" id="form-msg" role="status"></p>
-      <p class="legal" data-t="f_delai">Réponse sous 48 h ouvrées, par email.</p>
+      <p class="legal" data-t="f_delai">Rapport par email, en une dizaine de minutes.</p>
     </form>
   </section>
 
@@ -348,10 +351,10 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b{font-variant-numeric:lining-
     <div class="grid grid-4">
       <div class="tile"><div class="step-n" data-t="e1_n">Étape 01</div><h3 data-t="e1_t">Vous collez le lien</h3><p data-t="e1_p">Le contenu qui vous fait douter, quel qu'il soit.</p></div>
       <div class="tile"><div class="step-n" data-t="e2_n">Étape 02</div><h3 data-t="e2_t">On isole les promesses</h3><p data-t="e2_p">Chaque affirmation factuelle est extraite, une par une.</p></div>
-      <div class="tile"><div class="step-n" data-t="e3_n">Étape 03</div><h3 data-t="e3_t">On vérifie à la source</h3><p data-t="e3_p">Documentation officielle, prix réels, conditions. Assisté par IA, relu par nous.</p></div>
+      <div class="tile"><div class="step-n" data-t="e3_n">Étape 03</div><h3 data-t="e3_t">On vérifie à la source</h3><p data-t="e3_p">Documentation officielle, prix réels, conditions. C'est Claude qui vérifie, avec ma méthode.</p></div>
       <div class="tile"><div class="step-n" data-t="e4_n">Étape 04</div><h3 data-t="e4_t">Vous recevez le verdict</h3><p data-t="e4_p">Une note sur 10, le verdict point par point, les sources et ce qu'on vous conseille.</p></div>
     </div>
-    <p class="delai" data-th="delai"><b>Réponse sous 48 h ouvrées.</b> Le temps de vérifier vraiment, et qu'un humain relise.</p>
+    <p class="delai" data-th="delai"><b>Votre rapport arrive en une dizaine de minutes</b>, par email. Aux heures chargées, un peu plus.</p>
   </section>
 
   <!-- 4. Méthode de notation -->
@@ -359,6 +362,7 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b{font-variant-numeric:lining-
     <div class="sec-head">
       <span class="eyebrow" data-t="mn_eye">Notre méthode de notation</span>
       <h2 data-t="mn_titre">Une note sur 10, cinq questions.</h2>
+      <blockquote class="origine"><p data-t="origine"></p><cite data-t="origine_sig"></cite></blockquote>
       <p data-t="mn_lead">Chaque question vaut 2 points. La note porte sur la fiabilité de ce qui est dit, pas sur la qualité du montage.</p>
     </div>
     <div class="grid grid-2">
@@ -434,7 +438,7 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b{font-variant-numeric:lining-
       <div class="rech"><b>5 €</b><span data-t="r1">20 crédits</span></div>
       <div class="rech"><b>50 €</b><span data-t="r2">200 crédits</span></div>
     </div>
-    <p class="prix-note" data-th="px_offert"><b>10 crédits offerts</b> à l'inscription, soit 10 liens vérifiés.</p>
+    <p class="prix-note" data-th="px_offert"><b>5 crédits offerts</b> à l'inscription, soit 5 liens vérifiés.</p>
     <div class="paiement" aria-label="Moyens de paiement"><span data-t="pay_carte">Carte bancaire</span><span>Apple Pay</span><span>Google Pay</span></div>
     <p class="prix-note" data-t="px_ttc">Prix TTC. Paiement sécurisé par Stripe, on ne voit jamais votre carte.</p>
   </section>
@@ -448,7 +452,7 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b{font-variant-numeric:lining-
     <ul class="regles-note">
       <li data-th="nr1"><span><b>On vérifie l'information, jamais la personne.</b> Aucune mise au pilori, rien n'est publié : votre rapport est privé.</span></li>
       <li data-th="nr2"><span><b>Chaque verdict est sourcé.</b> Documentation officielle, tarifs publics, conditions d'utilisation. Les liens sont dans le rapport.</span></li>
-      <li data-th="nr3"><span><b>Assisté par IA, relu par un humain.</b> On ne vous envoie pas une réponse brute de machine.</span></li>
+      <li data-th="nr3"></li>
       <li data-th="nr4"><span><b>Si on ne sait pas, on le dit.</b> « Invérifiable » est un verdict à part entière.</span></li>
     </ul>
   </section>
@@ -460,17 +464,18 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b{font-variant-numeric:lining-
       <h2 data-t="fq_titre">Avant de vous lancer.</h2>
     </div>
     <div class="faq">
-      <details><summary data-t="q1">Pourquoi 48 h ?</summary><p data-t="a1">Parce qu'on vérifie à la source : documentation, tarifs, conditions. Puis un humain relit avant l'envoi. Un contenu qu'on a déjà vérifié et validé part plus vite.</p></details>
+      <details><summary data-t="q1"></summary><p data-t="a1"></p></details>
       <details><summary data-t="q2">Qu'est-ce que vous ne vérifiez pas ?</summary><p data-t="a2">Les personnes, les opinions (« c'est joli ? »), et tout ce qui demande un conseil médical, juridique ou financier personnalisé. Ce qui n'a aucune source publique reçoit le verdict « Invérifiable ». Les crédits offerts couvrent les sujets IA, les crédits rechargés ouvrent à tout sujet vérifiable.</p></details>
       <details><summary data-t="q3">Que faites-vous de mes données ?</summary><p data-t="a3">Votre email sert à vous livrer vos rapports et à garder votre historique. Il n'est ni vendu ni transmis. Les données sont hébergées en Europe (Irlande). Vous pouvez demander leur suppression à tout moment.</p></details>
       <details><summary data-t="q4">Et si vous ne pouvez pas vérifier mon lien ?</summary><p data-t="a4">Si le contenu a été supprimé, est privé ou sort de ce qu'on vérifie, on vous le dit et le crédit vous est rendu.</p></details>
+      <details><summary data-t="q5"></summary><p data-t="a5"></p></details>
     </div>
   </section>
 
   <!-- 7. Fin -->
   <section class="fin">
     <h2 data-t="fin_titre">Avant d'y croire, vérifiez.</h2>
-    <p class="lead" style="margin-top:12px" data-th="offert">Vos <b>10 premières vérifications sont offertes</b>.</p>
+    <p class="lead" style="margin-top:12px" data-th="offert">Vos <b>5 premières vérifications sont offertes</b>.</p>
     <a class="btn" href="#verifier" style="margin-top:22px" data-t="cta">Vérifier un reel</a>
     <span class="dm"><span data-t="dm">Votre cas dépasse un lien ?</span> <a href="https://ig.me/m/ardj.87" target="_blank" rel="noopener" data-t="dm_l">Écrivez-nous sur Instagram</a></span>
     <p class="info" data-t="info">Ce service est fourni à titre informatif. Il ne constitue ni un conseil juridique, ni un conseil financier, ni une mise en cause de qui que ce soit.</p>
@@ -494,12 +499,12 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b{font-variant-numeric:lining-
   // data-th le HTML (uniquement nos propres textes, avec <b>), data-tp le placeholder.
   var TEXTES = {
     fr: {
-      nom: 'Français', doc: "Le Verdict : vérifier une promesse avant d'y croire",
+      nom: 'Français', a5: "En général une dizaine de minutes. Aux heures chargées, un peu plus : les demandes passent dans l'ordre d'arrivée.", q5: "Combien de temps ça prend ?", origine_sig: "Amdy, fondateur de Longueur d'avance", origine: "« Depuis fin juillet, je vérifie à la source chaque reel IA qu'on m'envoie : plus de 300 à ce jour. Le Verdict, c'est cette méthode, mise à votre disposition. C'est Claude qui fait la vérification. »", t4: "Rapport en 10 min environ", doc: "Le Verdict : vérifier une promesse avant d'y croire",
       nav: 'Mon espace', badge: "La confiance n'empêche pas le contrôle.",
       accroche: 'Fini le blabla.', titre: 'Chaque promesse vérifiée, point par point.',
       lead: 'Un reel, une pub, une formation qui promet tout ? Collez le lien. On vérifie chaque affirmation à la source, et vous recevez le verdict, noté sur 10.',
-      cta: 'Vérifier un reel', offert: 'Vos <b>10 premières vérifications sont offertes</b>.',
-      t1: "Sources à l'appui", t2: 'Relu par un humain', t3: 'Rapport privé',
+      cta: 'Vérifier un reel', offert: "Vos <b>5 premières vérifications sont offertes</b>.",
+      t1: "Sources à l'appui", t2: "Vérifié par Claude", t3: 'Rapport privé',
       v1: 'Vrai', v2: 'Survendu', v3: 'Trompeur', v4: 'Invérifiable',
       co_titre: 'Connectez-vous pour vérifier', co_sous: 'Pour vous envoyer votre rapport et garder votre historique.',
       google: 'Continuer avec Google', apple: 'Continuer avec Apple', facebook: 'Continuer avec Facebook',
@@ -513,13 +518,13 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b{font-variant-numeric:lining-
       profils: ['Avocat / juridique', 'Comptable / finance', 'Profession libérale', 'Artisan / BTP', 'PME / dirigeant', 'Architecture', 'Immobilier', 'Commerce / boutique', 'E-commerce / marque', 'Commercial / vente', 'Logistique / transport', 'Employé', 'Autre'],
       tailles: ['Seul', '2 à 5', '6 à 20', 'Plus de 20'],
       f_news: "Je veux aussi la newsletter Longueur d'avance.", f_news_h: 'Une fois par semaine, les débunks et les vraies méthodes. Désabonnement en un clic.',
-      f_envoyer: 'Vérifier ce contenu', f_delai: 'Réponse sous 48 h ouvrées, par email.',
+      f_envoyer: 'Vérifier ce contenu', f_delai: "Rapport par email, en une dizaine de minutes.",
       cm_eye: 'Comment ça marche', cm_titre: 'Pas de magie : de la vérification.',
       e1_n: 'Étape 01', e1_t: 'Vous collez le lien', e1_p: "Le contenu qui vous fait douter, quel qu'il soit.",
       e2_n: 'Étape 02', e2_t: 'On isole les promesses', e2_p: 'Chaque affirmation factuelle est extraite, une par une.',
-      e3_n: 'Étape 03', e3_t: 'On vérifie à la source', e3_p: 'Documentation officielle, prix réels, conditions. Assisté par IA, relu par nous.',
-      e4_n: 'Étape 04', e4_t: 'Vous recevez le verdict', e4_p: "Une note sur 10, le verdict point par point, les sources et ce qu'on vous conseille.",
-      delai: "<b>Réponse sous 48 h ouvrées.</b> Le temps de vérifier vraiment, et qu'un humain relise.",
+      e3_n: 'Étape 03', e3_t: 'On vérifie à la source', e3_p: "Documentation officielle, prix réels, conditions. C'est Claude qui vérifie, avec ma méthode.",
+      e4_n: 'Étape 04', e4_t: 'Vous recevez le verdict', e4_p: "Une note sur 10, le verdict point par point, les sources et ce qu'on vous conseille. Par email.",
+      delai: "<b>Votre rapport arrive en une dizaine de minutes</b>, par email. Aux heures chargées, un peu plus.",
       mn_eye: 'Notre méthode de notation', mn_titre: 'Une note sur 10, cinq questions.',
       mn_lead: 'Chaque question vaut 2 points. La note porte sur la fiabilité de ce qui est dit, pas sur la qualité du montage.',
       c1_t: 'Le fait existe-t-il ?', c1_p: "L'outil, la fonction ou l'étude sont réels et vérifiables à la source.",
@@ -547,15 +552,15 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b{font-variant-numeric:lining-
       p3_t: 'Question directe hors IA', p3_p: 'Tout sujet vérifiable à la source.', p3_c: '2 crédits',
       p4_t: "Audit d'un compte", p4_p: 'Les 20 derniers reels et les 5 plus vus, une note globale.', p4_c: '60 crédits',
       bientot: 'Bientôt', r1: '20 crédits', r2: '200 crédits',
-      px_offert: "<b>10 crédits offerts</b> à l'inscription, soit 10 liens vérifiés.",
+      px_offert: "<b>5 crédits offerts</b> à l'inscription, soit 5 liens vérifiés.",
       pay_carte: 'Carte bancaire', px_ttc: 'Prix TTC. Paiement sécurisé par Stripe, on ne voit jamais votre carte.',
       nr_eye: 'Nos règles', nr_titre: "Ce qu'on s'interdit.",
       nr1: "<span><b>On vérifie l'information, jamais la personne.</b> Aucune mise au pilori, rien n'est publié : votre rapport est privé.</span>",
       nr2: "<span><b>Chaque verdict est sourcé.</b> Documentation officielle, tarifs publics, conditions d'utilisation. Les liens sont dans le rapport.</span>",
-      nr3: '<span><b>Assisté par IA, relu par un humain.</b> On ne vous envoie pas une réponse brute de machine.</span>',
+      nr3: "<span><b>Fait par une IA, et on le dit.</b> C'est Claude qui vérifie, avec la méthode de ma veille. Personne ne relit chaque rapport avant l'envoi : c'est pour ça que chaque point a sa source, pour que vous puissiez contrôler.</span>",
       nr4: '<span><b>Si on ne sait pas, on le dit.</b> « Invérifiable » est un verdict à part entière.</span>',
       fq_eye: 'Questions fréquentes', fq_titre: 'Avant de vous lancer.',
-      q1: 'Pourquoi 48 h ?', a1: "Parce qu'on vérifie à la source : documentation, tarifs, conditions. Puis un humain relit avant l'envoi. Un contenu qu'on a déjà vérifié et validé part plus vite.",
+      q1: "Qui fait la vérification ?", a1: "Claude, l'IA d'Anthropic, avec la méthode que j'applique dans ma veille depuis fin juillet : plus de 300 reels vérifiés à la source. Je ne relis pas chaque rapport. Chaque point est sourcé pour que vous puissiez contrôler, et sans source, le verdict est « Invérifiable ».",
       q2: "Qu'est-ce que vous ne vérifiez pas ?", a2: "Les personnes, les opinions (« c'est joli ? »), et tout ce qui demande un conseil médical, juridique ou financier personnalisé. Ce qui n'a aucune source publique reçoit le verdict « Invérifiable ». Les crédits offerts couvrent les sujets IA, les crédits rechargés ouvrent à tout sujet vérifiable.",
       q3: 'Que faites-vous de mes données ?', a3: "Votre email sert à vous livrer vos rapports et à garder votre historique. Il n'est ni vendu ni transmis. Les données sont hébergées en Europe (Irlande). Vous pouvez demander leur suppression à tout moment.",
       q4: 'Et si vous ne pouvez pas vérifier mon lien ?', a4: "Si le contenu a été supprimé, est privé ou sort de ce qu'on vérifie, on vous le dit et le crédit vous est rendu.",
@@ -573,12 +578,12 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b{font-variant-numeric:lining-
       e_form: "L'envoi a échoué. Réessayez dans un instant.", envoi: 'Envoi…'
     },
     en: {
-      nom: 'English', doc: 'Le Verdict: check a promise before you believe it',
+      nom: 'English', a5: "Usually about ten minutes. A little longer at busy times: requests are handled in order.", q5: "How long does it take?", origine_sig: "Amdy, founder of Longueur d'avance", origine: "\"Since late July, I have checked every AI reel people send me at the source: over 300 so far. Le Verdict is that method, made available to you. Claude does the checking.\"", t4: "Report in about 10 min", doc: 'Le Verdict: check a promise before you believe it',
       nav: 'My account', badge: 'Trust, but verify.',
       accroche: 'No more hype.', titre: 'Every promise checked, point by point.',
       lead: 'A reel, an ad, a course that promises everything? Paste the link. We check every claim at the source, and you get the verdict, scored out of 10.',
-      cta: 'Check a reel', offert: 'Your <b>first 10 checks are free</b>.',
-      t1: 'Sources included', t2: 'Reviewed by a human', t3: 'Private report',
+      cta: 'Check a reel', offert: "Your <b>first 5 checks are free</b>.",
+      t1: 'Sources included', t2: "Checked by Claude", t3: 'Private report',
       v1: 'True', v2: 'Overstated', v3: 'Misleading', v4: 'Unverifiable',
       co_titre: 'Sign in to start a check', co_sous: 'So we can send your report and keep your history.',
       google: 'Continue with Google', apple: 'Continue with Apple', facebook: 'Continue with Facebook',
@@ -592,13 +597,13 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b{font-variant-numeric:lining-
       profils: ['Lawyer / legal', 'Accounting / finance', 'Independent professional', 'Trades / construction', 'SME / manager', 'Architecture', 'Real estate', 'Retail / shop', 'E-commerce / brand', 'Sales', 'Logistics / transport', 'Employee', 'Other'],
       tailles: ['Just me', '2 to 5', '6 to 20', 'More than 20'],
       f_news: "I also want the Longueur d'avance newsletter.", f_news_h: 'Once a week, debunks and methods that work. Unsubscribe in one click.',
-      f_envoyer: 'Check this content', f_delai: 'Answer within 2 business days, by email.',
+      f_envoyer: 'Check this content', f_delai: "Report by email, in about ten minutes.",
       cm_eye: 'How it works', cm_titre: 'No magic: just checking.',
       e1_n: 'Step 01', e1_t: 'You paste the link', e1_p: 'Whatever content makes you doubt.',
       e2_n: 'Step 02', e2_t: 'We isolate the promises', e2_p: 'Every factual claim is pulled out, one by one.',
-      e3_n: 'Step 03', e3_t: 'We check at the source', e3_p: 'Official docs, real prices, terms. AI-assisted, reviewed by us.',
-      e4_n: 'Step 04', e4_t: 'You get the verdict', e4_p: 'A score out of 10, the verdict point by point, the sources and our advice.',
-      delai: '<b>Answer within 2 business days.</b> Time to really check, and for a human to review.',
+      e3_n: 'Step 03', e3_t: 'We check at the source', e3_p: "Official docs, real prices, terms. Claude does the checking, using my method.",
+      e4_n: 'Step 04', e4_t: 'You get the verdict', e4_p: "A score out of 10, the verdict point by point, the sources and our advice. By email.",
+      delai: "<b>Your report arrives in about ten minutes</b>, by email. A little longer at busy times.",
       mn_eye: 'How we score', mn_titre: 'A score out of 10, five questions.',
       mn_lead: 'Each question is worth 2 points. The score rates how reliable the content is, not how well it is edited.',
       c1_t: 'Does it exist?', c1_p: 'The tool, feature or study is real and verifiable at the source.',
@@ -626,15 +631,15 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b{font-variant-numeric:lining-
       p3_t: 'Direct question beyond AI', p3_p: 'Any topic that can be checked at the source.', p3_c: '2 credits',
       p4_t: 'Account audit', p4_p: 'The last 20 reels and the 5 most viewed, one overall score.', p4_c: '60 credits',
       bientot: 'Soon', r1: '20 credits', r2: '200 credits',
-      px_offert: '<b>10 free credits</b> when you sign up, that is 10 links checked.',
+      px_offert: "<b>5 free credits</b> when you sign up, that is 5 links checked.",
       pay_carte: 'Card', px_ttc: 'Prices include VAT. Secure payment by Stripe, we never see your card.',
       nr_eye: 'Our rules', nr_titre: 'What we never do.',
       nr1: '<span><b>We check the information, never the person.</b> No naming and shaming, nothing is published: your report is private.</span>',
       nr2: '<span><b>Every verdict is sourced.</b> Official docs, public prices, terms of use. The links are in the report.</span>',
-      nr3: '<span><b>AI-assisted, reviewed by a human.</b> You never get raw machine output.</span>',
+      nr3: "<span><b>Done by AI, and we say so.</b> Claude does the checking, using the method from my research. Nobody reviews each report before it is sent: that is why every point has its source, so you can check it yourself.</span>",
       nr4: '<span><b>If we don’t know, we say so.</b> "Unverifiable" is a verdict in its own right.</span>',
       fq_eye: 'FAQ', fq_titre: 'Before you start.',
-      q1: 'Why 2 business days?', a1: 'Because we check at the source: docs, prices, terms. Then a human reviews before sending. Content we have already checked and approved goes out faster.',
+      q1: "Who does the checking?", a1: "Claude, the AI by Anthropic, using the method I have applied in my research since late July: over 300 reels checked at the source. I do not review each report. Every point is sourced so you can check it, and with no source, the verdict is \"Unverifiable\".",
       q2: 'What don’t you check?', a2: 'People, opinions ("is it pretty?"), and anything that needs personal medical, legal or financial advice. Anything with no public source gets the "Unverifiable" verdict. Free credits cover AI topics, topped-up credits open any verifiable topic.',
       q3: 'What do you do with my data?', a3: 'Your email is used to deliver your reports and keep your history. It is never sold or shared. Data is hosted in Europe (Ireland). You can ask for it to be deleted at any time.',
       q4: 'What if you can’t check my link?', a4: 'If the content was deleted, is private or falls outside what we check, we tell you and the credit is refunded.',
