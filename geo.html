@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Être cité par les IA : le prompt d&#x27;audit GEO et la checklist</title>
+<meta name="description" content="Où Claude, ChatGPT et Gemini cherchent, ce qui fait citer une page (réponse nette, chiffres et sources, mentions ailleurs, texte lisible sans JavaScript), le cas llms.txt, le test mensuel et le prompt d&#x27;audit à coller.">
+<style>
+@font-face{font-family:'Inter';font-style:normal;font-weight:400 800;font-display:swap;src:url(/assets/fonts/Inter-latin.woff2) format('woff2')}
+@font-face{font-family:'Inter';font-style:normal;font-weight:400 800;font-display:swap;src:url(/assets/fonts/Inter-latinext.woff2) format('woff2');unicode-range:U+0100-02BA,U+1E00-1EFF}
+@font-face{font-family:'Playfair Display';font-style:normal;font-weight:600 900;font-display:swap;src:url(/assets/fonts/PlayfairDisplay-latin.woff2) format('woff2')}
+@font-face{font-family:'Playfair Display';font-style:italic;font-weight:600 900;font-display:swap;src:url(/assets/fonts/PlayfairDisplay-italic-latin.woff2) format('woff2')}
+:root{--encre:#12192b;--ivoire:#fdfcf9;--fond:#faf6ee;--terra:#a3461a;--trait:#e3ded4;--doux:#5b6375;--vert:#2f6b45}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--fond);color:var(--encre);font:400 17px/1.6 'Inter',system-ui,sans-serif;padding:0 18px 64px}
+main{max-width:640px;margin:0 auto}
+a{color:var(--terra);font-weight:600}
+header{padding:48px 0 28px;border-bottom:2px solid var(--encre);margin-bottom:28px}
+.marque{font:700 13px/1 'Inter';letter-spacing:.14em;text-transform:uppercase;color:var(--terra)}
+h1{font:800 clamp(32px,8.5vw,50px)/1.05 'Playfair Display',Georgia,serif;margin:14px 0 16px;text-wrap:balance}
+h1 em{font-style:italic;color:var(--terra)}
+.chapo{font-size:19px}
+section{padding:28px 0;border-bottom:1px solid var(--trait)}
+section>p+p,section>p+ul,section>ul+p,section>p+.cartes,section>.cartes+p{margin-top:12px}
+h2{font:800 26px/1.15 'Playfair Display',Georgia,serif;margin-bottom:16px}
+h2 .num{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:999px;background:var(--terra);color:var(--ivoire);font:800 19px 'Inter';margin-right:10px;vertical-align:4px}
+h3{font:800 18px/1.25 'Inter';margin:18px 0 8px}
+ul.liste{list-style:none;display:grid;gap:10px}
+ul.liste li{padding-left:26px;position:relative}
+ul.liste li::before{content:"";position:absolute;left:4px;top:.62em;width:9px;height:9px;border-radius:999px;background:var(--terra)}
+.cartes{display:grid;gap:12px}
+.carte{background:var(--ivoire);border:2px solid var(--encre);border-radius:16px;padding:14px 16px}
+.carte .nom{font:800 18px/1.2 'Inter';margin-bottom:4px}
+.carte .nom b{color:var(--terra)}
+.carte p{font-size:16px}
+.carte .prix{font:700 15px 'Inter';color:var(--terra);margin-top:6px}
+.carte.ferme{background:#efeae0;border-style:dashed}
+.encadre{background:var(--ivoire);border-left:5px solid var(--terra);border-radius:0 14px 14px 0;padding:14px 16px;font-size:16px}
+.encadre+.encadre{margin-top:12px}
+.encadre b:first-child{display:block;margin-bottom:2px}
+.regle{background:var(--encre);color:var(--ivoire);border-radius:16px;padding:18px}
+.regle h2{color:var(--ivoire);font-size:22px;margin-bottom:10px}
+ol.etapes{list-style:none;display:grid;gap:12px;counter-reset:e}
+ol.etapes>li{counter-increment:e;padding-left:40px;position:relative}
+ol.etapes>li::before{content:counter(e);position:absolute;left:0;top:0;width:28px;height:28px;border-radius:999px;background:var(--terra);color:var(--ivoire);font-weight:800;font-size:14px;display:flex;align-items:center;justify-content:center}
+.regle ol.etapes>li::before{background:var(--terra)}
+pre{background:var(--encre);color:#f3efe6;border-radius:12px;padding:12px 14px;margin:8px 0;font:500 14px/1.5 ui-monospace,Menlo,monospace;white-space:pre-wrap;word-break:break-all}
+code{font:500 .9em ui-monospace,Menlo,monospace;background:#efe8da;border-radius:6px;padding:1px 5px}
+pre code{background:none;padding:0;font-size:inherit}
+.avant-apres{display:grid;gap:10px}
+.avant-apres div{border-radius:14px;padding:12px 14px;font-size:16px}
+.avant-apres .av{background:#f3e3d6}
+.avant-apres .ap{background:#e2efe5}
+.avant-apres small{display:block;font:800 12px 'Inter';letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px}
+.avant-apres .av small{color:var(--terra)}
+.avant-apres .ap small{color:var(--vert)}
+table{width:100%;border-collapse:collapse;font-size:15px;background:var(--ivoire);border:2px solid var(--encre);border-radius:16px;overflow:hidden}
+th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--trait);vertical-align:top}
+th{font:700 11px 'Inter';letter-spacing:.08em;text-transform:uppercase;color:var(--doux)}
+td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+.tab{overflow-x:auto;-webkit-overflow-scrolling:touch}
+details{background:var(--ivoire);border:2px solid var(--encre);border-radius:14px;margin-bottom:10px}
+details summary{cursor:pointer;list-style:none;padding:13px 16px;font:800 17px 'Inter';display:flex;justify-content:space-between;align-items:center;gap:10px}
+details summary::-webkit-details-marker{display:none}
+details summary::after{content:"+";font:800 22px 'Inter';color:var(--terra)}
+details[open] summary::after{content:"–"}
+details .dedans{padding:0 16px 14px}
+details ol{padding-left:22px;display:grid;gap:6px;font-size:16px}
+.tag{display:inline-block;font:700 11px 'Inter';letter-spacing:.06em;text-transform:uppercase;border-radius:999px;padding:2px 8px;margin-right:6px;vertical-align:2px}
+.tag.app{background:#e2efe5;color:var(--vert)}
+.tag.code{background:#f3e3d6;color:var(--terra)}
+.note{margin-top:12px;font-size:15px;color:var(--doux)}
+.sources{font-size:14px;color:var(--doux)}
+.sources a{font-weight:500;color:var(--doux)}
+.fin h2{margin-bottom:10px}
+.cta{display:inline-block;margin-top:18px;background:var(--encre);color:var(--ivoire);text-decoration:none;font:800 18px 'Inter';padding:16px 26px;border-radius:999px;box-shadow:0 6px 0 var(--terra)}
+.signature{margin-top:26px;color:var(--doux);font-size:15px}
+</style>
+<link rel="canonical" href="https://longueur-davance.fr/geo">
+<meta property="og:url" content="https://longueur-davance.fr/geo">
+<meta property="og:title" content="Être cité par les IA">
+<meta property="og:description" content="Où Claude, ChatGPT et Gemini cherchent, ce qui fait citer une page (réponse nette, chiffres et sources, mentions ailleurs, texte lisible sans JavaScript), le cas llms.txt, le test mensuel et le prompt d&#x27;audit à coller.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Longueur d'avance">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:image" content="https://longueur-davance.fr/og/geo.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon-48.png" sizes="48x48" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script type="application/ld+json" id="ld-ressource">{"@context":"https://schema.org","@graph":[{"@type":"Article","@id":"https://longueur-davance.fr/geo#article","headline":"Être cité par les IA : le prompt d'audit GEO et la checklist","description":"Où Claude, ChatGPT et Gemini cherchent, ce qui fait citer une page (réponse nette, chiffres et sources, mentions ailleurs, texte lisible sans JavaScript), le cas llms.txt, le test mensuel et le prompt d'audit à coller.","url":"https://longueur-davance.fr/geo","mainEntityOfPage":"https://longueur-davance.fr/geo","image":"https://longueur-davance.fr/og/geo.png","inLanguage":"fr-FR","author":{"@type":"Person","@id":"https://longueur-davance.fr/#amdy","name":"Amdy Richard Diop Jouanguy","url":"https://longueur-davance.fr/","sameAs":["https://www.instagram.com/ardj.87/"]},"publisher":{"@type":"Organization","@id":"https://longueur-davance.fr/#org","name":"Longueur d'avance","url":"https://longueur-davance.fr/","logo":"https://longueur-davance.fr/assets/logo-512.png"},"citation":["https://trust.anthropic.com/subprocessors","https://blogs.bing.com/search/2023/5/Bing-at-Microsoft-Build-2023","https://developers.openai.com/api/docs/bots","https://aistudio.google.com/docs/google-search","https://arxiv.org/abs/2311.09735","https://vercel.com/blog/the-rise-of-the-ai-crawler","https://developers.google.com/search/docs/appearance/ai-features","https://llmstxt.org/","https://www.seroundtable.com/google-ai-llms-txt-39607.html"]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Accueil","item":"https://longueur-davance.fr/"},{"@type":"ListItem","position":2,"name":"Ressources","item":"https://longueur-davance.fr/ressources"},{"@type":"ListItem","position":3,"name":"Être cité par les IA : le prompt d'audit GEO et la checklist","item":"https://longueur-davance.fr/geo"}]}]}</script>
+</head>
+<body>
+<main>
+<header>
+  <div class="marque">Longueur d'avance · SEO &amp; GEO · Partie 3/3</div>
+  <h1>Être cité <em>par les IA</em></h1>
+  <p class="chapo">Claude cite tes concurrents, mais pas toi ? Une IA ne lit pas ta page comme toi : elle la découpe et garde le passage qui répond le mieux. Voici où elles cherchent, ce qui fait citer une page, et le prompt d'audit à coller.</p>
+</header>
+<section>
+  <h2><span class="num">1</span>Où chaque IA cherche</h2>
+  <ul class="liste">
+    <li><b>Claude</b> passe notamment par Brave Search. Anthropic le déclare parmi ses prestataires de recherche web, avec TurboPuffer et Parallel. <a href="https://trust.anthropic.com/subprocessors">(source)</a></li>
+    <li><b>ChatGPT</b> passe notamment par Bing, sa recherche par défaut depuis 2023. <a href="https://blogs.bing.com/search/2023/5/Bing-at-Microsoft-Build-2023">(source)</a> OpenAI a aussi son propre robot de recherche, OAI-SearchBot. <a href="https://developers.openai.com/api/docs/bots">(source)</a></li>
+    <li><b>Gemini</b> s'appuie sur la recherche Google. <a href="https://aistudio.google.com/docs/google-search">(source)</a></li>
+  </ul>
+  <p class="note">En pratique : ton site doit être connu de Google et de Bing, et les robots de recherche des IA ne doivent pas être bloqués. Les inscriptions et les robots sont dans la <a href="/seo-geo">partie 1</a>.</p>
+</section>
+
+<section>
+  <h2><span class="num">2</span>Ce qui fait citer une page</h2>
+  <ol class="etapes">
+    <li><b>Une réponse nette dès la première ligne.</b> L'IA garde le passage qui répond à la question. Pas trois paragraphes d'intro avant d'y arriver.</li>
+    <li><b>Des chiffres et des sources.</b> Des chercheurs de Princeton et de l'IIT Delhi ont testé neuf façons de réécrire une page sur 10&nbsp;000 questions : ajouter des statistiques, des citations et des sources a augmenté la visibilité dans les réponses jusqu'à 40&nbsp;%. Le bourrage de mots-clés n'a apporté presque rien. <a href="https://arxiv.org/abs/2311.09735">(source)</a></li>
+    <li><b>Ce que les autres disent de toi.</b> Avis, Reddit, YouTube, comparatifs, annuaires : les IA citent ce qu'elles trouvent sur le web, pas seulement ton site. Plus on parle de toi ailleurs, plus tu as de chances d'être cité.</li>
+    <li><b>Un texte lisible sans JavaScript.</b> Fin 2024, Vercel a mesuré qu'aucun des grands robots d'IA n'exécutait le JavaScript (Gemini fait exception, il passe par Googlebot). Ce qui n'apparaît qu'avec lui, ils ne le voient pas. <a href="https://vercel.com/blog/the-rise-of-the-ai-crawler">(source)</a></li>
+  </ol>
+  <p class="note">Dans l'étude, l'effet est le plus fort pour les sites mal placés. Un site déjà en tête gagne peu, il peut même perdre en ajoutant des citations.</p>
+</section>
+
+<section>
+  <h2><span class="num">3</span>Et le fichier llms.txt ?</h2>
+  <p>C'est une proposition : un fichier texte à la racine du site qui résume les pages pour les IA. <a href="https://llmstxt.org/">(source)</a></p>
+  <p>Google écrit qu'aucun fichier spécial n'est nécessaire pour apparaître dans ses fonctions IA. <a href="https://developers.google.com/search/docs/appearance/ai-features">(source)</a> En juin 2025, John Mueller, de Google, a déclaré qu'aucun système d'IA ne l'utilisait à sa connaissance. <a href="https://www.seroundtable.com/google-ai-llms-txt-39607.html">(source)</a></p>
+  <p class="note">Ça ne coûte rien de l'ajouter. Mais aucune preuve, aujourd'hui, que les grandes IA s'en servent. Passe d'abord par les quatre points ci-dessus.</p>
+</section>
+
+<section>
+  <h2><span class="num">4</span>Le test, chaque mois</h2>
+  <ol class="etapes">
+    <li>Écris dix questions que tes clients se posent vraiment (« quel [ton métier] à [ta ville] pour… »).</li>
+    <li>Pose-les à Claude, ChatGPT et Gemini, recherche web activée.</li>
+    <li>Note qui est cité : toi, ou tes concurrents. Et note les pages que l'IA donne en source : c'est là qu'il faut être présent.</li>
+  </ol>
+  <p class="note">Un tableau suffit : la question, l'IA, les noms cités, les sources. D'un mois sur l'autre, tu vois si ça bouge.</p>
+</section>
+
+<section>
+  <h2><span class="num">5</span>Le prompt d'audit à coller</h2>
+  <p>Ouvre Claude Code dans le dossier de ton site, ou donne-lui l'adresse, et colle :</p>
+  <pre><code>Fais l'audit GEO de mon site [adresse] : est-il prêt à être
+cité par Claude, ChatGPT et Gemini ?
+
+1. robots.txt : OAI-SearchBot, ChatGPT-User, Claude-SearchBot,
+   Claude-User, Googlebot et Bingbot sont-ils autorisés ?
+2. JavaScript : récupère chaque page sans exécuter le
+   JavaScript. Le texte principal est-il là ? Liste les pages
+   où il manque.
+3. Première ligne : chaque page répond-elle à sa question dès
+   les deux premières phrases ? Propose une réécriture pour
+   celles qui tournent autour.
+4. Preuves : repère les affirmations sans chiffre ni source.
+   Dis-moi lesquelles je dois appuyer avec mes propres chiffres.
+5. Mentions : cherche mon nom sur le web. Où parle-t-on de moi
+   (avis, annuaires, comparatifs, Reddit, YouTube) ? Où sont
+   cités mes concurrents et pas moi ?
+
+Pour chaque point : ce qui va, ce qui ne va pas, la correction.
+N'invente aucun chiffre ni aucun avis.
+Ne devine pas : si tu ne peux pas vérifier, dis-le.
+Montre-moi chaque changement avant de modifier un fichier.</code></pre>
+</section>
+
+<section>
+  <h2><span class="num">6</span>La checklist</h2>
+  <ol class="etapes">
+    <li>Mon site est inscrit sur la Search Console et sur Bing Webmaster Tools.</li>
+    <li>Les robots de recherche des IA ne sont pas bloqués dans mon robots.txt.</li>
+    <li>Mon texte s'affiche sans JavaScript.</li>
+    <li>Chaque page répond à sa question dès la première ligne.</li>
+    <li>Mes pages contiennent des chiffres, des citations et des sources.</li>
+    <li>On parle de moi ailleurs : avis, annuaires, comparatifs, Reddit, YouTube.</li>
+    <li>Chaque mois, je pose dix questions de mes clients aux IA et je note qui est cité.</li>
+  </ol>
+</section>
+
+<section>
+  <h2>Mes règles</h2>
+  <ol class="etapes">
+    <li><b>Être trouvé avant d'être cité.</b> Sans Google ni Bing, l'IA ne te trouve pas en recherche.</li>
+    <li><b>Une preuve vaut mieux qu'un mot-clé.</b> Un chiffre, une source, un exemple réel.</li>
+    <li><b>Je mesure, je ne suppose pas.</b> Dix questions par mois, et je note qui sort.</li>
+  </ol>
+</section>
+<section><p class="sources">Sources vérifiées le 03/11/2026 : <a href="https://trust.anthropic.com/subprocessors">Anthropic : ses sous-traitants, dont ceux de la recherche web (Brave Search, TurboPuffer, Parallel)</a> · <a href="https://blogs.bing.com/search/2023/5/Bing-at-Microsoft-Build-2023">Microsoft, 23/05/2023 : Bing devient la recherche par défaut de ChatGPT</a> · <a href="https://developers.openai.com/api/docs/bots">OpenAI : ses robots (GPTBot, OAI-SearchBot, ChatGPT-User)</a> · <a href="https://aistudio.google.com/docs/google-search">Google : Gemini relié à la recherche Google</a> · <a href="https://arxiv.org/abs/2311.09735">Aggarwal et al., Princeton et IIT Delhi, KDD 2024 : GEO, Generative Engine Optimization</a> · <a href="https://vercel.com/blog/the-rise-of-the-ai-crawler">Vercel, 17/12/2024 : les robots d&#x27;IA n&#x27;exécutent pas le JavaScript</a> · <a href="https://developers.google.com/search/docs/appearance/ai-features">Google : aucun fichier spécial pour apparaître dans ses fonctions IA</a> · <a href="https://llmstxt.org/">La proposition llms.txt</a> · <a href="https://www.seroundtable.com/google-ai-llms-txt-39607.html">John Mueller (Google), juin 2025 : aucun système d&#x27;IA n&#x27;utilise llms.txt</a></p></section>
+<section class="fin">
+  <h2>Et maintenant ?</h2>
+  <p>Tu veux qu'on regarde ensemble si les IA citent ton activité ? Écris-moi sur Instagram, @ardj.87.</p>
+  <a class="cta" href="/">Le premier échange est gratuit</a>
+  <p class="signature">Amdy · Longueur d'avance. Suis-moi sur Instagram (<a href="https://www.instagram.com/ardj.87/">@ardj.87</a>), je décrypte l'IA sans bullshit, une notion par jour.</p>
+</section>
+</main>
+</body>
+</html>

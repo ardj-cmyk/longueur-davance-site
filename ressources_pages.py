@@ -798,8 +798,10 @@ PAGES["seo-geo"] = dict(
     marque="SEO & GEO · Partie 1/3",
     h1="Les IA savent-elles que tu <em>existes</em> ?",
     chapo="Google te donne une place dans une liste. L'IA te donne une place dans sa réponse, ou aucune. Voici comment vérifier où tu en es, et la checklist pour être trouvé par les deux.",
-    verifie="01/11/2026",
-    sources=[SRC_GOOGLE_SITE, SRC_GOOGLE_SC, SRC_BING_IMPORT, SRC_OPENAI_BOTS, SRC_ANTHROPIC_BOTS, SRC_GOOGLE_CRAWLERS, SRC_PERPLEXITY_BOTS],
+    verifie="01/11/2026, complétées le 03/11/2026",
+    sources=[SRC_GOOGLE_SITE, SRC_GOOGLE_SC, SRC_BING_IMPORT, SRC_OPENAI_BOTS, SRC_ANTHROPIC_BOTS, SRC_GOOGLE_CRAWLERS, SRC_PERPLEXITY_BOTS,
+             ("Microsoft, 23/05/2023 : Bing devient la recherche par défaut de ChatGPT", "https://blogs.bing.com/search/2023/5/Bing-at-Microsoft-Build-2023"),
+             ("Vercel, 17/12/2024 : les robots d'IA n'exécutent pas le JavaScript", "https://vercel.com/blog/the-rise-of-the-ai-crawler")],
     corps="""
 <section>
   <h2><span class="num">1</span>Le test en 30 secondes</h2>
@@ -815,7 +817,7 @@ PAGES["seo-geo"] = dict(
   <h2><span class="num">2</span>Les trois inscriptions, à faire une fois</h2>
   <ol class="etapes">
     <li><b>La Search Console de Google.</b> Ajoute une propriété « Domaine ». Google te donne une ligne à ajouter dans les réglages de ton nom de domaine (chez ton hébergeur ou ton registraire) pour prouver que le site est à toi. Puis envoie ton sitemap, souvent à l'adresse <code>tonsite.fr/sitemap.xml</code>.</li>
-    <li><b>Bing Webmaster Tools.</b> Choisis « Importer », connecte ton compte Google : Bing reprend ton site et ton sitemap depuis la Search Console. C'est Bing que ChatGPT utilise notamment pour chercher sur le web.</li>
+    <li><b>Bing Webmaster Tools.</b> Choisis « Importer », connecte ton compte Google : Bing reprend ton site et ton sitemap depuis la Search Console. C'est Bing que ChatGPT utilise notamment pour chercher sur le web <a href="https://blogs.bing.com/search/2023/5/Bing-at-Microsoft-Build-2023">(source)</a>.</li>
     <li><b>Ta fiche Google Business Profile</b>, si tes clients sont près de chez toi : horaires, photos, avis. Google peut te demander une courte vidéo pour prouver que ton activité existe.</li>
   </ol>
   <p class="note">Juste après l'envoi, la Search Console peut afficher « Impossible de récupérer » pour le sitemap. Je l'ai eu le jour même : revérifie quelques jours plus tard avant de chercher une panne.</p>
@@ -846,7 +848,7 @@ Sitemap: https://tonsite.fr/sitemap.xml</code></pre>
     <li>Bing Webmaster Tools : site importé, sitemap envoyé.</li>
     <li>robots.txt : les robots de Google, de Bing et des IA ne sont pas bloqués.</li>
     <li>Toutes mes pages utiles sont dans le sitemap.</li>
-    <li>Mon texte s'affiche sans JavaScript (les robots des IA ne l'exécutent pas).</li>
+    <li>Mon texte s'affiche sans JavaScript (les robots des IA ne l'exécutent pas, <a href="https://vercel.com/blog/the-rise-of-the-ai-crawler">source</a>).</li>
     <li>Chaque page commence par une réponse directe, pas par trois paragraphes d'intro.</li>
     <li>Des chiffres, des sources, une date de mise à jour.</li>
     <li>Ma fiche Google Business Profile est à jour, si j'ai une clientèle locale.</li>
@@ -900,8 +902,8 @@ PAGES["seo-ia"] = dict(
     corps="""
 <section>
   <h2><span class="num">1</span>Ce que Google dit</h2>
-  <p>Utiliser l'IA, ce n'est pas interdit : Google écrit qu'un usage approprié de l'IA ou de l'automatisation ne va pas contre ses règles.</p>
-  <p>Ce qu'il sanctionne, c'est de générer beaucoup de pages dans le but principal de manipuler le classement, sans rien apporter au lecteur. Il appelle ça l'abus de contenu à grande échelle, et il cite en exemple les pages produites en masse avec l'IA générative.</p>
+  <p>Utiliser l'IA, ce n'est pas interdit : Google écrit qu'un usage approprié de l'IA ou de l'automatisation ne va pas contre ses règles <a href="https://developers.google.com/search/blog/2023/02/google-search-and-ai-content">(source)</a>.</p>
+  <p>Ce qu'il sanctionne, c'est de générer beaucoup de pages dans le but principal de manipuler le classement, sans rien apporter au lecteur. Il appelle ça l'abus de contenu à grande échelle, et il cite en exemple les pages produites en masse avec l'IA générative <a href="https://developers.google.com/search/docs/essentials/spam-policies#scaled-content">(source)</a>.</p>
   <p class="note">La règle simple : une page doit répondre à une vraie question, avec ce que toi seul peux apporter.</p>
 </section>
 
@@ -912,7 +914,7 @@ PAGES["seo-ia"] = dict(
     <li><b>Le premier jet.</b> Claude écrit la page et place la réponse dès la première ligne. Toi, tu ajoutes ce que toi seul sais : tes chiffres, tes exemples, tes photos.</li>
     <li><b>L'audit technique, avec Claude Code.</b> Il vérifie que chaque page est dans ton sitemap (la liste de tes pages que tu donnes à Google) et il ajoute celles qui manquent.</li>
     <li><b>La Search Console, puis Bing.</b> Tu inscris ton site sur la Search Console. Google te donne un code à coller chez celui qui gère ton nom de domaine : ça prouve que le site est à toi. Tu envoies ton sitemap. Ensuite, sur Bing Webmaster Tools, tu importes tout depuis la Search Console.</li>
-    <li><b>Ta fiche Google Business Profile</b>, si tes clients sont près de chez toi. Pour valider la fiche, Google peut proposer une vidéo de ton établissement, selon ce qu'il ouvre à ta fiche.</li>
+    <li><b>Ta fiche Google Business Profile</b>, si tes clients sont près de chez toi. Pour valider la fiche, Google peut proposer une vidéo de ton établissement, selon ce qu'il ouvre à ta fiche <a href="https://support.google.com/business/answer/7107242?hl=fr">(source)</a>.</li>
   </ol>
   <p class="note">Claude peut s'occuper de la plus grande partie : les questions, les premiers jets, le sitemap. Pour la Search Console et Bing, avec Claude dans Chrome, il fait les clics avec toi, et c'est toi qui te connectes à tes comptes.</p>
 </section>
@@ -963,4 +965,122 @@ N'invente aucun chiffre, aucun client, aucun avis.</code></pre>
 </section>
 """,
     fin="Tu veux qu'on regarde ensemble le référencement de ton site ? Écris-moi sur Instagram, @ardj.87.",
+)
+
+
+# 03/11/2026, Amdy : « dans toutes les pages, les liens qui prouvent que ce qu'on dit, c'est pas du bullshit » :
+# un lien vers la source à côté de chaque affirmation, en plus du bloc Sources.
+SRC_ANTHROPIC_SOUS = ("Anthropic : ses sous-traitants, dont ceux de la recherche web (Brave Search, TurboPuffer, Parallel)", "https://trust.anthropic.com/subprocessors")
+SRC_BING_CHATGPT = ("Microsoft, 23/05/2023 : Bing devient la recherche par défaut de ChatGPT", "https://blogs.bing.com/search/2023/5/Bing-at-Microsoft-Build-2023")
+SRC_GEMINI_SEARCH = ("Google : Gemini relié à la recherche Google", "https://aistudio.google.com/docs/google-search")
+SRC_GEO_PRINCETON = ("Aggarwal et al., Princeton et IIT Delhi, KDD 2024 : GEO, Generative Engine Optimization", "https://arxiv.org/abs/2311.09735")
+SRC_VERCEL_JS = ("Vercel, 17/12/2024 : les robots d'IA n'exécutent pas le JavaScript", "https://vercel.com/blog/the-rise-of-the-ai-crawler")
+SRC_GOOGLE_AI_FEATURES = ("Google : aucun fichier spécial pour apparaître dans ses fonctions IA", "https://developers.google.com/search/docs/appearance/ai-features")
+SRC_LLMSTXT = ("La proposition llms.txt", "https://llmstxt.org/")
+SRC_MUELLER_LLMS = ("John Mueller (Google), juin 2025 : aucun système d'IA n'utilise llms.txt", "https://www.seroundtable.com/google-ai-llms-txt-39607.html")
+
+
+def _src(s):
+    return f'<a href="{s[1]}">(source)</a>'
+
+
+PAGES["geo"] = dict(
+    video="36 · SEO & GEO, partie 3",
+    title="Être cité par les IA : le prompt d'audit GEO et la checklist",
+    desc="Où Claude, ChatGPT et Gemini cherchent, ce qui fait citer une page (réponse nette, chiffres et sources, mentions ailleurs, texte lisible sans JavaScript), le cas llms.txt, le test mensuel et le prompt d'audit à coller.",
+    og_pill="SEO & GEO · Partie 3/3", og_titre="Être cité par les IA",
+    marque="SEO & GEO · Partie 3/3",
+    h1="Être cité <em>par les IA</em>",
+    chapo="Claude cite tes concurrents, mais pas toi ? Une IA ne lit pas ta page comme toi : elle la découpe et garde le passage qui répond le mieux. Voici où elles cherchent, ce qui fait citer une page, et le prompt d'audit à coller.",
+    verifie="03/11/2026",
+    sources=[SRC_ANTHROPIC_SOUS, SRC_BING_CHATGPT, SRC_OPENAI_BOTS, SRC_GEMINI_SEARCH, SRC_GEO_PRINCETON, SRC_VERCEL_JS,
+             SRC_GOOGLE_AI_FEATURES, SRC_LLMSTXT, SRC_MUELLER_LLMS],
+    corps=f"""
+<section>
+  <h2><span class="num">1</span>Où chaque IA cherche</h2>
+  <ul class="liste">
+    <li><b>Claude</b> passe notamment par Brave Search. Anthropic le déclare parmi ses prestataires de recherche web, avec TurboPuffer et Parallel. {_src(SRC_ANTHROPIC_SOUS)}</li>
+    <li><b>ChatGPT</b> passe notamment par Bing, sa recherche par défaut depuis 2023. {_src(SRC_BING_CHATGPT)} OpenAI a aussi son propre robot de recherche, OAI-SearchBot. {_src(SRC_OPENAI_BOTS)}</li>
+    <li><b>Gemini</b> s'appuie sur la recherche Google. {_src(SRC_GEMINI_SEARCH)}</li>
+  </ul>
+  <p class="note">En pratique : ton site doit être connu de Google et de Bing, et les robots de recherche des IA ne doivent pas être bloqués. Les inscriptions et les robots sont dans la <a href="/seo-geo">partie 1</a>.</p>
+</section>
+
+<section>
+  <h2><span class="num">2</span>Ce qui fait citer une page</h2>
+  <ol class="etapes">
+    <li><b>Une réponse nette dès la première ligne.</b> L'IA garde le passage qui répond à la question. Pas trois paragraphes d'intro avant d'y arriver.</li>
+    <li><b>Des chiffres et des sources.</b> Des chercheurs de Princeton et de l'IIT Delhi ont testé neuf façons de réécrire une page sur 10&nbsp;000 questions : ajouter des statistiques, des citations et des sources a augmenté la visibilité dans les réponses jusqu'à 40&nbsp;%. Le bourrage de mots-clés n'a apporté presque rien. {_src(SRC_GEO_PRINCETON)}</li>
+    <li><b>Ce que les autres disent de toi.</b> Avis, Reddit, YouTube, comparatifs, annuaires : les IA citent ce qu'elles trouvent sur le web, pas seulement ton site. Plus on parle de toi ailleurs, plus tu as de chances d'être cité.</li>
+    <li><b>Un texte lisible sans JavaScript.</b> Fin 2024, Vercel a mesuré qu'aucun des grands robots d'IA n'exécutait le JavaScript (Gemini fait exception, il passe par Googlebot). Ce qui n'apparaît qu'avec lui, ils ne le voient pas. {_src(SRC_VERCEL_JS)}</li>
+  </ol>
+  <p class="note">Dans l'étude, l'effet est le plus fort pour les sites mal placés. Un site déjà en tête gagne peu, il peut même perdre en ajoutant des citations.</p>
+</section>
+
+<section>
+  <h2><span class="num">3</span>Et le fichier llms.txt ?</h2>
+  <p>C'est une proposition : un fichier texte à la racine du site qui résume les pages pour les IA. {_src(SRC_LLMSTXT)}</p>
+  <p>Google écrit qu'aucun fichier spécial n'est nécessaire pour apparaître dans ses fonctions IA. {_src(SRC_GOOGLE_AI_FEATURES)} En juin 2025, John Mueller, de Google, a déclaré qu'aucun système d'IA ne l'utilisait à sa connaissance. {_src(SRC_MUELLER_LLMS)}</p>
+  <p class="note">Ça ne coûte rien de l'ajouter. Mais aucune preuve, aujourd'hui, que les grandes IA s'en servent. Passe d'abord par les quatre points ci-dessus.</p>
+</section>
+
+<section>
+  <h2><span class="num">4</span>Le test, chaque mois</h2>
+  <ol class="etapes">
+    <li>Écris dix questions que tes clients se posent vraiment (« quel [ton métier] à [ta ville] pour… »).</li>
+    <li>Pose-les à Claude, ChatGPT et Gemini, recherche web activée.</li>
+    <li>Note qui est cité : toi, ou tes concurrents. Et note les pages que l'IA donne en source : c'est là qu'il faut être présent.</li>
+  </ol>
+  <p class="note">Un tableau suffit : la question, l'IA, les noms cités, les sources. D'un mois sur l'autre, tu vois si ça bouge.</p>
+</section>
+
+<section>
+  <h2><span class="num">5</span>Le prompt d'audit à coller</h2>
+  <p>Ouvre Claude Code dans le dossier de ton site, ou donne-lui l'adresse, et colle :</p>
+  <pre><code>Fais l'audit GEO de mon site [adresse] : est-il prêt à être
+cité par Claude, ChatGPT et Gemini ?
+
+1. robots.txt : OAI-SearchBot, ChatGPT-User, Claude-SearchBot,
+   Claude-User, Googlebot et Bingbot sont-ils autorisés ?
+2. JavaScript : récupère chaque page sans exécuter le
+   JavaScript. Le texte principal est-il là ? Liste les pages
+   où il manque.
+3. Première ligne : chaque page répond-elle à sa question dès
+   les deux premières phrases ? Propose une réécriture pour
+   celles qui tournent autour.
+4. Preuves : repère les affirmations sans chiffre ni source.
+   Dis-moi lesquelles je dois appuyer avec mes propres chiffres.
+5. Mentions : cherche mon nom sur le web. Où parle-t-on de moi
+   (avis, annuaires, comparatifs, Reddit, YouTube) ? Où sont
+   cités mes concurrents et pas moi ?
+
+Pour chaque point : ce qui va, ce qui ne va pas, la correction.
+N'invente aucun chiffre ni aucun avis.
+Ne devine pas : si tu ne peux pas vérifier, dis-le.
+Montre-moi chaque changement avant de modifier un fichier.</code></pre>
+</section>
+
+<section>
+  <h2><span class="num">6</span>La checklist</h2>
+  <ol class="etapes">
+    <li>Mon site est inscrit sur la Search Console et sur Bing Webmaster Tools.</li>
+    <li>Les robots de recherche des IA ne sont pas bloqués dans mon robots.txt.</li>
+    <li>Mon texte s'affiche sans JavaScript.</li>
+    <li>Chaque page répond à sa question dès la première ligne.</li>
+    <li>Mes pages contiennent des chiffres, des citations et des sources.</li>
+    <li>On parle de moi ailleurs : avis, annuaires, comparatifs, Reddit, YouTube.</li>
+    <li>Chaque mois, je pose dix questions de mes clients aux IA et je note qui est cité.</li>
+  </ol>
+</section>
+
+<section>
+  <h2>Mes règles</h2>
+  <ol class="etapes">
+    <li><b>Être trouvé avant d'être cité.</b> Sans Google ni Bing, l'IA ne te trouve pas en recherche.</li>
+    <li><b>Une preuve vaut mieux qu'un mot-clé.</b> Un chiffre, une source, un exemple réel.</li>
+    <li><b>Je mesure, je ne suppose pas.</b> Dix questions par mois, et je note qui sort.</li>
+  </ol>
+</section>
+""",
+    fin="Tu veux qu'on regarde ensemble si les IA citent ton activité ? Écris-moi sur Instagram, @ardj.87.",
 )
