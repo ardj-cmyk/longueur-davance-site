@@ -460,17 +460,17 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b,.origine{font-variant-numeri
     <div class="sec-head">
       <span class="eyebrow" data-t="px_eye">Les prix</span>
       <h2 data-t="px_titre">Vous payez ce que vous vérifiez.</h2>
-      <p data-t="px_lead">Sans abonnement. Vous rechargez des crédits, chaque vérification en consomme. 1 crédit = 0,25 €.</p>
+      <p data-t="px_lead">Sans abonnement. Vous rechargez des crédits, chaque vérification en consomme. 1 crédit = 1 lien = 0,50 €.</p>
     </div>
     <div class="prix">
-      <div class="prix-ligne"><div><h3 data-t="p1_t">Vérifier un lien</h3><p data-t="p1_p">Un reel, une pub, une page de vente.</p></div><div class="prix-val"><b data-t="p1_c">1 crédit</b><span>0,25 €</span></div></div>
-      <div class="prix-ligne"><div><h3><span data-t="p2_t">Question directe sur l'IA</span><span class="bientot" data-t="bientot">Bientôt</span></h3><p data-t="p2_p">Une question précise, sans lien.</p></div><div class="prix-val"><b data-t="p1_c">1 crédit</b><span>0,25 €</span></div></div>
-      <div class="prix-ligne"><div><h3><span data-t="p3_t">Question directe hors IA</span><span class="bientot" data-t="bientot">Bientôt</span></h3><p data-t="p3_p">Tout sujet vérifiable à la source.</p></div><div class="prix-val"><b data-t="p3_c">2 crédits</b><span>0,50 €</span></div></div>
-      <div class="prix-ligne"><div><h3><span data-t="p4_t">Audit d'un compte</span><span class="bientot" data-t="bientot">Bientôt</span></h3><p data-t="p4_p">Les 20 derniers reels et les 5 plus vus, une note globale.</p></div><div class="prix-val"><b data-t="p4_c">60 crédits</b><span>15 €</span></div></div>
+      <div class="prix-ligne"><div><h3 data-t="p1_t">Vérifier un lien</h3><p data-t="p1_p">Un reel, une pub, une page de vente.</p></div><div class="prix-val"><b data-t="p1_c">1 crédit</b><span data-t="pv1">0,50 €</span></div></div>
+      <div class="prix-ligne"><div><h3><span data-t="p2_t">Question directe sur l'IA</span><span class="bientot" data-t="bientot">Bientôt</span></h3><p data-t="p2_p">Une question précise, sans lien.</p></div><div class="prix-val"><b data-t="p1_c">1 crédit</b><span data-t="pv1">0,50 €</span></div></div>
+      <div class="prix-ligne"><div><h3><span data-t="p3_t">Question directe hors IA</span><span class="bientot" data-t="bientot">Bientôt</span></h3><p data-t="p3_p">Tout sujet vérifiable à la source.</p></div><div class="prix-val"><b data-t="p3_c">2 crédits</b><span data-t="pv3">1 €</span></div></div>
+      <div class="prix-ligne"><div><h3><span data-t="p4_t">Audit d'un compte</span><span class="bientot" data-t="bientot">Bientôt</span></h3><p data-t="p4_p">Les 20 derniers reels et les 5 plus vus, une note globale.</p></div><div class="prix-val"><b data-t="p4_c">30 crédits</b><span data-t="pv4">15 €</span></div></div>
     </div>
     <div class="prix recharges">
-      <div class="rech"><b>5 €</b><span data-t="r1">20 crédits</span></div>
-      <div class="rech"><b>50 €</b><span data-t="r2">200 crédits</span></div>
+      <div class="rech"><b>5 €</b><span data-t="r1">10 crédits</span></div>
+      <div class="rech"><b>50 €</b><span data-t="r2">100 crédits</span></div>
     </div>
     <p class="prix-note" data-th="px_offert"><b>5 crédits offerts</b> à l'inscription, soit 5 liens vérifiés.</p>
     <div class="paiement" aria-label="Moyens de paiement"><span data-t="pay_carte">Carte bancaire</span><span>Apple Pay</span><span>Google Pay</span></div>
@@ -527,14 +527,6 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b,.origine{font-variant-numeri
         <label for="pays" data-t="f_pays">Votre pays</label>
         <select id="pays" name="pays" required class="select"></select>
         <p class="hint" data-t="f_pays_h">Pour appliquer les bonnes règles dans votre rapport.</p>
-      </div>
-      <div class="field">
-        <label><span data-t="f_profil">Votre secteur</span> <span class="opt" data-t="opt">(optionnel)</span></label>
-        <div class="chips" id="chips-profil"></div>
-      </div>
-      <div class="field">
-        <label><span data-t="f_taille">Vous êtes combien ?</span> <span class="opt" data-t="opt">(optionnel)</span></label>
-        <div class="chips" id="chips-taille"></div>
       </div>
       <div aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden">
         <label>Ne remplissez pas ce champ <input type="text" name="piege" tabindex="-1" autocomplete="off"></label>
@@ -688,9 +680,6 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b,.origine{font-variant-numeri
       credit: 'crédit', credits: 'crédits',
       f_lien: 'Collez le lien à vérifier', f_lien_h: 'Reel, TikTok, page de vente, post LinkedIn, tout contenu public.',
       f_q: 'Ce qui vous fait douter', opt: '(optionnel)', f_q_ex: "Ex. « il dit que c'est gratuit et sans risque RGPD, c'est vrai ? »",
-      f_profil: 'Votre secteur', f_taille: 'Vous êtes combien ?',
-      profils: ['Avocat / juridique', 'Comptable / finance', 'Profession libérale', 'Artisan / BTP', 'PME / dirigeant', 'Architecture', 'Immobilier', 'Commerce / boutique', 'E-commerce / marque', 'Commercial / vente', 'Logistique / transport', 'Employé', 'Autre'],
-      tailles: ['Seul', '2 à 5', '6 à 20', 'Plus de 20'],
       f_news: "Je veux aussi la newsletter Longueur d'avance.", f_news_h: 'Une fois par semaine, les débunks et les vraies méthodes. Désabonnement en un clic.',
       f_envoyer: 'Vérifier ce contenu', f_delai: "Rapport par email, en une dizaine de minutes.",
       cm_eye: 'Comment ça marche', cm_titre: 'Pas de magie : de la vérification.',
@@ -720,12 +709,12 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b,.origine{font-variant-numeri
       vp1: "L'affirmation est exacte et vérifiable à la source.", vp2: 'Le fond est vrai, mais la promesse dépasse la réalité.',
       vp3: 'Un élément essentiel est passé sous silence.', vp4: 'Aucune source publique ne permet de trancher. On le dit.',
       px_eye: 'Les prix', px_titre: 'Vous payez ce que vous vérifiez.',
-      px_lead: 'Sans abonnement. Vous rechargez des crédits, chaque vérification en consomme. 1 crédit = 0,25 €.',
+      px_lead: 'Sans abonnement. Vous rechargez des crédits, chaque vérification en consomme. 1 crédit = 1 lien = 0,50 €.',
       p1_t: 'Vérifier un lien', p1_p: 'Un reel, une pub, une page de vente.', p1_c: '1 crédit',
       p2_t: "Question directe sur l'IA", p2_p: 'Une question précise, sans lien.',
       p3_t: 'Question directe hors IA', p3_p: 'Tout sujet vérifiable à la source.', p3_c: '2 crédits',
-      p4_t: "Audit d'un compte", p4_p: 'Les 20 derniers reels et les 5 plus vus, une note globale.', p4_c: '60 crédits',
-      bientot: 'Bientôt', r1: '20 crédits', r2: '200 crédits',
+      p4_t: "Audit d'un compte", p4_p: 'Les 20 derniers reels et les 5 plus vus, une note globale.', p4_c: '30 crédits', pv1: '0,50 €', pv3: '1 €', pv4: '15 €',
+      bientot: 'Bientôt', r1: '10 crédits', r2: '100 crédits',
       px_offert: "<b>5 crédits offerts</b> à l'inscription, soit 5 liens vérifiés.",
       pay_carte: 'Carte bancaire', px_ttc: "TVA non applicable, article 293 B du CGI. Paiement sécurisé par Stripe, on ne voit jamais votre carte. Facture envoyée par email.",
       nr_eye: 'Nos règles', nr_titre: "Ce qu'on s'interdit.",
@@ -833,9 +822,6 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b,.origine{font-variant-numeri
       credit: 'credit', credits: 'credits',
       f_lien: 'Paste the link to check', f_lien_h: 'Reel, TikTok, sales page, LinkedIn post, any public content.',
       f_q: 'What makes you doubt it', opt: '(optional)', f_q_ex: 'E.g. "he says it’s free and GDPR-safe, is that true?"',
-      f_profil: 'Your field', f_taille: 'How many are you?',
-      profils: ['Lawyer / legal', 'Accounting / finance', 'Independent professional', 'Trades / construction', 'SME / manager', 'Architecture', 'Real estate', 'Retail / shop', 'E-commerce / brand', 'Sales', 'Logistics / transport', 'Employee', 'Other'],
-      tailles: ['Just me', '2 to 5', '6 to 20', 'More than 20'],
       f_news: "I also want the Longueur d'avance newsletter.", f_news_h: 'Once a week, debunks and methods that work. Unsubscribe in one click.',
       f_envoyer: 'Check this content', f_delai: "Report by email, in about ten minutes.",
       cm_eye: 'How it works', cm_titre: 'No magic: just checking.',
@@ -865,12 +851,12 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b,.origine{font-variant-numeri
       vp1: 'The claim is accurate and verifiable at the source.', vp2: 'The core is true, but the promise goes beyond reality.',
       vp3: 'Something essential is left out.', vp4: 'No public source can settle it. We say so.',
       px_eye: 'Pricing', px_titre: 'You pay for what you check.',
-      px_lead: 'No subscription. You top up credits, each check uses some. 1 credit = €0.25.',
+      px_lead: 'No subscription. You top up credits, each check uses some. 1 credit = 1 link = €0.50.',
       p1_t: 'Check a link', p1_p: 'A reel, an ad, a sales page.', p1_c: '1 credit',
       p2_t: 'Direct question about AI', p2_p: 'A precise question, no link.',
       p3_t: 'Direct question beyond AI', p3_p: 'Any topic that can be checked at the source.', p3_c: '2 credits',
-      p4_t: 'Account audit', p4_p: 'The last 20 reels and the 5 most viewed, one overall score.', p4_c: '60 credits',
-      bientot: 'Soon', r1: '20 credits', r2: '200 credits',
+      p4_t: 'Account audit', p4_p: 'The last 20 reels and the 5 most viewed, one overall score.', p4_c: '30 credits', pv1: '€0.50', pv3: '€1', pv4: '€15',
+      bientot: 'Soon', r1: '10 credits', r2: '100 credits',
       px_offert: "<b>5 free credits</b> when you sign up, that is 5 links checked.",
       pay_carte: 'Card', px_ttc: 'VAT not applicable (French small business exemption). Secure payment by Stripe, we never see your card. Invoice sent by email.',
       nr_eye: 'Our rules', nr_titre: 'What we never do.',
@@ -898,8 +884,6 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b,.origine{font-variant-numeri
     }
   };
   var RTL = ['ar', 'he', 'fa', 'ur'];
-  // Les valeurs enregistrées restent en français, quelle que soit la langue affichée.
-  var PROFILS_FR = TEXTES.fr.profils, TAILLES_FR = TEXTES.fr.tailles;
 
   function choisirLangue(){
     var demandee = new URLSearchParams(location.search).get('lang');
@@ -914,20 +898,6 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b,.origine{font-variant-numeri
   }
   var LANGUE = choisirLangue();
   var T = TEXTES[LANGUE];
-
-  function chips(id, nom, type, libelles, valeurs){
-    var boite = document.getElementById(id);
-    var coches = {};
-    boite.querySelectorAll('input:checked').forEach(function(i){ coches[i.value] = true; });
-    boite.innerHTML = '';
-    libelles.forEach(function(lib, i){
-      var l = document.createElement('label'); l.className = 'chip';
-      var inp = document.createElement('input'); inp.type = type; inp.name = nom; inp.value = valeurs[i];
-      if (coches[valeurs[i]]) inp.checked = true;
-      var s = document.createElement('span'); s.textContent = lib;
-      l.appendChild(inp); l.appendChild(s); boite.appendChild(l);
-    });
-  }
 
   // ── Pays : liste ISO, noms dans la langue de la page, présélection d'après le navigateur ──
   var PAYS = 'AD AE AF AG AI AL AM AO AR AS AT AU AW AX AZ BA BB BD BE BF BG BH BI BJ BL BM BN BO BQ BR BS BT BW BY BZ CA CC CD CF CG CH CI CK CL CM CN CO CR CU CV CW CX CY CZ DE DJ DK DM DO DZ EC EE EG EH ER ES ET FI FJ FK FM FO FR GA GB GD GE GF GG GH GI GL GM GN GP GQ GR GT GU GW GY HK HN HR HT HU ID IE IL IM IN IQ IR IS IT JE JM JO JP KE KG KH KI KM KN KP KR KW KY KZ LA LB LC LI LK LR LS LT LU LV LY MA MC MD ME MF MG MH MK ML MM MN MO MP MQ MR MS MT MU MV MW MX MY MZ NA NC NE NF NG NI NL NO NP NR NU NZ OM PA PE PF PG PH PK PL PM PN PR PS PT PW PY QA RE RO RS RU RW SA SB SC SD SE SG SH SI SJ SK SL SM SN SO SR SS ST SV SX SY SZ TC TD TG TH TJ TK TL TM TN TO TR TT TV TW TZ UA UG US UY UZ VA VC VE VG VI VN VU WF WS YE YT ZA ZM ZW'.split(' ');
@@ -969,8 +939,6 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b,.origine{font-variant-numeri
       var v = T[el.getAttribute('data-tp')]; if (typeof v === 'string') el.placeholder = v;
     });
     document.title = T.doc;
-    chips('chips-profil', 'profil', 'checkbox', T.profils, PROFILS_FR);
-    chips('chips-taille', 'taille', 'radio', T.tailles, TAILLES_FR);
     remplirPays();
     if (session) montrerFormulaire(session);
   }
@@ -1063,8 +1031,6 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b,.origine{font-variant-numeri
       question: (d.get('question') || '').toString().trim() || null,
       email: session.user.email,
       prenom: (meta.given_name || (meta.full_name || meta.name || '').split(' ')[0] || '').slice(0, 60) || null,
-      taille: (d.get('taille') || '').toString() || null,
-      profil: d.getAll('profil').join(' · ') || null,
       newsletter: d.get('newsletter') === 'oui',
       pays: pays,
       piege: (d.get('piege') || '').toString()
