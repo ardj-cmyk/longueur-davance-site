@@ -152,6 +152,35 @@ h2{font-family:var(--serif);font-weight:600;font-size:clamp(28px,7vw,42px);line-
 .delai{max-width:860px;margin:14px auto 0;text-align:center;font-size:14.5px;color:var(--muted);}
 .delai b{color:var(--ink);}
 
+/* Exemple de rapport */
+.rp-wrap{max-width:860px;margin:0 auto;display:grid;gap:18px;}
+@media (min-width:860px){.rp-wrap{grid-template-columns:1.6fr 1fr;align-items:start;}}
+.rp{background:#f6f2ea;color:#12192b;border-radius:var(--r-lg);padding:22px 20px 24px;box-shadow:var(--sh);position:relative;}
+.rp *{color:inherit;}
+.rp-head{display:flex;justify-content:space-between;gap:10px;font-size:11.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#8a5a2b !important;border-bottom:1px solid #e3ded4;padding-bottom:10px;}
+.rp-head span{color:#8a5a2b;}
+.rp-lien{font-size:14px;color:#5c6674 !important;margin-top:10px;}
+.rp-score{display:flex;align-items:center;gap:12px;margin:12px 0 6px;}
+.rp-score b{font-family:var(--serif);font-size:54px;line-height:1;color:#2f8a5b !important;font-variant-numeric:lining-nums;}
+.rp-score small{font-size:20px;color:#8b93a3 !important;}
+.rp .v-tag{font-size:11px;}
+.rp .v-vrai{color:#2f8a5b !important;}.rp .v-survendu{color:#b07a2a !important;}.rp .v-trompeur{color:#c0533f !important;}
+.rp-resume{font-size:15px;line-height:1.55;display:flex;gap:10px;}
+.rp h4{display:flex;align-items:center;gap:10px;font-family:var(--serif);font-size:17px;font-weight:600;margin:20px 0 8px;}
+.rp-n{flex:none;width:24px;height:24px;border-radius:50%;background:#12192b;color:#f6f2ea !important;font-family:var(--sans);font-size:12.5px;font-weight:700;display:inline-grid;place-items:center;}
+.rp-score .rp-n,.rp-resume .rp-n{margin-top:2px;}
+.rp-claim{background:#fff;border:1px solid #e3ded4;border-radius:14px;padding:12px 14px;margin-top:8px;font-size:14.5px;line-height:1.5;}
+.rp-claim .v-tag{margin-bottom:6px;}
+.rp-q{font-style:italic;font-weight:600;margin-bottom:4px;}
+.rp-crit{list-style:none;display:grid;gap:6px;}
+.rp-crit li{display:flex;justify-content:space-between;font-size:14.5px;border-bottom:1px dashed #e3ded4;padding-bottom:6px;}
+.rp-crit b{font-variant-numeric:lining-nums;}
+.rp-conseil{background:#12192b;color:#f3efe6 !important;border-radius:14px;padding:14px 16px;font-size:14.5px;line-height:1.55;}
+.rp-src{padding-left:20px;font-size:13.5px;color:#5c6674 !important;}
+.rp-src li{margin-top:4px;text-decoration:underline;text-decoration-color:#c9c2b4;}
+.rp-legende{list-style:none;counter-reset:rp;display:grid;gap:10px;}
+.rp-legende li{counter-increment:rp;display:flex;gap:12px;align-items:center;font-size:15.5px;font-weight:600;}
+.rp-legende li::before{content:counter(rp);flex:none;width:28px;height:28px;border-radius:50%;background:var(--accent);color:var(--on-accent);font-size:13px;font-weight:700;display:grid;place-items:center;}
 /* Domaines couverts */
 .dom ul,.dom-non ul{list-style:none;margin-top:10px;}
 .dom li{position:relative;padding-left:22px;margin-top:9px;font-size:15px;color:var(--muted);}
@@ -288,8 +317,168 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b,.origine{font-variant-numeri
     </div>
   </section>
 
+  <!-- Ce que vous recevez : exemple de rapport -->
+  <section class="sec" id="rapport">
+    <div class="sec-head">
+      <span class="eyebrow" data-t="rp_eye">Ce que vous recevez</span>
+      <h2 data-t="rp_titre">Votre rapport, point par point.</h2>
+      <p data-t="rp_lead">Un vrai verdict de notre veille, auteur anonymisé. Voilà exactement ce qui arrive dans votre boîte mail.</p>
+    </div>
+    <div class="rp-wrap">
+      <article class="rp" aria-label="Exemple de rapport">
+        <header class="rp-head"><span data-t="rp_head">Le Verdict · Rapport de vérification</span><span>03/11/2026</span></header>
+        <p class="rp-lien" data-t="rp_lien">Reel Instagram · un réglage pour « garder ses données en Europe »</p>
+        <div class="rp-score"><span class="rp-n">1</span><b>7<small>/10</small></b><span class="v-tag v-vrai" data-t="vo1c">Fiable</span></div>
+        <p class="rp-resume"><span class="rp-n">2</span><span data-t="rp_resume">Le réglage montré existe et fonctionne. Mais la vidéo promet plus qu'il ne fait : elle oublie le routage entre régions, et elle confond « données en Europe » et « conforme RGPD ».</span></p>
+        <h4><span class="rp-n">3</span><span data-t="rp_aff">Les affirmations, une par une</span></h4>
+        <div class="rp-claim"><span class="v-tag v-vrai" data-t="v1">Vrai</span><p class="rp-q" data-t="rp_a1">« Avec ce réglage, l'IA traite vos demandes en Europe. »</p><p data-t="rp_a1r">Le réglage existe : l'outil montré peut passer par un hébergeur cloud dans une région européenne. Vérifié dans la documentation officielle.</p></div>
+        <div class="rp-claim"><span class="v-tag v-survendu" data-t="v2">Survendu</span><p class="rp-q" data-t="rp_a2">« Ça règle le problème du RGPD. »</p><p data-t="rp_a2r">La localisation des données n'est qu'une partie du RGPD. Il faut aussi un contrat de traitement des données et l'information de vos propres clients.</p></div>
+        <h4><span class="rp-n">4</span><span data-t="rp_a3">Ce qui n’est pas dit</span></h4>
+        <div class="rp-claim"><span class="v-tag v-trompeur" data-t="v3">Trompeur</span><p data-t="rp_a3r">Le réglage ne cadre pas le routage entre régions de l'hébergeur. Sans ce cadrage, une demande peut être traitée hors de la région choisie. C'est le détail qui compte pour un cabinet soumis au secret professionnel.</p></div>
+        <h4><span class="rp-n">5</span><span data-t="rp_note">Le détail de la note</span></h4>
+        <ul class="rp-crit">
+          <li><span data-t="rp_c1">Le fait existe</span><b>2/2</b></li>
+          <li><span data-t="rp_c2">Les chiffres</span><b>2/2</b></li>
+          <li><span data-t="rp_c3">La promesse</span><b>1/2</b></li>
+          <li><span data-t="rp_c4">Ce qui est tu</span><b>1/2</b></li>
+          <li><span data-t="rp_c5">Faisable sans risque</span><b>1/2</b></li>
+        </ul>
+        <h4><span class="rp-n">6</span><span data-t="rp_conseil">Notre conseil</span></h4>
+        <p class="rp-conseil" data-t="rp_conseil_t">Gardez la méthode, ajoutez le cadrage du routage entre régions, et ne présentez pas l'installation comme « conforme RGPD » tant que le contrat de traitement et l'information de vos clients ne sont pas faits.</p>
+        <h4><span class="rp-n">7</span><span data-t="rp_sources">Les sources</span></h4>
+        <ol class="rp-src"><li data-t="rp_s1">Documentation officielle de l'outil, page sur l'hébergement cloud</li><li data-t="rp_s2">Documentation de l'hébergeur, page sur le routage entre régions</li><li data-t="rp_s3">Texte du RGPD, article 28 (sous-traitants)</li></ol>
+      </article>
+      <ol class="rp-legende">
+        <li data-t="rp_l1">La note sur 10 et son voyant</li><li data-t="rp_l2">Le résumé en une phrase</li><li data-t="rp_l3">Chaque affirmation et son verdict</li><li data-t="rp_l4">Ce qui n'est pas dit</li>
+        <li data-t="rp_l5">Le détail de la note</li><li data-t="rp_l6">Notre conseil, concret</li><li data-t="rp_l7">Les sources, cliquables</li>
+      </ol>
+    </div>
+    <p class="delai" data-t="rp_note_bas">Exemple réel, contenu et auteur anonymisés. Les liens sont cliquables dans le rapport envoyé par email.</p>
+  </section>
+
+  <!-- 3. Comment ça marche -->
+  <section class="sec">
+    <div class="sec-head">
+      <span class="eyebrow" data-t="cm_eye">Comment ça marche</span>
+      <h2 data-t="cm_titre">Pas de magie : de la vérification.</h2>
+    </div>
+    <div class="grid grid-4">
+      <div class="tile"><div class="step-n" data-t="e1_n">Étape 01</div><h3 data-t="e1_t">Vous collez le lien</h3><p data-t="e1_p">Le contenu qui vous fait douter, quel qu'il soit.</p></div>
+      <div class="tile"><div class="step-n" data-t="e2_n">Étape 02</div><h3 data-t="e2_t">On isole les promesses</h3><p data-t="e2_p">Chaque affirmation factuelle est extraite, une par une.</p></div>
+      <div class="tile"><div class="step-n" data-t="e3_n">Étape 03</div><h3 data-t="e3_t">On vérifie à la source</h3><p data-t="e3_p">Documentation officielle, prix réels, conditions. C'est Claude qui vérifie, avec ma méthode.</p></div>
+      <div class="tile"><div class="step-n" data-t="e4_n">Étape 04</div><h3 data-t="e4_t">Vous recevez le verdict</h3><p data-t="e4_p">Une note sur 10, le verdict point par point, les sources et ce qu'on vous conseille.</p></div>
+    </div>
+    <p class="delai" data-th="delai"><b>Votre rapport arrive en une dizaine de minutes</b>, par email. Aux heures chargées, un peu plus.</p>
+  </section>
+
+  <!-- Ce qu'on vérifie -->
+  <section class="sec">
+    <div class="sec-head">
+      <span class="eyebrow" data-t="dv_eye">Ce qu'on vérifie</span>
+      <h2 data-t="dv_titre">Les domaines couverts.</h2>
+      <p data-t="dv_lead">Si c'est vérifiable à la source, on le prend. Sinon, on vous le dit.</p>
+    </div>
+    <div class="grid grid-2">
+      <div class="tile dom"><h3 data-t="dv_ia">L'IA</h3><p class="dom-s" data-t="dv_ia_s">Couvert par vos crédits offerts</p>
+        <ul><li data-t="dv_ia1">Un outil ou une appli IA : fait-il ce qu'il dit, combien il coûte vraiment, que deviennent vos données</li><li data-t="dv_ia2">Un reel ou une pub qui vend un outil IA</li><li data-t="dv_ia3">Un skill, un plugin, un dépôt de code : réel, maintenu, sûr à installer</li><li data-t="dv_ia4">Une « méthode IA pour gagner de l'argent »</li><li data-t="dv_ia5">Une affirmation technique : « 800 fois plus rapide », « gratuit à vie », « zéro erreur »</li><li data-t="dv_ia6">Deux outils IA à comparer pour votre besoin</li></ul></div>
+      <div class="tile dom"><h3 data-t="dv_tout">Tout sujet vérifiable</h3><p class="dom-s" data-t="dv_tout_s">Avec des crédits rechargés</p>
+        <ul><li data-t="dv_t1">Une formation, un coaching, une offre en ligne : la promesse face à la réalité</li><li data-t="dv_t2">Un logiciel ou un abonnement : utilité réelle, coût caché, alternatives</li><li data-t="dv_t3">Une promesse de gains : dropshipping, signaux de trading, « 500 € par jour »</li><li data-t="dv_t4">Un produit, une pub, ce que dit un influenceur</li><li data-t="dv_t5">La conformité d'une solution : RGPD, légalité</li></ul></div>
+    </div>
+    <div class="dom-non"><h3 data-t="dv_non">Ce qu'on ne fait pas</h3><ul><li data-t="dv_n1">Conseil médical, juridique ou financier personnalisé</li><li data-t="dv_n2">Les opinions (« c’est joli ? »)</li><li data-t="dv_n3">Juger une personne</li><li data-t="dv_n4">Toute demande illégale</li></ul></div>
+  </section>
+
+  <!-- 4. Méthode de notation -->
+  <section class="sec">
+    <div class="sec-head">
+      <span class="eyebrow" data-t="mn_eye">Notre méthode de notation</span>
+      <h2 data-t="mn_titre">Une note sur 10, cinq questions.</h2>
+      <blockquote class="origine"><p data-t="origine"></p><cite data-t="origine_sig"></cite></blockquote>
+      <p data-t="mn_lead">Chaque question vaut 2 points. La note porte sur la fiabilité de ce qui est dit, pas sur la qualité du montage.</p>
+    </div>
+    <div class="grid grid-2">
+      <div class="tile crit"><span class="crit-n">1</span><div><h3><span data-t="c1_t">Le fait existe-t-il ?</span><span class="pts">2 pts</span></h3><p data-t="c1_p">L'outil, la fonction ou l'étude sont réels et vérifiables à la source.</p></div></div>
+      <div class="tile crit"><span class="crit-n">2</span><div><h3><span data-t="c2_t">Les chiffres sont-ils justes ?</span><span class="pts">2 pts</span></h3><p data-t="c2_p">Prix, pourcentages, gains : exacts, ou gonflés.</p></div></div>
+      <div class="tile crit"><span class="crit-n">3</span><div><h3><span data-t="c3_t">La promesse tient-elle ?</span><span class="pts">2 pts</span></h3><p data-t="c3_p">Ce qui est promis correspond à ce que le produit fait vraiment.</p></div></div>
+      <div class="tile crit"><span class="crit-n">4</span><div><h3><span data-t="c4_t">Qu'est-ce qui est tu ?</span><span class="pts">2 pts</span></h3><p data-t="c4_p">Coût réel, RGPD, conditions d'utilisation, matériel nécessaire, risque.</p></div></div>
+      <div class="tile crit"><span class="crit-n">5</span><div><h3><span data-t="c5_t">Peut-on le faire sans risque ?</span><span class="pts">2 pts</span></h3><p data-t="c5_p">Avec l'information donnée, on peut l'appliquer, sans piège.</p></div></div>
+    </div>
+    <div class="voyants">
+      <div class="voy vrai"><b>7 à 10</b><span data-t="vo1">Fiable, exploitable.</span></div>
+      <div class="voy survendu"><b>4 à 6,5</b><span data-t="vo2">Le fond tient, la forme survend, ou une omission importante.</span></div>
+      <div class="voy trompeur"><b>0 à 3,5</b><span data-t="vo3">Trompeur, dangereux, ou rien de vérifiable.</span></div>
+    </div>
+    <ul class="regles-note">
+      <li data-th="pl1"><span><b>Un contenu creux</b> (aucun nom, aucun chiffre) ne dépasse pas 3/10 : il n'y a rien à vérifier, c'est le problème.</span></li>
+      <li data-th="pl2"><span><b>Un contenu qui vous expose sans le dire</b> (RGPD, bannissement, identifiants confiés à un tiers) ne dépasse pas 4,5/10, même si l'outil existe.</span></li>
+      <li data-th="pl3"><span><b>Un 10 se mérite.</b> Il faut tout dire, limites comprises. Sur nos 226 premiers verdicts, la meilleure note est 9,5.</span></li>
+    </ul>
+    <p class="principe" data-t="principe">On vérifie l'information, jamais la personne.</p>
+  </section>
+
+  <!-- Les verdicts possibles -->
+  <section class="sec">
+    <div class="sec-head">
+      <span class="eyebrow" data-t="vp_eye">Les verdicts possibles</span>
+      <h2 data-t="vp_titre">Pas juste « vrai » ou « faux ».</h2>
+    </div>
+    <div class="grid grid-4">
+      <div class="tile"><span class="v-tag v-vrai" data-t="v1">Vrai</span><p data-t="vp1">L'affirmation est exacte et vérifiable à la source.</p></div>
+      <div class="tile"><span class="v-tag v-survendu" data-t="v2">Survendu</span><p data-t="vp2">Le fond est vrai, mais la promesse dépasse la réalité.</p></div>
+      <div class="tile"><span class="v-tag v-trompeur" data-t="v3">Trompeur</span><p data-t="vp3">Un élément essentiel est passé sous silence.</p></div>
+      <div class="tile"><span class="v-tag v-inv" data-t="v4">Invérifiable</span><p data-t="vp4">Aucune source publique ne permet de trancher. On le dit.</p></div>
+    </div>
+  </section>
+
+  <!-- Exemple de rapport réel -->
+  <section class="sec">
+    <div class="sec-head">
+      <span class="eyebrow" data-t="ex_eye">Exemple réel</span>
+      <h2 data-t="ex_titre">On a commencé par nous.</h2>
+      <p data-t="ex_lead">Nos 12 derniers reels, notés avec le même barème que les vôtres.</p>
+    </div>
+    <div class="rapport">
+      <div class="rap-top">
+        <div><small data-t="ex_compte">Audit de compte · 03/11/2026</small><strong>@ardj.87</strong></div>
+        <div class="note-big">8,6<span>/10</span></div>
+      </div>
+      <div class="barres" aria-hidden="true">
+        <i style="height:90%"></i><i style="height:95%"></i><i style="height:95%"></i><i style="height:85%"></i><i style="height:75%"></i><i class="j" style="height:65%"></i><i style="height:85%"></i><i style="height:90%"></i><i style="height:90%"></i><i style="height:80%"></i><i style="height:90%"></i><i style="height:90%"></i>
+      </div>
+      <p class="rap-leg" data-t="ex_leg">12 reels du 22/10 au 02/11 · 11 verts, 1 jaune, 0 rouge</p>
+      <div class="rap-ligne j"><span data-t="ex_j">« Jarvis » : le projet utilisé n'est pas nommé, le risque d'injection par les mails n'est pas dit, la méthode n'est donnée qu'en message privé.</span><b>6,5 🟡</b></div>
+      <div class="rap-ligne"><span data-t="ex_v">« Ton site en ligne » : exact, il manque seulement que le nom de domaine est payant.</span><b>9,5 🟢</b></div>
+      <p class="rap-biais" data-t="ex_biais">C'est notre propre contenu, déjà vérifié avant publication : il part avantagé. On le dit.</p>
+    </div>
+  </section>
+
+  <!-- 5. Prix -->
+  <section class="sec" id="prix">
+    <div class="sec-head">
+      <span class="eyebrow" data-t="px_eye">Les prix</span>
+      <h2 data-t="px_titre">Vous payez ce que vous vérifiez.</h2>
+      <p data-t="px_lead">Sans abonnement. Vous rechargez des crédits, chaque vérification en consomme. 1 crédit = 0,25 €.</p>
+    </div>
+    <div class="prix">
+      <div class="prix-ligne"><div><h3 data-t="p1_t">Vérifier un lien</h3><p data-t="p1_p">Un reel, une pub, une page de vente.</p></div><div class="prix-val"><b data-t="p1_c">1 crédit</b><span>0,25 €</span></div></div>
+      <div class="prix-ligne"><div><h3><span data-t="p2_t">Question directe sur l'IA</span><span class="bientot" data-t="bientot">Bientôt</span></h3><p data-t="p2_p">Une question précise, sans lien.</p></div><div class="prix-val"><b data-t="p1_c">1 crédit</b><span>0,25 €</span></div></div>
+      <div class="prix-ligne"><div><h3><span data-t="p3_t">Question directe hors IA</span><span class="bientot" data-t="bientot">Bientôt</span></h3><p data-t="p3_p">Tout sujet vérifiable à la source.</p></div><div class="prix-val"><b data-t="p3_c">2 crédits</b><span>0,50 €</span></div></div>
+      <div class="prix-ligne"><div><h3><span data-t="p4_t">Audit d'un compte</span><span class="bientot" data-t="bientot">Bientôt</span></h3><p data-t="p4_p">Les 20 derniers reels et les 5 plus vus, une note globale.</p></div><div class="prix-val"><b data-t="p4_c">60 crédits</b><span>15 €</span></div></div>
+    </div>
+    <div class="prix recharges">
+      <div class="rech"><b>5 €</b><span data-t="r1">20 crédits</span></div>
+      <div class="rech"><b>50 €</b><span data-t="r2">200 crédits</span></div>
+    </div>
+    <p class="prix-note" data-th="px_offert"><b>5 crédits offerts</b> à l'inscription, soit 5 liens vérifiés.</p>
+    <div class="paiement" aria-label="Moyens de paiement"><span data-t="pay_carte">Carte bancaire</span><span>Apple Pay</span><span>Google Pay</span></div>
+    <p class="prix-note" data-t="px_ttc">TVA non applicable, article 293 B du CGI. Paiement sécurisé par Stripe, on ne voit jamais votre carte. Facture envoyée par email.</p>
+  </section>
+
   <!-- 2. Connexion, ou formulaire si connecté -->
   <section class="box" id="verifier">
+    <div class="sec-head" style="margin-top:56px">
+      <span class="eyebrow" data-t="in_eye">Inscription</span>
+      <h2 data-t="in_titre">À vous de vérifier.</h2>
+    </div>
     <div class="verdicts" aria-hidden="true">
       <span class="v-vrai" data-t="v1">Vrai</span><span class="v-survendu" data-t="v2">Survendu</span><span class="v-trompeur" data-t="v3">Trompeur</span>
     </div>
@@ -352,123 +541,6 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b,.origine{font-variant-numeri
     </form>
   </section>
 
-  <!-- Ce qu'on vérifie -->
-  <section class="sec">
-    <div class="sec-head">
-      <span class="eyebrow" data-t="dv_eye">Ce qu'on vérifie</span>
-      <h2 data-t="dv_titre">Les domaines couverts.</h2>
-      <p data-t="dv_lead">Si c'est vérifiable à la source, on le prend. Sinon, on vous le dit.</p>
-    </div>
-    <div class="grid grid-2">
-      <div class="tile dom"><h3 data-t="dv_ia">L'IA</h3><p class="dom-s" data-t="dv_ia_s">Couvert par vos crédits offerts</p>
-        <ul><li data-t="dv_ia1">Un outil ou une appli IA : fait-il ce qu'il dit, combien il coûte vraiment, que deviennent vos données</li><li data-t="dv_ia2">Un reel ou une pub qui vend un outil IA</li><li data-t="dv_ia3">Un skill, un plugin, un dépôt de code : réel, maintenu, sûr à installer</li><li data-t="dv_ia4">Une « méthode IA pour gagner de l'argent »</li><li data-t="dv_ia5">Une affirmation technique : « 800 fois plus rapide », « gratuit à vie », « zéro erreur »</li><li data-t="dv_ia6">Deux outils IA à comparer pour votre besoin</li></ul></div>
-      <div class="tile dom"><h3 data-t="dv_tout">Tout sujet vérifiable</h3><p class="dom-s" data-t="dv_tout_s">Avec des crédits rechargés</p>
-        <ul><li data-t="dv_t1">Une formation, un coaching, une offre en ligne : la promesse face à la réalité</li><li data-t="dv_t2">Un logiciel ou un abonnement : utilité réelle, coût caché, alternatives</li><li data-t="dv_t3">Une promesse de gains : dropshipping, signaux de trading, « 500 € par jour »</li><li data-t="dv_t4">Un produit, une pub, ce que dit un influenceur</li><li data-t="dv_t5">La conformité d'une solution : RGPD, légalité</li></ul></div>
-    </div>
-    <div class="dom-non"><h3 data-t="dv_non">Ce qu'on ne fait pas</h3><ul><li data-t="dv_n1">Conseil médical, juridique ou financier personnalisé</li><li data-t="dv_n2">Les opinions (« c’est joli ? »)</li><li data-t="dv_n3">Juger une personne</li><li data-t="dv_n4">Toute demande illégale</li></ul></div>
-  </section>
-
-  <!-- 3. Comment ça marche -->
-  <section class="sec">
-    <div class="sec-head">
-      <span class="eyebrow" data-t="cm_eye">Comment ça marche</span>
-      <h2 data-t="cm_titre">Pas de magie : de la vérification.</h2>
-    </div>
-    <div class="grid grid-4">
-      <div class="tile"><div class="step-n" data-t="e1_n">Étape 01</div><h3 data-t="e1_t">Vous collez le lien</h3><p data-t="e1_p">Le contenu qui vous fait douter, quel qu'il soit.</p></div>
-      <div class="tile"><div class="step-n" data-t="e2_n">Étape 02</div><h3 data-t="e2_t">On isole les promesses</h3><p data-t="e2_p">Chaque affirmation factuelle est extraite, une par une.</p></div>
-      <div class="tile"><div class="step-n" data-t="e3_n">Étape 03</div><h3 data-t="e3_t">On vérifie à la source</h3><p data-t="e3_p">Documentation officielle, prix réels, conditions. C'est Claude qui vérifie, avec ma méthode.</p></div>
-      <div class="tile"><div class="step-n" data-t="e4_n">Étape 04</div><h3 data-t="e4_t">Vous recevez le verdict</h3><p data-t="e4_p">Une note sur 10, le verdict point par point, les sources et ce qu'on vous conseille.</p></div>
-    </div>
-    <p class="delai" data-th="delai"><b>Votre rapport arrive en une dizaine de minutes</b>, par email. Aux heures chargées, un peu plus.</p>
-  </section>
-
-  <!-- 4. Méthode de notation -->
-  <section class="sec">
-    <div class="sec-head">
-      <span class="eyebrow" data-t="mn_eye">Notre méthode de notation</span>
-      <h2 data-t="mn_titre">Une note sur 10, cinq questions.</h2>
-      <blockquote class="origine"><p data-t="origine"></p><cite data-t="origine_sig"></cite></blockquote>
-      <p data-t="mn_lead">Chaque question vaut 2 points. La note porte sur la fiabilité de ce qui est dit, pas sur la qualité du montage.</p>
-    </div>
-    <div class="grid grid-2">
-      <div class="tile crit"><span class="crit-n">1</span><div><h3><span data-t="c1_t">Le fait existe-t-il ?</span><span class="pts">2 pts</span></h3><p data-t="c1_p">L'outil, la fonction ou l'étude sont réels et vérifiables à la source.</p></div></div>
-      <div class="tile crit"><span class="crit-n">2</span><div><h3><span data-t="c2_t">Les chiffres sont-ils justes ?</span><span class="pts">2 pts</span></h3><p data-t="c2_p">Prix, pourcentages, gains : exacts, ou gonflés.</p></div></div>
-      <div class="tile crit"><span class="crit-n">3</span><div><h3><span data-t="c3_t">La promesse tient-elle ?</span><span class="pts">2 pts</span></h3><p data-t="c3_p">Ce qui est promis correspond à ce que le produit fait vraiment.</p></div></div>
-      <div class="tile crit"><span class="crit-n">4</span><div><h3><span data-t="c4_t">Qu'est-ce qui est tu ?</span><span class="pts">2 pts</span></h3><p data-t="c4_p">Coût réel, RGPD, conditions d'utilisation, matériel nécessaire, risque.</p></div></div>
-      <div class="tile crit"><span class="crit-n">5</span><div><h3><span data-t="c5_t">Peut-on le faire sans risque ?</span><span class="pts">2 pts</span></h3><p data-t="c5_p">Avec l'information donnée, on peut l'appliquer, sans piège.</p></div></div>
-    </div>
-    <div class="voyants">
-      <div class="voy vrai"><b>7 à 10</b><span data-t="vo1">Fiable, exploitable.</span></div>
-      <div class="voy survendu"><b>4 à 6,5</b><span data-t="vo2">Le fond tient, la forme survend, ou une omission importante.</span></div>
-      <div class="voy trompeur"><b>0 à 3,5</b><span data-t="vo3">Trompeur, dangereux, ou rien de vérifiable.</span></div>
-    </div>
-    <ul class="regles-note">
-      <li data-th="pl1"><span><b>Un contenu creux</b> (aucun nom, aucun chiffre) ne dépasse pas 3/10 : il n'y a rien à vérifier, c'est le problème.</span></li>
-      <li data-th="pl2"><span><b>Un contenu qui vous expose sans le dire</b> (RGPD, bannissement, identifiants confiés à un tiers) ne dépasse pas 4,5/10, même si l'outil existe.</span></li>
-      <li data-th="pl3"><span><b>Un 10 se mérite.</b> Il faut tout dire, limites comprises. Sur nos 226 premiers verdicts, la meilleure note est 9,5.</span></li>
-    </ul>
-    <p class="principe" data-t="principe">On vérifie l'information, jamais la personne.</p>
-  </section>
-
-  <!-- Exemple de rapport réel -->
-  <section class="sec">
-    <div class="sec-head">
-      <span class="eyebrow" data-t="ex_eye">Exemple réel</span>
-      <h2 data-t="ex_titre">On a commencé par nous.</h2>
-      <p data-t="ex_lead">Nos 12 derniers reels, notés avec le même barème que les vôtres.</p>
-    </div>
-    <div class="rapport">
-      <div class="rap-top">
-        <div><small data-t="ex_compte">Audit de compte · 03/11/2026</small><strong>@ardj.87</strong></div>
-        <div class="note-big">8,6<span>/10</span></div>
-      </div>
-      <div class="barres" aria-hidden="true">
-        <i style="height:90%"></i><i style="height:95%"></i><i style="height:95%"></i><i style="height:85%"></i><i style="height:75%"></i><i class="j" style="height:65%"></i><i style="height:85%"></i><i style="height:90%"></i><i style="height:90%"></i><i style="height:80%"></i><i style="height:90%"></i><i style="height:90%"></i>
-      </div>
-      <p class="rap-leg" data-t="ex_leg">12 reels du 22/10 au 02/11 · 11 verts, 1 jaune, 0 rouge</p>
-      <div class="rap-ligne j"><span data-t="ex_j">« Jarvis » : le projet utilisé n'est pas nommé, le risque d'injection par les mails n'est pas dit, la méthode n'est donnée qu'en message privé.</span><b>6,5 🟡</b></div>
-      <div class="rap-ligne"><span data-t="ex_v">« Ton site en ligne » : exact, il manque seulement que le nom de domaine est payant.</span><b>9,5 🟢</b></div>
-      <p class="rap-biais" data-t="ex_biais">C'est notre propre contenu, déjà vérifié avant publication : il part avantagé. On le dit.</p>
-    </div>
-  </section>
-
-  <!-- Les verdicts possibles -->
-  <section class="sec">
-    <div class="sec-head">
-      <span class="eyebrow" data-t="vp_eye">Les verdicts possibles</span>
-      <h2 data-t="vp_titre">Pas juste « vrai » ou « faux ».</h2>
-    </div>
-    <div class="grid grid-4">
-      <div class="tile"><span class="v-tag v-vrai" data-t="v1">Vrai</span><p data-t="vp1">L'affirmation est exacte et vérifiable à la source.</p></div>
-      <div class="tile"><span class="v-tag v-survendu" data-t="v2">Survendu</span><p data-t="vp2">Le fond est vrai, mais la promesse dépasse la réalité.</p></div>
-      <div class="tile"><span class="v-tag v-trompeur" data-t="v3">Trompeur</span><p data-t="vp3">Un élément essentiel est passé sous silence.</p></div>
-      <div class="tile"><span class="v-tag v-inv" data-t="v4">Invérifiable</span><p data-t="vp4">Aucune source publique ne permet de trancher. On le dit.</p></div>
-    </div>
-  </section>
-
-  <!-- 5. Prix -->
-  <section class="sec" id="prix">
-    <div class="sec-head">
-      <span class="eyebrow" data-t="px_eye">Les prix</span>
-      <h2 data-t="px_titre">Vous payez ce que vous vérifiez.</h2>
-      <p data-t="px_lead">Sans abonnement. Vous rechargez des crédits, chaque vérification en consomme. 1 crédit = 0,25 €.</p>
-    </div>
-    <div class="prix">
-      <div class="prix-ligne"><div><h3 data-t="p1_t">Vérifier un lien</h3><p data-t="p1_p">Un reel, une pub, une page de vente.</p></div><div class="prix-val"><b data-t="p1_c">1 crédit</b><span>0,25 €</span></div></div>
-      <div class="prix-ligne"><div><h3><span data-t="p2_t">Question directe sur l'IA</span><span class="bientot" data-t="bientot">Bientôt</span></h3><p data-t="p2_p">Une question précise, sans lien.</p></div><div class="prix-val"><b data-t="p1_c">1 crédit</b><span>0,25 €</span></div></div>
-      <div class="prix-ligne"><div><h3><span data-t="p3_t">Question directe hors IA</span><span class="bientot" data-t="bientot">Bientôt</span></h3><p data-t="p3_p">Tout sujet vérifiable à la source.</p></div><div class="prix-val"><b data-t="p3_c">2 crédits</b><span>0,50 €</span></div></div>
-      <div class="prix-ligne"><div><h3><span data-t="p4_t">Audit d'un compte</span><span class="bientot" data-t="bientot">Bientôt</span></h3><p data-t="p4_p">Les 20 derniers reels et les 5 plus vus, une note globale.</p></div><div class="prix-val"><b data-t="p4_c">60 crédits</b><span>15 €</span></div></div>
-    </div>
-    <div class="prix recharges">
-      <div class="rech"><b>5 €</b><span data-t="r1">20 crédits</span></div>
-      <div class="rech"><b>50 €</b><span data-t="r2">200 crédits</span></div>
-    </div>
-    <p class="prix-note" data-th="px_offert"><b>5 crédits offerts</b> à l'inscription, soit 5 liens vérifiés.</p>
-    <div class="paiement" aria-label="Moyens de paiement"><span data-t="pay_carte">Carte bancaire</span><span>Apple Pay</span><span>Google Pay</span></div>
-    <p class="prix-note" data-t="px_ttc">TVA non applicable, article 293 B du CGI. Paiement sécurisé par Stripe, on ne voit jamais votre carte. Facture envoyée par email.</p>
-  </section>
-
   <!-- Nos règles -->
   <section class="sec">
     <div class="sec-head">
@@ -525,6 +597,41 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b,.origine{font-variant-numeri
   // data-th le HTML (uniquement nos propres textes, avec <b>), data-tp le placeholder.
   var TEXTES = {
     fr: {
+      in_eye: "Inscription", in_titre: "À vous de vérifier.",
+      vo1c: "Fiable",
+      rp_eye: "Ce que vous recevez",
+      rp_titre: "Votre rapport, point par point.",
+      rp_lead: "Un vrai verdict de notre veille, auteur anonymisé. Voilà exactement ce qui arrive dans votre boîte mail.",
+      rp_head: "Le Verdict · Rapport de vérification",
+      rp_lien: "Reel Instagram · un réglage pour « garder ses données en Europe »",
+      rp_resume: "Le réglage montré existe et fonctionne. Mais la vidéo promet plus qu'il ne fait : elle oublie le routage entre régions, et elle confond « données en Europe » et « conforme RGPD ».",
+      rp_aff: "Les affirmations, une par une",
+      rp_a1: "« Avec ce réglage, l'IA traite vos demandes en Europe. »",
+      rp_a1r: "Le réglage existe : l'outil montré peut passer par un hébergeur cloud dans une région européenne. Vérifié dans la documentation officielle.",
+      rp_a2: "« Ça règle le problème du RGPD. »",
+      rp_a2r: "La localisation des données n'est qu'une partie du RGPD. Il faut aussi un contrat de traitement des données et l'information de vos propres clients.",
+      rp_a3: "Ce qui n’est pas dit",
+      rp_a3r: "Le réglage ne cadre pas le routage entre régions de l'hébergeur. Sans ce cadrage, une demande peut être traitée hors de la région choisie. C'est le détail qui compte pour un cabinet soumis au secret professionnel.",
+      rp_note: "Le détail de la note",
+      rp_c1: "Le fait existe",
+      rp_c2: "Les chiffres",
+      rp_c3: "La promesse",
+      rp_c4: "Ce qui est tu",
+      rp_c5: "Faisable sans risque",
+      rp_conseil: "Notre conseil",
+      rp_conseil_t: "Gardez la méthode, ajoutez le cadrage du routage entre régions, et ne présentez pas l'installation comme « conforme RGPD » tant que le contrat de traitement et l'information de vos clients ne sont pas faits.",
+      rp_sources: "Les sources",
+      rp_s1: "Documentation officielle de l'outil, page sur l'hébergement cloud",
+      rp_s2: "Documentation de l'hébergeur, page sur le routage entre régions",
+      rp_s3: "Texte du RGPD, article 28 (sous-traitants)",
+      rp_l1: "La note sur 10 et son voyant",
+      rp_l2: "Le résumé en une phrase",
+      rp_l3: "Chaque affirmation et son verdict",
+      rp_l4: "Ce qui n'est pas dit",
+      rp_l5: "Le détail de la note",
+      rp_l6: "Notre conseil, concret",
+      rp_l7: "Les sources, cliquables",
+      rp_note_bas: "Exemple réel, contenu et auteur anonymisés. Les liens sont cliquables dans le rapport envoyé par email.",
       dv_eye: "Ce qu'on vérifie",
       dv_titre: "Les domaines couverts.",
       dv_lead: "Si c'est vérifiable à la source, on le prend. Sinon, on vous le dit.",
@@ -627,6 +734,41 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b,.origine{font-variant-numeri
       e_form: "L'envoi a échoué. Réessayez dans un instant.", envoi: 'Envoi…'
     },
     en: {
+      in_eye: "Sign up", in_titre: "Your turn to check.",
+      vo1c: "Reliable",
+      rp_eye: "What you get",
+      rp_titre: "Your report, point by point.",
+      rp_lead: "A real verdict from our research, author anonymised. This is exactly what lands in your inbox.",
+      rp_head: "Le Verdict · Verification report",
+      rp_lien: "Instagram reel · a setting to \"keep your data in Europe\"",
+      rp_resume: "The setting shown exists and works. But the video promises more than it does: it leaves out cross-region routing, and it confuses \"data in Europe\" with \"GDPR compliant\".",
+      rp_aff: "The claims, one by one",
+      rp_a1: "\"With this setting, the AI processes your requests in Europe.\"",
+      rp_a1r: "The setting exists: the tool shown can run through a cloud provider in a European region. Checked in the official documentation.",
+      rp_a2: "\"It solves the GDPR problem.\"",
+      rp_a2r: "Data location is only one part of GDPR. You also need a data processing agreement and to inform your own clients.",
+      rp_a3: "What is left out",
+      rp_a3r: "The setting does not restrict the provider's cross-region routing. Without it, a request can be processed outside the chosen region. That detail matters for any firm bound by professional secrecy.",
+      rp_note: "How the score breaks down",
+      rp_c1: "It exists",
+      rp_c2: "The numbers",
+      rp_c3: "The promise",
+      rp_c4: "What is left out",
+      rp_c5: "Safe to apply",
+      rp_conseil: "Our advice",
+      rp_conseil_t: "Keep the method, add the cross-region restriction, and do not call the setup \"GDPR compliant\" until the processing agreement is signed and your clients are informed.",
+      rp_sources: "Sources",
+      rp_s1: "The tool's official documentation, cloud hosting page",
+      rp_s2: "The provider's documentation, cross-region routing page",
+      rp_s3: "GDPR text, article 28 (processors)",
+      rp_l1: "The score out of 10 and its light",
+      rp_l2: "A one-line summary",
+      rp_l3: "Each claim and its verdict",
+      rp_l4: "What is left out",
+      rp_l5: "How the score breaks down",
+      rp_l6: "Our advice, concrete",
+      rp_l7: "Clickable sources",
+      rp_note_bas: "Real example, content and author anonymised. Links are clickable in the report sent by email.",
       dv_eye: "What we check",
       dv_titre: "The topics we cover.",
       dv_lead: "If it can be checked at the source, we take it. If not, we tell you.",
