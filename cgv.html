@@ -145,6 +145,9 @@
   .wrap { max-width: 720px; margin: 0 auto; padding: 56px 20px 80px; }
   h1 { font-family: 'Playfair Display', Georgia, serif; font-size: clamp(26px, 5vw, 34px); letter-spacing: -0.02em; margin-bottom: 6px; }
   h2 { font-family: 'Playfair Display', Georgia, serif; font-size: 19px; margin: 32px 0 10px; }
+  h3 { font-size: 15.5px; font-weight: 600; margin: 22px 0 4px; }
+  .formulaire { background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 14px 18px; margin-top: 10px; }
+  .formulaire p { font-size: 14.5px; }
   p, li { color: #26303f; font-size: 15.5px; margin: 8px 0; }
   ul { padding-left: 22px; }
   a { color: var(--accent); }
@@ -166,7 +169,7 @@
 <body>
 <div class="wrap">
   <h1>Conditions générales de vente</h1>
-  <p class="meta">Longueur d'avance &middot; version du 21 août 2026</p>
+  <p class="meta">Longueur d'avance &middot; version du 4 novembre 2026</p>
 
   <h2>1. Identification du prestataire</h2>
   <p>
@@ -184,6 +187,7 @@
     <li><strong>L'échange de découverte</strong> — 30 minutes en visioconférence, <strong>gratuit et sans engagement</strong>. Il sert à comprendre l'activité du client et à identifier les tâches répétitives qui pourraient être réduites. Aucune prestation n'est due à l'issue de cet échange.</li>
     <li><strong>La séance de mise en place</strong> — 45 minutes en visioconférence, <strong>payante</strong>. Une tâche répétitive identifiée est automatisée pendant la séance, sur les cas réels du client, en partage d'écran. Le client repart avec l'outil en fonctionnement et un mode opératoire écrit.</li>
     <li><strong>L'accompagnement</strong> — sur devis, après audit. Le périmètre, le calendrier et le prix figurent au devis.</li>
+    <li><strong>Le Verdict</strong>, service en ligne de vérification de contenus payé par crédits. Ses conditions particulières figurent à l'<a href="#verdict">article 13</a> et priment, pour ce service, sur les articles 2 à 9.</li>
   </ul>
   <p>
     Le prestataire intervient <strong>sur les comptes et les outils du client</strong>. Il ne vend, ne revend et
@@ -301,6 +305,112 @@
   <p>
     Les présentes conditions sont soumises au <strong>droit français</strong>. À défaut de résolution amiable,
     le litige relève des juridictions françaises compétentes.
+  </p>
+
+  <h2 id="verdict">13. Le Verdict : conditions particulières</h2>
+  <p>Cet article s'applique au service Le Verdict, accessible sur <a href="/verdict">longueur-davance.fr/verdict</a>. Pour tout ce qu'il ne règle pas, les articles 1, 10, 11 et 12 s'appliquent.</p>
+
+  <h3>13.1 Le service</h3>
+  <p>
+    Le client soumet le lien d'un contenu public (vidéo, publicité, page de vente, publication). Les affirmations
+    de ce contenu sont relevées puis confrontées aux sources publiques disponibles (documentation officielle, tarifs,
+    conditions d'utilisation, textes, études), et un rapport est envoyé au client par courriel.
+  </p>
+  <p>
+    <strong>La vérification est réalisée par une intelligence artificielle</strong> (Claude, modèle de la société Anthropic),
+    selon la méthode du prestataire, <strong>sans relecture humaine du rapport avant son envoi</strong>.
+    Le délai habituel est d'une dizaine de minutes. Il est indicatif.
+  </p>
+
+  <h3>13.2 Compte et crédits</h3>
+  <ul>
+    <li>Le service nécessite un compte, ouvert par connexion Google, Apple, Facebook ou par lien envoyé par courriel.</li>
+    <li><strong>1 crédit = 1 lien vérifié.</strong> Les crédits s'achètent par recharge, au prix affiché sur la page Le Verdict le jour de l'achat (5&nbsp;€ les 10 crédits, 50&nbsp;€ les 100 crédits à la date de ces conditions).</li>
+    <li><strong>5 crédits sont offerts</strong> à l'ouverture du compte, une fois par personne. Ils n'ont pas de valeur monétaire, ne sont ni remboursables ni échangeables, et sont utilisés avant les crédits achetés.</li>
+    <li><strong>Les crédits n'ont pas de date d'expiration.</strong> Un crédit acheté donne droit à la vérification d'un lien, même si le prix change ensuite.</li>
+    <li>Les crédits sont personnels et ne peuvent être ni cédés ni transférés vers un autre compte.</li>
+    <li>Si le prestataire arrête définitivement le service, il prévient le client par courriel au moins 30 jours avant, et rembourse sur demande les crédits achetés non utilisés.</li>
+  </ul>
+
+  <h3>13.3 Paiement et facture</h3>
+  <p>
+    Le paiement s'effectue à la recharge, par carte bancaire, Apple&nbsp;Pay ou Google&nbsp;Pay, via le prestataire de paiement
+    Stripe. Le prestataire n'a jamais accès aux données de la carte. Les crédits sont ajoutés au compte dès que Stripe
+    confirme le paiement. Une facture est envoyée automatiquement par courriel.
+    <strong>TVA non applicable, article 293 B du Code général des impôts.</strong>
+  </p>
+
+  <h3>13.4 Crédit débité, crédit rendu</h3>
+  <p>
+    Un crédit est débité à l'envoi d'un lien. <strong>Il est rendu au compte du client lorsque le lien ne peut pas être vérifié</strong>&nbsp;:
+    contenu privé, supprimé ou inaccessible, lien invalide, contenu sans aucune affirmation vérifiable, ou rapport non
+    envoyé dans les 24 heures.
+  </p>
+  <p>
+    En revanche, un rapport qui conclut, après recherche, qu'une affirmation est «&nbsp;invérifiable&nbsp;» est un rapport
+    rendu&nbsp;: le crédit reste consommé.
+  </p>
+
+  <h3>13.5 Usage du rapport</h3>
+  <p>
+    Le rapport est destiné à l'<strong>usage privé</strong> du client. Il peut en reprendre les conclusions et les sources
+    pour son propre usage, mais il ne peut pas le publier, le revendre, ni le présenter comme une prise de position
+    publique de Longueur d'avance sur une personne ou une entreprise. Le service vérifie des informations, il ne juge pas des personnes.
+  </p>
+  <p>
+    Le rapport n'est ni un conseil juridique, financier, médical ou en investissement, ni une expertise opposable en justice.
+  </p>
+
+  <h3>13.6 Fiabilité et responsabilité</h3>
+  <p>
+    Le prestataire est tenu d'une <strong>obligation de moyens</strong>. Une intelligence artificielle peut se tromper&nbsp;:
+    chaque point du rapport renvoie à ses sources pour que le client puisse les contrôler. Les décisions prises sur la base
+    d'un rapport relèvent du client. Le client soumet des liens vers des contenus publics, et jamais de contenus auxquels
+    il aurait accédé sans droit.
+  </p>
+  <p>
+    Pour les clients professionnels, la responsabilité du prestataire est limitée au prix des crédits utilisés pour le
+    rapport concerné. Cette limite ne s'applique pas aux consommateurs.
+  </p>
+
+  <h3>13.7 Droit de rétractation</h3>
+  <p>
+    Le consommateur, ainsi que le professionnel visé à l'article 6, dispose de <strong>14 jours à compter de l'achat
+    d'une recharge</strong> pour se rétracter, sans avoir à se justifier.
+  </p>
+  <p>
+    Avant de payer, le client coche une case par laquelle il <strong>demande que ses vérifications soient réalisées sans
+    attendre la fin de ce délai</strong> et reconnaît qu'une vérification réalisée ne peut plus faire l'objet d'une
+    rétractation (article L221-28 du Code de la consommation). Sans cette case cochée, le paiement ne s'ouvre pas.
+    L'heure de cet accord est conservée avec le paiement.
+  </p>
+  <p>
+    En cas de rétractation dans les 14 jours, <strong>les crédits achetés non utilisés sont remboursés</strong>, sous
+    14 jours, sur le moyen de paiement utilisé. Les crédits déjà utilisés ne sont pas remboursés.
+    Pour se rétracter, il suffit d'écrire à <a href="mailto:contact@longueur-davance.fr">contact@longueur-davance.fr</a>,
+    en utilisant ou non le modèle ci-dessous.
+  </p>
+  <div class="formulaire">
+    <p><strong>Modèle de formulaire de rétractation</strong></p>
+    <p>À l'attention de Amdy Richard DIOP JOUANGUY EI, Longueur d'avance, 4 impasse de Châteaulin, 44000 Nantes, contact@longueur-davance.fr&nbsp;:</p>
+    <p>Je vous notifie par la présente ma rétractation du contrat portant sur la prestation de services ci-dessous&nbsp;: recharge de crédits Le Verdict.</p>
+    <p>Commandée le&nbsp;: ............ &nbsp; Nom du consommateur&nbsp;: ............ &nbsp; Adresse du consommateur&nbsp;: ............</p>
+    <p>Adresse électronique du compte&nbsp;: ............ &nbsp; Date&nbsp;: ............</p>
+    <p>Signature (uniquement en cas d'envoi sur papier)&nbsp;: ............</p>
+  </div>
+
+  <h3>13.8 Données</h3>
+  <p>
+    Le lien soumis, la question éventuelle et le pays du client sont traités par le prestataire et par son fournisseur
+    d'intelligence artificielle, uniquement pour produire le rapport. L'adresse électronique sert à se connecter, à recevoir
+    les rapports et les factures. Le traitement est décrit dans la <a href="/confidentialite">politique de confidentialité</a>.
+  </p>
+
+  <h3>13.9 Fermeture du compte</h3>
+  <p>
+    Le client peut fermer son compte à tout moment en écrivant à <a href="mailto:contact@longueur-davance.fr">contact@longueur-davance.fr</a>.
+    Les crédits offerts sont alors perdus. Les crédits achetés non utilisés sont remboursés si la fermeture intervient dans
+    les 14 jours suivant leur achat, et perdus au-delà. Les traces de paiement et les factures sont conservées 10 ans, comme la loi l'impose.
   </p>
 
   <a class="back" href="/">&larr; Retour à l'accueil</a>

@@ -245,6 +245,23 @@ h2{font-family:var(--serif);font-weight:600;font-size:clamp(28px,7vw,42px);line-
 .paiement span{font-size:13px;font-weight:600;border:1px solid var(--line);border-radius:999px;padding:6px 12px;color:var(--ink);}
 .prix-note{text-align:center;font-size:13.5px;color:var(--muted);margin-top:12px;}
 
+/* Recharge de crédits, visible une fois connecté (Stripe Checkout) */
+.recharge{max-width:560px;margin:18px auto 0;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--sh);padding:22px 20px;}
+.recharge-titre{font-family:var(--serif);font-size:20px;font-weight:600;text-align:center;margin-bottom:12px;}
+.recharge-solde{text-align:center;font-size:14px;color:var(--muted);margin:-6px 0 12px;}
+.recharge-solde b{color:var(--accent);}
+.rech-choix{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.rech-btn{font-family:inherit;color:var(--ink);background:var(--paper);border:1.5px solid var(--line);border-radius:var(--r-lg);padding:14px 10px;min-height:76px;cursor:pointer;text-align:center;
+  transition:border-color .2s var(--ease),transform .3s var(--spring);}
+.rech-btn b{display:block;font-family:var(--serif);font-size:26px;line-height:1.2;color:var(--accent);font-variant-numeric:lining-nums;}
+.rech-btn span{font-size:14px;color:var(--muted);}
+.rech-btn:hover{border-color:var(--accent);transform:translateY(-2px);}
+.rech-btn:disabled{opacity:.5;cursor:wait;transform:none;}
+.consent{display:flex;gap:10px;align-items:flex-start;font-size:13px;line-height:1.5;color:var(--muted);margin-top:14px;text-align:left;font-weight:400;}
+.consent input{margin-top:2px;accent-color:#e8b88a;width:18px;height:18px;flex:none;}
+.consent a{color:var(--accent);}
+.consent.alerte{color:var(--trompeur);}
+
 /* Verdicts possibles */
 .v-tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border-radius:999px;border:1px solid currentColor;margin-bottom:8px;}
 .v-inv{color:var(--muted);}
@@ -468,9 +485,19 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b,.origine{font-variant-numeri
       <div class="prix-ligne"><div><h3><span data-t="p3_t">Question directe hors IA</span><span class="bientot" data-t="bientot">Bientôt</span></h3><p data-t="p3_p">Tout sujet vérifiable à la source.</p></div><div class="prix-val"><b data-t="p3_c">2 crédits</b><span data-t="pv3">1 €</span></div></div>
       <div class="prix-ligne"><div><h3><span data-t="p4_t">Audit d'un compte</span><span class="bientot" data-t="bientot">Bientôt</span></h3><p data-t="p4_p">Les 20 derniers reels et les 5 plus vus, une note globale.</p></div><div class="prix-val"><b data-t="p4_c">30 crédits</b><span data-t="pv4">15 €</span></div></div>
     </div>
-    <div class="prix recharges">
+    <div class="prix recharges" id="tuiles-recharge">
       <div class="rech"><b>5 €</b><span data-t="r1">10 crédits</span></div>
       <div class="rech"><b>50 €</b><span data-t="r2">100 crédits</span></div>
+    </div>
+    <div class="recharge" id="recharge" hidden>
+      <p class="recharge-titre" data-t="rech_titre">Recharger mes crédits</p>
+      <p class="recharge-solde"><span data-t="rech_solde">Votre solde :</span> <b id="rech-solde-n">…</b> <span id="rech-solde-mot" data-t="credits">crédits</span></p>
+      <div class="rech-choix">
+        <button type="button" class="rech-btn" data-pack="10"><b>5 €</b><span data-t="r1">10 crédits</span></button>
+        <button type="button" class="rech-btn" data-pack="100"><b>50 €</b><span data-t="r2">100 crédits</span></button>
+      </div>
+      <label class="consent" id="consent-ligne"><input type="checkbox" id="consent"><span data-th="rech_consent">Je demande que mes vérifications soient faites tout de suite, sans attendre la fin du délai de rétractation de 14 jours. Une vérification faite ne peut plus être rétractée, les crédits non utilisés restent remboursables 14 jours. <a href="cgv.html#verdict">Conditions de vente</a></span></label>
+      <p class="msg" id="msg-recharge" role="status"></p>
     </div>
     <p class="prix-note" data-th="px_offert"><b>5 crédits offerts</b> à l'inscription, soit 5 liens vérifiés.</p>
     <div class="paiement" aria-label="Moyens de paiement"><span data-t="pay_carte">Carte bancaire</span><span>Apple Pay</span><span>Google Pay</span></div>
@@ -513,7 +540,7 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b,.origine{font-variant-numeri
     </div>
 
     <form class="card" id="form" novalidate hidden>
-      <div class="solde-mini"><span id="solde-qui"></span><span><b id="solde-n">…</b> <span id="solde-mot" data-t="credits">crédits</span></span></div>
+      <div class="solde-mini"><span id="solde-qui"></span><span><b id="solde-n">…</b> <span id="solde-mot" data-t="credits">crédits</span> · <a href="#prix" data-t="recharger">Recharger</a></span></div>
       <div class="field">
         <label for="lien" data-t="f_lien">Collez le lien à vérifier</label>
         <input type="url" id="lien" name="lien" required inputmode="url" placeholder="https://www.instagram.com/reel/...">
@@ -715,6 +742,12 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b,.origine{font-variant-numeri
       p3_t: 'Question directe hors IA', p3_p: 'Tout sujet vérifiable à la source.', p3_c: '2 crédits',
       p4_t: "Audit d'un compte", p4_p: 'Les 20 derniers reels et les 5 plus vus, une note globale.', p4_c: '30 crédits', pv1: '0,50 €', pv3: '1 €', pv4: '15 €',
       bientot: 'Bientôt', r1: '10 crédits', r2: '100 crédits',
+      rech_titre: 'Recharger mes crédits', rech_solde: 'Votre solde :', recharger: 'Recharger',
+      rech_consent: 'Je demande que mes vérifications soient faites tout de suite, sans attendre la fin du délai de rétractation de 14 jours. Une vérification faite ne peut plus être rétractée, les crédits non utilisés restent remboursables 14 jours. <a href="cgv.html#verdict">Conditions de vente</a>',
+      e_consent: 'Cochez la case ci-dessus pour continuer.',
+      rech_attente: 'Ouverture du paiement sécurisé…',
+      e_recharge: "Le paiement n'a pas pu s'ouvrir. Réessayez dans une minute.",
+      annule_recharge: "Paiement annulé. Rien n'a été débité.",
       px_offert: "<b>5 crédits offerts</b> à l'inscription, soit 5 liens vérifiés.",
       pay_carte: 'Carte bancaire', px_ttc: "TVA non applicable, article 293 B du CGI. Paiement sécurisé par Stripe, on ne voit jamais votre carte. Facture envoyée par email.",
       nr_eye: 'Nos règles', nr_titre: "Ce qu'on s'interdit.",
@@ -857,6 +890,12 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b,.origine{font-variant-numeri
       p3_t: 'Direct question beyond AI', p3_p: 'Any topic that can be checked at the source.', p3_c: '2 credits',
       p4_t: 'Account audit', p4_p: 'The last 20 reels and the 5 most viewed, one overall score.', p4_c: '30 credits', pv1: '€0.50', pv3: '€1', pv4: '€15',
       bientot: 'Soon', r1: '10 credits', r2: '100 credits',
+      rech_titre: 'Top up my credits', rech_solde: 'Your balance:', recharger: 'Top up',
+      rech_consent: 'I ask for my checks to be done right away, without waiting for the 14-day withdrawal period to end. A completed check cannot be withdrawn, unused credits remain refundable for 14 days. <a href="cgv.html#verdict">Terms of sale</a> (in French)',
+      e_consent: 'Tick the box above to continue.',
+      rech_attente: 'Opening secure payment…',
+      e_recharge: 'Payment could not open. Please try again in a minute.',
+      annule_recharge: 'Payment cancelled. Nothing was charged.',
       px_offert: "<b>5 free credits</b> when you sign up, that is 5 links checked.",
       pay_carte: 'Card', px_ttc: 'VAT not applicable (French small business exemption). Secure payment by Stripe, we never see your card. Invoice sent by email.',
       nr_eye: 'Our rules', nr_titre: 'What we never do.',
@@ -1000,18 +1039,75 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b,.origine{font-variant-numeri
       .then(function(){ bouton.disabled = false; });
   });
 
+  // Retour de Stripe après un paiement annulé : /verdict?recharge=annule#prix
+  var retourPaiement = new URLSearchParams(location.search).get('recharge');
+  if (retourPaiement) history.replaceState(null, '', location.pathname + location.hash);
+
+  var blocRecharge = document.getElementById('recharge');
+  var tuilesRecharge = document.getElementById('tuiles-recharge');
+
   function montrerFormulaire(s){
     session = s;
     document.getElementById('solde-qui').textContent = s.user.email || '';
     vueConnexion.hidden = true;
     form.hidden = false;
+    // Connecté : les tuiles de prix deviennent des boutons de recharge.
+    tuilesRecharge.hidden = true;
+    blocRecharge.hidden = false;
+    if (retourPaiement === 'annule') afficher(msgRech, T.annule_recharge, 'err');
     sb.from('profils').select('credits').eq('id', s.user.id).maybeSingle().then(function(r){
       var n = (r.data && typeof r.data.credits === 'number') ? r.data.credits : 0;
+      var mot = n > 1 ? T.credits : T.credit;
       document.getElementById('solde-n').textContent = n;
-      document.getElementById('solde-mot').textContent = n > 1 ? T.credits : T.credit;
+      document.getElementById('solde-mot').textContent = mot;
+      document.getElementById('rech-solde-n').textContent = n;
+      document.getElementById('rech-solde-mot').textContent = mot;
     });
   }
-  function montrerConnexion(){ session = null; form.hidden = true; vueConnexion.hidden = false; }
+  function montrerConnexion(){
+    session = null; form.hidden = true; vueConnexion.hidden = false;
+    blocRecharge.hidden = true; tuilesRecharge.hidden = false;
+  }
+
+  // ── Recharge de crédits : la fonction serveur verdict-recharge crée la page
+  // de paiement Stripe. La page n'envoie que le pack choisi, jamais un montant.
+  // Après paiement, Stripe renvoie vers /compte qui affiche le nouveau solde.
+  var msgRech = document.getElementById('msg-recharge');
+  var caseConsent = document.getElementById('consent');
+  var boutonsRech = document.querySelectorAll('.rech-btn');
+  function activerRech(oui){ boutonsRech.forEach(function(b){ b.disabled = !oui; }); }
+
+  caseConsent.addEventListener('change', function(){
+    document.getElementById('consent-ligne').classList.remove('alerte');
+    if (caseConsent.checked && msgRech.className.indexOf('err') > -1) msgRech.className = 'msg';
+  });
+  boutonsRech.forEach(function(bouton){
+    bouton.addEventListener('click', function(){
+      if (!session) { montrerConnexion(); return; }
+      if (!caseConsent.checked){
+        document.getElementById('consent-ligne').classList.add('alerte');
+        afficher(msgRech, T.e_consent, 'err');
+        caseConsent.focus();
+        return;
+      }
+      activerRech(false);
+      afficher(msgRech, T.rech_attente, 'ok');
+      sb.functions.invoke('verdict-recharge', {
+        body: { pack: bouton.dataset.pack, consentement: true, langue: LANGUE, retour: 'verdict' }
+      })
+        .then(function(r){
+          if (r.error || !r.data || !r.data.url) throw (r.error || new Error('sans adresse'));
+          window.location.href = r.data.url;
+        })
+        .catch(function(){
+          activerRech(true);
+          afficher(msgRech, T.e_recharge, 'err');
+        });
+    });
+  });
+  window.addEventListener('pageshow', function(e){
+    if (e.persisted){ activerRech(true); msgRech.className = 'msg'; }
+  });
 
   sb.auth.getSession().then(function(r){ if (r.data && r.data.session) montrerFormulaire(r.data.session); });
   sb.auth.onAuthStateChange(function(ev, s){ if (s) montrerFormulaire(s); else montrerConnexion(); });
