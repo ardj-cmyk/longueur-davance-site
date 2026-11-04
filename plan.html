@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ton plan de sauvegarde : la règle des trois copies et le message à envoyer à Claude</title>
+<meta name="description" content="Une copie de tout, sur un disque que tu débranches : la règle 3-2-1 de l'ANSSI, le test mensuel, ce que la loi t'oblige à garder, et le texte à copier dans Claude pour écrire ton plan de sauvegarde. Avec les sources.">
+<style>
+@font-face{font-family:'Inter';font-style:normal;font-weight:400 800;font-display:swap;src:url(/assets/fonts/Inter-latin.woff2) format('woff2')}
+@font-face{font-family:'Inter';font-style:normal;font-weight:400 800;font-display:swap;src:url(/assets/fonts/Inter-latinext.woff2) format('woff2');unicode-range:U+0100-02BA,U+1E00-1EFF}
+@font-face{font-family:'Playfair Display';font-style:normal;font-weight:600 900;font-display:swap;src:url(/assets/fonts/PlayfairDisplay-latin.woff2) format('woff2')}
+@font-face{font-family:'Playfair Display';font-style:italic;font-weight:600 900;font-display:swap;src:url(/assets/fonts/PlayfairDisplay-italic-latin.woff2) format('woff2')}
+:root{--encre:#12192b;--ivoire:#fdfcf9;--fond:#faf6ee;--terra:#a3461a;--trait:#e3ded4;--doux:#5b6375}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--fond);color:var(--encre);font:400 17px/1.6 'Inter',system-ui,sans-serif;padding:0 18px 64px}
+main{max-width:640px;margin:0 auto}
+header{padding:48px 0 28px;border-bottom:2px solid var(--encre);margin-bottom:28px}
+.marque{font:700 13px/1 'Inter';letter-spacing:.14em;text-transform:uppercase;color:var(--terra)}
+h1{font:800 clamp(32px,8.5vw,50px)/1.05 'Playfair Display',Georgia,serif;margin:14px 0 16px;text-wrap:balance}
+h1 em{font-style:italic;color:var(--terra)}
+.chapo{font-size:19px}
+section{padding:28px 0;border-bottom:1px solid var(--trait)}
+h2{font:800 26px/1.15 'Playfair Display',Georgia,serif;margin-bottom:16px}
+.cartes{display:grid;gap:12px}
+.carte{background:var(--ivoire);border:2px solid var(--encre);border-radius:16px;padding:14px 16px;display:grid;grid-template-columns:44px 1fr;gap:4px 12px;align-items:start}
+.carte .ico{font-size:26px;line-height:1.2;grid-row:span 4}
+.carte .nom{font:800 18px/1.2 'Inter'}
+.carte .nom b{color:var(--terra)}
+.carte p{font-size:16px}
+.carte .src{font:500 14px 'Inter';color:var(--doux)}
+.carte .src a{color:var(--doux)}
+.regle{background:var(--encre);color:var(--ivoire);border-radius:16px;padding:18px 18px}
+.regle h2{color:var(--ivoire);font-size:22px;margin-bottom:10px}
+.regle ol{list-style:none;display:grid;gap:8px;counter-reset:r}
+.regle li{counter-increment:r;padding-left:36px;position:relative}
+.regle li::before{content:counter(r);position:absolute;left:0;top:1px;width:26px;height:26px;border-radius:999px;background:var(--terra);color:var(--ivoire);font-weight:800;font-size:14px;display:flex;align-items:center;justify-content:center}
+table{width:100%;border-collapse:collapse;font-size:16px;background:var(--ivoire);border:2px solid var(--encre);border-radius:16px;overflow:hidden}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--trait)}
+th{font:700 12px 'Inter';letter-spacing:.08em;text-transform:uppercase;color:var(--doux)}
+td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+ul.lim{display:grid;gap:8px;padding-left:20px}
+.note{margin-top:12px;font-size:15px;color:var(--doux)}
+.note a{color:var(--doux)}
+.fin h2{margin-bottom:10px}
+.cta{display:inline-block;margin-top:18px;background:var(--encre);color:var(--ivoire);text-decoration:none;font:800 18px 'Inter';padding:16px 26px;border-radius:999px;box-shadow:0 6px 0 var(--terra)}
+.signature{margin-top:26px;color:var(--doux);font-size:15px}
+.copie{background:var(--ivoire);border:2px solid var(--encre);border-radius:16px;padding:16px;white-space:pre-wrap;font:400 15px/1.55 'Inter';margin-top:4px}
+.btn{margin-top:12px;border:0;background:var(--terra);color:var(--ivoire);font:800 16px 'Inter';padding:12px 20px;border-radius:999px;cursor:pointer}
+.btn.done{background:var(--encre)}
+.faits{display:grid;gap:10px;padding-left:20px}
+.faits a{color:var(--doux)}
+
+</style>
+<link rel="canonical" href="https://longueur-davance.fr/plan">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon-48.png" sizes="48x48" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script type="application/ld+json" id="ld-ressource">{"@context":"https://schema.org","@graph":[{"@type":"Article","@id":"https://longueur-davance.fr/plan#article","headline":"Ton plan de sauvegarde : la règle des trois copies et le message à envoyer à Claude","description":"Une copie de tout, sur un disque que tu débranches : la règle 3-2-1 de l'ANSSI, le test mensuel, ce que la loi t'oblige à garder, et le texte à copier dans Claude pour écrire ton plan de sauvegarde. Avec les sources.","url":"https://longueur-davance.fr/plan","mainEntityOfPage":"https://longueur-davance.fr/plan","image":"https://longueur-davance.fr/og/plan.png","inLanguage":"fr-FR","author":{"@type":"Person","@id":"https://longueur-davance.fr/#amdy","name":"Amdy Richard Diop Jouanguy","url":"https://longueur-davance.fr/","sameAs":["https://www.instagram.com/ardj.87/"]},"publisher":{"@type":"Organization","@id":"https://longueur-davance.fr/#org","name":"Longueur d'avance","url":"https://longueur-davance.fr/","logo":"https://longueur-davance.fr/assets/logo-512.png"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Accueil","item":"https://longueur-davance.fr/"},{"@type":"ListItem","position":2,"name":"Ressources","item":"https://longueur-davance.fr/ressources"},{"@type":"ListItem","position":3,"name":"Ton plan de sauvegarde : la règle des trois copies et le message à envoyer à Claude","item":"https://longueur-davance.fr/plan"}]}]}</script>
+</head>
+<body>
+<main>
+<header>
+  <div class="marque">Longueur d'avance · Série Blackout · Partie 3</div>
+  <h1>Ton plan de <em>sauvegarde</em></h1>
+  <p class="chapo">Le jour où tout repart, tes factures, tes devis et tes fichiers clients sont-ils encore là, et intacts ? Voici la règle, les trois copies que recommande l'État, et le message à envoyer à Claude pour qu'il écrive ton plan. Tu l'imprimes, tu le ranges.</p>
+</header>
+
+<section>
+  <div class="regle">
+    <h2>La première chose à faire</h2>
+    <p>Une copie de tout, sur un disque que tu débranches.</p>
+    <p class="note" style="color:var(--ivoire);opacity:.85">Un rançongiciel bloque tes fichiers et réclame une rançon pour te les rendre. Il atteint tout ce qui est branché, y compris ta sauvegarde si elle l'est encore. Le dispositif de l'État le dit en clair : si tes sauvegardes sont connectées au réseau, débranche-les pour éviter leur destruction (<a style="color:var(--ivoire)" href="https://www.cybermalveillance.gouv.fr/tous-nos-contenus/fiches-reflexes/rancongiciels-ransomwares">Cybermalveillance.gouv.fr</a>).</p>
+  </div>
+</section>
+
+<section>
+  <h2>1. Les trois copies</h2>
+  <p style="margin-bottom:14px">L'ANSSI, l'agence de sécurité informatique de l'État, recommande la règle « 3-2-1 » : trois copies de tes données, sur deux supports différents, dont une hors ligne.</p>
+  <div class="cartes">
+    <div class="carte"><div class="ico">💼</div><div class="nom">Copie 1 · <b>tes fichiers de travail</b></div><p>Ceux que tu ouvres tous les jours, sur ton ordinateur ou dans le cloud. Le cloud, c'est très bien pour le quotidien. Mais pour l'ANSSI, il compte comme une seule copie : ce n'est pas encore une sauvegarde.</p></div>
+    <div class="carte"><div class="ico">💾</div><div class="nom">Copie 2 · <b>un autre support</b></div><p>Une sauvegarde ailleurs que tes fichiers de travail : un deuxième disque, un serveur de stockage au bureau, ou un service de sauvegarde distinct de ton cloud habituel.</p></div>
+    <div class="carte"><div class="ico">🔌</div><div class="nom">Copie 3 · <b>hors ligne</b></div><p>Un disque externe, mis à jour chaque semaine, débranché juste après. Pour l'ANSSI, cette copie est « indispensable ». Chiffre-le : si on te le vole, tes fichiers clients ne partent pas avec.</p></div>
+  </div>
+  <p class="note">Source : <a href="https://messervices.cyber.gouv.fr/documents-guides/anssi_fondamentaux_sauvegarde_systemes_dinformation_v1.1.pdf">guide ANSSI « Fondamentaux de la sauvegarde des systèmes d'information », version du 27/11/2025</a>, recommandations R11 (règle 3-2-1), R12 (hors ligne indispensable) et R31 (chiffrer les sauvegardes).</p>
+</section>
+
+<section>
+  <h2>2. Teste-la</h2>
+  <p>Une sauvegarde jamais rouverte, tu ne sais pas si elle marche. Par exemple une fois par mois : branche le disque, ouvre trois fichiers au hasard (une facture, un devis, une fiche client), vérifie qu'ils s'ouvrent, débranche.</p>
+  <p class="note">Cybermalveillance.gouv.fr recommande de garder des copies déconnectées et de vérifier périodiquement que leur restauration fonctionne (<a href="https://www.cybermalveillance.gouv.fr/tous-nos-contenus/fiches-reflexes/rancongiciels-ransomwares">fiche rançongiciels</a>, <a href="https://www.cybermalveillance.gouv.fr/tous-nos-contenus/bonnes-pratiques/sauvegardes">fiche sauvegardes</a>).</p>
+</section>
+
+<section>
+  <h2>3. Ce que la loi t'oblige déjà à garder</h2>
+  <p>Tes documents comptables et tes pièces justificatives : dix ans. Si tout part en fumée, c'est toi qui dois pouvoir prouver ce que tu avais.</p>
+  <p class="note">Source : <a href="https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000006219327/">article L123-22 du Code de commerce</a>.</p>
+</section>
+
+<section>
+  <h2>4. Le message à envoyer à Claude</h2>
+  <p style="margin-bottom:12px">Copie ce texte dans Claude (ça marche aussi dans ChatGPT). Il te pose ses questions sur ton activité, puis il t'écrit ton plan : quoi copier, où, à quel rythme, et quoi faire le jour où ça repart.</p>
+  <div class="copie" id="consigne">Je veux écrire le plan de sauvegarde de mon activité, sur une seule page, pour l&#x27;imprimer et le ranger.
+
+Pose-moi d&#x27;abord tes questions, une par une : mon métier, les fichiers que j&#x27;utilise (factures, devis, fichiers clients, comptabilité, mails, photos, logiciels métier), où ils sont aujourd&#x27;hui, combien de personnes y touchent, et ce que je ne peux surtout pas perdre.
+
+Ensuite, écris mon plan en suivant la règle des trois copies de l&#x27;ANSSI : mes fichiers de travail, une sauvegarde sur un autre support, et une sauvegarde hors ligne sur un disque que je débranche après chaque copie.
+
+Pour chaque type de fichier, dis-moi : quoi copier, où, à quel rythme, et qui s&#x27;en occupe.
+
+Ajoute :
+- comment chiffrer le disque hors ligne, pour qu&#x27;un disque perdu ou volé n&#x27;expose pas mes fichiers clients
+- comment tester ma sauvegarde chaque mois, en quelques minutes
+- ce que la loi m&#x27;oblige à garder, et combien de temps
+- quoi faire le jour où tout repart après un piratage : qui prévenir, ne pas rebrancher la sauvegarde avant d&#x27;avoir nettoyé les ordinateurs, dans quel ordre tout remettre
+
+Écris simplement, sans jargon, avec des cases à cocher.</div>
+  <button class="btn" id="copier" type="button">Copier le texte</button>
+  <p class="note">Ne colle jamais de vraies données clients dans la conversation : décris tes fichiers, ne les envoie pas.</p>
+</section>
+
+<section>
+  <h2>Le jour où ça repart</h2>
+  <ul class="lim">
+    <li><b>Débranche</b> les ordinateurs touchés du réseau, et ta sauvegarde si elle est encore branchée.</li>
+    <li><b>Ne paie pas la rançon</b> : rien ne garantit que tu récupères tes données.</li>
+    <li><b>Ne rebranche ta sauvegarde</b> qu'une fois les ordinateurs nettoyés.</li>
+    <li><b>Porte plainte</b> au commissariat ou à la gendarmerie, et fais-toi aider sur <a href="https://www.cybermalveillance.gouv.fr/">Cybermalveillance.gouv.fr</a>.</li>
+  </ul>
+  <p class="note">Source : <a href="https://www.cybermalveillance.gouv.fr/tous-nos-contenus/fiches-reflexes/rancongiciels-ransomwares">fiche réflexe rançongiciels de Cybermalveillance.gouv.fr</a>.</p>
+</section>
+
+<section>
+  <h2>Les faits de la vidéo</h2>
+  <p style="margin-bottom:12px">Même l'État se fait pirater. Rien qu'en 2026 :</p>
+  <ul class="faits">
+    <li><b>Fichier national des comptes bancaires (FICOBA)</b> : consulté illégalement à compter de fin janvier 2026 avec les identifiants volés d'un fonctionnaire, 1,2 million de comptes concernés (<a href="https://www.economie.gouv.fr/actualites/ficoba-tout-savoir-lacces-illegitime-au-fichier-national-des-comptes-bancaires">economie.gouv.fr, page du 03/03/2026</a>).</li>
+    <li><b>ANTS</b> (cartes d'identité, passeports, permis) : incident de sécurité le 15/04/2026, noms, e-mails et dates de naissance d'usagers exposés (<a href="https://www.nicematin.com/societe/noms-emails-et-dates-de-naissance-potentiellement-exposes-le-portail-de-l-ants-vise-par-une-attaque-informatique-10677589">Nice-Matin, 20/04/2026</a>).</li>
+    <li><b>Les impôts (DGFiP)</b> : accès illégitimes en juin, juillet et août 2026, vol de données revendiqué les 12 et 13/08/2026 (<a href="https://www.impots.gouv.fr/actualite/vol-de-donnees-suite-des-acces-illegitimes-au-systeme-dinformation-de-la-dgfip">impots.gouv.fr, 14/08/2026</a>).</li>
+  </ul>
+  <p class="note">La liste complète des fuites d'administrations françaises en 2026 : <a href="https://fr.wikipedia.org/wiki/Liste_de_fuites_de_donn%C3%A9es_d%27administrations_publiques_fran%C3%A7aises_en_2026">Wikipédia</a>. Ces piratages sont des vols de données : ils montrent que personne n'est à l'abri, d'où l'intérêt de garder ta propre copie.</p>
+</section>
+
+<section class="fin">
+  <h2>La série Blackout</h2>
+  <p>Tu as raté le début ? L'intro et ses sources sur <a href="/blackout">/blackout</a>, la partie 1 (ton IA sans internet) sur <a href="/panne">/panne</a>, la partie 2 (communiquer sans réseau) sur <a href="/reseau">/reseau</a>.</p>
+  <p style="margin-top:12px">Et si tu veux qu'on mette ce plan en place ensemble dans ta boîte, c'est ce que je fais avec les entreprises.</p>
+  <a class="cta" href="/">Le premier échange est gratuit</a>
+  <p class="signature">Amdy · Longueur d'avance. Suis-moi, je décrypte l'IA sans bullshit, tous les jours.</p>
+</section>
+</main>
+<script>
+document.getElementById('copier').addEventListener('click', function () {
+  var b = this, t = document.getElementById('consigne').innerText;
+  var done = function () { b.textContent = 'Copié ✓'; b.classList.add('done'); setTimeout(function () { b.textContent = 'Copier le texte'; b.classList.remove('done'); }, 1800); };
+  if (navigator.clipboard) { navigator.clipboard.writeText(t).then(done, done); }
+  else { var a = document.createElement('textarea'); a.value = t; document.body.appendChild(a); a.select(); document.execCommand('copy'); document.body.removeChild(a); done(); }
+});
+</script>
+</body>
+</html>
