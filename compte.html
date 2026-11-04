@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fini le blabla · Le Verdict</title>
+<meta name="robots" content="noindex">
+<link rel="canonical" href="https://longueur-davance.fr/compte">
+<meta name="description" content="Connectez-vous à votre espace Le Verdict en deux clics : vos crédits et vos vérifications au même endroit.">
+<link rel="stylesheet" href="assets/fonts/fonts.css">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon-48.png" sizes="48x48" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<style>
+/* ── Tokens : le Verdict a sa propre couleur ─────────────────
+   Mêmes polices, mêmes formes que index.html, mais en bleu nuit et or :
+   le Verdict est un service à part, il doit se reconnaître au premier coup d'œil.
+   L'or vient du --gold de la marque. */
+:root{
+  --ink:#f3efe6; --paper:#0f1524; --surface:#182036; --sand:#222c47;
+  --accent:#e8b88a; --accent-l:#f1c9a1; --accent-soft:rgba(232,184,138,.12);
+  --on-accent:#12192b;
+  --muted:#a7afbf; --muted-d:#6f7891; --line:rgba(243,239,230,.12);
+  --vrai:#5fbf8a; --survendu:#e8b88a; --trompeur:#e07a6a;
+  --r:14px; --r-lg:22px;
+  --ease:cubic-bezier(.22,.61,.36,1); --spring:cubic-bezier(.34,1.56,.64,1);
+  --serif:'Playfair Display',Georgia,serif; --sans:'Inter',system-ui,-apple-system,sans-serif;
+  --sh:0 2px 4px rgba(0,0,0,.2),0 18px 40px rgba(0,0,0,.35);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{-webkit-text-size-adjust:100%;}
+body{font-family:var(--sans);font-size:16px;line-height:1.6;color:var(--ink);background:var(--paper);
+  background-image:radial-gradient(ellipse 90% 50% at 50% 0%,rgba(232,184,138,.10),transparent 70%);min-height:100vh;display:flex;flex-direction:column;}
+main{flex:1;}
+.wrap{max-width:1080px;margin:0 auto;padding:0 16px;}
+a{color:var(--accent);}
+[hidden]{display:none !important;}
+
+/* ── Nav flottante (reprise d'index.html) ─────────────────── */
+.nav{position:fixed;top:14px;left:0;right:0;z-index:50;display:flex;justify-content:center;padding:0 14px;}
+.nav-in{display:flex;align-items:center;gap:6px;background:rgba(15,21,36,.78);backdrop-filter:blur(14px) saturate(1.4);-webkit-backdrop-filter:blur(14px) saturate(1.4);border:1px solid var(--line);border-radius:999px;padding:7px 7px 7px 18px;box-shadow:var(--sh);width:min(1080px,100%);}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);margin-right:auto;}
+.logo-mark{width:32px;height:32px;border-radius:9px;background:#b4551e;display:grid;place-items:center;flex:none;}
+.logo-txt{line-height:1.05;}
+.logo-txt b{font-family:var(--serif);font-size:17px;font-weight:700;display:block;}
+.logo-txt span{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);}
+.nav-link{white-space:nowrap;text-decoration:none;font-size:14.5px;font-weight:600;padding:10px 16px;border-radius:999px;color:var(--ink);border:1px solid var(--line);background:transparent;transition:background .25s;}
+.nav-link:hover{background:var(--surface);}
+.logo-txt b{white-space:nowrap;}
+@media (max-width:420px){
+  .nav-in{padding-left:12px;}
+  .logo{gap:8px;}
+  .logo-txt b{font-size:15px;}
+  .nav-link{font-size:13px;padding:9px 12px;}
+}
+
+/* ── Hero ─────────────────────────────────────────────────── */
+.hero{padding:112px 0 0;text-align:center;}
+.badge{display:inline-flex;align-items:center;gap:9px;font-size:13px;font-weight:600;color:var(--accent);background:var(--accent-soft);border:1px solid rgba(232,184,138,.25);border-radius:999px;padding:7px 15px;}
+.badge i{width:7px;height:7px;border-radius:50%;background:var(--accent);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+h1{font-family:var(--serif);font-weight:600;font-size:clamp(36px,9.5vw,64px);line-height:1.06;letter-spacing:-.015em;margin:20px auto 18px;max-width:760px;}
+h1 em{display:block;font-style:italic;color:var(--accent);}
+.lead{font-size:clamp(17px,1.6vw,19px);color:var(--muted);max-width:560px;margin:0 auto;}
+.lead b{color:var(--ink);}
+.ticks{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 16px;margin-top:18px;font-size:13.5px;color:var(--muted);}
+.ticks span{display:inline-flex;align-items:center;gap:6px;}
+.ticks svg{width:15px;height:15px;stroke:var(--accent);}
+
+/* Les trois verdicts, en signature sous le titre */
+.verdicts{display:flex;justify-content:center;gap:8px;margin:0 auto 18px;flex-wrap:wrap;}
+.verdicts span{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:5px 11px;border-radius:999px;border:1px solid currentColor;}
+.v-vrai{color:var(--vrai);}.v-survendu{color:var(--survendu);}.v-trompeur{color:var(--trompeur);}
+
+/* ── Carte de connexion ───────────────────────────────────── */
+.box{max-width:460px;margin:32px auto 56px;}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--sh);padding:24px 20px;text-align:left;}
+.card-titre{font-family:var(--serif);font-size:22px;font-weight:600;text-align:center;}
+.card-sous{font-size:14px;color:var(--muted);text-align:center;margin:4px 0 20px;}
+.card-sous b{color:var(--accent);}
+
+/* Boutons de connexion : un par fournisseur, chacun à ses couleurs officielles */
+.sso{display:flex;align-items:center;justify-content:center;gap:12px;width:100%;min-height:54px;
+  font-family:inherit;font-size:16px;font-weight:600;border-radius:999px;cursor:pointer;
+  border:1.5px solid transparent;transition:transform .3s var(--spring),box-shadow .3s var(--ease),opacity .15s;}
+.sso + .sso{margin-top:12px;}
+.sso:hover{transform:translateY(-2px);box-shadow:var(--sh);}
+.sso:active{transform:none;}
+.sso:disabled{opacity:.55;cursor:wait;transform:none;box-shadow:none;}
+.sso svg{width:20px;height:20px;flex-shrink:0;}
+.sso-google{background:#fff;color:#1f1f1f;border-color:#dadce0;}
+.sso-apple{background:#fff;color:#000;}
+.sso-facebook{background:#1877f2;color:#fff;}
+
+.sep{display:flex;align-items:center;gap:12px;margin:22px 0;color:var(--muted-d);font-size:13px;}
+.sep::before,.sep::after{content:'';flex:1;height:1px;background:var(--line);}
+
+label{display:block;font-size:14.5px;font-weight:600;margin-bottom:8px;}
+input[type=email]{width:100%;font-family:inherit;font-size:16px;color:var(--ink);background:var(--paper);
+  border:1.5px solid var(--line);border-radius:999px;padding:14px 20px;min-height:54px;}
+input[type=email]:focus{outline:none;border-color:var(--accent);background:var(--paper);box-shadow:0 0 0 3px var(--accent-soft);}
+.btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:54px;margin-top:12px;
+  font-family:inherit;font-weight:600;font-size:16px;border:none;border-radius:999px;cursor:pointer;
+  background:var(--accent);color:var(--on-accent);text-decoration:none;
+  transition:transform .3s var(--spring),box-shadow .3s var(--ease),background .3s;}
+.btn:hover{transform:translateY(-2px);background:var(--accent-l);box-shadow:0 14px 32px rgba(232,184,138,.25);}
+.btn:disabled{background:var(--muted-d);color:var(--paper);box-shadow:none;cursor:wait;transform:none;}
+.btn-ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line);}
+.btn-ghost:hover{background:var(--surface);box-shadow:none;}
+
+.msg{margin-top:14px;font-size:14px;border-radius:var(--r);padding:12px 14px;display:none;}
+.msg.ok{display:block;background:rgba(95,191,138,.12);color:var(--vrai);}
+.msg.err{display:block;background:rgba(224,122,106,.12);color:var(--trompeur);}
+.legal{margin-top:18px;font-size:12.5px;color:var(--muted);text-align:center;}
+
+/* Espace connecté */
+.solde{display:flex;align-items:baseline;justify-content:center;gap:8px;margin:6px 0 4px;}
+.solde b{font-family:var(--serif);font-size:56px;line-height:1;color:var(--accent);}
+.solde span{font-size:16px;color:var(--muted);}
+.qui{font-size:14px;color:var(--muted);text-align:center;word-break:break-all;}
+.note{font-size:13.5px;color:var(--muted);text-align:center;margin-top:6px;}
+
+/* Recharge de crédits (Stripe Checkout) */
+.recharge{margin-top:22px;padding-top:20px;border-top:1px solid var(--line);}
+.recharge-titre{font-family:var(--serif);font-size:20px;font-weight:600;text-align:center;margin-bottom:12px;}
+.rech-choix{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.rech-btn{font-family:inherit;color:var(--ink);background:var(--paper);border:1.5px solid var(--line);border-radius:var(--r-lg);padding:14px 10px;min-height:76px;cursor:pointer;text-align:center;
+  transition:border-color .2s var(--ease),transform .3s var(--spring);}
+.rech-btn b{display:block;font-family:var(--serif);font-size:26px;line-height:1.2;color:var(--accent);font-variant-numeric:lining-nums;}
+.rech-btn span{font-size:14px;color:var(--muted);}
+.rech-btn:hover{border-color:var(--accent);transform:translateY(-2px);}
+.rech-btn:disabled{opacity:.5;cursor:wait;transform:none;}
+.consent{display:flex;gap:10px;align-items:flex-start;font-size:13px;line-height:1.5;color:var(--muted);margin-top:14px;text-align:left;font-weight:400;}
+.consent input{margin-top:2px;accent-color:#e8b88a;width:18px;height:18px;flex:none;}
+.consent a{color:var(--accent);}
+.consent.alerte{color:var(--trompeur);}
+
+footer{border-top:1px solid var(--line);padding:22px 0;font-size:13px;color:var(--muted);text-align:center;}
+footer a{color:var(--muted);}
+/* Chiffres alignés : Playfair dessine des chiffres bas par défaut */
+h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b{font-variant-numeric:lining-nums;} /* .lining */
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-in">
+    <a class="logo" href="index.html" aria-label="Longueur d'avance, accueil">
+      <span class="logo-mark"><svg width="18" height="18" viewBox="0 0 64 64" aria-hidden="true"><path d="M10 46 L28 28 L38 38 L56 16" stroke="#fdfcf9" stroke-width="7" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      <span class="logo-txt"><b>Longueur d'avance</b><span data-t="sous_logo">Le Verdict</span></span>
+    </a>
+    <a class="nav-link" href="verdict.html" data-t="nav">Comment ça marche</a>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- ── Non connecté ─────────────────────────────────────── -->
+  <section id="vue-connexion">
+    <div class="hero">
+      <span class="badge"><i></i><span data-t="badge">La confiance n'empêche pas le contrôle.</span></span>
+      <h1><em data-t="accroche">Fini le blabla.</em><span data-t="titre">Chaque promesse vérifiée, point par point.</span></h1>
+      <p class="lead" data-t="lead">Un reel, une pub, une formation qui promet tout ? Collez le lien. On vérifie chaque affirmation à la source, et vous recevez le verdict.</p>
+      <div class="ticks">
+        <span><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span data-t="t1">Sources à l'appui</span></span>
+        <span><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span data-t="t2">Vérifié par Claude</span></span>
+        <span><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span data-t="t3">Rapport privé</span></span>
+      </div>
+    </div>
+
+    <div class="box">
+      <div class="verdicts" aria-label="Les verdicts possibles">
+        <span class="v-vrai" data-t="v1">Vrai</span><span class="v-survendu" data-t="v2">Survendu</span><span class="v-trompeur" data-t="v3">Trompeur</span>
+      </div>
+      <div class="card">
+        <p class="card-titre" data-t="carte">Votre espace Verdict</p>
+        <p class="card-sous"><span data-t="carte_sous">Deux clics, sans mot de passe.</span> <b data-t="offert">5 vérifications offertes.</b></p>
+
+        <button class="sso sso-google" data-fournisseur="google" type="button">
+          <svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.6 5.4 2.6 13.3l7.9 6.2C12.4 13.6 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.1 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.4c-.5 2.9-2.2 5.3-4.6 6.9l7.4 5.7c4.3-4 6.9-9.9 6.9-17.1z"/><path fill="#FBBC05" d="M10.5 28.6c-.5-1.4-.8-3-.8-4.6s.3-3.2.8-4.6l-7.9-6.2C1 16.5 0 20.1 0 24s1 7.5 2.6 10.8l7.9-6.2z"/><path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.4-5.7c-2.1 1.4-4.8 2.3-8.5 2.3-6.3 0-11.6-4.1-13.5-9.9l-7.9 6.2C6.6 42.6 14.6 48 24 48z"/></svg>
+          <span data-t="google">Continuer avec Google</span>
+        </button>
+        <button class="sso sso-apple" data-fournisseur="apple" type="button">
+          <svg viewBox="0 0 24 24" fill="#000" aria-hidden="true"><path d="M16.37 12.6c-.03-2.5 2.04-3.7 2.130-3.76-1.16-1.7-2.97-1.93-3.61-1.96-1.54-.16-3 .9-3.78.9-.78 0-1.98-.88-3.26-.86-1.68.03-3.23.98-4.090 2.48-1.75 3.03-.45 7.5 1.25 9.96.83 1.2 1.82 2.55 3.12 2.5 1.25-.05 1.72-.81 3.23-.81 1.5 0 1.93.81 3.25.78 1.34-.02 2.19-1.22 3.01-2.43.95-1.39 1.34-2.74 1.36-2.81-.03-.01-2.6-1-2.62-3.99zM13.9 5.27c.69-.84 1.16-2 1.03-3.16-1 .04-2.2.67-2.92 1.5-.64.74-1.2 1.930-1.05 3.06 1.11.09 2.25-.56 2.94-1.4z"/></svg>
+          <span data-t="apple">Continuer avec Apple</span>
+        </button>
+        <button class="sso sso-facebook" data-fournisseur="facebook" type="button">
+          <svg viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.05V9.41c0-3.02 1.79-4.7 4.53-4.7 1.31 0 2.68.24 2.68.24v2.97h-1.51c-1.49 0-1.960.93-1.96 1.88v2.27h3.33l-.53 3.49h-2.8V24C19.61 23.1 24 18.1 24 12.07z"/></svg>
+          <span data-t="facebook">Continuer avec Facebook</span>
+        </button>
+
+        <div class="sep" data-t="ou">ou par email</div>
+
+        <form id="form-email" novalidate>
+          <label for="email" data-t="email">Votre email</label>
+          <input type="email" id="email" name="email" autocomplete="email" inputmode="email" placeholder="vous@exemple.fr" data-tp="exemple" required>
+          <button class="btn" type="submit" id="btn-email" data-t="envoyer">Recevoir mon lien de connexion</button>
+        </form>
+        <p class="msg" id="msg-connexion" role="status"></p>
+      </div>
+
+      <p class="legal"><span data-t="legal">En vous connectant, vous acceptez que votre email serve à vous livrer vos rapports. Il n'est ni vendu ni transmis.</span> <a href="confidentialite.html" data-t="confid">Confidentialité</a></p>
+    </div>
+  </section>
+
+  <!-- ── Connecté ─────────────────────────────────────────── -->
+  <section id="vue-espace" hidden>
+    <div class="hero">
+      <span class="badge"><i></i><span data-t="badge">La confiance n'empêche pas le contrôle.</span></span>
+      <h1><span id="bonjour">Bonjour</span></h1>
+      <p class="qui" id="qui"></p>
+    </div>
+    <div class="box">
+      <div class="card">
+        <div class="solde"><b id="credits">…</b><span id="credits-mot">crédits</span></div>
+        <p class="note" data-t="note">1 crédit = 1 vérification (0,50 €). Une vidéo de plus de 3 min compte 2 crédits.</p>
+        <a class="btn" href="verdict.html" data-t="lancer">Lancer une vérification</a>
+
+        <div class="recharge" id="recharge">
+          <p class="recharge-titre" data-t="rech_titre">Recharger mes crédits</p>
+          <div class="rech-choix">
+            <button type="button" class="rech-btn" data-pack="10"><b>5 €</b><span data-t="rech_10">10 crédits</span></button>
+            <button type="button" class="rech-btn" data-pack="100"><b>50 €</b><span data-t="rech_100">100 crédits</span></button>
+          </div>
+          <label class="consent" id="consent-ligne"><input type="checkbox" id="consent"><span data-th="rech_consent">Je demande que mes vérifications soient faites tout de suite, sans attendre la fin du délai de rétractation de 14 jours. Une vérification faite ne peut plus être rétractée, les crédits non utilisés restent remboursables 14 jours. <a href="cgv.html#verdict">Conditions de vente</a></span></label>
+          <p class="msg" id="msg-recharge" role="status"></p>
+          <p class="legal" data-t="rech_legal">Carte bancaire, Apple Pay ou Google Pay. Paiement sécurisé par Stripe, on ne voit jamais votre carte. TVA non applicable, article 293 B du CGI. Facture envoyée par email.</p>
+        </div>
+
+        <button class="btn btn-ghost" type="button" id="btn-sortir" data-t="sortir">Se déconnecter</button>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <a href="index.html" data-t="accueil">Accueil</a> · <a href="verdict.html">Le Verdict</a> · <a href="confidentialite.html" data-t="confid">Confidentialité</a>
+    <p style="margin-top:10px"><label for="langue" style="display:inline;font-weight:500;font-size:13px" data-t="langue">Langue</label>
+    <select id="langue" style="font:inherit;font-size:13px;margin-left:6px;padding:4px 8px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--ink)"></select></p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.58.0/dist/umd/supabase.js"></script>
+<script>
+// ── Le Verdict : connexion (Supabase Auth) ─────────────────────────────────
+// Même projet et même clé publique que verdict.html. La clé publique ne donne
+// accès qu'à ce que les règles RLS autorisent : ici, sa propre ligne de profil.
+(function(){
+  // ── Textes par langue ────────────────────────────────────────────────────
+  // Ajouter une langue = ajouter un bloc ici, rien d'autre à toucher.
+  // RTL liste les langues qui s'écrivent de droite à gauche.
+  var TEXTES = {
+    fr: {
+      nom: 'Français',
+      doc: 'Fini le blabla · Le Verdict',
+      sous_logo: 'Le Verdict', nav: 'Comment ça marche',
+      badge: "La confiance n'empêche pas le contrôle.",
+      accroche: 'Fini le blabla.', titre: 'Chaque promesse vérifiée, point par point.',
+      lead: 'Un reel, une pub, une formation qui promet tout ? Collez le lien. On vérifie chaque affirmation à la source, et vous recevez le verdict.',
+      t1: "Sources à l'appui", t2: "Vérifié par Claude", t3: 'Rapport privé',
+      v1: 'Vrai', v2: 'Survendu', v3: 'Trompeur',
+      carte: 'Votre espace Verdict', carte_sous: 'Deux clics, sans mot de passe.', offert: "5 vérifications offertes.",
+      google: 'Continuer avec Google', apple: 'Continuer avec Apple', facebook: 'Continuer avec Facebook',
+      ou: 'ou par email', email: 'Votre email', exemple: 'vous@exemple.fr', envoyer: 'Recevoir mon lien de connexion',
+      legal: "En vous connectant, vous acceptez que votre email serve à vous livrer vos rapports. Il n'est ni vendu ni transmis.",
+      confid: 'Confidentialité', accueil: 'Accueil', langue: 'Langue',
+      bonjour: 'Bonjour', credit: 'crédit', credits: 'crédits',
+      note: '1 crédit = 1 vérification (0,50 €). Une vidéo de plus de 3 min compte 2 crédits.', lancer: 'Lancer une vérification', sortir: 'Se déconnecter',
+      rech_titre: 'Recharger mes crédits', rech_10: '10 crédits', rech_100: '100 crédits',
+      rech_consent: 'Je demande que mes vérifications soient faites tout de suite, sans attendre la fin du délai de rétractation de 14 jours. Une vérification faite ne peut plus être rétractée, les crédits non utilisés restent remboursables 14 jours. <a href="cgv.html#verdict">Conditions de vente</a>',
+      rech_legal: 'Carte bancaire, Apple Pay ou Google Pay. Paiement sécurisé par Stripe, on ne voit jamais votre carte. TVA non applicable, article 293 B du CGI. Facture envoyée par email.',
+      e_consent: 'Cochez la case ci-dessus pour continuer.',
+      rech_attente: 'Ouverture du paiement sécurisé…',
+      e_recharge: "Le paiement n'a pas pu s'ouvrir. Réessayez dans une minute.",
+      ok_recharge: 'Paiement reçu, merci. Vos crédits s’ajoutent dans quelques secondes et la facture arrive par email.',
+      annule_recharge: "Paiement annulé. Rien n'a été débité.",
+      e_charge: "La connexion n'a pas pu se charger. Rechargez la page.",
+      e_sso: "Cette connexion n'est pas encore disponible. Utilisez une autre option ou votre email.",
+      e_adresse: 'Vérifiez votre adresse email.',
+      ok_envoi: 'C’est envoyé. Ouvrez le mail reçu sur {email} et touchez le lien pour vous connecter.',
+      e_envoi: "L'envoi n'a pas marché. Réessayez dans une minute."
+    },
+    en: {
+      nom: 'English',
+      doc: 'No more hype · Le Verdict',
+      sous_logo: 'Le Verdict', nav: 'How it works',
+      badge: 'Trust, but verify.',
+      accroche: 'No more hype.', titre: 'Every promise checked, point by point.',
+      lead: 'A reel, an ad, a course that promises everything? Paste the link. We check every claim at the source, and you get the verdict.',
+      t1: 'Sources included', t2: "Checked by Claude", t3: 'Private report',
+      v1: 'True', v2: 'Overstated', v3: 'Misleading',
+      carte: 'Your Verdict account', carte_sous: 'Two taps, no password.', offert: "5 free checks.",
+      google: 'Continue with Google', apple: 'Continue with Apple', facebook: 'Continue with Facebook',
+      ou: 'or with email', email: 'Your email', exemple: 'you@example.com', envoyer: 'Send me a sign-in link',
+      legal: 'By signing in, you agree that your email is used to deliver your reports. It is never sold or shared.',
+      confid: 'Privacy', accueil: 'Home', langue: 'Language',
+      bonjour: 'Hello', credit: 'credit', credits: 'credits',
+      note: '1 credit = 1 check (€0.50). A video over 3 min counts as 2 credits.', lancer: 'Start a check', sortir: 'Sign out',
+      rech_titre: 'Top up my credits', rech_10: '10 credits', rech_100: '100 credits',
+      rech_consent: 'I ask for my checks to be done right away, without waiting for the 14-day withdrawal period to end. A completed check cannot be withdrawn, unused credits remain refundable for 14 days. <a href="cgv.html#verdict">Terms of sale</a> (in French)',
+      rech_legal: 'Card, Apple Pay or Google Pay. Secure payment by Stripe, we never see your card. VAT not applicable (French small business exemption). Invoice sent by email.',
+      e_consent: 'Tick the box above to continue.',
+      rech_attente: 'Opening secure payment…',
+      e_recharge: 'Payment could not open. Please try again in a minute.',
+      ok_recharge: 'Payment received, thank you. Your credits will appear in a few seconds and the invoice is on its way by email.',
+      annule_recharge: 'Payment cancelled. Nothing was charged.',
+      e_charge: 'Sign-in could not load. Please reload the page.',
+      e_sso: 'This sign-in option is not available yet. Use another option or your email.',
+      e_adresse: 'Please check your email address.',
+      ok_envoi: 'Sent. Open the email we sent to {email} and tap the link to sign in.',
+      e_envoi: 'Sending failed. Please try again in a minute.'
+    }
+  };
+  var RTL = ['ar', 'he', 'fa', 'ur'];
+
+  function choisirLangue(){
+    var demandee = new URLSearchParams(location.search).get('lang');
+    var gardee = null;
+    try { gardee = localStorage.getItem('lda-langue'); } catch (e) {}
+    var candidates = [demandee, gardee].concat(navigator.languages || [navigator.language]);
+    for (var i = 0; i < candidates.length; i++){
+      var code = (candidates[i] || '').slice(0, 2).toLowerCase();
+      if (TEXTES[code]) return code;
+    }
+    return 'fr';
+  }
+  var LANGUE = choisirLangue();
+  var T = TEXTES[LANGUE];
+
+  function appliquerLangue(){
+    document.documentElement.lang = LANGUE;
+    document.documentElement.dir = RTL.indexOf(LANGUE) >= 0 ? 'rtl' : 'ltr';
+    document.querySelectorAll('[data-t]').forEach(function(el){
+      var cle = el.getAttribute('data-t');
+      if (T[cle]) el.textContent = T[cle];
+    });
+    document.querySelectorAll('[data-th]').forEach(function(el){
+      var v = T[el.getAttribute('data-th')]; if (typeof v === 'string') el.innerHTML = v;
+    });
+    document.querySelectorAll('[data-tp]').forEach(function(el){
+      var cle = el.getAttribute('data-tp');
+      if (T[cle]) el.placeholder = T[cle];
+    });
+    document.title = T.doc;
+  }
+  var menu = document.getElementById('langue');
+  Object.keys(TEXTES).forEach(function(code){
+    var o = document.createElement('option');
+    o.value = code; o.textContent = TEXTES[code].nom;
+    if (code === LANGUE) o.selected = true;
+    menu.appendChild(o);
+  });
+  menu.addEventListener('change', function(){
+    LANGUE = menu.value; T = TEXTES[LANGUE];
+    try { localStorage.setItem('lda-langue', LANGUE); } catch (e) {}
+    appliquerLangue();
+    if (sbSession) montrerEspace(sbSession);
+  });
+  appliquerLangue();
+  var sbSession = null;
+
+  var SUPABASE_URL = 'https://lkdoogzfkfhegjkdwcab.supabase.co';
+  var SUPABASE_KEY = 'sb_publishable_G53hXTn6vKb0MCDWstVFnA_7ZrgQZAh';
+  var RETOUR = location.origin + '/compte';
+
+  var vueConnexion = document.getElementById('vue-connexion');
+  var vueEspace = document.getElementById('vue-espace');
+  var msg = document.getElementById('msg-connexion');
+
+  function afficher(texte, type){
+    msg.textContent = texte;
+    msg.className = 'msg ' + type;
+  }
+
+  if (!window.supabase){
+    afficher(T.e_charge, 'err');
+    return;
+  }
+  var sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  // Google, Apple, Facebook : redirection vers le fournisseur, retour ici.
+  document.querySelectorAll('.sso').forEach(function(bouton){
+    bouton.addEventListener('click', function(){
+      document.querySelectorAll('.sso').forEach(function(b){ b.disabled = true; });
+      var options = { redirectTo: RETOUR };
+      if (bouton.dataset.fournisseur === 'facebook') options.scopes = 'email';
+      sb.auth.signInWithOAuth({ provider: bouton.dataset.fournisseur, options: options })
+        .then(function(r){
+          if (r.error) throw r.error;
+        })
+        .catch(function(){
+          document.querySelectorAll('.sso').forEach(function(b){ b.disabled = false; });
+          afficher(T.e_sso, 'err');
+        });
+    });
+  });
+
+  // Lien magique par email : pas de mot de passe.
+  document.getElementById('form-email').addEventListener('submit', function(e){
+    e.preventDefault();
+    var champ = document.getElementById('email');
+    var email = champ.value.trim();
+    if (!/^[^@\s]+@[^@\s]+\.[a-zA-Z]{2,}$/.test(email)){
+      afficher(T.e_adresse, 'err');
+      champ.focus();
+      return;
+    }
+    var bouton = document.getElementById('btn-email');
+    bouton.disabled = true;
+    sb.auth.signInWithOtp({ email: email, options: { emailRedirectTo: RETOUR } })
+      .then(function(r){
+        if (r.error) throw r.error;
+        afficher(T.ok_envoi.replace('{email}', email), 'ok');
+      })
+      .catch(function(){
+        afficher(T.e_envoi, 'err');
+      })
+      .then(function(){ bouton.disabled = false; });
+  });
+
+  // Retour de la page de paiement Stripe : ?recharge=ok ou ?recharge=annule
+  var retourPaiement = new URLSearchParams(location.search).get('recharge');
+  if (retourPaiement) history.replaceState(null, '', location.pathname + location.hash);
+  var suiviLance = false;
+
+  function chargerSolde(id){
+    sb.from('profils').select('credits').eq('id', id).maybeSingle()
+      .then(function(r){
+        var n = (r.data && typeof r.data.credits === 'number') ? r.data.credits : 0;
+        document.getElementById('credits').textContent = n;
+        document.getElementById('credits-mot').textContent = n > 1 ? T.credits : T.credit;
+      });
+  }
+
+  // Espace connecté : prénom, email, solde de crédits.
+  function montrerEspace(session){
+    sbSession = session;
+    var u = session.user;
+    var meta = u.user_metadata || {};
+    var prenom = meta.given_name || (meta.full_name || meta.name || '').split(' ')[0];
+    document.getElementById('bonjour').textContent = prenom ? T.bonjour + ' ' + prenom : T.bonjour;
+    document.getElementById('qui').textContent = u.email || '';
+    vueConnexion.hidden = true;
+    vueEspace.hidden = false;
+
+    chargerSolde(u.id);
+
+    if (retourPaiement === 'ok') afficherRech(T.ok_recharge, 'ok');
+    if (retourPaiement === 'annule') afficherRech(T.annule_recharge, 'err');
+    // Le webhook Stripe crédite le compte quelques secondes après le paiement :
+    // on relit le solde plusieurs fois, sans recharger la page.
+    if (retourPaiement === 'ok' && !suiviLance){
+      suiviLance = true;
+      [2000, 5000, 10000, 20000, 40000].forEach(function(ms){
+        setTimeout(function(){ if (sbSession) chargerSolde(sbSession.user.id); }, ms);
+      });
+    }
+  }
+
+  // ── Recharge de crédits : la fonction serveur verdict-recharge crée la page
+  // de paiement Stripe. La page n'envoie que le pack choisi, jamais un montant.
+  var msgRech = document.getElementById('msg-recharge');
+  var caseConsent = document.getElementById('consent');
+  var boutonsRech = document.querySelectorAll('.rech-btn');
+  function afficherRech(texte, type){ msgRech.textContent = texte; msgRech.className = 'msg ' + type; }
+  function activerRech(oui){ boutonsRech.forEach(function(b){ b.disabled = !oui; }); }
+
+  caseConsent.addEventListener('change', function(){
+    document.getElementById('consent-ligne').classList.remove('alerte');
+    if (caseConsent.checked && msgRech.className.indexOf('err') > -1) msgRech.className = 'msg';
+  });
+  boutonsRech.forEach(function(bouton){
+    bouton.addEventListener('click', function(){
+      if (!sbSession) return;
+      if (!caseConsent.checked){
+        document.getElementById('consent-ligne').classList.add('alerte');
+        afficherRech(T.e_consent, 'err');
+        caseConsent.focus();
+        return;
+      }
+      activerRech(false);
+      afficherRech(T.rech_attente, 'ok');
+      sb.functions.invoke('verdict-recharge', {
+        body: { pack: bouton.dataset.pack, consentement: true, langue: LANGUE, retour: 'compte' }
+      })
+        .then(function(r){
+          if (r.error || !r.data || !r.data.url) throw (r.error || new Error('sans adresse'));
+          window.location.href = r.data.url;
+        })
+        .catch(function(){
+          activerRech(true);
+          afficherRech(T.e_recharge, 'err');
+        });
+    });
+  });
+  // Retour arrière depuis Stripe : la page revient du cache, on réactive les boutons.
+  window.addEventListener('pageshow', function(e){
+    if (e.persisted){ activerRech(true); msgRech.className = 'msg'; }
+  });
+
+  function montrerConnexion(){
+    sbSession = null;
+    vueEspace.hidden = true;
+    vueConnexion.hidden = false;
+  }
+
+  sb.auth.getSession().then(function(r){
+    if (r.data && r.data.session) montrerEspace(r.data.session);
+  });
+  sb.auth.onAuthStateChange(function(evenement, session){
+    if (session) montrerEspace(session); else montrerConnexion();
+  });
+
+  document.getElementById('btn-sortir').addEventListener('click', function(){
+    sb.auth.signOut();
+  });
+})();
+</script>
+</body>
+</html>
