@@ -532,6 +532,20 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b,.origine{font-variant-numeri
     <p class="prix-note" data-t="px_ttc">TVA non applicable, article 293 B du CGI. Paiement sécurisé par Stripe, on ne voit jamais votre carte. Facture envoyée par email.</p>
   </section>
 
+  <!-- 5 bis. Newsletter de la semaine -->
+  <section class="sec" id="newsletter-semaine">
+    <div class="pourquoi">
+      <span class="eyebrow" data-t="nl_eye">La newsletter</span>
+      <h3 data-t="nl_titre">Chaque semaine, qui suivre et quoi éviter.</h3>
+      <p data-t="nl_intro">Gratuite pour les inscrits. Chaque semaine, un envoi avec nos notations :</p>
+      <ul>
+        <li data-th="nl1"><b>Les comptes les plus fiables, par domaine.</b> Ceux dont les affirmations tiennent le mieux à la source, pour suivre les bons dans ce qui vous intéresse.</li>
+        <li data-th="nl2"><b>Les pires reels de la semaine, sans nom.</b> La promesse, ce qui ne tient pas, et comment le repérer vous-même la prochaine fois.</li>
+      </ul>
+      <p class="apres" data-t="nl_comment">Cochez la case newsletter en envoyant votre premier lien. Désabonnement en un clic.</p>
+    </div>
+  </section>
+
   <!-- 2. Connexion, ou formulaire si connecté -->
   <section class="box" id="verifier">
     <div class="sec-head" style="margin-top:56px">
@@ -589,7 +603,7 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b,.origine{font-variant-numeri
       <div class="check">
         <input type="checkbox" id="newsletter" name="newsletter" value="oui">
         <label for="newsletter"><span data-t="f_news">Je veux aussi la newsletter Longueur d'avance.</span>
-          <span class="sm" data-t="f_news_h">Une fois par semaine, les débunks et les vraies méthodes. Désabonnement en un clic.</span></label>
+          <span class="sm" data-t="f_news_h">Une fois par semaine : les comptes les plus fiables par domaine et les pires reels de la semaine, sans nom. Désabonnement en un clic.</span></label>
       </div>
       <button class="btn" type="submit" id="submit" data-t="f_envoyer">Vérifier ce contenu</button>
       <p class="msg" id="form-msg" role="status"></p>
@@ -735,7 +749,11 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b,.origine{font-variant-numeri
       credit: 'crédit', credits: 'crédits',
       f_lien: 'Collez le lien à vérifier', f_lien_h: 'Reel, TikTok, page de vente, post LinkedIn, tout contenu public.',
       f_q: 'Ce qui vous fait douter', opt: '(optionnel)', f_q_ex: "Ex. « il dit que c'est gratuit et sans risque RGPD, c'est vrai ? »",
-      f_news: "Je veux aussi la newsletter Longueur d'avance.", f_news_h: 'Une fois par semaine, les débunks et les vraies méthodes. Désabonnement en un clic.',
+      f_news: "Je veux aussi la newsletter Longueur d'avance.", f_news_h: 'Une fois par semaine : les comptes les plus fiables par domaine et les pires reels de la semaine, sans nom. Désabonnement en un clic.',
+      nl_eye: 'La newsletter', nl_titre: 'Chaque semaine, qui suivre et quoi éviter.', nl_intro: 'Gratuite pour les inscrits. Chaque semaine, un envoi avec nos notations :',
+      nl1: '<b>Les comptes les plus fiables, par domaine.</b> Ceux dont les affirmations tiennent le mieux à la source, pour suivre les bons dans ce qui vous intéresse.',
+      nl2: '<b>Les pires reels de la semaine, sans nom.</b> La promesse, ce qui ne tient pas, et comment le repérer vous-même la prochaine fois.',
+      nl_comment: 'Cochez la case newsletter en envoyant votre premier lien. Désabonnement en un clic.',
       f_envoyer: 'Vérifier ce contenu', f_delai: "1 crédit par vidéo jusqu'à 3 min, 2 au-delà, affiché avant de lancer. Rapport par email, en une dizaine de minutes.",
       cm_eye: 'Comment ça marche', cm_titre: 'Pas de magie : de la vérification.',
       e1_n: 'Étape 01', e1_t: 'Vous collez le lien', e1_p: "Le contenu qui vous fait douter, quel qu'il soit.",
@@ -891,7 +909,11 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b,.origine{font-variant-numeri
       credit: 'credit', credits: 'credits',
       f_lien: 'Paste the link to check', f_lien_h: 'Reel, TikTok, sales page, LinkedIn post, any public content.',
       f_q: 'What makes you doubt it', opt: '(optional)', f_q_ex: 'E.g. "he says it’s free and GDPR-safe, is that true?"',
-      f_news: "I also want the Longueur d'avance newsletter.", f_news_h: 'Once a week, debunks and methods that work. Unsubscribe in one click.',
+      f_news: "I also want the Longueur d'avance newsletter.", f_news_h: 'Once a week: the most reliable accounts by topic and the worst reels of the week, unnamed. Unsubscribe in one click.',
+      nl_eye: 'The newsletter', nl_titre: 'Every week, who to follow and what to avoid.', nl_intro: 'Free for members. Every week, one email with our ratings:',
+      nl1: '<b>The most reliable accounts, by topic.</b> The ones whose claims hold up best at the source, so you follow the right people on what interests you.',
+      nl2: '<b>The worst reels of the week, unnamed.</b> The promise, what does not hold up, and how to spot it yourself next time.',
+      nl_comment: 'Tick the newsletter box when you send your first link. Unsubscribe in one click.',
       f_envoyer: 'Check this content', f_delai: "1 credit per video up to 3 min, 2 beyond, shown before the check starts. Report by email, in about ten minutes.",
       cm_eye: 'How it works', cm_titre: 'No magic: just checking.',
       e1_n: 'Step 01', e1_t: 'You paste the link', e1_p: 'Whatever content makes you doubt.',
