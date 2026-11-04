@@ -216,6 +216,7 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b{font-variant-numeric:lining-
         <p class="note" data-t="note">1 crédit = 1 vérification (0,50 €). Une vidéo de plus de 3 min compte 2 crédits.</p>
         <a class="btn" href="verdict.html" data-t="lancer">Lancer une vérification</a>
 
+        <p class="note" id="paiement-bientot" data-t="pay_bientot" hidden>Les recharges ouvrent très bientôt. Vos 5 vérifications offertes sont déjà disponibles.</p>
         <div class="recharge" id="recharge">
           <p class="recharge-titre" data-t="rech_titre">Recharger mes crédits</p>
           <div class="rech-choix">
@@ -276,6 +277,7 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b{font-variant-numeric:lining-
       e_recharge: "Le paiement n'a pas pu s'ouvrir. Réessayez dans une minute.",
       ok_recharge: 'Paiement reçu, merci. Vos crédits s’ajoutent dans quelques secondes et la facture arrive par email.',
       annule_recharge: "Paiement annulé. Rien n'a été débité.",
+      pay_bientot: "Les recharges ouvrent très bientôt. Vos 5 vérifications offertes sont déjà disponibles.",
       e_charge: "La connexion n'a pas pu se charger. Rechargez la page.",
       e_sso: "Cette connexion n'est pas encore disponible. Utilisez une autre option ou votre email.",
       e_adresse: 'Vérifiez votre adresse email.',
@@ -306,6 +308,7 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b{font-variant-numeric:lining-
       e_recharge: 'Payment could not open. Please try again in a minute.',
       ok_recharge: 'Payment received, thank you. Your credits will appear in a few seconds and the invoice is on its way by email.',
       annule_recharge: 'Payment cancelled. Nothing was charged.',
+      pay_bientot: 'Top-ups open very soon. Your 5 free checks are already available.',
       e_charge: 'Sign-in could not load. Please reload the page.',
       e_sso: 'This sign-in option is not available yet. Use another option or your email.',
       e_adresse: 'Please check your email address.',
@@ -419,6 +422,12 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b{font-variant-numeric:lining-
       })
       .then(function(){ bouton.disabled = false; });
   });
+
+  // Interrupteur du paiement : false tant que Stripe n'est pas en mode réel
+  // (clés live, médiateur de la consommation dans les CGV, fonctions à 10 et 100 crédits publiées).
+  var PAIEMENT_OUVERT = false;
+  document.getElementById('recharge').hidden = !PAIEMENT_OUVERT;
+  document.getElementById('paiement-bientot').hidden = PAIEMENT_OUVERT;
 
   // Retour de la page de paiement Stripe : ?recharge=ok ou ?recharge=annule
   var retourPaiement = new URLSearchParams(location.search).get('recharge');

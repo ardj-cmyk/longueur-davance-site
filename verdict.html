@@ -504,6 +504,7 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b,.origine{font-variant-numeri
       <div class="rech"><b>5 €</b><span data-t="r1">10 crédits</span></div>
       <div class="rech"><b>50 €</b><span data-t="r2">100 crédits</span></div>
     </div>
+    <p class="prix-note" id="paiement-bientot" data-t="pay_bientot" hidden>Les recharges ouvrent très bientôt. Vos 5 vérifications offertes sont déjà disponibles.</p>
     <div class="recharge" id="recharge" hidden>
       <p class="recharge-titre" data-t="rech_titre">Recharger mes crédits</p>
       <p class="recharge-solde"><span data-t="rech_solde">Votre solde :</span> <b id="rech-solde-n">…</b> <span id="rech-solde-mot" data-t="credits">crédits</span></p>
@@ -782,6 +783,7 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b,.origine{font-variant-numeri
       rech_attente: 'Ouverture du paiement sécurisé…',
       e_recharge: "Le paiement n'a pas pu s'ouvrir. Réessayez dans une minute.",
       annule_recharge: "Paiement annulé. Rien n'a été débité.",
+      pay_bientot: "Les recharges ouvrent très bientôt. Vos 5 vérifications offertes sont déjà disponibles.",
       px_offert: "<b>5 crédits offerts</b> à l'inscription, soit 5 vérifications.",
       pay_carte: 'Carte bancaire', px_ttc: "TVA non applicable, article 293 B du CGI. Paiement sécurisé par Stripe, on ne voit jamais votre carte. Facture envoyée par email.",
       nr_eye: 'Nos règles', nr_titre: "Ce qu'on s'interdit.",
@@ -937,6 +939,7 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b,.origine{font-variant-numeri
       rech_attente: 'Opening secure payment…',
       e_recharge: 'Payment could not open. Please try again in a minute.',
       annule_recharge: 'Payment cancelled. Nothing was charged.',
+      pay_bientot: 'Top-ups open very soon. Your 5 free checks are already available.',
       px_offert: "<b>5 free credits</b> when you sign up, that is 5 checks.",
       pay_carte: 'Card', px_ttc: 'VAT not applicable (French small business exemption). Secure payment by Stripe, we never see your card. Invoice sent by email.',
       nr_eye: 'Our rules', nr_titre: 'What we never do.',
@@ -1086,15 +1089,20 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b,.origine{font-variant-numeri
 
   var blocRecharge = document.getElementById('recharge');
   var tuilesRecharge = document.getElementById('tuiles-recharge');
+  // Interrupteur du paiement : false tant que Stripe n'est pas en mode réel
+  // (clés live, médiateur de la consommation dans les CGV, fonctions à 10 et 100 crédits publiées).
+  // Fermé : les prix restent affichés, les boutons de recharge n'apparaissent pas.
+  var PAIEMENT_OUVERT = false;
+  document.getElementById('paiement-bientot').hidden = PAIEMENT_OUVERT;
 
   function montrerFormulaire(s){
     session = s;
     document.getElementById('solde-qui').textContent = s.user.email || '';
     vueConnexion.hidden = true;
     form.hidden = false;
-    // Connecté : les tuiles de prix deviennent des boutons de recharge.
-    tuilesRecharge.hidden = true;
-    blocRecharge.hidden = false;
+    // Connecté : les tuiles de prix deviennent des boutons de recharge (si le paiement est ouvert).
+    tuilesRecharge.hidden = PAIEMENT_OUVERT;
+    blocRecharge.hidden = !PAIEMENT_OUVERT;
     if (retourPaiement === 'annule') afficher(msgRech, T.annule_recharge, 'err');
     sb.from('profils').select('credits').eq('id', s.user.id).maybeSingle().then(function(r){
       var n = (r.data && typeof r.data.credits === 'number') ? r.data.credits : 0;
