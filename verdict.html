@@ -244,6 +244,19 @@ h2{font-family:var(--serif);font-weight:600;font-size:clamp(28px,7vw,42px);line-
 .paiement{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:16px;}
 .paiement span{font-size:13px;font-weight:600;border:1px solid var(--line);border-radius:999px;padding:6px 12px;color:var(--ink);}
 .prix-note{text-align:center;font-size:13.5px;color:var(--muted);margin-top:12px;}
+/* Pourquoi 0,50 € et bouton Me prévenir */
+.pourquoi{max-width:860px;margin:28px auto 0;padding:22px 20px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);}
+.pourquoi h3{font-family:var(--serif);font-size:24px;line-height:1.2;color:var(--ink);margin-bottom:6px;}
+.pourquoi>p{font-size:15px;color:var(--muted);}
+.pourquoi ul{list-style:none;margin:14px 0 0;padding:0;display:grid;gap:10px;}
+.pourquoi li{font-size:15px;line-height:1.55;padding-left:16px;border-left:2px solid var(--accent);}
+.pourquoi li b{color:var(--ink);}
+.pourquoi .apres{margin-top:16px;font-size:14px;}
+.pourquoi a{color:var(--accent);}
+.prevenir{font-family:inherit;font-size:14px;font-weight:600;color:var(--accent);background:transparent;border:1.5px solid var(--accent);border-radius:999px;padding:8px 16px;min-height:44px;margin-top:10px;cursor:pointer;}
+.prevenir:hover{background:var(--accent-soft);}
+.prevenir[aria-pressed="true"]{background:var(--accent);color:var(--paper);cursor:default;}
+.prevenir:disabled{opacity:.6;cursor:wait;}
 
 /* Recharge de crédits, visible une fois connecté (Stripe Checkout) */
 .recharge{max-width:560px;margin:18px auto 0;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--sh);padding:22px 20px;}
@@ -327,7 +340,7 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b,.origine{font-variant-numeri
     <h1><em data-t="accroche">Fini le blabla.</em><span data-t="titre">Chaque promesse vérifiée, point par point.</span></h1>
     <p class="lead" data-t="lead">Un reel, une pub, une formation qui promet tout ? Collez le lien. On vérifie chaque affirmation à la source, et vous recevez le verdict, noté sur 10.</p>
     <a class="btn" href="#verifier" data-t="cta">Vérifier un reel</a>
-    <span class="offert" data-th="offert">Vos <b>5 premiers crédits sont offerts</b>, soit 2 min 30 de vidéo vérifiée.</span>
+    <span class="offert" data-th="offert">Vos <b>5 premiers crédits sont offerts</b>, soit 5 vérifications.</span>
     <div class="ticks">
       <span><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span data-t="t1">Sources à l'appui</span></span>
       <span><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span data-t="t2">Vérifié par Claude</span></span>
@@ -477,31 +490,43 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b,.origine{font-variant-numeri
     <div class="sec-head">
       <span class="eyebrow" data-t="px_eye">Les prix</span>
       <h2 data-t="px_titre">Vous payez ce que vous vérifiez.</h2>
-      <p data-t="px_lead">Sans abonnement. 1 crédit = 0,25 € = 30 secondes de vidéo. Toute tranche de 30 secondes commencée compte, et une vidéo ne coûte jamais plus de 4 crédits. Le nombre de crédits s'affiche avant de lancer la vérification.</p>
-      <p data-t="px_ex" style="margin-top:8px;font-weight:600;color:var(--ink)">Exemples : 30 s = 0,25 € · 1 min = 0,50 € · 1 min 30 = 0,75 € · 2 min et plus = 1 € au maximum.</p>
+      <p data-t="px_lead">Sans abonnement. 1 crédit = 0,50 € = 1 vérification. Une vidéo jusqu'à 3 min coûte 1 crédit, au-delà 2 crédits. Le nombre de crédits s'affiche avant de lancer la vérification.</p>
+      <p data-t="px_ex" style="margin-top:8px;font-weight:600;color:var(--ink)">Exemples : un reel de 30 s = 0,50 € · un TikTok de 2 min 30 = 0,50 € · une vidéo de 8 min = 1 €.</p>
     </div>
     <div class="prix">
-      <div class="prix-ligne"><div><h3 data-t="p1_t">Vérifier une vidéo</h3><p data-t="p1_p">Un reel, un TikTok, une pub vidéo. 4 crédits au maximum.</p></div><div class="prix-val"><b data-t="p1_c">1 crédit / 30 s</b><span data-t="pv1">0,25 €</span></div></div>
-      <div class="prix-ligne"><div><h3 data-t="p1b_t">Vérifier une page ou un post écrit</h3><p data-t="p1b_p">Une page de vente, un post LinkedIn, un article.</p></div><div class="prix-val"><b data-t="p1b_c">2 crédits</b><span data-t="pv1b">0,50 €</span></div></div>
-      <div class="prix-ligne"><div><h3><span data-t="p2_t">Question directe sur l'IA</span><span class="bientot" data-t="bientot">Bientôt</span></h3><p data-t="p2_p">Une question précise, sans lien.</p></div><div class="prix-val"><b data-t="p2_c">2 crédits</b><span data-t="pv2">0,50 €</span></div></div>
-      <div class="prix-ligne"><div><h3><span data-t="p3_t">Question directe hors IA</span><span class="bientot" data-t="bientot">Bientôt</span></h3><p data-t="p3_p">Tout sujet vérifiable à la source.</p></div><div class="prix-val"><b data-t="p3_c">4 crédits</b><span data-t="pv3">1 €</span></div></div>
-      <div class="prix-ligne"><div><h3><span data-t="p4_t">Audit d'un compte</span><span class="bientot" data-t="bientot">Bientôt</span></h3><p data-t="p4_p">Les 20 derniers reels et les 5 plus vus, une note globale.</p></div><div class="prix-val"><b data-t="p4_c">60 crédits</b><span data-t="pv4">15 €</span></div></div>
+      <div class="prix-ligne"><div><h3 data-t="p1_t">Vérifier une vidéo jusqu'à 3 min</h3><p data-t="p1_p">Un reel, un TikTok, une pub vidéo.</p></div><div class="prix-val"><b data-t="p1_c">1 crédit</b><span data-t="pv1">0,50 €</span></div></div>
+      <div class="prix-ligne"><div><h3 data-t="p1l_t">Vérifier une vidéo de plus de 3 min</h3><p data-t="p1l_p">Une vidéo YouTube, un webinaire, un live.</p></div><div class="prix-val"><b data-t="p1l_c">2 crédits</b><span data-t="pv1l">1 €</span></div></div>
+      <div class="prix-ligne"><div><h3 data-t="p1b_t">Vérifier une page ou un post écrit</h3><p data-t="p1b_p">Une page de vente, un post LinkedIn, un article.</p></div><div class="prix-val"><b data-t="p1b_c">1 crédit</b><span data-t="pv1b">0,50 €</span></div></div>
+      <div class="prix-ligne"><div><h3><span data-t="p2_t">Question directe</span><span class="bientot" data-t="bientot">Bientôt</span></h3><p data-t="p2_p">Une question précise, sans lien, sur tout sujet vérifiable à la source.</p></div><div class="prix-val"><b data-t="p2_c">1 crédit</b><span data-t="pv2">0,50 €</span></div></div>
+      <div class="prix-ligne" id="ligne-audit"><div><h3><span data-t="p4_t">Audit avant d'acheter une formation</span><span class="bientot" data-t="bientot">Bientôt</span></h3><p data-t="p4_p">Le compte du formateur (ses 20 derniers reels et ses 5 plus vus) et sa page de vente, une note globale et un conseil : acheter, attendre ou passer.</p><button type="button" class="prevenir" id="btn-prevenir" aria-pressed="false" data-t="prev_btn">Me prévenir</button><p class="msg" id="msg-prevenir" role="status"></p></div><div class="prix-val"><b data-t="p4_c">58 crédits</b><span data-t="pv4">29 €</span></div></div>
     </div>
     <div class="prix recharges" id="tuiles-recharge">
-      <div class="rech"><b>5 €</b><span data-t="r1">20 crédits</span></div>
-      <div class="rech"><b>50 €</b><span data-t="r2">200 crédits</span></div>
+      <div class="rech"><b>5 €</b><span data-t="r1">10 crédits</span></div>
+      <div class="rech"><b>50 €</b><span data-t="r2">100 crédits</span></div>
     </div>
     <div class="recharge" id="recharge" hidden>
       <p class="recharge-titre" data-t="rech_titre">Recharger mes crédits</p>
       <p class="recharge-solde"><span data-t="rech_solde">Votre solde :</span> <b id="rech-solde-n">…</b> <span id="rech-solde-mot" data-t="credits">crédits</span></p>
       <div class="rech-choix">
-        <button type="button" class="rech-btn" data-pack="20"><b>5 €</b><span data-t="r1">20 crédits</span></button>
-        <button type="button" class="rech-btn" data-pack="200"><b>50 €</b><span data-t="r2">200 crédits</span></button>
+        <button type="button" class="rech-btn" data-pack="10"><b>5 €</b><span data-t="r1">10 crédits</span></button>
+        <button type="button" class="rech-btn" data-pack="100"><b>50 €</b><span data-t="r2">100 crédits</span></button>
       </div>
       <label class="consent" id="consent-ligne"><input type="checkbox" id="consent"><span data-th="rech_consent">Je demande que mes vérifications soient faites tout de suite, sans attendre la fin du délai de rétractation de 14 jours. Une vérification faite ne peut plus être rétractée, les crédits non utilisés restent remboursables 14 jours. <a href="cgv.html#verdict">Conditions de vente</a></span></label>
       <p class="msg" id="msg-recharge" role="status"></p>
     </div>
-    <p class="prix-note" data-th="px_offert"><b>5 crédits offerts</b> à l'inscription, soit 2 min 30 de vidéo vérifiée.</p>
+    <div class="pourquoi" id="pourquoi">
+      <h3 data-t="pq_titre">Pourquoi 0,50 € ?</h3>
+      <p data-t="pq_intro">Parce qu'une vérification sérieuse a un coût, et on préfère vous le dire.</p>
+      <ul>
+        <li data-th="pq1"><b>Un modèle haut de gamme.</b> On utilise une version haut de gamme de Claude, pas la version économique. Elle coûte plus cher, mais elle lit mieux, se trompe moins et explique ses raisons.</li>
+        <li data-th="pq2"><b>On lit tout.</b> La voix, le texte à l'écran, la légende entière.</li>
+        <li data-th="pq3"><b>On va chercher le pourquoi.</b> Chaque affirmation est vérifiée à la source, et on vous dit pourquoi elle tient ou ne tient pas. Pas juste « vrai » ou « faux ».</li>
+        <li data-th="pq4"><b>Un rapport qui vous sert ensuite.</b> Tout y est écrit, avec chaque source. Collez-le dans l'IA gratuite de votre choix, ChatGPT, Claude ou une autre, et continuez vos recherches à partir de là, sans repartir de zéro.</li>
+        <li data-th="pq5"><b>Le prix couvre aussi</b> les vérifications offertes et celles qu'on rembourse quand un lien ne marche pas.</li>
+      </ul>
+      <p class="apres" data-th="pq_apres">Pour une simple info, des outils gratuits existent, et on vous les indique dans <a href="/verifier-un-reel">notre comparatif</a>. Le Verdict sert à la question d'après : est-ce que ça vaut le coup d'y croire, ou de payer ?</p>
+    </div>
+    <p class="prix-note" data-th="px_offert"><b>5 crédits offerts</b> à l'inscription, soit 5 vérifications.</p>
     <div class="paiement" aria-label="Moyens de paiement"><span data-t="pay_carte">Carte bancaire</span><span>Apple Pay</span><span>Google Pay</span></div>
     <p class="prix-note" data-t="px_ttc">TVA non applicable, article 293 B du CGI. Paiement sécurisé par Stripe, on ne voit jamais votre carte. Facture envoyée par email.</p>
   </section>
@@ -567,7 +592,7 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b,.origine{font-variant-numeri
       </div>
       <button class="btn" type="submit" id="submit" data-t="f_envoyer">Vérifier ce contenu</button>
       <p class="msg" id="form-msg" role="status"></p>
-      <p class="legal" data-t="f_delai">1 crédit par tranche de 30 s (4 au maximum), affiché avant de lancer. Rapport par email, en une dizaine de minutes.</p>
+      <p class="legal" data-t="f_delai">1 crédit par vidéo jusqu'à 3 min, 2 au-delà, affiché avant de lancer. Rapport par email, en une dizaine de minutes.</p>
     </form>
   </section>
 
@@ -604,7 +629,7 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b,.origine{font-variant-numeri
   <!-- 7. Fin -->
   <section class="fin">
     <h2 data-t="fin_titre">Avant d'y croire, vérifiez.</h2>
-    <p class="lead" style="margin-top:12px" data-th="offert">Vos <b>5 premiers crédits sont offerts</b>, soit 2 min 30 de vidéo vérifiée.</p>
+    <p class="lead" style="margin-top:12px" data-th="offert">Vos <b>5 premiers crédits sont offerts</b>, soit 5 vérifications.</p>
     <a class="btn" href="#verifier" style="margin-top:22px" data-t="cta">Vérifier un reel</a>
     <span class="dm"><span data-t="dm">Votre cas dépasse un lien ?</span> <a href="https://ig.me/m/ardj.87" target="_blank" rel="noopener" data-t="dm_l">Écrivez-nous sur Instagram</a></span>
     <p class="info" data-t="info">Ce service est fourni à titre informatif. Il ne constitue ni un conseil juridique, ni un conseil financier, ni une mise en cause de qui que ce soit.</p>
@@ -698,7 +723,7 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b,.origine{font-variant-numeri
       nav: 'Mon espace', badge: "La confiance n'empêche pas le contrôle.",
       accroche: 'Fini le blabla.', titre: 'Chaque promesse vérifiée, point par point.',
       lead: 'Un reel, une pub, une formation qui promet tout ? Collez le lien. On vérifie chaque affirmation à la source, et vous recevez le verdict, noté sur 10.',
-      cta: 'Vérifier un reel', offert: "Vos <b>5 premiers crédits sont offerts</b>, soit 2 min 30 de vidéo vérifiée.",
+      cta: 'Vérifier un reel', offert: "Vos <b>5 premiers crédits sont offerts</b>, soit 5 vérifications.",
       t1: "Sources à l'appui", t2: "Vérifié par Claude", t3: 'Rapport privé',
       v1: 'Vrai', v2: 'Survendu', v3: 'Trompeur', v4: 'Invérifiable',
       co_titre: 'Connectez-vous pour vérifier', co_sous: 'Pour vous envoyer votre rapport et garder votre historique.',
@@ -710,7 +735,7 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b,.origine{font-variant-numeri
       f_lien: 'Collez le lien à vérifier', f_lien_h: 'Reel, TikTok, page de vente, post LinkedIn, tout contenu public.',
       f_q: 'Ce qui vous fait douter', opt: '(optionnel)', f_q_ex: "Ex. « il dit que c'est gratuit et sans risque RGPD, c'est vrai ? »",
       f_news: "Je veux aussi la newsletter Longueur d'avance.", f_news_h: 'Une fois par semaine, les débunks et les vraies méthodes. Désabonnement en un clic.',
-      f_envoyer: 'Vérifier ce contenu', f_delai: "1 crédit par tranche de 30 s (4 au maximum), affiché avant de lancer. Rapport par email, en une dizaine de minutes.",
+      f_envoyer: 'Vérifier ce contenu', f_delai: "1 crédit par vidéo jusqu'à 3 min, 2 au-delà, affiché avant de lancer. Rapport par email, en une dizaine de minutes.",
       cm_eye: 'Comment ça marche', cm_titre: 'Pas de magie : de la vérification.',
       e1_n: 'Étape 01', e1_t: 'Vous collez le lien', e1_p: "Le contenu qui vous fait douter, quel qu'il soit.",
       e2_n: 'Étape 02', e2_t: 'On isole les promesses', e2_p: 'Chaque affirmation factuelle est extraite, une par une.',
@@ -738,19 +763,26 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b,.origine{font-variant-numeri
       vp1: "L'affirmation est exacte et vérifiable à la source.", vp2: 'Le fond est vrai, mais la promesse dépasse la réalité.',
       vp3: 'Un élément essentiel est passé sous silence.', vp4: 'Aucune source publique ne permet de trancher. On le dit.',
       px_eye: 'Les prix', px_titre: 'Vous payez ce que vous vérifiez.',
-      px_lead: "Sans abonnement. 1 crédit = 0,25 € = 30 secondes de vidéo. Toute tranche de 30 secondes commencée compte, et une vidéo ne coûte jamais plus de 4 crédits. Le nombre de crédits s'affiche avant de lancer la vérification.", px_ex: "Exemples : 30 s = 0,25 € · 1 min = 0,50 € · 1 min 30 = 0,75 € · 2 min et plus = 1 € au maximum.",
-      p1_t: 'Vérifier une vidéo', p1_p: 'Un reel, un TikTok, une pub vidéo. 4 crédits au maximum.', p1_c: '1 crédit / 30 s', p1b_t: 'Vérifier une page ou un post écrit', p1b_p: 'Une page de vente, un post LinkedIn, un article.', p1b_c: '2 crédits', pv1b: '0,50 €', p2_c: '2 crédits',
-      p2_t: "Question directe sur l'IA", p2_p: 'Une question précise, sans lien.',
-      p3_t: 'Question directe hors IA', p3_p: 'Tout sujet vérifiable à la source.', p3_c: '4 crédits',
-      p4_t: "Audit d'un compte", p4_p: 'Les 20 derniers reels et les 5 plus vus, une note globale.', p4_c: '60 crédits', pv1: '0,25 €', pv2: '0,50 €', pv3: '1 €', pv4: '15 €',
-      bientot: 'Bientôt', r1: '20 crédits', r2: '200 crédits',
+      px_lead: "Sans abonnement. 1 crédit = 0,50 € = 1 vérification. Une vidéo jusqu'à 3 min coûte 1 crédit, au-delà 2 crédits. Le nombre de crédits s'affiche avant de lancer la vérification.", px_ex: "Exemples : un reel de 30 s = 0,50 € · un TikTok de 2 min 30 = 0,50 € · une vidéo de 8 min = 1 €.",
+      p1_t: "Vérifier une vidéo jusqu'à 3 min", p1_p: 'Un reel, un TikTok, une pub vidéo.', p1_c: '1 crédit', p1l_t: 'Vérifier une vidéo de plus de 3 min', p1l_p: 'Une vidéo YouTube, un webinaire, un live.', p1l_c: '2 crédits', pv1l: '1 €', p1b_t: 'Vérifier une page ou un post écrit', p1b_p: 'Une page de vente, un post LinkedIn, un article.', p1b_c: '1 crédit', pv1b: '0,50 €', p2_c: '1 crédit',
+      p2_t: 'Question directe', p2_p: 'Une question précise, sans lien, sur tout sujet vérifiable à la source.',
+      p4_t: "Audit avant d'acheter une formation", p4_p: 'Le compte du formateur (ses 20 derniers reels et ses 5 plus vus) et sa page de vente, une note globale et un conseil : acheter, attendre ou passer.', p4_c: '58 crédits', pv1: '0,50 €', pv2: '0,50 €', pv4: '29 €',
+      prev_btn: 'Me prévenir', prev_ok: "C'est noté. On vous écrit à {email} dès que l'audit ouvre.", prev_anon: "C'est noté. Inscrivez-vous plus bas pour qu'on puisse vous écrire à l'ouverture.", prev_err: "Ça n'a pas pu être enregistré. Réessayez dans une minute.",
+      pq_titre: 'Pourquoi 0,50 € ?', pq_intro: "Parce qu'une vérification sérieuse a un coût, et on préfère vous le dire.",
+      pq1: '<b>Un modèle haut de gamme.</b> On utilise une version haut de gamme de Claude, pas la version économique. Elle coûte plus cher, mais elle lit mieux, se trompe moins et explique ses raisons.',
+      pq2: "<b>On lit tout.</b> La voix, le texte à l'écran, la légende entière.",
+      pq3: '<b>On va chercher le pourquoi.</b> Chaque affirmation est vérifiée à la source, et on vous dit pourquoi elle tient ou ne tient pas. Pas juste « vrai » ou « faux ».',
+      pq4: "<b>Un rapport qui vous sert ensuite.</b> Tout y est écrit, avec chaque source. Collez-le dans l'IA gratuite de votre choix, ChatGPT, Claude ou une autre, et continuez vos recherches à partir de là, sans repartir de zéro.",
+      pq5: "<b>Le prix couvre aussi</b> les vérifications offertes et celles qu'on rembourse quand un lien ne marche pas.",
+      pq_apres: 'Pour une simple info, des outils gratuits existent, et on vous les indique dans <a href="/verifier-un-reel">notre comparatif</a>. Le Verdict sert à la question d\'après : est-ce que ça vaut le coup d\'y croire, ou de payer ?',
+      bientot: 'Bientôt', r1: '10 crédits', r2: '100 crédits',
       rech_titre: 'Recharger mes crédits', rech_solde: 'Votre solde :', recharger: 'Recharger',
       rech_consent: 'Je demande que mes vérifications soient faites tout de suite, sans attendre la fin du délai de rétractation de 14 jours. Une vérification faite ne peut plus être rétractée, les crédits non utilisés restent remboursables 14 jours. <a href="cgv.html#verdict">Conditions de vente</a>',
       e_consent: 'Cochez la case ci-dessus pour continuer.',
       rech_attente: 'Ouverture du paiement sécurisé…',
       e_recharge: "Le paiement n'a pas pu s'ouvrir. Réessayez dans une minute.",
       annule_recharge: "Paiement annulé. Rien n'a été débité.",
-      px_offert: "<b>5 crédits offerts</b> à l'inscription, soit 2 min 30 de vidéo vérifiée.",
+      px_offert: "<b>5 crédits offerts</b> à l'inscription, soit 5 vérifications.",
       pay_carte: 'Carte bancaire', px_ttc: "TVA non applicable, article 293 B du CGI. Paiement sécurisé par Stripe, on ne voit jamais votre carte. Facture envoyée par email.",
       nr_eye: 'Nos règles', nr_titre: "Ce qu'on s'interdit.",
       nr1: "<span><b>On vérifie l'information, jamais la personne.</b> Aucune mise au pilori, rien n'est publié : votre rapport est privé.</span>",
@@ -846,7 +878,7 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b,.origine{font-variant-numeri
       nav: 'My account', badge: 'Trust, but verify.',
       accroche: 'No more hype.', titre: 'Every promise checked, point by point.',
       lead: 'A reel, an ad, a course that promises everything? Paste the link. We check every claim at the source, and you get the verdict, scored out of 10.',
-      cta: 'Check a reel', offert: "Your <b>first 5 credits are free</b>, that is 2 min 30 of video checked.",
+      cta: 'Check a reel', offert: "Your <b>first 5 credits are free</b>, that is 5 checks.",
       t1: 'Sources included', t2: "Checked by Claude", t3: 'Private report',
       v1: 'True', v2: 'Overstated', v3: 'Misleading', v4: 'Unverifiable',
       co_titre: 'Sign in to start a check', co_sous: 'So we can send your report and keep your history.',
@@ -858,7 +890,7 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b,.origine{font-variant-numeri
       f_lien: 'Paste the link to check', f_lien_h: 'Reel, TikTok, sales page, LinkedIn post, any public content.',
       f_q: 'What makes you doubt it', opt: '(optional)', f_q_ex: 'E.g. "he says it’s free and GDPR-safe, is that true?"',
       f_news: "I also want the Longueur d'avance newsletter.", f_news_h: 'Once a week, debunks and methods that work. Unsubscribe in one click.',
-      f_envoyer: 'Check this content', f_delai: "1 credit per 30-second block (4 at most), shown before the check starts. Report by email, in about ten minutes.",
+      f_envoyer: 'Check this content', f_delai: "1 credit per video up to 3 min, 2 beyond, shown before the check starts. Report by email, in about ten minutes.",
       cm_eye: 'How it works', cm_titre: 'No magic: just checking.',
       e1_n: 'Step 01', e1_t: 'You paste the link', e1_p: 'Whatever content makes you doubt.',
       e2_n: 'Step 02', e2_t: 'We isolate the promises', e2_p: 'Every factual claim is pulled out, one by one.',
@@ -886,19 +918,26 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b,.origine{font-variant-numeri
       vp1: 'The claim is accurate and verifiable at the source.', vp2: 'The core is true, but the promise goes beyond reality.',
       vp3: 'Something essential is left out.', vp4: 'No public source can settle it. We say so.',
       px_eye: 'Pricing', px_titre: 'You pay for what you check.',
-      px_lead: "No subscription. 1 credit = €0.25 = 30 seconds of video. Every 30-second block started counts, and a video never costs more than 4 credits. The number of credits is shown before the check starts.", px_ex: "Examples: 30 s = €0.25 · 1 min = €0.50 · 1 min 30 = €0.75 · 2 min and more = €1 at most.",
-      p1_t: 'Check a video', p1_p: 'A reel, a TikTok, a video ad. 4 credits at most.', p1_c: '1 credit / 30 s', p1b_t: 'Check a page or written post', p1b_p: 'A sales page, a LinkedIn post, an article.', p1b_c: '2 credits', pv1b: '€0.50', p2_c: '2 credits',
-      p2_t: 'Direct question about AI', p2_p: 'A precise question, no link.',
-      p3_t: 'Direct question beyond AI', p3_p: 'Any topic that can be checked at the source.', p3_c: '4 credits',
-      p4_t: 'Account audit', p4_p: 'The last 20 reels and the 5 most viewed, one overall score.', p4_c: '60 credits', pv1: '€0.25', pv2: '€0.50', pv3: '€1', pv4: '€15',
-      bientot: 'Soon', r1: '20 credits', r2: '200 credits',
+      px_lead: "No subscription. 1 credit = €0.50 = 1 check. A video up to 3 min costs 1 credit, longer ones 2 credits. The number of credits is shown before the check starts.", px_ex: "Examples: a 30 s reel = €0.50 · a 2 min 30 TikTok = €0.50 · an 8 min video = €1.",
+      p1_t: 'Check a video up to 3 min', p1_p: 'A reel, a TikTok, a video ad.', p1_c: '1 credit', p1l_t: 'Check a video over 3 min', p1l_p: 'A YouTube video, a webinar, a live stream.', p1l_c: '2 credits', pv1l: '€1', p1b_t: 'Check a page or written post', p1b_p: 'A sales page, a LinkedIn post, an article.', p1b_c: '1 credit', pv1b: '€0.50', p2_c: '1 credit',
+      p2_t: 'Direct question', p2_p: 'A precise question, no link, on any topic that can be checked at the source.',
+      p4_t: 'Audit before buying a course', p4_p: "The creator's account (their last 20 reels and 5 most viewed) and their sales page, one overall score and one piece of advice: buy, wait or pass.", p4_c: '58 credits', pv1: '€0.50', pv2: '€0.50', pv4: '€29',
+      prev_btn: 'Notify me', prev_ok: "Noted. We'll write to {email} as soon as the audit opens.", prev_anon: 'Noted. Sign up below so we can write to you when it opens.', prev_err: 'This could not be saved. Try again in a minute.',
+      pq_titre: 'Why €0.50?', pq_intro: "Because a serious check has a cost, and we'd rather tell you.",
+      pq1: '<b>A top-tier model.</b> We use a top-tier version of Claude, not the budget one. It costs more, but it reads better, makes fewer mistakes and explains its reasons.',
+      pq2: '<b>We read everything.</b> The voice, the on-screen text, the full caption.',
+      pq3: '<b>We look for the why.</b> Every claim is checked at the source, and we tell you why it holds or not. Not just "true" or "false".',
+      pq4: '<b>A report you can reuse.</b> Everything is written out, with every source. Paste it into the free AI of your choice, ChatGPT, Claude or another, and keep researching from there instead of starting over.',
+      pq5: '<b>The price also covers</b> the free checks and the ones we refund when a link does not work.',
+      pq_apres: 'For a simple fact, free tools exist, and we list them in <a href="/verifier-un-reel">our comparison</a> (in French). The Verdict is for the next question: is it worth believing, or paying for?',
+      bientot: 'Soon', r1: '10 credits', r2: '100 credits',
       rech_titre: 'Top up my credits', rech_solde: 'Your balance:', recharger: 'Top up',
       rech_consent: 'I ask for my checks to be done right away, without waiting for the 14-day withdrawal period to end. A completed check cannot be withdrawn, unused credits remain refundable for 14 days. <a href="cgv.html#verdict">Terms of sale</a> (in French)',
       e_consent: 'Tick the box above to continue.',
       rech_attente: 'Opening secure payment…',
       e_recharge: 'Payment could not open. Please try again in a minute.',
       annule_recharge: 'Payment cancelled. Nothing was charged.',
-      px_offert: "<b>5 free credits</b> when you sign up, that is 2 min 30 of video checked.",
+      px_offert: "<b>5 free credits</b> when you sign up, that is 5 checks.",
       pay_carte: 'Card', px_ttc: 'VAT not applicable (French small business exemption). Secure payment by Stripe, we never see your card. Invoice sent by email.',
       nr_eye: 'Our rules', nr_titre: 'What we never do.',
       nr1: '<span><b>We check the information, never the person.</b> No naming and shaming, nothing is published: your report is private.</span>',
@@ -1109,6 +1148,31 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b,.origine{font-variant-numeri
   });
   window.addEventListener('pageshow', function(e){
     if (e.persisted){ activerRech(true); msgRech.className = 'msg'; }
+  });
+
+  // ── « Me prévenir » sur l'audit avant d'acheter une formation (bientôt).
+  // Chaque clic s'enregistre dans verdict_interets : c'est le compteur qui dit
+  // si l'audit vaut la peine d'être construit. Une personne connectée compte
+  // une seule fois (son adresse sert à la prévenir), un visiteur une fois par navigateur.
+  var btnPrev = document.getElementById('btn-prevenir');
+  var msgPrev = document.getElementById('msg-prevenir');
+  var CLE_PREV = 'verdict_prevenir_audit';
+  function marquerPrev(){ btnPrev.setAttribute('aria-pressed', 'true'); btnPrev.disabled = true; }
+  try { if (localStorage.getItem(CLE_PREV)) marquerPrev(); } catch(e){}
+  btnPrev.addEventListener('click', function(){
+    if (btnPrev.getAttribute('aria-pressed') === 'true') return;
+    btnPrev.disabled = true;
+    var ligne = { offre: 'audit-formation', langue: LANGUE };
+    if (session) ligne.profil_id = session.user.id;
+    sb.from('verdict_interets').insert(ligne)
+      .then(function(r){
+        // 23505 = déjà inscrit pour cette offre : c'est noté quand même.
+        if (r.error && r.error.code !== '23505') throw r.error;
+        try { localStorage.setItem(CLE_PREV, '1'); } catch(e){}
+        marquerPrev();
+        afficher(msgPrev, session ? T.prev_ok.replace('{email}', session.user.email || '') : T.prev_anon, 'ok');
+      })
+      .catch(function(){ btnPrev.disabled = false; afficher(msgPrev, T.prev_err, 'err'); });
   });
 
   sb.auth.getSession().then(function(r){ if (r.data && r.data.session) montrerFormulaire(r.data.session); });

@@ -174,7 +174,7 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b{font-variant-numeric:lining-
       </div>
       <div class="card">
         <p class="card-titre" data-t="carte">Votre espace Verdict</p>
-        <p class="card-sous"><span data-t="carte_sous">Deux clics, sans mot de passe.</span> <b data-t="offert">5 crédits offerts.</b></p>
+        <p class="card-sous"><span data-t="carte_sous">Deux clics, sans mot de passe.</span> <b data-t="offert">5 vérifications offertes.</b></p>
 
         <button class="sso sso-google" data-fournisseur="google" type="button">
           <svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.6 5.4 2.6 13.3l7.9 6.2C12.4 13.6 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.1 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.4c-.5 2.9-2.2 5.3-4.6 6.9l7.4 5.7c4.3-4 6.9-9.9 6.9-17.1z"/><path fill="#FBBC05" d="M10.5 28.6c-.5-1.4-.8-3-.8-4.6s.3-3.2.8-4.6l-7.9-6.2C1 16.5 0 20.1 0 24s1 7.5 2.6 10.8l7.9-6.2z"/><path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.4-5.7c-2.1 1.4-4.8 2.3-8.5 2.3-6.3 0-11.6-4.1-13.5-9.9l-7.9 6.2C6.6 42.6 14.6 48 24 48z"/></svg>
@@ -213,14 +213,14 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b{font-variant-numeric:lining-
     <div class="box">
       <div class="card">
         <div class="solde"><b id="credits">…</b><span id="credits-mot">crédits</span></div>
-        <p class="note" data-t="note">1 crédit = 30 secondes de vidéo vérifiée (0,25 €).</p>
+        <p class="note" data-t="note">1 crédit = 1 vérification (0,50 €). Une vidéo de plus de 3 min compte 2 crédits.</p>
         <a class="btn" href="verdict.html" data-t="lancer">Lancer une vérification</a>
 
         <div class="recharge" id="recharge">
           <p class="recharge-titre" data-t="rech_titre">Recharger mes crédits</p>
           <div class="rech-choix">
-            <button type="button" class="rech-btn" data-pack="20"><b>5 €</b><span data-t="rech_10">20 crédits</span></button>
-            <button type="button" class="rech-btn" data-pack="200"><b>50 €</b><span data-t="rech_100">200 crédits</span></button>
+            <button type="button" class="rech-btn" data-pack="10"><b>5 €</b><span data-t="rech_10">10 crédits</span></button>
+            <button type="button" class="rech-btn" data-pack="100"><b>50 €</b><span data-t="rech_100">100 crédits</span></button>
           </div>
           <label class="consent" id="consent-ligne"><input type="checkbox" id="consent"><span data-th="rech_consent">Je demande que mes vérifications soient faites tout de suite, sans attendre la fin du délai de rétractation de 14 jours. Une vérification faite ne peut plus être rétractée, les crédits non utilisés restent remboursables 14 jours. <a href="cgv.html#verdict">Conditions de vente</a></span></label>
           <p class="msg" id="msg-recharge" role="status"></p>
@@ -261,14 +261,14 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b{font-variant-numeric:lining-
       lead: 'Un reel, une pub, une formation qui promet tout ? Collez le lien. On vérifie chaque affirmation à la source, et vous recevez le verdict.',
       t1: "Sources à l'appui", t2: "Vérifié par Claude", t3: 'Rapport privé',
       v1: 'Vrai', v2: 'Survendu', v3: 'Trompeur',
-      carte: 'Votre espace Verdict', carte_sous: 'Deux clics, sans mot de passe.', offert: "5 crédits offerts.",
+      carte: 'Votre espace Verdict', carte_sous: 'Deux clics, sans mot de passe.', offert: "5 vérifications offertes.",
       google: 'Continuer avec Google', apple: 'Continuer avec Apple', facebook: 'Continuer avec Facebook',
       ou: 'ou par email', email: 'Votre email', exemple: 'vous@exemple.fr', envoyer: 'Recevoir mon lien de connexion',
       legal: "En vous connectant, vous acceptez que votre email serve à vous livrer vos rapports. Il n'est ni vendu ni transmis.",
       confid: 'Confidentialité', accueil: 'Accueil', langue: 'Langue',
       bonjour: 'Bonjour', credit: 'crédit', credits: 'crédits',
-      note: '1 crédit = 30 secondes de vidéo vérifiée (0,25 €).', lancer: 'Lancer une vérification', sortir: 'Se déconnecter',
-      rech_titre: 'Recharger mes crédits', rech_10: '20 crédits', rech_100: '200 crédits',
+      note: '1 crédit = 1 vérification (0,50 €). Une vidéo de plus de 3 min compte 2 crédits.', lancer: 'Lancer une vérification', sortir: 'Se déconnecter',
+      rech_titre: 'Recharger mes crédits', rech_10: '10 crédits', rech_100: '100 crédits',
       rech_consent: 'Je demande que mes vérifications soient faites tout de suite, sans attendre la fin du délai de rétractation de 14 jours. Une vérification faite ne peut plus être rétractée, les crédits non utilisés restent remboursables 14 jours. <a href="cgv.html#verdict">Conditions de vente</a>',
       rech_legal: 'Carte bancaire, Apple Pay ou Google Pay. Paiement sécurisé par Stripe, on ne voit jamais votre carte. TVA non applicable, article 293 B du CGI. Facture envoyée par email.',
       e_consent: 'Cochez la case ci-dessus pour continuer.',
@@ -291,14 +291,14 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b{font-variant-numeric:lining-
       lead: 'A reel, an ad, a course that promises everything? Paste the link. We check every claim at the source, and you get the verdict.',
       t1: 'Sources included', t2: "Checked by Claude", t3: 'Private report',
       v1: 'True', v2: 'Overstated', v3: 'Misleading',
-      carte: 'Your Verdict account', carte_sous: 'Two taps, no password.', offert: "5 free credits.",
+      carte: 'Your Verdict account', carte_sous: 'Two taps, no password.', offert: "5 free checks.",
       google: 'Continue with Google', apple: 'Continue with Apple', facebook: 'Continue with Facebook',
       ou: 'or with email', email: 'Your email', exemple: 'you@example.com', envoyer: 'Send me a sign-in link',
       legal: 'By signing in, you agree that your email is used to deliver your reports. It is never sold or shared.',
       confid: 'Privacy', accueil: 'Home', langue: 'Language',
       bonjour: 'Hello', credit: 'credit', credits: 'credits',
-      note: '1 credit = 30 seconds of video checked (€0.25).', lancer: 'Start a check', sortir: 'Sign out',
-      rech_titre: 'Top up my credits', rech_10: '20 credits', rech_100: '200 credits',
+      note: '1 credit = 1 check (€0.50). A video over 3 min counts as 2 credits.', lancer: 'Start a check', sortir: 'Sign out',
+      rech_titre: 'Top up my credits', rech_10: '10 credits', rech_100: '100 credits',
       rech_consent: 'I ask for my checks to be done right away, without waiting for the 14-day withdrawal period to end. A completed check cannot be withdrawn, unused credits remain refundable for 14 days. <a href="cgv.html#verdict">Terms of sale</a> (in French)',
       rech_legal: 'Card, Apple Pay or Google Pay. Secure payment by Stripe, we never see your card. VAT not applicable (French small business exemption). Invoice sent by email.',
       e_consent: 'Tick the box above to continue.',
