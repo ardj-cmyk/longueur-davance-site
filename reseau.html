@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Communiquer sans réseau : le kit à installer avant la panne</title>
+<meta name="description" content="Garder du courant, une messagerie Bluetooth, des cartes et Wikipédia hors ligne : le kit pour communiquer pendant un blackout, avec les poids, les prix et les sources.">
+<style>
+@font-face{font-family:'Inter';font-style:normal;font-weight:400 800;font-display:swap;src:url(/assets/fonts/Inter-latin.woff2) format('woff2')}
+@font-face{font-family:'Inter';font-style:normal;font-weight:400 800;font-display:swap;src:url(/assets/fonts/Inter-latinext.woff2) format('woff2');unicode-range:U+0100-02BA,U+1E00-1EFF}
+@font-face{font-family:'Playfair Display';font-style:normal;font-weight:600 900;font-display:swap;src:url(/assets/fonts/PlayfairDisplay-latin.woff2) format('woff2')}
+@font-face{font-family:'Playfair Display';font-style:italic;font-weight:600 900;font-display:swap;src:url(/assets/fonts/PlayfairDisplay-italic-latin.woff2) format('woff2')}
+:root{--encre:#12192b;--ivoire:#fdfcf9;--fond:#faf6ee;--terra:#a3461a;--trait:#e3ded4;--doux:#5b6375}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--fond);color:var(--encre);font:400 17px/1.6 'Inter',system-ui,sans-serif;padding:0 18px 64px}
+main{max-width:640px;margin:0 auto}
+header{padding:48px 0 28px;border-bottom:2px solid var(--encre);margin-bottom:28px}
+.marque{font:700 13px/1 'Inter';letter-spacing:.14em;text-transform:uppercase;color:var(--terra)}
+h1{font:800 clamp(32px,8.5vw,50px)/1.05 'Playfair Display',Georgia,serif;margin:14px 0 16px;text-wrap:balance}
+h1 em{font-style:italic;color:var(--terra)}
+.chapo{font-size:19px}
+section{padding:28px 0;border-bottom:1px solid var(--trait)}
+h2{font:800 26px/1.15 'Playfair Display',Georgia,serif;margin-bottom:16px}
+.cartes{display:grid;gap:12px}
+.carte{background:var(--ivoire);border:2px solid var(--encre);border-radius:16px;padding:14px 16px;display:grid;grid-template-columns:44px 1fr;gap:4px 12px;align-items:start}
+.carte .ico{font-size:26px;line-height:1.2;grid-row:span 4}
+.carte .nom{font:800 18px/1.2 'Inter'}
+.carte .nom b{color:var(--terra)}
+.carte p{font-size:16px}
+.carte .src{font:500 14px 'Inter';color:var(--doux)}
+.carte .src a{color:var(--doux)}
+.regle{background:var(--encre);color:var(--ivoire);border-radius:16px;padding:18px 18px}
+.regle h2{color:var(--ivoire);font-size:22px;margin-bottom:10px}
+.regle ol{list-style:none;display:grid;gap:8px;counter-reset:r}
+.regle li{counter-increment:r;padding-left:36px;position:relative}
+.regle li::before{content:counter(r);position:absolute;left:0;top:1px;width:26px;height:26px;border-radius:999px;background:var(--terra);color:var(--ivoire);font-weight:800;font-size:14px;display:flex;align-items:center;justify-content:center}
+table{width:100%;border-collapse:collapse;font-size:16px;background:var(--ivoire);border:2px solid var(--encre);border-radius:16px;overflow:hidden}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--trait)}
+th{font:700 12px 'Inter';letter-spacing:.08em;text-transform:uppercase;color:var(--doux)}
+td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+ul.lim{display:grid;gap:8px;padding-left:20px}
+.note{margin-top:12px;font-size:15px;color:var(--doux)}
+.note a{color:var(--doux)}
+.fin h2{margin-bottom:10px}
+.cta{display:inline-block;margin-top:18px;background:var(--encre);color:var(--ivoire);text-decoration:none;font:800 18px 'Inter';padding:16px 26px;border-radius:999px;box-shadow:0 6px 0 var(--terra)}
+.signature{margin-top:26px;color:var(--doux);font-size:15px}
+</style>
+<link rel="canonical" href="https://longueur-davance.fr/reseau">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon-48.png" sizes="48x48" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script type="application/ld+json" id="ld-ressource">{"@context":"https://schema.org","@graph":[{"@type":"Article","@id":"https://longueur-davance.fr/reseau#article","headline":"Communiquer sans réseau : le kit à installer avant la panne","description":"Garder du courant, une messagerie Bluetooth, des cartes et Wikipédia hors ligne : le kit pour communiquer pendant un blackout, avec les poids, les prix et les sources.","url":"https://longueur-davance.fr/reseau","mainEntityOfPage":"https://longueur-davance.fr/reseau","image":"https://longueur-davance.fr/og/reseau.png","inLanguage":"fr-FR","author":{"@type":"Person","@id":"https://longueur-davance.fr/#amdy","name":"Amdy Richard Diop Jouanguy","url":"https://longueur-davance.fr/","sameAs":["https://www.instagram.com/ardj.87/"]},"publisher":{"@type":"Organization","@id":"https://longueur-davance.fr/#org","name":"Longueur d'avance","url":"https://longueur-davance.fr/","logo":"https://longueur-davance.fr/assets/logo-512.png"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Accueil","item":"https://longueur-davance.fr/"},{"@type":"ListItem","position":2,"name":"Ressources","item":"https://longueur-davance.fr/ressources"},{"@type":"ListItem","position":3,"name":"Communiquer sans réseau : le kit à installer avant la panne","item":"https://longueur-davance.fr/reseau"}]}]}</script>
+</head>
+<body>
+<main>
+<header>
+  <div class="marque">Longueur d'avance · Série Blackout · Partie 2</div>
+  <h1>Communiquer <em>sans réseau</em></h1>
+  <p class="chapo">En cas de coupure de courant, les antennes tiennent sur batterie, de vingt minutes à deux heures selon les sources. Ensuite, plus de réseau. Voici le kit à installer avant, sur un wifi : de quoi garder du courant, et quatre outils qui marchent sans internet.</p>
+</header>
+
+<section>
+  <h2>1. Garder du courant</h2>
+  <div class="cartes">
+    <div class="carte"><div class="ico">🔋</div><div class="nom">Une batterie externe de 10&nbsp;000&nbsp;mAh · <b>dès 20&nbsp;€ environ</b></div><p>Les premiers prix tournent autour de 20&nbsp;€, et Labo Maison compte 30 à 40&nbsp;€ pour un modèle bien noté (relevé du 04/11/2026). Elle recharge un téléphone récent environ une fois et demie. Les 10&nbsp;000&nbsp;mAh sont la capacité annoncée : un test indépendant en a mesuré environ 8&nbsp;000 réellement disponibles. Garde-la chargée.</p><p class="src">Sources : <a href="https://labomaison.com/maison/batterie-externe-power-bank/meilleures-batteries-externes-2026/">tests Labo Maison</a>, <a href="https://www.anker.com/fr/blogs/chargeur/external-battery-10000mah-how-much-charge">Anker</a> (le fabricant annonce 2 à 3 recharges)</p></div>
+    <div class="carte"><div class="ico">☀️</div><div class="nom">Un panneau solaire pliable · <b>environ 60&nbsp;€</b></div><p>Un modèle de 30&nbsp;W se trouvait à 56,99&nbsp;€ début 2026. En plein soleil, les acheteurs mesurent plutôt 12 à 13&nbsp;W que les 30 annoncés : compte quelques heures pour remplir une batterie. En hiver ou par temps gris, beaucoup plus. Le plus simple : le panneau recharge la batterie le jour, la batterie recharge le téléphone le soir.</p><p class="src">Source : <a href="https://www.pcwelt.de/?p=3050548">PC-WELT, prix au 03/02/2026</a></p></div>
+  </div>
+</section>
+
+<section>
+  <h2>2. Les quatre outils</h2>
+  <div class="cartes">
+    <div class="carte"><div class="ico">📲</div><div class="nom">Bitchat · <b>messagerie Bluetooth</b></div><p>Gratuite, sur <a href="https://apps.apple.com/us/app/bitchat-mesh/id6748219622">iPhone</a> et <a href="https://play.google.com/store/apps/details?id=com.bitchat.droid">Android</a>. Pas de numéro, pas de compte. Chaque téléphone relaie le message au suivant, jusqu'à 7 relais. La portée d'un saut va de quelques mètres à quelques dizaines de mètres selon les murs : ça marche entre voisins, pas entre deux villes. Installe-la aussi chez tes proches et tes voisins.</p><p class="src">Source : <a href="https://github.com/permissionlesstech/bitchat-android">dépôt officiel Bitchat</a> (« max 7 hops »)</p></div>
+    <div class="carte"><div class="ico">🗺️</div><div class="nom">Organic Maps · <b>cartes hors ligne</b></div><p>Gratuite et open source. Tu télécharges ta région à l'avance, et le GPS marche sans réseau, recherche d'adresses comprise.</p><p class="src">Source : <a href="https://organicmaps.app/">site officiel Organic Maps</a></p></div>
+    <div class="carte"><div class="ico">📚</div><div class="nom">Kiwix · <b>Wikipédia sans internet</b></div><p>Choisis une version légère : « médecine » sans images (306&nbsp;Mo) ou « l'essentiel » sans images (1,4&nbsp;Go). Le Wikipédia complet pèse 12&nbsp;Go sans images et 52&nbsp;Go avec : trop lourd pour la plupart des téléphones.</p><p class="src">Source : <a href="https://library.kiwix.org/">bibliothèque officielle Kiwix</a> (fichiers d'octobre 2026)</p></div>
+    <div class="carte"><div class="ico">📻</div><div class="nom">Une radio à piles · <b>pour les consignes</b></div><p>C'est l'objet que le gouvernement met dans le kit d'urgence : en cas d'évènement grave, les autorités communiquent par la radio. Avec des piles de rechange.</p><p class="src">Source : <a href="https://www.sgdsn.gouv.fr/files/files/Publications/Guide_Tous%20responsables.pdf">guide « Tous responsables » du SGDSN</a></p></div>
+  </div>
+</section>
+
+<section>
+  <div class="regle">
+    <h2>Le test, ce soir</h2>
+    <ol>
+      <li><b>Installe les trois applis</b> et télécharge ta région et ta version de Wikipédia, sur un wifi. Compte environ un quart d'heure.</li>
+      <li><b>Passe en mode avion</b>, Bluetooth activé.</li>
+      <li><b>Envoie un message Bitchat</b> à quelqu'un à côté, ouvre ta carte, ouvre un article. Si tout répond, tu es prêt.</li>
+    </ol>
+  </div>
+</section>
+
+<section>
+  <h2>Ce qu'il faut savoir</h2>
+  <ul class="lim">
+    <li>Tout se télécharge avant : le jour de la panne, il est trop tard.</li>
+    <li>Le Bluetooth et le GPS vident la batterie : économise-la, mode avion et luminosité au minimum.</li>
+    <li>Pour une urgence, le 112 passe par n'importe quel opérateur encore en marche, à condition d'avoir une carte SIM. Si aucune antenne ne capte, rien ne passe (<a href="https://selectra.info/telecom/actualites/marche/appeler-112-urgence-sans-reseau-sans-carte-sim">source</a>).</li>
+    <li>Autonomie des antennes : <a href="https://selectra.info/telecom/actualites/marche/reseau-mobile-tombe-avec-electricite-autonomie-antennes">Selectra</a>, <a href="https://www.universfreebox.com/article/580733/orange-free-bouygues-et-sfr-peuvent-ils-reagir-en-cas-de-coupure-massive-delectricite-comme-en-espagne/amp">Univers Freebox</a>.</li>
+  </ul>
+</section>
+
+<section class="fin">
+  <h2>Et maintenant ?</h2>
+  <p>Dans la partie 3 : le jour où tout repart, est-ce que tu retrouves tes données ? Et si tu veux que ta boîte soit prête elle aussi, c'est ce que je fais avec les entreprises : je regarde ce qui dépend d'internet chez toi et je t'accompagne pour le sécuriser.</p>
+  <a class="cta" href="/">Le premier échange est gratuit</a>
+  <p class="signature">Amdy · Longueur d'avance. Suis-moi, je décrypte l'IA sans bullshit, tous les jours.</p>
+</section>
+</main>
+</body>
+</html>
