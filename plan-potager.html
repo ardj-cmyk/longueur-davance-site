@@ -36,7 +36,7 @@
 <h2 style="margin-top:24px">Quel plan veux-tu ?</h2>
 <div class="choix-offre">
 <button type="button" id="go-gratuit"><span class="t">Gratuit : 2 personnes</span><span class="p">0&nbsp;€</span><span class="d">Tu coches ce que vous aimez, le plan complet pour deux s'affiche. Aucune donnée demandée.</span></button>
-<button type="button" id="go-perso"><span class="t">Sur mesure : ton terrain</span><span class="p" id="prix-perso">29,90&nbsp;€</span><span class="d">Ton adresse ou ton terrain dessiné sur la photo aérienne, ton nombre de personnes, les poules ou les lapins si tu veux. Ton terrain découpé en cultures, saison par saison. Tu modifies autant que tu veux jusqu'à sortir ton PDF.</span></button>
+<button type="button" id="go-perso"><span class="t">Sur mesure : ton terrain</span><span class="p" id="prix-perso">9,90&nbsp;€</span><span class="d">Ton adresse ou ton terrain dessiné sur la photo aérienne, ton nombre de personnes, les poules ou les lapins si tu veux. Ton terrain découpé en cultures, saison par saison. Tu modifies autant que tu veux jusqu'à sortir ton PDF.</span></button>
 </div>
 <p class="note">Les deux plans viennent du même calcul, à partir du <a href="/potager">modèle pour 2 personnes</a> recherché et sourcé à la main. Ce que les sources ne donnent pas est écrit « non chiffré ».</p>
 </section>
@@ -147,7 +147,7 @@
 <div class="coche cache" id="bloc-retract"><input type="checkbox" id="retract"><label for="retract" style="margin:0;font-weight:500">J'accepte les <a href="/cgv#potager">conditions de vente</a>. Je demande l'accès immédiat à mon plan et je renonce à mon droit de rétractation dès qu'il s'affiche.</label></div>
 <p class="erreur" id="err-envoi" role="alert"></p>
 <div class="btns nav"><button type="button" class="btn" data-retour="s-gouts">Retour</button><button type="submit" class="btn plein" id="envoyer">Recevoir mon plan</button></div>
-<p class="note">Prix du plan sur mesure : 29,90&nbsp;€ TTC, TVA non applicable, article 293 B du CGI. Paiement sécurisé par Stripe (carte, Apple Pay, Google Pay). Tu peux modifier ton plan autant que tu veux, il est figé quand tu sors ton PDF.</p>
+<p class="note">Prix du plan sur mesure : 9,90&nbsp;€ TTC, TVA non applicable, article 293 B du CGI. Paiement sécurisé par Stripe (carte, Apple Pay, Google Pay). Tu peux modifier ton plan autant que tu veux, il est figé quand tu sors ton PDF.</p>
 </section>
 </form>
 
@@ -164,7 +164,7 @@
   var CAD = "https://apicarto.ign.fr/api/cadastre/parcelle";
   var D = window.POTAGER_DONNEES, P = window.PotagerPlan;
   var $ = function (id) { return document.getElementById(id); };
-  var etat = { parcours: null, mode: "adresse", personnes: 2, parcelle: null, parcelleGeo: null, point: null, zone: [], surfaceZone: 0, adresse: null, places: null, prix: 2990, codeInsee: null, touteParcelle: false };
+  var etat = { parcours: null, mode: "adresse", personnes: 2, parcelle: null, parcelleGeo: null, point: null, zone: [], surfaceZone: 0, adresse: null, places: null, prix: 990, codeInsee: null, touteParcelle: false };
   var dessin = null, croquis = null;
   function prenom() { return ($("prenom").value || "").replace(/[<>"&]/g, "").trim().slice(0, 40); }
   $("prenom").addEventListener("input", function () {

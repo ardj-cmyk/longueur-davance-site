@@ -106,9 +106,9 @@
         if (q.get("paiement") === "ok" && essais < 15) { essais++; $("chapo").textContent = "Paiement reçu, ton plan arrive…"; setTimeout(lire, 2000); return; }
         if (q.get("paiement") === "ok") { $("chapo").textContent = "Ton paiement est en cours de validation."; message("<p>Stripe n'a pas encore confirmé le paiement. Recharge la page dans une minute. Si rien ne change, écris-moi sur Instagram avec l'email utilisé.</p>"); return; }
         $("chapo").textContent = "Ton plan est prêt, il reste le paiement.";
-        message('<p><b>Voici l\'aperçu de ton plan.</b> Pour tout débloquer : 29,90&nbsp;€ TTC, TVA non applicable, article 293 B du CGI.</p>' +
+        message('<p><b>Voici l\'aperçu de ton plan.</b> Pour tout débloquer : 9,90&nbsp;€ TTC, TVA non applicable, article 293 B du CGI.</p>' +
           '<div class="coche"><input type="checkbox" id="retract2"><label for="retract2" style="margin:0;font-weight:500">J\'accepte les <a href="/cgv#potager">conditions de vente</a>. Je demande l\'accès immédiat à mon plan et je renonce à mon droit de rétractation dès qu\'il s\'affiche.</label></div>' +
-          '<p class="erreur" id="err2"></p><div class="btns"><button type="button" class="btn plein" id="payer">Payer 29,90&nbsp;€ et voir mon plan</button></div>');
+          '<p class="erreur" id="err2"></p><div class="btns"><button type="button" class="btn plein" id="payer">Payer 9,90&nbsp;€ et voir mon plan</button></div>');
         $("payer").addEventListener("click", payer);
         afficher(true);
         return;
