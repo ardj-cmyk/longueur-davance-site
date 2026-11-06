@@ -179,15 +179,15 @@
     etat.places = d.places; etat.prix = d.prix_centimes;
     var prix = P.euros(d.prix_centimes / 100);
     if (d.places > 0) {
-      $("prix-perso").textContent = "Offert pour les 20 premiers : il reste " + d.places + " place" + (d.places > 1 ? "s" : "") + ". Ensuite " + prix;
-      $("compteur").textContent = "Offert : il reste " + d.places + " place" + (d.places > 1 ? "s" : "") + " sur 20";
-      $("places-txt").textContent = "Les 20 premiers sont offerts, il reste " + d.places + " place" + (d.places > 1 ? "s" : "") + ".";
+      $("prix-perso").textContent = "Offert pour les 400 premiers : il reste " + d.places + " place" + (d.places > 1 ? "s" : "") + ". Ensuite " + prix;
+      $("compteur").textContent = "Offert : il reste " + d.places + " place" + (d.places > 1 ? "s" : "") + " sur 400";
+      $("places-txt").textContent = "Les 400 premiers sont offerts, il reste " + d.places + " place" + (d.places > 1 ? "s" : "") + ".";
       $("envoyer").textContent = "Recevoir mon plan offert";
     } else if (d.paiement_ouvert === false) {
       etat.ferme = true;
-      $("prix-perso").textContent = "Les 20 plans offerts sont partis. Le paiement en ligne ouvre très bientôt.";
+      $("prix-perso").textContent = "Les 400 plans offerts sont partis. Le paiement en ligne ouvre très bientôt.";
       $("go-perso").disabled = true; $("go-perso").style.opacity = ".6";
-      $("places-txt").textContent = "Les 20 plans offerts sont partis, le paiement en ligne ouvre très bientôt.";
+      $("places-txt").textContent = "Les 400 plans offerts sont partis, le paiement en ligne ouvre très bientôt.";
       $("vers-perso").classList.add("cache");
     } else {
       $("prix-perso").textContent = prix;
@@ -433,11 +433,11 @@
           attente = { c: d.c, k: d.k };
           $("bloc-retract").classList.remove("cache");
           $("envoyer").textContent = "Payer " + P.euros(etat.prix / 100) + " et recevoir mon plan";
-          err.textContent = "Les 20 plans offerts sont partis, ou ton email en a déjà reçu un. Coche la case des conditions de vente pour payer.";
+          err.textContent = "Les 400 plans offerts sont partis, ou ton email en a déjà reçu un. Coche la case des conditions de vente pour payer.";
           return;
         }
         if (d.erreur === "trop") { err.textContent = "Trop de demandes depuis ta connexion. Réessaie dans une heure."; return; }
-        if (d.erreur === "paiement_ferme") { err.textContent = "Les 20 plans offerts sont partis, ou ton email en a déjà reçu un. Le paiement en ligne ouvre très bientôt : reviens dans quelques jours. Tes réponses ne sont pas gardées."; return; }
+        if (d.erreur === "paiement_ferme") { err.textContent = "Les 400 plans offerts sont partis, ou ton email en a déjà reçu un. Le paiement en ligne ouvre très bientôt : reviens dans quelques jours. Tes réponses ne sont pas gardées."; return; }
         err.textContent = d.erreur === "stripe_non_configure" ? "Le paiement n'est pas encore ouvert. Reviens dans quelques heures." : "Ça n'a pas marché (" + (d.erreur || "erreur") + "). Vérifie tes réponses et réessaie.";
       })
       .catch(function () { enCours = false; $("envoyer").disabled = false; $("envoyer").textContent = "Réessayer"; err.textContent = "Connexion impossible. Vérifie ton réseau et réessaie."; });
