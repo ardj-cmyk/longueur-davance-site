@@ -12,7 +12,8 @@
     vetagro: { t: "VetAgro Sup, chaire bien-être animal, juin 2025", u: "https://chaire-bea.vetagro-sup.fr/wp-content/uploads/2025/06/25-06-Une-poule-pond-elle-un-oeuf-par-jour.pdf" },
     m2a: { t: "Guide de l'adoptant de poules, Mulhouse Alsace Agglomération, 2026", u: "https://www.m2a.fr/wp-content/uploads/2026/04/Guide-de-ladoptant-poules-m2A-2026.pdf" },
     legifrance: { t: "Arrêté du 25 septembre 2023, article 51 (Légifrance)", u: "https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000048110961" },
-    pdtFiche: { t: "jardiner-malin, pomme de terre", u: "https://www.jardiner-malin.fr/fiche/pomme-de-terre.html" }
+    pdtFiche: { t: "jardiner-malin, pomme de terre", u: "https://www.jardiner-malin.fr/fiche/pomme-de-terre.html" },
+    yu: { t: "Yu et al. 2015, Field Crops Research, méta-analyse des cultures associées (en moyenne autant de récolte sur environ 18 % de terrain en moins, gain plus fort quand les cultures n'occupent pas la terre au même moment)", u: "https://doi.org/10.1016/j.fcr.2015.09.010" }
   };
 
   function jm(f) { return "https://www.jardiner-malin.fr/fiche/" + f + ".html"; }
@@ -224,6 +225,20 @@
  }
 };
 
+  /* Planches partagées dans l'année : une culture récoltée tôt laisse la place à une culture semée en juillet.
+     fin = dernier mois de récolte de la première, jusqua = dernier mois de semis de la seconde (fiches des sachets). */
+  var RELAIS = {
+    avant: {
+      feve: { fin: 6, txt: "récolte d'avril à juin", u: "https://www.truffaut.com/graines-potageres-feve-aguadulce-tres-longues-cosses-bio-645156.html" },
+      pomme_de_terre: { fin: 7, txt: "pommes de terre nouvelles en 80 jours, récolte de mai à juillet", u: "https://www.truffaut.com/pomme-terre-celtiane-calibre-25-32-etui-25-plants-543477.html" }
+    },
+    apres: {
+      carotte: { jusqua: 7, txt: "semis en pleine terre d'avril à juillet pour une récolte d'automne", u: "https://www.truffaut.com/carotte-touchon-en-sachet-726041.html" },
+      haricot_vert: { jusqua: 7, txt: "semis de fin avril à juillet", u: "https://www.truffaut.com/haricot-nain-mangetout-contender-boite-200g-726194.html" },
+      betterave: { jusqua: 7, txt: "semis d'avril à juillet", u: "https://www.truffaut.com/betterave-noire-egypte-en-sachet-726004.html" }
+    }
+  };
+
   /* Cultures longues : délai avant la première récolte, sourcé. long = plus de 2 ans (grisé). */
   var LONGUES = [
     { id: "framboisier", nom: "Framboisier", long: false,
@@ -298,5 +313,5 @@
     kcalOeuf: 140                           // kcal/100 g, Ciqual 22000
   };
 
-  window.POTAGER_DONNEES = { SOURCES: S, CULTURES: CULTURES, SEMIS: SEMIS, LONGUES: LONGUES, MATERIEL: MATERIEL, K: CONSTANTES };
+  window.POTAGER_DONNEES = { SOURCES: S, CULTURES: CULTURES, SEMIS: SEMIS, RELAIS: RELAIS, LONGUES: LONGUES, MATERIEL: MATERIEL, K: CONSTANTES };
 })();

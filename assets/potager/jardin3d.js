@@ -13,6 +13,7 @@ const SAISONS = [
   { id: "hiver", nom: "Hiver", mois: [12, 1, 2], decl: -23.44, ciel: 0xe3e7ec, herbe: 0xa7ab9a },
 ];
 const actives = [];
+const HAUTEURS = { tomate: 1.1, courge: 0.45, pomme_de_terre: 0.55, feve: 0.8, haricot_vert: 0.45, poireau: 0.5, chou: 0.45, ail: 0.4, oignon: 0.35, carotte: 0.35, betterave: 0.35 };
 
 /* Contour du terrain en mètres (x vers l'est, z vers le sud), centré sur 0. */
 function contourMetres(cmd) {
@@ -144,11 +145,11 @@ export function monter3d(boite, cmd, plan, o = {}) {
       for (let pz = Math.min(...bz) + pas / 2; pz < Math.max(...bz); pz += pas)
         if (dedans([px, pz], bed)) pos.push([px, pz]);
     if (!pos.length) return;
-    const haut = { tomate: 1.1, courge: 0.45, pomme_de_terre: 0.55, feve: 0.8, haricot_vert: 0.45, poireau: 0.5, chou: 0.45, ail: 0.4, oignon: 0.35 }[x.id] || 0.4;
+    const haut = HAUTEURS[x.id] || HAUTEURS[(x.relais || {}).idA] || 0.4;
     const mat = new THREE.MeshLambertMaterial({ color: new THREE.Color(x.coul) });
     const mesh = new THREE.InstancedMesh(x.id === "poireau" || x.id === "ail" || x.id === "oignon" ? geoTige : geoFeuille, mat, pos.length);
     mesh.castShadow = true;
-    plantes.push({ mesh, pos, x, haut, mat, base: new THREE.Color(x.coul) });
+    plantes.push({ mesh, pos, x, haut, mat, base: new THREE.Color(x.coul), baseB: x.relais ? new THREE.Color(x.relais.coulB) : null });
     scene.add(mesh);
   });
 
@@ -164,9 +165,15 @@ export function monter3d(boite, cmd, plan, o = {}) {
     soleil.position.set(0, Math.sin(hauteur) * taille * 3, Math.cos(hauteur) * taille * 3); // plein sud à midi
     soleil.intensity = id === "hiver" ? 1.1 : 1.6;
     plantes.forEach((pl) => {
-      const enRecolte = pl.x.recolte.some((mm) => S.mois.includes(mm));
-      pl.mat.color.copy(enRecolte ? pl.base : sec);
-      const h = enRecolte ? pl.haut : pl.haut * 0.25;
+      const r = pl.x.relais;
+      let enRecolte = pl.x.recolte.some((mm) => S.mois.includes(mm)), coul = pl.base, hautR = pl.haut;
+      if (r) {
+        const a = r.recA.some((mm) => S.mois.includes(mm)), b = r.recB.some((mm) => S.mois.includes(mm));
+        if (b && !a) { coul = pl.baseB; hautR = HAUTEURS[r.idB] || 0.4; }
+        enRecolte = a || b;
+      }
+      pl.mat.color.copy(enRecolte ? coul : sec);
+      const h = enRecolte ? hautR : hautR * 0.25;
       pl.pos.forEach((p, k) => {
         const r = 0.17 + ((k * 37) % 10) / 100;
         v.set(p[0], 0.18 + h / 2, p[1]); s3.set(r, h / 2, r);
