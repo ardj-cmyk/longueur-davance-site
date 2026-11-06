@@ -236,7 +236,7 @@
     if (etat.parcours === "gratuit") {
       var base = { prenom: prenom(), personnes: 2, cultures: coches("#rapides"), longues: coches("#longues"), poules: $("poules-gratuit").checked, surface_m2: 100000, surface_source: "modele", zone: null };
       var b = P.calculer(base);
-      base.surface_m2 = Math.max(1, Math.round((b.besoin + b.enclos) * 10) / 10);
+      base.surface_m2 = Math.max(1, Math.ceil(b.surfaceIdeale * 10) / 10);   // planches + allées + poules
       return base;
     }
     var s = surfaceChoisie();

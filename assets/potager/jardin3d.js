@@ -4,6 +4,7 @@
    Hauteur du soleil à midi : 90° - latitude + déclinaison (0° aux équinoxes, +23,44° en été, -23,44° en hiver). */
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+import { modele, ESPACEMENT } from "./plantes3d.js";
 
 const P = window.PotagerPlan, D = window.POTAGER_DONNEES;
 const SAISONS = [
@@ -68,7 +69,7 @@ export function monter3d(boite, cmd, plan, o = {}) {
   let renderer;
   try { renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false }); } catch (e) { boite.innerHTML = ""; return; }
 
-  boite.innerHTML = '<div class="saisons-btn noprint" role="group" aria-label="Saison en 3D"></div><div class="vue3d"><button type="button" class="lecture noprint" aria-label="Pause"></button></div><p class="carte-src">Vue 3D de ton terrain : glisse pour tourner, pince pour zoomer. Les allées sont les passages entre les planches. Le soleil est à sa hauteur de midi pour la saison.</p>';
+  boite.innerHTML = '<div class="saisons-btn noprint" role="group" aria-label="Saison en 3D"></div><div class="vue3d"><button type="button" class="lecture noprint" aria-label="Pause"></button></div><p class="carte-src">Vue 3D de ton terrain : glisse pour tourner, pince pour zoomer. Le personnage mesure 1,75 m. Les allées sont les passages entre les planches. Le soleil est à sa hauteur de midi pour la saison.</p>';
   const cadre = boite.querySelector(".vue3d"), btns = boite.querySelector(".saisons-btn"), lecture = boite.querySelector(".lecture");
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
   renderer.shadowMap.enabled = true;
@@ -101,6 +102,13 @@ export function monter3d(boite, cmd, plan, o = {}) {
   const matAllee = new THREE.MeshLambertMaterial({ color: 0xd9cba8 });
   scene.add(plaque(pts, 0.02, matAllee));
 
+  /* Un adulte de 1,75 m au coin du terrain, pour l'échelle. */
+  const coin = pts.reduce((a, p) => (p[0] + p[1] < a[0] + a[1] ? p : a), pts[0]);
+  const matPerso = new THREE.MeshLambertMaterial({ color: 0x12192b });
+  const corps = new THREE.Mesh(new THREE.CylinderGeometry(0.17, 0.2, 1.45, 10), matPerso); corps.position.set(coin[0] - 0.7, 0.725, coin[1] - 0.7); corps.castShadow = true;
+  const tete = new THREE.Mesh(new THREE.SphereGeometry(0.13, 10, 8), matPerso); tete.position.set(coin[0] - 0.7, 1.6, coin[1] - 0.7); tete.castShadow = true;
+  scene.add(corps, tete);
+
   /* Planches, enclos, reste : même découpage que le plan 2D. */
   const m = P.morceaux(cmd, plan);
   const tot = m.reduce((a, x) => a + (x.place || x.m2), 0) || 1;
@@ -108,8 +116,6 @@ export function monter3d(boite, cmd, plan, o = {}) {
   const matTerre = new THREE.MeshLambertMaterial({ color: 0x6b4a32 });
   const matHerbe = new THREE.MeshLambertMaterial({ color: 0x8aa84e });
   const plantes = [];
-  const geoFeuille = new THREE.SphereGeometry(1, 8, 6);
-  const geoTige = new THREE.ConeGeometry(1, 1, 6);
   morceaux.forEach((b, i) => {
     if (b.length < 3) return;
     const x = m[i], c = centre(b);
@@ -138,23 +144,29 @@ export function monter3d(boite, cmd, plan, o = {}) {
       return;
     }
     scene.add(plaque(bed, 0.18, matTerre));
-    /* Plants en quinconce dans la planche, 1 tous les 45 cm (au plus 220 par planche). */
+    /* Les plantes, avec leur vraie silhouette (plantes3d.js), en quinconce dans la planche. */
     const bx = bed.map((p) => p[0]), bz = bed.map((p) => p[1]);
-    const pas = Math.max(0.45, Math.sqrt(aire(bed) / 220));
-    const pos = [];
-    for (let px = Math.min(...bx) + pas / 2; px < Math.max(...bx); px += pas)
-      for (let pz = Math.min(...bz) + pas / 2; pz < Math.max(...bz); pz += pas)
-        if (dedans([px, pz], bed)) pos.push([px, pz]);
-    if (!pos.length) return;
-    const haut = HAUTEURS[x.id] || HAUTEURS[(x.relais || {}).idA] || 0.4;
-    const mat = new THREE.MeshLambertMaterial({ color: new THREE.Color(x.coul) });
-    const mesh = new THREE.InstancedMesh(x.id === "poireau" || x.id === "ail" || x.id === "oignon" ? geoTige : geoFeuille, mat, pos.length);
-    mesh.castShadow = true;
-    plantes.push({ mesh, pos, x, haut, mat, base: new THREE.Color(x.coul), baseB: x.relais ? new THREE.Color(x.relais.coulB) : null });
-    scene.add(mesh);
+    const couche = (id, max = 90) => {
+      const pas = Math.max(ESPACEMENT[id] || 0.35, Math.sqrt(aire(bed) / max));
+      const pos = [];
+      let ligne = 0;
+      for (let pz = Math.min(...bz) + pas / 2; pz < Math.max(...bz); pz += pas, ligne++)
+        for (let px = Math.min(...bx) + pas / 2 + (ligne % 2 ? pas / 2 : 0); px < Math.max(...bx); px += pas)
+          if (dedans([px, pz], bed)) pos.push([px, pz]);
+      if (!pos.length) return null;
+      const mat = new THREE.MeshLambertMaterial({ vertexColors: true });
+      const mesh = new THREE.InstancedMesh(modele(id), mat, pos.length);
+      mesh.castShadow = true; mesh.receiveShadow = true;
+      scene.add(mesh);
+      return { mesh, mat, pos };
+    };
+    const idA = x.relais ? x.relais.idA : x.id, idB = x.relais ? x.relais.idB : null;
+    const paillis = x.couvert ? plaque(bed, 0.02, new THREE.MeshLambertMaterial({ color: 0xc8b27a }), 0.18) : null;
+    if (paillis) { paillis.visible = false; scene.add(paillis); }
+    plantes.push({ x, A: couche(idA), B: idB ? couche(idB) : null, C: x.couvert ? couche("couvert", 120) : null, paillis });
   });
 
-  const mat4 = new THREE.Matrix4(), q = new THREE.Quaternion(), v = new THREE.Vector3(), s3 = new THREE.Vector3();
+  const mat4 = new THREE.Matrix4(), q = new THREE.Quaternion(), v = new THREE.Vector3(), s3 = new THREE.Vector3(), AXE_Y = new THREE.Vector3(0, 1, 0);
   const sec = new THREE.Color(0x8a6a45);
   let saisonCourante = o.saison || "ete";
   function appliquer(id) {
@@ -165,24 +177,31 @@ export function monter3d(boite, cmd, plan, o = {}) {
     const hauteur = (90 - lat + S.decl) * Math.PI / 180;
     soleil.position.set(0, Math.sin(hauteur) * taille * 3, Math.cos(hauteur) * taille * 3); // plein sud à midi
     soleil.intensity = id === "hiver" ? 1.1 : 1.6;
-    plantes.forEach((pl) => {
-      const r = pl.x.relais;
-      let enRecolte = pl.x.recolte.some((mm) => S.mois.includes(mm)), coul = pl.base, hautR = pl.haut;
-      if (r) {
-        const a = r.recA.some((mm) => S.mois.includes(mm)), b = r.recB.some((mm) => S.mois.includes(mm));
-        if (b && !a) { coul = pl.baseB; hautR = HAUTEURS[r.idB] || 0.4; }
-        enRecolte = a || b;
-      }
-      let h = enRecolte ? hautR : hautR * 0.25;
-      if (pl.x.couvert && S.id === "hiver") { coul = VERT_HIVER; enRecolte = true; h = 0.28; }
-      else if (pl.x.couvert && S.id === "printemps" && !enRecolte) { coul = PAILLE; enRecolte = true; h = 0.06; }
-      pl.mat.color.copy(enRecolte ? coul : sec);
-      pl.pos.forEach((p, k) => {
-        const r = 0.17 + ((k * 37) % 10) / 100;
-        v.set(p[0], 0.18 + h / 2, p[1]); s3.set(r, h / 2, r);
-        mat4.compose(v, q, s3); pl.mesh.setMatrixAt(k, mat4);
+    const poser = (c, visible, echelle, sec) => {
+      if (!c) return;
+      c.mesh.visible = visible;
+      if (!visible) return;
+      c.mat.color.setHex(sec ? 0xa0835a : 0xffffff);
+      c.pos.forEach((p, k) => {
+        const s = echelle * (0.85 + ((k * 37) % 10) / 33);
+        v.set(p[0], 0.18, p[1]); s3.set(s, s, s);
+        q.setFromAxisAngle(AXE_Y, k * 1.7);
+        mat4.compose(v, q, s3); c.mesh.setMatrixAt(k, mat4);
       });
-      pl.mesh.instanceMatrix.needsUpdate = true;
+      c.mesh.instanceMatrix.needsUpdate = true;
+    };
+    plantes.forEach((pl) => {
+      const x = pl.x, r = x.relais, dans = (rec) => rec.some((mm) => S.mois.includes(mm));
+      const aOn = r ? dans(r.recA) : dans(x.recolte), bOn = r ? dans(r.recB) : false;
+      const pousse = S.id === "printemps" || S.id === "ete";
+      let montrer = "A", ech = aOn ? 1 : 0.45, sec = !aOn && !pousse;
+      if (x.couvert && S.id === "hiver") montrer = "C";
+      else if (x.couvert && S.id === "printemps" && !aOn) montrer = "paillis";
+      else if (r && bOn && !aOn) { montrer = "B"; ech = 1; sec = false; }
+      poser(pl.A, montrer === "A", ech, sec);
+      poser(pl.B, montrer === "B", 1, false);
+      poser(pl.C, montrer === "C", 1, false);
+      if (pl.paillis) pl.paillis.visible = montrer === "paillis";
     });
     btns.querySelectorAll("button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.s === id)));
   }

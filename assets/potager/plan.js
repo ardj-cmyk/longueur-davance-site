@@ -249,18 +249,20 @@
     h += '<p class="note">Sources : ' + src("jeavons") + ", calories " + src("ciqual") + ", besoins " + src("anses") + ". Calcul sur la moyenne des deux repères ANSES, soit 2" + NB + "350" + NB + "kcal par personne et par jour.</p></div></section>";
 
     /* Cultures */
-    h += '<section><h2>1. Tes cultures et leur place</h2><div class="tab"><table><thead><tr><th>Culture</th><th>Par an</th><th>Surface</th><th>Graines ou plants</th></tr></thead><tbody>';
+    var coulDe = function (c) { var L = window.PotagerPlan.COULEURS || []; return L[D.CULTURES.indexOf(c) % (L.length || 1)] || "#5f8d3a"; };
+    var nomDe = function (id) { return esc(D.CULTURES.filter(function (c) { return c.id === id; })[0].nom); };
+    h += '<section><h2>1. Tes cultures et leur place</h2><div class="cc-grille">';
     p.lignes.forEach(function (l) {
-      var g = l.c.unite === "plants" ? nb(Math.ceil(l.graines - 1e-9), 0) + " plants" : (l.graines >= 1000 ? nb(l.graines / 1000, 2) + NB + "kg" : nb(l.graines, l.graines < 1 ? 2 : 1) + NB + "g");
-      h += "<tr><td>" + esc(l.c.nom) + "</td><td class=n>" + (l.kg != null ? nb(l.kg, 0) + NB + "kg" : "<small>non chiffré</small>") + "</td><td class=n>" + (l.m2 != null ? nb(l.m2, 1) + NB + "m²" : "<small>non chiffré</small>") + "</td><td class=n>" + g + "</td></tr>";
+      var g = l.c.unite === "plants" ? nb(Math.ceil(l.graines - 1e-9), 0) + " plants" : (l.graines >= 1000 ? nb(l.graines / 1000, 2) + NB + "kg de semence" : nb(l.graines, l.graines < 1 ? 2 : 1) + NB + "g de graines");
+      h += '<div class="cc" style="--c:' + coulDe(l.c) + '"><div class="cc-nom">' + esc(l.c.nom) + '</div><div class="cc-kg">' + (l.kg != null ? nb(l.kg, 0) + NB + "kg" : "non chiffré") + '<small> par an</small></div><div class="cc-meta">' + (l.m2 != null ? nb(l.m2, 1) + NB + "m²" : "place non chiffrée") + " · " + g + "</div></div>";
     });
-    h += '<tr class="tot"><td>Total planté</td><td></td><td class=n>' + nb(p.besoin * p.echelle, 0) + NB + "m²</td><td></td></tr></tbody></table></div>";
+    h += '<div class="cc cc-tot"><div class="cc-nom">Total planté</div><div class="cc-kg">' + nb(p.besoin * p.echelle, 0) + NB + 'm²<small> de planches</small></div><div class="cc-meta">+ allées et poules, voir le plan</div></div></div>';
     if (p.relais.length) {
-      var nomDe = function (id) { return esc(D.CULTURES.filter(function (c) { return c.id === id; })[0].nom); };
-      h += '<h3>Ce qui partage la même planche</h3><p>Une culture récoltée tôt laisse sa place à une culture semée en juillet. Tes planches servent deux fois dans l\'année, et ton potager prend <b>' + nb(p.gagne, 1) + NB + "m² de moins</b>.</p>";
-      h += '<div class="tab"><table><thead><tr><th>Printemps et début d\'été</th><th>Puis, semé en juillet</th><th>Surface</th></tr></thead><tbody>';
-      p.relais.forEach(function (r) { h += "<tr><td>" + nomDe(r.a) + " <small>(" + esc(D.RELAIS.avant[r.a].txt) + ", " + lien(D.RELAIS.avant[r.a].u, "source") + ")</small></td><td>" + nomDe(r.b) + " <small>(" + esc(D.RELAIS.apres[r.b].txt) + ", " + lien(D.RELAIS.apres[r.b].u, "source") + ")</small></td><td class=n>" + nb(r.m2, 1) + NB + "m²</td></tr>"; });
-      h += '</tbody></table></div><p class="note">Principe : ' + src("yu") + ". Une culture semée en juillet peut donner moins qu'au printemps, la source ne chiffre pas l'écart. Les associations de plantes qui poussent en même temps (« compagnonnage ») ne sont pas incluses : la plupart ne sont pas prouvées.</p>";
+      h += '<h3>Ce qui partage la même planche</h3><p>Une culture récoltée tôt laisse sa place à une culture semée en juillet. Tes planches servent deux fois dans l\'année, et ton potager prend <b>' + nb(p.gagne, 1) + NB + "m² de moins</b>.</p><div class=\"relais-liste\">";
+      p.relais.forEach(function (r) {
+        h += '<div class="relais-carte"><div><b>' + nomDe(r.a) + "</b><small>" + esc(D.RELAIS.avant[r.a].txt) + " · " + lien(D.RELAIS.avant[r.a].u, "source") + '</small></div><div class="fleche" aria-hidden="true">→</div><div><b>' + nomDe(r.b) + "</b><small>" + esc(D.RELAIS.apres[r.b].txt) + " · " + lien(D.RELAIS.apres[r.b].u, "source") + '</small></div><div class="relais-m2">' + nb(r.m2, 1) + NB + "m²</div></div>";
+      });
+      h += '</div><p class="note">Principe : ' + src("yu") + ". Une culture semée en juillet peut donner moins qu'au printemps, la source ne chiffre pas l'écart. Les associations de plantes qui poussent en même temps (« compagnonnage ») ne sont pas incluses : la plupart ne sont pas prouvées.</p>";
     }
     h += '<p class="note">Quantités : consommation annuelle d\'une famille de quatre ramenée à ' + personnes + ", surfaces et semences au rendement d'un maraîcher en culture extensive (" + src("jardin30") + "). En culture serrée, la même source donne environ deux fois moins de place. Fraisiers : " + nb(6 * p.N, 0) + " plants, notre choix de départ (6 par personne), pas un chiffre sourcé.</p></section>";
 
@@ -287,11 +289,15 @@
       h += '<div class="saison"><h3>' + s[0] + '</h3><p><b>À récolter :</b> ' + (rec.length ? rec.join(", ") : "rien de ta liste") + "</p>" +
         (pla.length ? "<p><b>À planter :</b> " + pla.join(", ") + "</p>" : "") + "</div>";
     });
-    h += "</div><div class=\"tab\"><table><thead><tr><th>Culture</th><th>Avant la récolte</th><th>Mois de récolte</th></tr></thead><tbody>";
+    h += '</div><h3>Les récoltes, mois par mois</h3><div class="frise"><div class="frise-tete"><span></span>' + ["J", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D"].map(function (x) { return "<i>" + x + "</i>"; }).join("") + "</div>";
     p.lignes.forEach(function (l) {
-      h += "<tr><td>" + esc(l.c.nom) + "</td><td>" + esc(l.c.delai) + "</td><td>" + l.c.recolte.map(function (m) { return MOIS[m - 1]; }).join(", ") + " <small>" + ligneSrc(l.c) + "</small></td></tr>";
+      var c = coulDe(l.c);
+      h += '<div class="frise-ligne"><span><b>' + esc(l.c.nom) + "</b><small>" + esc(l.c.delai) + "</small></span>" + [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(function (mm) {
+        return '<i title="' + MOIS[mm - 1] + '"' + (l.c.recolte.indexOf(mm) >= 0 ? ' style="background:' + c + '"' : "") + "></i>";
+      }).join("") + "</div>";
     });
-    h += '</tbody></table></div><p class="note">Pour savoir quand semer, compte le délai à rebours depuis le mois où tu veux récolter. Associations de plantes : la plupart des tableaux qui circulent ne sont pas prouvés, ils seront ajoutés quand ils seront sourcés.</p></section>';
+    h += '</div><p class="note">Case colorée = mois de récolte. Sources : ' + p.lignes.map(function (l) { return lien(l.c.src[0], esc(l.c.nom.toLowerCase())); }).join(", ") + ".</p>";
+    h += '<p class="note">Pour savoir quand semer, compte le délai à rebours depuis le mois où tu veux récolter. Associations de plantes : la plupart des tableaux qui circulent ne sont pas prouvés, ils seront ajoutés quand ils seront sourcés.</p></section>';
 
     /* Longues */
     if (p.longues.length) {
@@ -303,20 +309,19 @@
     }
 
     /* Conservation */
-    h += '<section><h2>' + (p.longues.length ? 4 : 3) + ". Garder tes récoltes sans frigo</h2><div class=\"tab\"><table><thead><tr><th>Culture</th><th>Conservation</th></tr></thead><tbody>";
-    p.lignes.forEach(function (l) { h += "<tr><td>" + esc(l.c.nom) + "</td><td>" + esc(l.c.garde) + "</td></tr>"; });
-    h += "</tbody></table></div></section>";
+    h += '<section><h2>' + (p.longues.length ? 4 : 3) + ". Garder tes récoltes sans frigo</h2><div class=\"mini-grille\">";
+    p.lignes.forEach(function (l) { h += '<div class="mini" style="--c:' + coulDe(l.c) + '"><b>' + esc(l.c.nom) + "</b><span>" + esc(l.c.garde) + "</span></div>"; });
+    h += "</div></section>";
 
     var n = p.longues.length ? 5 : 4;
     h += "<section><h2>" + n + ". Pourquoi chaque culture, et comment la semer</h2>" + (window.PotagerPlan.fiches ? window.PotagerPlan.fiches(p, false) : "") + '<p class="note">Calories au m² : kg par an et surface du modèle (un-jardin-bio.com) multipliés par les calories Ciqual. Conseils de semis relevés sur la fiche Truffaut du sachet recommandé ou sur jardiner-malin, lien sous chaque fiche. Ce qu\'aucune source ne donne est écrit « non chiffré ».</p></section>';
     n++;
     /* Graines */
-    h += "<section><h2>" + n + ". Les graines et les plants à acheter</h2><div class=\"tab\"><table><thead><tr><th>Culture</th><th>Petit budget</th><th>Bio ou plus</th></tr></thead><tbody>";
+    h += "<section><h2>" + n + '. Les graines et les plants à acheter</h2><div class="total-grand"><div><small>Petit budget</small><b>' + euros(p.budget.graines.bas) + '</b></div><div><small>Bio ou plus fourni</small><b>' + euros(p.budget.graines.haut) + '</b></div></div><div class="gr-grille">';
     p.lignes.forEach(function (l) {
-      function cell(x) { return lien(x.a.u, euros(x.prix)) + "<br><small>" + x.n + " x " + esc(x.a.lib) + "</small>"; }
-      h += "<tr><td>" + esc(l.c.nom) + "</td><td>" + cell(l.bas) + "</td><td>" + cell(l.haut) + "</td></tr>";
+      h += '<div class="gr" style="--c:' + coulDe(l.c) + '"><div class="gr-nom">' + esc(l.c.nom) + '</div><a class="gr-prix" href="' + esc(l.bas.a.u) + '" target="_blank" rel="noopener">' + euros(l.bas.prix) + " <span>voir →</span></a><small>" + l.bas.n + " x " + esc(l.bas.a.lib) + '</small><a class="gr-bio" href="' + esc(l.haut.a.u) + '" target="_blank" rel="noopener">Option : ' + euros(l.haut.prix) + " (" + l.haut.n + " x " + esc(l.haut.a.lib) + ")</a></div>";
     });
-    h += '<tr class="tot"><td>Total</td><td class=n>' + euros(p.budget.graines.bas) + "</td><td class=n>" + euros(p.budget.graines.haut) + "</td></tr></tbody></table></div>";
+    h += "</div>";
     var K = D.KOKOPELLI;
     h += '<p class="note">Prix en ligne chez Truffaut, relevés les 5 et 6 novembre 2026, hors livraison, ils peuvent changer.</p>' +
       '<div class="alerte" style="margin-top:12px"><p><b>Notre conseil pour les graines : ' + lien(K.u, "Kokopelli") + ".</b> Des semences bio, libres de droits et <b>reproductibles</b> : tu gardes tes propres graines d'une année sur l'autre, sans racheter. En cas de crise, c'est ce qui compte. Sachets autour de " + euros(K.prixType) + " relevés le " + K.releve + ". La vente de ces variétés aux jardiniers amateurs est autorisée depuis la loi du 10 juin 2020 (" + lien(K.loi.u, "Que Choisir") + "). Les plants, eux, restent à acheter en variétés inscrites.</p></div></section>";
@@ -342,10 +347,13 @@
 
     /* Budget */
     n++;
-    h += "<section><h2>" + n + '. Le budget pour démarrer</h2><div class="tab"><table><thead><tr><th>Poste</th><th>Petit budget</th><th>Durable</th></tr></thead><tbody>';
-    h += "<tr><td>Graines et plants</td><td class=n>" + euros(p.budget.graines.bas) + "</td><td class=n>" + euros(p.budget.graines.haut) + "</td></tr>";
-    p.budget.postes.forEach(function (po) { h += "<tr><td>" + esc(po.titre) + (po.mult > 1 ? " x" + po.mult : "") + "</td><td class=n>" + euros(po.bas) + "</td><td class=n>" + euros(po.haut) + "</td></tr>"; });
-    h += '<tr class="tot"><td>Total</td><td class=n>' + euros(p.budget.total.bas) + "</td><td class=n>" + euros(p.budget.total.haut) + "</td></tr></tbody></table></div></section>";
+    var postes = [{ titre: "Graines et plants", bas: p.budget.graines.bas, haut: p.budget.graines.haut }].concat(p.budget.postes.map(function (po) { return { titre: po.titre + (po.k !== "poules" && po.mult > 1 ? " x" + po.mult : ""), bas: po.bas, haut: po.haut }; }));
+    var maxB = Math.max.apply(null, postes.map(function (x) { return x.haut; })) || 1;
+    h += "<section><h2>" + n + '. Le budget pour démarrer</h2><div class="total-grand"><div><small>Petit budget</small><b>' + euros(p.budget.total.bas) + '</b></div><div><small>Matériel durable et bio</small><b>' + euros(p.budget.total.haut) + '</b></div></div><div class="barres">';
+    postes.forEach(function (x) {
+      h += '<div class="barre"><div class="barre-nom">' + esc(x.titre) + "<span>" + euros(x.bas) + " à " + euros(x.haut) + '</span></div><div class="barre-fond"><div class="barre-haut" style="width:' + (x.haut / maxB * 100).toFixed(1) + '%"></div><div class="barre-bas" style="width:' + (x.bas / maxB * 100).toFixed(1) + '%"></div></div></div>';
+    });
+    h += '</div><p class="note">Barre foncée : petit budget. Barre claire : matériel durable et bio.</p></section>';
 
     h += '<section><h2>Les hypothèses de ce plan</h2><ul class="lim">' +
       "<li>Quantités : règle de trois sur le modèle 2 personnes (" + lien("/potager", "longueur-davance.fr/potager") + ").</li>" +
@@ -518,33 +526,84 @@
       var x = m[i], f = x.place && x.place > x.m2 ? Math.sqrt(x.m2 / x.place) : 1, c = centre(b);
       return f === 1 || !c ? b : b.map(function (p) { return [c[0] + (p[0] - c[0]) * f, c[1] + (p[1] - c[1]) * f]; });
     });
+    /* Échelle : mètres par pixel, d'après la surface totale et l'aire dessinée. */
+    var mpp = Math.sqrt(total / (aire(poly) || 1));
+    var dims = bandes.map(function (b) {
+      if (b.length < 3) return null;
+      var xs = b.map(function (p) { return p[0]; }), ys = b.map(function (p) { return p[1]; });
+      var L = (Math.max.apply(null, xs) - Math.min.apply(null, xs)) * mpp, l = (Math.max.apply(null, ys) - Math.min.apply(null, ys)) * mpp;
+      return [Math.max(L, l), Math.min(L, l)];
+    });
+    var planches = 0, allees = 0, enclos = 0, libre = 0;
+    m.forEach(function (x) {
+      if (x.id === "poules") enclos += x.m2;
+      else if (x.id === "reste") { libre += x.m2; allees += place(x) - x.m2; }
+      else { planches += x.m2; allees += place(x) - x.m2; }
+    });
+    var sel = -1, saisonCour = saison;
+    var cache = function (t) { return o.flou ? '<span class="flou">' + masque(t) + "</span>" : P.esc(t); };
+    zoneVue.insertAdjacentHTML("afterbegin", '<div class="recap-surf">' +
+      "<span><b>" + P.nb(total, 0) + NB + "m²</b> au total</span>" +
+      "<span><b>" + P.nb(planches, 0) + NB + "m²</b> de planches</span>" +
+      "<span><b>" + P.nb(allees, 0) + NB + "m²</b> d'allées</span>" +
+      (enclos ? "<span><b>" + P.nb(enclos, 0) + NB + "m²</b> de poules</span>" : "") +
+      (libre > 0.5 ? "<span><b>" + P.nb(libre, 0) + NB + "m²</b> libres</span>" : "") + "</div>");
+    zoneVue.insertAdjacentHTML("beforeend", '<div class="fiche-planche" aria-live="polite"><p>Touche une planche ou un numéro pour voir ce qu\'il y pousse.</p></div>');
+    var fiche = zoneVue.querySelector(".fiche-planche");
+    /* La légende passe à côté du plan sur grand écran. */
+    var grille = document.createElement("div"); grille.className = "plan-grille";
+    zoneVue.parentNode.insertBefore(grille, zoneVue); grille.appendChild(zoneVue); grille.appendChild(boite.querySelector(".legende"));
+
+    function etatDe(x, s) {
+      var mois = SAISONS.filter(function (y) { return y[0] === s; })[0][2], dans = function (rec) { return rec.some(function (mm) { return mois.indexOf(mm) >= 0; }); };
+      if (x.id === "reste") return { actif: true, txt: "libre", fill: x.coul };
+      if (x.id === "poules") return { actif: true, txt: "les poules", fill: x.coul };
+      if (x.couvert && s === "hiver") return { actif: true, txt: "engrais vert d'hiver", fill: "#4f7a3a" };
+      var a = x.relais ? dans(x.relais.recA) : dans(x.recolte), bb = x.relais ? dans(x.relais.recB) : false;
+      if (x.couvert && s === "printemps" && !a) return { actif: true, txt: "engrais vert fauché et couvert", fill: "#c8b27a" };
+      if (x.relais && bb && !a) return { actif: true, txt: (o.motSaison || "en récolte") + " (deuxième culture)", fill: x.relais.coulB };
+      return { actif: a, txt: a ? (o.motSaison || "en récolte") : "pas de récolte cette saison", fill: x.relais ? x.relais.coulA : x.coul };
+    }
+    function montrerFiche() {
+      if (sel < 0) { fiche.innerHTML = "<p>Touche une planche ou un numéro pour voir ce qu'il y pousse.</p>"; return; }
+      var x = m[sel], d = dims[sel], e = etatDe(x, saisonCour);
+      var quoi = x.relais ? cache(x.nom.split(" puis ")[0]) + " au printemps et au début de l'été, puis " + cache(x.nom.split(" puis ")[1]) + " semé en juillet" : cache(x.nom);
+      fiche.innerHTML = '<p class="fp-titre"><b>' + (sel + 1) + ".</b> " + quoi + "</p><p>" +
+        (o.flou ? '<span class="flou">' + masque(P.nb(x.m2, 1)) + "</span>" : P.nb(x.m2, 1)) + NB + "m²" + (x.id === "poules" ? " d'enclos" : x.id === "reste" ? " libres" : " de planche") +
+        (d ? ", environ " + P.nb(d[0], 1) + NB + "m × " + P.nb(d[1], 1) + NB + "m" : "") +
+        (x.place && x.place > x.m2 ? ", plus " + P.nb(x.place - x.m2, 1) + NB + "m² d'allées autour" : "") + ".</p><p><b>" + SAISONS.filter(function (y) { return y[0] === saisonCour; })[0][1] + " :</b> " + e.txt + ".</p>";
+    }
     function dessiner(s) {
-      var mois = SAISONS.filter(function (x) { return x[0] === s; })[0][2];
+      saisonCour = s;
       var h = "";
       bandes.forEach(function (b, i) {
         if (b.length < 3) return;
-        var x = m[i], actif = x.id === "reste" || x.recolte.some(function (mm) { return mois.indexOf(mm) >= 0; });
-        var hiverVert = x.couvert && s === "hiver", paille = x.couvert && s === "printemps" && !actif;
-        if (hiverVert || paille) actif = true;
-        var fill = hiverVert ? "#4f7a3a" : paille ? "#c8b27a" : x.relais ? (x.relais.recB.some(function (mm) { return mois.indexOf(mm) >= 0; }) && !x.relais.recA.some(function (mm) { return mois.indexOf(mm) >= 0; }) ? x.relais.coulB : x.relais.coulA) : x.coul;
-        h += '<polygon points="' + b.map(function (p) { return p[0].toFixed(1) + "," + p[1].toFixed(1); }).join(" ") + '" fill="' + fill + '" fill-opacity="' + (actif ? 0.92 : 0.28) + '" stroke="' + (x.relais ? "#12192b" : "#fdfcf9") + '" stroke-width="' + (x.relais ? 3 : 2) + '"' + (x.relais ? ' stroke-dasharray="8 5"' : "") + "/>";
+        var x = m[i], e = etatDe(x, s), choisi = sel === i, eteint = sel >= 0 && !choisi;
+        h += '<polygon data-i="' + i + '" style="cursor:pointer" points="' + b.map(function (p) { return p[0].toFixed(1) + "," + p[1].toFixed(1); }).join(" ") + '" fill="' + e.fill + '" fill-opacity="' + (eteint ? 0.2 : e.actif ? 0.92 : 0.35) + '" stroke="' + (choisi ? "#a3461a" : x.relais ? "#12192b" : "#fdfcf9") + '" stroke-width="' + (choisi ? 7 : x.relais ? 3 : 2) + '"' + (x.relais && !choisi ? ' stroke-dasharray="8 5"' : "") + "/>";
       });
       bandes.forEach(function (b, i) {
-        var c = centre(b); if (!c || aire(b) < 140) return;
-        h += '<circle cx="' + c[0].toFixed(1) + '" cy="' + c[1].toFixed(1) + '" r="13" fill="#12192b"/><text x="' + c[0].toFixed(1) + '" y="' + (c[1] + 5).toFixed(1) + '" text-anchor="middle" font-family="Inter,sans-serif" font-weight="800" font-size="14" fill="#fdfcf9">' + (i + 1) + "</text>";
+        var c = centre(b); if (!c || aire(b) < 60) return;
+        var r = aire(b) < 300 ? 10 : 13;
+        h += '<g data-i="' + i + '" style="cursor:pointer"><circle cx="' + c[0].toFixed(1) + '" cy="' + c[1].toFixed(1) + '" r="' + r + '" fill="' + (sel === i ? "#a3461a" : "#12192b") + '"/><text x="' + c[0].toFixed(1) + '" y="' + (c[1] + r * 0.38).toFixed(1) + '" text-anchor="middle" font-family="Inter,sans-serif" font-weight="800" font-size="' + (r + 1) + '" fill="#fdfcf9">' + (i + 1) + "</text></g>";
       });
+      /* Barre d'échelle (1, 2, 5, 10 ou 20 m) et carré de 1 m². */
+      var pxm = 1 / mpp, lm = [1, 2, 5, 10, 20, 50].filter(function (v) { return v * pxm >= 50; })[0] || 1, lp = lm * pxm;
+      h += '<g font-family="Inter,sans-serif" font-weight="800" font-size="14"><rect x="14" y="606" width="' + (lp + 16).toFixed(1) + '" height="26" rx="6" fill="#fdfcf9" fill-opacity=".9"/><rect x="22" y="618" width="' + lp.toFixed(1) + '" height="5" fill="#12192b"/><text x="' + (22 + lp / 2).toFixed(1) + '" y="615" text-anchor="middle" fill="#12192b">' + lm + NB + "m</text>";
+      if (pxm >= 14) h += '<rect x="' + (40 + lp).toFixed(1) + '" y="' + (630 - pxm).toFixed(1) + '" width="' + pxm.toFixed(1) + '" height="' + pxm.toFixed(1) + '" fill="#fdfcf9" stroke="#12192b" stroke-width="2"/><text x="' + (46 + lp + pxm).toFixed(1) + '" y="628" fill="#12192b">1' + NB + "m²</text>";
+      h += "</g>";
       svg.innerHTML = (cmd.zone ? svg.innerHTML.split("<!--b-->")[0] : "") + "<!--b-->" + h;
-      boite.querySelector(".legende").innerHTML = m.map(function (x, i) {
-        var actif = x.id === "reste" || x.recolte.some(function (mm) { return mois.indexOf(mm) >= 0; });
-        var etat = actif && x.id !== "reste" && x.id !== "poules" ? ", " + (o.motSaison || "en récolte") : "";
-        if (x.couvert && s === "hiver") { actif = true; etat = ", engrais vert d'hiver"; }
-        else if (x.couvert && s === "printemps" && !actif) { actif = true; etat = ", engrais vert fauché et couvert"; }
+      grille.querySelector(".legende").innerHTML = m.map(function (x, i) {
+        var e = etatDe(x, s);
         var nom = o.flou && x.id !== "reste" && x.id !== "poules" ? '<span class="flou">' + masque(x.nom) + "</span>" : P.esc(x.nom);
-        return '<li class="' + (actif ? "" : "eteint") + '"><i style="background:' + (x.relais ? "linear-gradient(135deg," + x.relais.coulA + " 50%," + x.relais.coulB + " 50%)" : x.coul) + '"></i><b>' + (i + 1) + ".</b> " + nom +
-          ' <small>' + (o.flou ? '<span class="flou">' + masque(P.nb(x.m2, 1)) + "</span>" : P.nb(x.m2, 1)) + NB + "m²" + etat + "</small></li>";
+        return '<li data-i="' + i + '" class="' + (e.actif ? "" : "eteint") + (sel === i ? " sel" : "") + '"><i style="background:' + (x.relais ? "linear-gradient(135deg," + x.relais.coulA + " 50%," + x.relais.coulB + " 50%)" : x.coul) + '"></i><b>' + (i + 1) + ".</b> " + nom +
+          ' <small>' + (o.flou ? '<span class="flou">' + masque(P.nb(x.m2, 1)) + "</span>" : P.nb(x.m2, 1)) + NB + "m², " + e.txt + "</small></li>";
       }).join("");
       boite.querySelectorAll(".saisons-btn button").forEach(function (bt) { bt.setAttribute("aria-pressed", String(bt.dataset.s === s)); });
+      montrerFiche();
     }
+    function choisir(i) { sel = sel === i ? -1 : i; dessiner(saisonCour); }
+    svg.addEventListener("click", function (ev) { var t = ev.target.closest("[data-i]"); if (t) choisir(+t.getAttribute("data-i")); });
+    grille.querySelector(".legende").addEventListener("click", function (ev) { var t = ev.target.closest("[data-i]"); if (t) { choisir(+t.getAttribute("data-i")); zoneVue.scrollIntoView({ behavior: "smooth", block: "nearest" }); } });
     boite.querySelectorAll(".saisons-btn button").forEach(function (bt) { bt.addEventListener("click", function () { dessiner(bt.dataset.s); }); });
     dessiner(saison);
   }
