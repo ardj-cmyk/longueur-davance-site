@@ -141,9 +141,10 @@
 <p class="compteur" id="compteur"></p>
 <label for="email">Ton email</label>
 <input type="email" id="email" autocomplete="email" placeholder="toi@exemple.fr">
-<p class="aide">Pour retrouver ton plan et recevoir ta facture si tu paies. Pas de newsletter.</p>
+<p class="aide">Pour retrouver ton plan et recevoir ta facture si tu paies.</p>
 <div class="piege" aria-hidden="true"><label for="site_web">Ne pas remplir</label><input type="text" id="site_web" tabindex="-1" autocomplete="off"></div>
 <div class="coche"><input type="checkbox" id="rgpd"><label for="rgpd" style="margin:0;font-weight:500">J'accepte que mon email, l'adresse ou la référence de mon terrain et le contour dessiné servent à calculer mon plan et à me le renvoyer. Gardés 12 mois puis supprimés (<a href="/confidentialite#potager">confidentialité</a>).</label></div>
+<div class="coche"><input type="checkbox" id="newsletter"><label for="newsletter" style="margin:0;font-weight:500">Je veux aussi la newsletter Longueur d'avance <small style="display:block;font-weight:400;color:var(--doux)">Une fois par semaine : ce qui marche vraiment avec l'IA, les arnaques à éviter et les outils comme ce plan. Facultatif, désabonnement en un clic.</small></label></div>
 <div class="coche cache" id="bloc-retract"><input type="checkbox" id="retract"><label for="retract" style="margin:0;font-weight:500">J'accepte les <a href="/cgv#potager">conditions de vente</a>. Je demande l'accès immédiat à mon plan et je renonce à mon droit de rétractation dès qu'il s'affiche.</label></div>
 <p class="erreur" id="err-envoi" role="alert"></p>
 <div class="btns nav"><button type="button" class="btn" data-retour="s-gouts">Retour</button><button type="submit" class="btn plein" id="envoyer">Recevoir mon plan</button></div>
@@ -422,7 +423,7 @@
       action: "creer", prenom: cmd.prenom, email: email, personnes: cmd.personnes, cultures: cmd.cultures, longues: cmd.longues, poules: cmd.poules, lapins: cmd.lapins,
       surface_m2: cmd.surface_m2, surface_source: cmd.surface_source, zone: cmd.zone,
       adresse: etat.mode === "saisie" ? null : etat.adresse, parcelle: etat.mode === "saisie" ? null : etat.parcelle,
-      rgpd: true, consentement: payant && $("retract").checked, site_web: $("site_web").value
+      rgpd: true, newsletter: $("newsletter").checked, consentement: payant && $("retract").checked, site_web: $("site_web").value
     };
     fetch(API, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(corps) })
       .then(function (r) { return r.json(); })
