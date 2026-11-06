@@ -18,6 +18,8 @@
     usdaBle: { t: "USDA FoodData Central, blé tendre d'hiver (fdcId 168890) : 327 kcal pour 100 g", u: "https://fdc.nal.usda.gov/food-details/168890/nutrients" },
     usu: { t: "Utah State University Extension, conserver le riz blanc", u: "https://extension.usu.edu/preserve-the-harvest/research/storing-white-rice.php" },
     poulesPretes: { t: "Volailles d'Occitanie, poules « prêtes à pondre » vendues vers 18 semaines", u: "https://volailles-occitanie.com/produits/poules-pondeuses-demarrees/" },
+    fao56: { t: "FAO, Irrigation and Drainage Paper 56 (Allen et al. 1998), tableau 12 : coefficient cultural Kc en pleine croissance", u: "https://www.fao.org/4/x0490e/x0490e0b.htm" },
+    meteoFrance: { t: "Météo-France, données climatologiques de base mensuelles 2015-2024 (évaporation Penman-Monteith et pluie), Licence Ouverte 2.0", u: "https://www.data.gouv.fr/datasets/donnees-climatologiques-de-base-mensuelles" },
     yu: { t: "Yu et al. 2015, Field Crops Research, méta-analyse des cultures associées (en moyenne autant de récolte sur environ 18 % de terrain en moins, gain plus fort quand les cultures n'occupent pas la terre au même moment)", u: "https://doi.org/10.1016/j.fcr.2015.09.010" }
   };
 
@@ -267,6 +269,12 @@
       res: "Autant de choux et des haricots en plus sur la même terre. L'étude ne publie pas le gain exact en libre accès, on ne compte donc aucun gain de place.", src: [ETUDE_CHOU] }
   ];
 
+  /* Eau : coefficient cultural Kc en pleine croissance (FAO 56, tableau 12). Poireau et blette absents du tableau :
+     valeur du groupe « petits légumes » (1,05). L'eau d'une planche = Kc × évaporation de référence du mois. */
+  var KC = { pomme_de_terre: 1.15, courge: 1.00, oignon: 1.05, haricot_vert: 1.05, carotte: 1.05, poireau: 1.05, ail: 1.00,
+    chou: 1.05, blette: 1.05, courgette: 0.95, betterave: 1.05, feve: 1.15, tomate: 1.15, fraisier: 0.85 };
+  var EAU = { moisDebut: 4, moisFin: 9, defaut: "Bourges" };   // saison d'arrosage comptée : avril à septembre
+
   /* L'hiver nourrit l'été : un engrais vert d'hiver sur chaque planche libérée avant novembre.
      Terre & Humanisme (association de Pierre Rabhi), Mas de Beaulieu : mélange seigle, vesce d'hiver, féveroles,
      fauché avant floraison au printemps, étalé, racines en place, couvert 4 à 6 semaines, puis on plante. */
@@ -392,5 +400,5 @@
   /* Prix relevés le 06/11/2026. Clapiers d'élevage et lapins : pas de prix en ligne fiable, non chiffrés. */
   var LAPINS = { granules: { lib: "Aliment complet lapin en granulés, sac de 20 kg", prix: 27.49, kg: 20, u: "https://www.truffaut.com/aliment-complet-pour-lapin-en-granule-regal-20kg-785055.html" } };
 
-  window.POTAGER_DONNEES = { SOURCES: S, CULTURES: CULTURES, SEMIS: SEMIS, RELAIS: RELAIS, ASSOCIATIONS: ASSOCIATIONS, GARDE_MOIS: GARDE_MOIS, HIVER: HIVER, ENTRETIEN: ENTRETIEN, KOKOPELLI: KOKOPELLI, LONGUES: LONGUES, MATERIEL: MATERIEL, LAPINS: LAPINS, K: CONSTANTES };
+  window.POTAGER_DONNEES = { SOURCES: S, CULTURES: CULTURES, SEMIS: SEMIS, RELAIS: RELAIS, ASSOCIATIONS: ASSOCIATIONS, KC: KC, EAU: EAU, GARDE_MOIS: GARDE_MOIS, HIVER: HIVER, ENTRETIEN: ENTRETIEN, KOKOPELLI: KOKOPELLI, LONGUES: LONGUES, MATERIEL: MATERIEL, LAPINS: LAPINS, K: CONSTANTES };
 })();

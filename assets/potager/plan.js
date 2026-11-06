@@ -210,7 +210,36 @@
     budget.total = { bas: budget.graines.bas, haut: budget.graines.haut };
     budget.postes.forEach(function (p) { budget.total.bas += p.bas; budget.total.haut += p.haut; });
 
+    /* Eau : station Météo-France la plus proche (Bourges sans adresse), Kc moyen des cultures pondéré par la place,
+       toutes les planches comptées en pleine croissance d'avril à septembre, toute la pluie comptée comme utile. */
+    var eau = null, CL = window.POTAGER_CLIMAT;
+    if (CL && CL.length) {
+      var lat0 = null, lon0 = null;
+      if (cmd.zone && cmd.zone.length && cmd.surface_source !== "saisie" && cmd.surface_source !== "modele") {
+        lon0 = 0; lat0 = 0; cmd.zone.forEach(function (q) { lon0 += q[0]; lat0 += q[1]; }); lon0 /= cmd.zone.length; lat0 /= cmd.zone.length;
+      }
+      var st = lat0 == null ? CL.filter(function (x) { return x[0] === D.EAU.defaut; })[0] || CL[0] : CL.reduce(function (a, x) {
+        var da = Math.pow(a[1] - lat0, 2) + Math.pow((a[2] - lon0) * Math.cos(lat0 * Math.PI / 180), 2);
+        var dx = Math.pow(x[1] - lat0, 2) + Math.pow((x[2] - lon0) * Math.cos(lat0 * Math.PI / 180), 2);
+        return dx < da ? x : a;
+      });
+      var kcSom = 0, kcM2 = 0;
+      lignes.forEach(function (l) { if (l.m2 && D.KC[l.c.id]) { kcSom += D.KC[l.c.id] * l.m2; kcM2 += l.m2; } });
+      var kc = kcM2 ? kcSom / kcM2 : 1.05, planche = besoin * echelle, mois = [];
+      for (var mm = D.EAU.moisDebut; mm <= D.EAU.moisFin; mm++) {
+        var etp = st[2 + mm], pluie = st[14 + mm], plante = kc * etp;
+        mois.push({ m: mm, etp: etp, pluie: pluie, besoin: plante * planche, arroser: Math.max(0, plante - pluie) * planche });
+      }
+      var total = mois.reduce(function (a, x) { return a + x.arroser; }, 0);
+      var pic = mois.reduce(function (a, x) { return x.arroser > a.arroser ? x : a; }, mois[0]);
+      var pluieHiver = [10, 11, 12, 1, 2, 3].reduce(function (a, mm) { return a + st[14 + mm]; }, 0);
+      var dist = lat0 == null ? null : Math.sqrt(Math.pow((st[1] - lat0) * 111, 2) + Math.pow((st[2] - lon0) * 111 * Math.cos(lat0 * Math.PI / 180), 2));
+      eau = { station: st[0], dist: dist, kc: kc, planche: planche, mois: mois, total: total, pic: pic, joursPic: [30, 31, 30, 31, 31, 30][pic.m - 4],
+        pluieHiver: pluieHiver, toit: pluieHiver ? total / pluieHiver : 0 };
+    }
+
     return {
+      eau: eau,
       relais: relais.map(function (r) { return { a: r.a, b: r.b, m2: r.m2 * echelle }; }), gagne: gagne * echelle, partage: partage, assoc: assoc, gagneAssoc: gagneAssoc * echelle,
       couvertM2: couvertM2, sachetsHiver: sachetsHiver,
       N: N, lots: lots, lignes: lignes, besoin: besoin, dispo: dispo, echelle: echelle, reste: reste, enclos: enclos - clapiers,
@@ -390,6 +419,29 @@
     if (p.lapines) h += "<li><b>Lapins : environ 3 mois et demi</b> après le premier accouplement, 31 jours de gestation puis abattage vers 11 semaines. Une jeune lapine s'accouple vers 4 mois (120 à 130 jours) (" + srcC("fao", "manuel FAO") + ").</li>";
     h += "<li><b>Une année complète : 1 an.</b> Il faut un tour de saisons pour remplir chaque mois du tableau : les courges, les oignons et les carottes de l'automne nourrissent l'hiver.</li>" +
       "<li><b>En attendant : tout vient de la réserve.</b> Pour " + nb(besoinJour, 0) + NB + "kcal par jour, il faut " + nb(besoinJour / KK.kcalRiz * 100, 0) + NB + "g de riz par jour et par personne.</li></ul></section>";
+
+    /* L'eau qu'il faut */
+    if (p.eau && p.eau.planche > 0) {
+      var E = p.eau, NOMS_M = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
+      var JM = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31], semaine = function (x) { return x.arroser / JM[x.m - 1] * 7; };
+      var ou = E.dist == null ? "à Bourges, au centre de la France" : "à " + esc(E.station) + ", la station la plus proche de ton terrain (" + nb(E.dist, 0) + NB + "km)";
+      h += '<section><h2>L\'eau qu\'il faut</h2><p>Évaporation et pluie mesurées par Météo-France ' + ou + ", moyenne 2015 à 2024 (" + srcC("meteoFrance", "données") + ")." + (E.dist == null ? " Le plan sur mesure prend la station la plus proche de ton terrain." : "") + "</p>";
+      if (E.total < 1) {
+        h += '<div class="alerte"><p><b>En moyenne, la pluie suffit</b> à tes ' + nb(E.planche, 0) + NB + "m² de planches. Garde de quoi arroser les semis et les années sèches.</p></div>";
+      } else {
+        var maxS = Math.max.apply(null, E.mois.map(function (x) { return x.besoin / JM[x.m - 1] * 7; }));
+        h += '<div class="total-grand"><div><small>À arroser d\'avril à septembre</small><b>' + nb(E.total / 1000, 1) + NB + 'm³</b></div><div><small>Par semaine, en ' + NOMS_M[E.pic.m - 1] + "</small><b>" + nb(semaine(E.pic), 0) + NB + "L</b></div></div>" +
+          '<p>Soit environ ' + nb(Math.ceil(semaine(E.pic) / 10), 0) + " arrosoirs de 10" + NB + "L par semaine en " + NOMS_M[E.pic.m - 1] + ", pour " + nb(E.planche, 0) + NB + "m² de planches.</p>";
+        h += '<div class="barres">';
+        E.mois.forEach(function (x) {
+          var b = x.besoin / JM[x.m - 1] * 7, a = semaine(x);
+          h += '<div class="barre"><div class="barre-nom">' + NOMS_M[x.m - 1].charAt(0).toUpperCase() + NOMS_M[x.m - 1].slice(1) + "<span>" + (a >= 1 ? nb(a, 0) + NB + "L à arroser par semaine" : "la pluie suffit") + '</span></div><div class="barre-fond"><div class="barre-haut" style="width:' + (b / maxS * 100).toFixed(1) + '%"></div><div class="barre-bas" style="width:' + (a / maxS * 100).toFixed(1) + '%"></div></div></div>';
+        });
+        h += '</div><p class="note">Barre claire : ce que boivent les plantes. Barre foncée : ce que la pluie ne donne pas, donc ce que tu arroses.</p>';
+        h += '<h3>Arroser avec l\'eau de pluie</h3><p>1' + NB + "mm de pluie sur 1" + NB + "m² de toit donne 1" + NB + "litre. Pour tout arroser à l'eau de pluie, il faut <b>stocker environ " + nb(E.total / 1000, 1) + NB + "m³</b>, remplis d'octobre à mars par <b>au moins " + nb(Math.ceil(E.toit), 0) + NB + "m² de toit</b> (" + nb(E.pluieHiver, 0) + NB + "mm de pluie sur ces six mois à " + esc(E.station) + "). Plus de toit, ou une cuve qui se remplit aussi aux orages d'été, et tu peux stocker moins.</p>";
+      }
+      h += '<p class="note">Calcul : besoin d\'une culture = son coefficient Kc en pleine croissance × l\'évaporation de référence du mois (' + srcC("fao56", "FAO 56") + "). On compte toutes tes planches en pleine croissance d'avril à septembre, ce qui surestime un peu, et toute la pluie comme utile, ce qui sous-estime un peu : une partie ruisselle. Un paillis limite l'arrosage (" + lien(D.ENTRETIEN[0].src.u, "DRAAF") + "), la source ne chiffre pas combien. Pas comptés : fraisiers, arbres, et l'eau des animaux" + (p.lapines ? " (un lapin en croissance boit 0,33 à 0,39" + NB + "L par jour, " + srcC("fao", "FAO") + ")" : "") + ".</p></section>";
+    }
 
     /* Longues */
     if (p.longues.length) {
