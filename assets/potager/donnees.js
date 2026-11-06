@@ -273,13 +273,13 @@
       ["Sable 25 kg (carottes, betteraves)", 8.29, "https://www.truffaut.com/sable-de-jardinage-25kg.html", 16.58, "https://www.truffaut.com/sable-de-jardinage-25kg.html"],
       ["Bocaux 1 L (6 ou 12)", 26.50, "https://www.truffaut.com/bocaux-le-parfait-super-1l-o85-pack-de-6-le-parfait.html", 53.00, "https://www.truffaut.com/bocaux-le-parfait-super-1l-o85-pack-de-6-le-parfait.html"]
     ] },
-    poules: { titre: "Poules (4 par lot)", par2: true, items: [
+    poules: { titre: "Poules", par2: true, items: [
       ["Poulailler 4 poules", 139.00, "https://www.truffaut.com/poulailler-princesse-avec-pondoir-en-bois-marron.html", 490.00, "https://www.truffaut.com/poulailler-4-poules-solide-et-pratique-modele-houdan.html"],
       ["Grillage 20 m", 62.90, "https://www.castorama.fr/grillage-simple-torsion-blooma-maille-50-x-50-mm-vert-20-x-h-1-2-m/3663602728719_CAFR.prd", 78.90, "https://www.castorama.fr/grillage-simple-torsion-blooma-maille-50-x-50-mm-vert-20-x-h-1-5-m/3663602728726_CAFR.prd"],
       ["Poteaux en T x8", 57.12, "https://www.castorama.fr/poteau-grillage-longue-duree-profile-en-t-coloris-gris-l-30-mm-x-p-30-mm-x-h-1-45-m/5059340451510_CAFR.prd", 66.72, "https://www.castorama.fr/poteau-grillage-longue-duree-profile-en-t-coloris-gris-l-30-mm-x-p-30-mm-x-h-1-75-m/5059340451527_CAFR.prd"],
       ["Mangeoire", 10.22, "https://www.truffaut.com/mangeoire-poule-galvanisee-7x50cm-kerbl.html", 24.99, "https://www.truffaut.com/mangeoire-a-tremie-galvanisee-7-kg-17-x-18-x-39-cm.html"],
       ["Abreuvoir", 14.99, "https://www.truffaut.com/abreuvoir-poule-seau-metal-3l.html", 19.99, "https://www.truffaut.com/abreuvoir-poules-et-volailles-15-l-river-system.html"],
-      ["4 poules rousses", 58.00, "https://volailles-occitanie.com/produits/poules-pondeuses-demarrees/", 66.00, "https://lapiniere.com/Poule-pondeuse-Rousse"],
+      ["Poules rousses prêtes à pondre (prix à la poule)", 14.00, "https://volailles-occitanie.com/produits/poules-pondeuses-demarrees/", 16.50, "https://lapiniere.com/Poule-pondeuse-Rousse", "parPoule", 2.00],
       ["Premier sac d'aliment", 18.99, "https://www.truffaut.com/melange-premium-poule-pondeuse-15kg-1059671.html", 28.49, "https://www.truffaut.com/aliment-complet-pour-poule-pondeuse-en-granule-regal-20kg-785054.html"]
     ] }
   };
@@ -289,6 +289,10 @@
     m2ParPersonneJeavons: 232,              // Ecology Action 2019
     rendementPdt: 2.5,                      // kg/m², 48 kg sur 19,2 m² (un-jardin-bio.com, extensif)
     enclosParLot: 18,                       // m² pour 4 poules (hypothèse extrapolée de m2A : 8 à 10 m² pour 2)
+    enclosParPoule: 4.5,                    // m² par poule, même hypothèse (18 / 4)
+    partMaxEnclos: 0.25,                    // l'enclos ne prend jamais plus du quart du terrain (notre règle)
+    oeufsParPersonne: 224,                  // œufs par Français en 2023 (VetAgro Sup, juin 2025)
+    partAllees: 0.2,                        // Ecology Action : 2 000 sq ft de planches, 2 500 avec les allées
     oeufsParPouleMin: 280, oeufsParPouleMax: 320, // VetAgro Sup, élevage
     poidsOeuf: 58,                          // g, hypothèse
     kcalOeuf: 140                           // kcal/100 g, Ciqual 22000

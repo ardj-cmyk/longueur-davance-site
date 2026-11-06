@@ -116,3 +116,17 @@ input:focus-visible,button:focus-visible{outline:3px solid var(--terra);outline-
 .choix-offre .d{font-size:15px;color:var(--doux);display:block;margin-top:6px;line-height:1.4}
 .preuve{font-size:15px;color:var(--doux);margin-top:10px}
 .pages{display:inline-block;background:var(--encre);color:var(--ivoire);font:800 15px 'Inter';border-radius:999px;padding:8px 14px;margin-top:12px}
+
+/* Boutons d'action plus visibles, navigation collante en bas sur téléphone */
+.btn.plein{font-size:19px;padding:18px 28px;min-height:58px;background:var(--terra);border-color:var(--terra);box-shadow:0 6px 0 var(--encre)}
+.btn.plein:hover{filter:brightness(1.08)}
+.btns.nav{position:sticky;bottom:0;z-index:6;background:linear-gradient(to top,var(--fond) 75%,rgba(250,246,238,0));padding:18px 0 14px;margin-top:20px}
+@media (max-width:520px){.btns.nav{display:grid;grid-template-columns:auto 1fr}.btns.nav .btn.plein{width:100%}.btns .btn.plein{width:100%}}
+.intro-perso{border-bottom:0;padding-bottom:0}
+.lettre{font:500 20px/1.5 'Playfair Display',Georgia,serif;font-style:italic;background:var(--ivoire);border-left:4px solid var(--terra);padding:16px 18px;border-radius:0 16px 16px 0}
+
+.vue3d{position:relative;border:2px solid var(--encre);border-radius:16px;overflow:hidden;background:#dfeefa;margin-top:10px}
+.vue3d canvas{display:block;width:100%;touch-action:none}
+.lecture{position:absolute;right:10px;bottom:10px;width:44px;height:44px;border-radius:999px;border:2px solid var(--encre);background:var(--ivoire);font:800 15px 'Inter';cursor:pointer;color:var(--encre)}
+.titre-vue{margin-top:22px}
+@media print{#vue-3d{display:none}}

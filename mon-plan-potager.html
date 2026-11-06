@@ -56,6 +56,8 @@
 </main>
 <script src="/assets/potager/donnees.js"></script>
 <script src="/assets/potager/plan.js"></script>
+<script type="importmap">{"imports":{"three":"/assets/three/three.module.js","three/addons/":"/assets/three/addons/"}}</script>
+<script type="module" src="/assets/potager/jardin3d.js"></script>
 <script>
 (function () {
   var API = "https://lkdoogzfkfhegjkdwcab.supabase.co/functions/v1/potager-commande";
@@ -74,8 +76,9 @@
     var plan = P.calculer(cmd);
     var html = P.rendre(cmd, plan);
     $("plan").innerHTML = html;
-    if (flou) { var vj = $("plan").querySelector("#vue-jardin"); P.flouter($("plan")); if (vj) P.vue(vj, cmd, plan, { flou: true }); return; }
+    if (flou) { var vj = $("plan").querySelector("#vue-jardin"); P.flouter($("plan")); if (vj) P.vue(vj, cmd, plan, { flou: true }); P.vue3d($("plan").querySelector("#vue-3d"), cmd, plan, {}); return; }
     P.vue($("vue-jardin"), cmd, plan, { flou: false });
+    P.vue3d($("vue-3d"), cmd, plan, {});
     $("nb-pages").textContent = "Ton plan : environ " + P.pages(html) + " pages en PDF";
     $("chapo").textContent = "Pour " + plan.N + " personne" + (plan.N > 1 ? "s" : "") + " sur " + P.nb(cmd.surface_m2, 0) + " m²" + (cmd.gratuite ? ", offert (un des 20 premiers)." : ".");
     $("actions").classList.remove("cache");

@@ -112,11 +112,24 @@
   function calculer(cmd) {
     var K = D.K, N = cmd.personnes, f0 = N / 2, lots = Math.ceil(N / 2);
     var choisies = D.CULTURES.filter(function (c) { return cmd.cultures.indexOf(c.id) >= 0; });
-    var enclos = cmd.poules ? K.enclosParLot * lots : 0;
+
+    /* Poules : de quoi couvrir la consommation moyenne d'œufs (224 par personne et par an, VetAgro Sup),
+       au bas de la fourchette de ponte (280 par poule et par an). Enclos de 4,5 m² par poule (m2A : 8 à 10 m² pour 2),
+       plafonné au quart du terrain (notre règle). Moins de 2 poules : pas de poules. */
+    var poulesVoulues = cmd.poules ? Math.max(2, Math.ceil(N * K.oeufsParPersonne / K.oeufsParPouleMin)) : 0;
+    var poulesMax = Math.floor(cmd.surface_m2 * K.partMaxEnclos / K.enclosParPoule);
+    var poules = Math.min(poulesVoulues, poulesMax);
+    if (poules < 2) poules = 0;
+    var poulesLimitees = cmd.poules && poules < poulesVoulues;
+    var enclos = poules * K.enclosParPoule;
+
+    /* Allées : 20 % du terrain cultivé (Ecology Action : 2 000 sq ft de planches, 2 500 avec les allées). */
+    var cultivable = Math.max(0, cmd.surface_m2 - enclos);
+    var dispo = cultivable * (1 - K.partAllees);
     var besoin = choisies.reduce(function (a, c) { return a + (c.m2 ? c.m2 * f0 : 0); }, 0);
-    var dispo = Math.max(0, cmd.surface_m2 - enclos);
     var echelle = besoin > 0 ? Math.min(1, dispo / besoin) : 1;
     var reste = Math.max(0, dispo - besoin);
+    var surfaceIdeale = besoin / (1 - K.partAllees) + poulesVoulues * K.enclosParPoule;
 
     var lignes = choisies.map(function (c) {
       var e = c.m2 ? echelle : 1;
@@ -135,24 +148,29 @@
     var kcalLegumes = lignes.reduce(function (a, l) { return a + l.kcal; }, 0);
     var bonusKg = reste * K.rendementPdt;
     var bonusKcal = bonusKg * 805; // pomme de terre crue sans peau, Ciqual 4008 (80,5 kcal/100 g)
-    var oeufsMin = cmd.poules ? lots * 4 * K.oeufsParPouleMin : 0, oeufsMax = cmd.poules ? lots * 4 * K.oeufsParPouleMax : 0;
+    var oeufsMin = poules * K.oeufsParPouleMin, oeufsMax = poules * K.oeufsParPouleMax;
     var kcalOeuf = K.poidsOeuf / 100 * K.kcalOeuf;
     var besoinAn = N * (K.kcalHomme + K.kcalFemme) / 2 * 365;
 
     var budget = { graines: { bas: 0, haut: 0 }, postes: [] };
     lignes.forEach(function (l) { budget.graines.bas += l.bas.prix; budget.graines.haut += l.haut.prix; });
     ["outils", "arrosage", "stockage", "poules"].forEach(function (k) {
-      if (k === "poules" && !cmd.poules) return;
-      var m = D.MATERIEL[k], mult = m.par2 ? lots : 1;
+      if (k === "poules" && !poules) return;
+      var m = D.MATERIEL[k], mult = k === "poules" ? Math.ceil(poules / 4) : (m.par2 ? lots : 1);
       var bas = 0, haut = 0;
-      m.items.forEach(function (i) { bas += i[1]; haut += i[3]; });
-      budget.postes.push({ k: k, titre: m.titre, mult: mult, bas: bas * mult, haut: haut * mult });
+      m.items.forEach(function (i) {
+        if (i[5] === "parPoule") { bas += i[1] * poules + (i[6] || 0); haut += i[3] * poules; }
+        else { bas += i[1] * mult; haut += i[3] * mult; }
+      });
+      budget.postes.push({ k: k, titre: m.titre, mult: mult, bas: bas, haut: haut });
     });
     budget.total = { bas: budget.graines.bas, haut: budget.graines.haut };
     budget.postes.forEach(function (p) { budget.total.bas += p.bas; budget.total.haut += p.haut; });
 
     return {
       N: N, lots: lots, lignes: lignes, besoin: besoin, dispo: dispo, echelle: echelle, reste: reste, enclos: enclos,
+      poules: poules, poulesVoulues: poulesVoulues, poulesLimitees: poulesLimitees, allees: cultivable * K.partAllees,
+      surfaceIdeale: surfaceIdeale,
       kcalLegumes: kcalLegumes, bonusKg: bonusKg, bonusKcal: bonusKcal,
       oeufsMin: oeufsMin, oeufsMax: oeufsMax, kcalOeufsMin: oeufsMin * kcalOeuf, kcalOeufsMax: oeufsMax * kcalOeuf,
       besoinAn: besoinAn, pctLegumes: kcalLegumes / besoinAn * 100,
@@ -173,23 +191,34 @@
     var surf = nb(cmd.surface_m2, 0) + NB + "m²";
     var origine = { dessin: "dessiné sur la photo aérienne", cadastre: "surface de la parcelle au cadastre", saisie: "surface que tu as indiquée", modele: "la place qu'il faut pour tes légumes" }[cmd.surface_source] || "";
 
-    h += '<section><h2>Ton terrain et ton foyer</h2><div class="chiffres">' +
+    var prenom = cmd.prenom ? esc(String(cmd.prenom).slice(0, 40)) : "";
+    var commune = cmd.parcelle && cmd.parcelle.commune ? " à " + esc(cmd.parcelle.commune) : "";
+    var noms = p.lignes.map(function (l) { return l.c.nom.toLowerCase().replace(/ \(.*\)/, ""); });
+    var fav = noms.slice(0, 3).join(", ") + (noms.length > 3 ? " et " + (noms.length - 3) + " autres" : "");
+    h += '<section class="intro-perso"><p class="lettre">' + (prenom ? prenom + ", voici" : "Voici") + " le potager calculé pour " + (p.N > 1 ? "vous " + p.N : "toi") + ", sur " + (cmd.surface_source === "modele" ? "la place qu'il faut" : "tes " + surf) + commune + ". " +
+      "Tu as gardé " + p.lignes.length + " culture" + (p.lignes.length > 1 ? "s" : "") + " que vous aimez : " + esc(fav) + "." +
+      (p.longues.length ? " Et tu anticipes : " + p.longues.map(function (l) { return esc(l.nom.toLowerCase()); }).join(", ") + "." : "") +
+      (p.poules ? " Avec " + p.poules + " poules." : "") + "</p></section>";
+    h += '<section><h2>' + (prenom ? "Le terrain de " + prenom : "Ton terrain et ton foyer") + '</h2><div class="chiffres">' +
       '<div><b>' + surf + '</b><span>' + esc(origine) + '</span></div>' +
       '<div><b>' + personnes + '</b><span>à nourrir</span></div>' +
       '<div><b>' + nb(p.pctLegumes, 1) + NB + '%</b><span>des calories du foyer avec tes légumes</span></div>' +
-      '<div><b>' + euros(p.budget.total.bas) + '</b><span>pour démarrer, petit budget</span></div></div>';
+      '<div><b>' + euros(p.budget.total.bas) + '</b><span>pour démarrer, petit budget</span></div></div>' +
+      (p.echelle < 1 ? '<div class="alerte" style="margin-top:12px"><p><b>C\'est le maximum pour ta surface.</b> Sur ' + surf + ", ton potager donne " + nb(p.echelle * 100, 0) + NB + "% des légumes que ton foyer mange en un an. Pour tout loger, il faudrait environ " + nb(p.surfaceIdeale, 0) + NB + "m², allées" + (cmd.poules ? " et poules" : "") + " comprises.</p></div>" : "");
     if (cmd.parcelle && cmd.parcelle.idu) h += '<p class="note">Parcelle cadastrale ' + esc(cmd.parcelle.idu) + (cmd.parcelle.contenance ? ", " + nb(cmd.parcelle.contenance, 0) + NB + "m² au cadastre" : "") + ".</p>";
-    h += '<div id="vue-jardin"></div></section>';
+    h += '<h3 class="titre-vue">' + (prenom ? "Le jardin de " + prenom + " en 3D" : "Ton jardin en 3D") + '</h3><div id="vue-3d" class="noprint"></div><h3 class="titre-vue">Le plan, planche par planche</h3><div id="vue-jardin"></div></section>';
 
     /* L'essentiel, honnête */
     h += '<section><div class="alerte"><p><b>À savoir d\'abord.</b> ';
     if (p.echelle < 1) {
-      h += "Ton terrain ne loge pas tous les légumes choisis en quantité normale : il faudrait " + nb(p.besoin + p.enclos, 0) + NB + "m². Le plan réduit chaque culture à " + nb(p.echelle * 100, 0) + NB + "% de ce que ton foyer consomme. ";
+      h += "Ton terrain ne loge pas tous les légumes choisis en quantité normale : il faudrait environ " + nb(p.surfaceIdeale, 0) + NB + "m². Le plan réduit chaque culture à " + nb(p.echelle * 100, 0) + NB + "% de ce que ton foyer consomme. ";
     } else {
-      h += "Tes légumes prennent " + nb(p.besoin, 0) + NB + "m²" + (p.enclos ? ", les poules " + nb(p.enclos, 0) + NB + "m²" : "") + ". Il te reste " + nb(p.reste, 0) + NB + "m². ";
+      h += "Tes légumes prennent " + nb(p.besoin, 0) + NB + "m² de planches, plus les allées" + (p.enclos ? ", les poules " + nb(p.enclos, 0) + NB + "m²" : "") + ". Il te reste " + nb(p.reste, 0) + NB + "m² de planches libres. ";
     }
     h += "Ces légumes couvrent environ " + nb(p.pctLegumes, 1) + NB + "% des calories dont ton foyer a besoin. ";
     if (p.reste > 1) h += "Si tu mets les " + nb(p.reste, 0) + NB + "m² restants en pommes de terre, tu montes à environ " + nb(p.pctAvecBonus, 0) + NB + "% (" + nb(p.bonusKg, 0) + NB + "kg de plus par an). ";
+    h += "Les allées pour marcher prennent " + nb(p.allees, 0) + NB + "m², soit 20" + NB + "% du terrain cultivé, la proportion d'Ecology Action. ";
+    if (p.poulesLimitees) h += p.poules ? "Les poules sont limitées à " + p.poules + " pour que leur enclos ne prenne pas plus du quart du terrain. " : "Ton terrain est trop petit pour un enclos de 2 poules sans dépasser le quart de la surface : pas de poules dans ce plan. ";
     h += "Pour vivre entièrement d'un jardin, Ecology Action compte environ 232" + NB + "m² par personne, jardinier expérimenté, sans viande : " + nb(p.jeavons, 0) + NB + "m² pour ton foyer. Ton terrain en représente " + nb(Math.min(p.pctJeavons, 999), 0) + NB + "%.</p>";
     h += '<p class="note">Sources : ' + src("jeavons") + ", calories " + src("ciqual") + ", besoins " + src("anses") + ". Calcul sur la moyenne des deux repères ANSES, soit 2" + NB + "350" + NB + "kcal par personne et par jour.</p></div></section>";
 
@@ -251,14 +280,18 @@
     h += "<section><h2>" + n + ". Le matériel" + (cmd.poules ? " et les poules" : "") + "</h2>";
     p.budget.postes.forEach(function (po) {
       var m = D.MATERIEL[po.k];
-      h += "<h3>" + esc(m.titre) + (po.mult > 1 ? " (x" + po.mult + ")" : "") + '</h3><div class="tab"><table><thead><tr><th>Article</th><th>Petit budget</th><th>Durable</th></tr></thead><tbody>';
-      m.items.forEach(function (i) { h += "<tr><td>" + esc(i[0]) + "</td><td class=n>" + lien(i[2], euros(i[1])) + "</td><td class=n>" + lien(i[4], euros(i[3])) + "</td></tr>"; });
+      h += "<h3>" + esc(m.titre) + (po.k === "poules" ? " : " + p.poules + " poules" + (po.mult > 1 ? ", " + po.mult + " poulaillers" : "") : (po.mult > 1 ? " (x" + po.mult + ")" : "")) + (po.k === "poules" ? "" : "") + '</h3><div class="tab"><table><thead><tr><th>Article</th><th>Petit budget</th><th>Durable</th></tr></thead><tbody>';
+      m.items.forEach(function (i) {
+        var lib = i[5] === "parPoule" ? i[0].replace(" (prix à la poule)", "") + " x" + p.poules : i[0];
+        var bas = i[5] === "parPoule" ? i[1] * p.poules + (i[6] || 0) : i[1], haut = i[5] === "parPoule" ? i[3] * p.poules : i[3];
+        h += "<tr><td>" + esc(lib) + "</td><td class=n>" + lien(i[2], euros(bas)) + "</td><td class=n>" + lien(i[4], euros(haut)) + "</td></tr>";
+      });
       h += "</tbody></table></div>";
     });
-    if (cmd.poules) {
-      h += '<p class="note">' + p.lots * 4 + " poules pondent " + nb(p.oeufsMin, 0) + " à " + nb(p.oeufsMax, 0) + " œufs par an au mieux (280 à 320 par poule en élevage, " + src("vetagro") + "). La ponte ralentit à l'automne et s'arrête presque en hiver. Enclos couvert : 8 à 10" + NB + "m² minimum pour 2 poules (" + src("m2a") + "), soit environ " + nb(p.enclos, 0) + NB + "m² ici (notre estimation). Déclaration en mairie : plus obligatoire partout depuis 2023 (" + src("legifrance") + "), conseillée, et obligatoire si la préfecture la demande en cas de grippe aviaire (Cerfa 15472).</p>";
+    if (p.poules) {
+      h += '<p class="note">' + p.poules + " poules : de quoi couvrir la consommation moyenne d'œufs, 224 par personne et par an en France, comptée au bas de la ponte, 280 œufs par poule. Elles pondent " + nb(p.oeufsMin, 0) + " à " + nb(p.oeufsMax, 0) + " œufs par an au mieux (280 à 320 par poule en élevage, " + src("vetagro") + "). La ponte ralentit à l'automne et s'arrête presque en hiver. Enclos couvert : 8 à 10" + NB + "m² minimum pour 2 poules (" + src("m2a") + "), soit 4,5" + NB + "m² par poule et " + nb(p.enclos, 0) + NB + "m² ici (notre estimation), jamais plus du quart du terrain (notre règle). Déclaration en mairie : plus obligatoire partout depuis 2023 (" + src("legifrance") + "), conseillée, et obligatoire si la préfecture la demande en cas de grippe aviaire (Cerfa 15472).</p>";
     }
-    h += '<p class="note">Prix Castorama et Truffaut relevés les 5 et 6 novembre 2026. Un jeu d\'outils pour le foyer, stockage' + (cmd.poules ? " et poules" : "") + " multipliés par lot de 2 personnes (notre règle de calcul). Non chiffrés : terreau, paillage, voile d'hivernage, marmite pour les bocaux, raccords d'arrosage.</p></section>";
+    h += "<p class=\"note\">Prix Castorama et Truffaut relevés les 5 et 6 novembre 2026. Un jeu d'outils pour le foyer, stockage multiplié par lot de 2 personnes, un poulailler de 4 places par groupe de 4 poules (notre règle de calcul). Non chiffrés : terreau, paillage, voile d'hivernage, marmite pour les bocaux, raccords d'arrosage.</p></section>";
 
     /* Budget */
     n++;
@@ -271,7 +304,7 @@
       "<li>Quantités : règle de trois sur le modèle 2 personnes (" + lien("/potager", "longueur-davance.fr/potager") + ").</li>" +
       "<li>Besoin en calories : moyenne homme et femme de l'ANSES, sans tenir compte de l'âge ni de l'activité.</li>" +
       "<li>Blette et fraisier comptés à 0" + NB + "kcal (pas de valeur fiable).</li>" +
-      (cmd.poules ? "<li>Œuf de 58" + NB + "g, enclos de 18" + NB + "m² pour 4 poules.</li>" : "") +
+      (p.poules ? "<li>Œuf de 58" + NB + "g, enclos de 4,5" + NB + "m² par poule, au plus un quart du terrain.</li>" : "") + "<li>Allées : 20" + NB + "% du terrain cultivé (proportion d'Ecology Action).</li>" +
       "<li>Culture extensive, rendement d'un maraîcher. Un débutant récolte souvent moins.</li></ul></section>";
     return colle(h);
   }
@@ -287,7 +320,14 @@
     });
   }
 
-  window.PotagerPlan = { colle: colle, carte: carte, surface: surface, calculer: calculer, rendre: rendre, flouter: flouter, nb: nb, euros: euros, esc: esc };
+  /* La 3D se charge à part (module three.js) : on attend qu'elle soit prête. */
+  function vue3d(el, cmd, plan, o) {
+    if (!el) return;
+    if (window.PotagerPlan.monter3d) window.PotagerPlan.monter3d(el, cmd, plan, o);
+    else (window.__potager3dEnAttente = window.__potager3dEnAttente || []).push([el, cmd, plan, o]);
+  }
+
+  window.PotagerPlan = { vue3d: vue3d, colle: colle, carte: carte, surface: surface, calculer: calculer, rendre: rendre, flouter: flouter, nb: nb, euros: euros, esc: esc };
 })();
 
 /* ---------- Vue du jardin : terrain découpé en bandes, une par culture, et saisons ---------- */
@@ -340,6 +380,14 @@
     var deux = decouper(poly, [fg, 1 - fg]);
     return arbre(deux[0], g).concat(arbre(deux[1], d));
   }
+  /* Forme en coordonnées 0..1 vers pixels 640, proportions gardées. */
+  function formeEnPixels(f, marge) {
+    var xs = f.map(function (p) { return p[0]; }), ys = f.map(function (p) { return p[1]; });
+    var x0 = Math.min.apply(null, xs), y0 = Math.min.apply(null, ys);
+    var w = Math.max.apply(null, xs) - x0 || 1, h = Math.max.apply(null, ys) - y0 || 1;
+    var e = (640 - 2 * marge) / Math.max(w, h), dx = (640 - w * e) / 2, dy = (640 - h * e) / 2;
+    return f.map(function (p) { return [dx + (p[0] - x0) * e, dy + (p[1] - y0) * e]; });
+  }
   function centre(pts) {
     if (!pts.length) return null;
     var x = 0, y = 0; pts.forEach(function (p) { x += p[0]; y += p[1]; });
@@ -350,28 +398,31 @@
   /* Les morceaux du jardin, dans l'ordre : cultures, poules, reste. Surfaces en m². */
   function morceaux(cmd, plan) {
     var m = [];
-    plan.lignes.forEach(function (l, i) { if (l.m2) m.push({ id: l.c.id, nom: l.c.nom, m2: l.m2, recolte: l.c.recolte, coul: COULEURS[D.CULTURES.indexOf(l.c) % COULEURS.length] }); });
-    if (plan.enclos) m.push({ id: "poules", nom: "Poules (enclos)", m2: Math.min(plan.enclos, cmd.surface_m2), recolte: [3, 4, 5, 6, 7, 8, 9], coul: "#8a7f72" });
-    var occupe = m.reduce(function (a, x) { return a + x.m2; }, 0);
-    if (cmd.surface_m2 - occupe > 0.5) m.push({ id: "reste", nom: "Libre (pommes de terre en plus ?)", m2: cmd.surface_m2 - occupe, recolte: [], coul: "#e9e2d3" });
+    var kA = 1 / (1 - D.K.partAllees);
+    plan.lignes.forEach(function (l, i) { if (l.m2) m.push({ id: l.c.id, nom: l.c.nom, m2: l.m2, place: l.m2 * kA, recolte: l.c.recolte, coul: COULEURS[D.CULTURES.indexOf(l.c) % COULEURS.length] }); });
+    if (plan.enclos) m.push({ id: "poules", nom: plan.poules + " poules (enclos)", m2: plan.enclos, place: plan.enclos, recolte: [3, 4, 5, 6, 7, 8, 9], coul: "#8a7f72" });
+    var occupe = m.reduce(function (a, x) { return a + x.place; }, 0);
+    if (cmd.surface_m2 - occupe > 0.5) m.push({ id: "reste", nom: "Libre (pommes de terre en plus ?)", m2: (cmd.surface_m2 - occupe) * (1 - D.K.partAllees), place: cmd.surface_m2 - occupe, recolte: [], coul: "#e9e2d3" });
     return m;
   }
 
   /* Dessine le jardin dans `boite`. o = { flou, saison } */
   function vue(boite, cmd, plan, o) {
-    return vueMorceaux(boite, { zone: cmd.zone }, morceaux(cmd, plan), o);
+    var forme = cmd.surface_source === "saisie" || cmd.surface_source === "modele";
+    return vueMorceaux(boite, { zone: forme ? null : cmd.zone, forme: forme ? cmd.zone : null, surface: cmd.surface_m2 }, morceaux(cmd, plan), o);
   }
 
   /* Entrée générique, indépendante du potager : n'importe quelle base de plantes peut s'y brancher.
-     cadre = { zone: [[lon,lat]...] ou null }   (sans zone : carré schématique de la surface totale)
-     m = [{ id, nom, m2, recolte: [mois 1..12 où la plante « se voit » ou se récolte], coul }]
+     cadre = { zone: [[lon,lat]...] ou null, forme: [[x,y] entre 0 et 1] ou null, surface }   (ni l'un ni l'autre : carré schématique)
+     m = [{ id, nom, m2 (surface plantée), place (m² avec sa part d'allées, facultatif), recolte: [mois 1..12 où la plante « se voit » ou se récolte], coul }]
      o = { flou, saison, motSaison (« en récolte » par défaut, « en fleur » pour un jardin d'agrément) } */
   function vueMorceaux(boite, cadre, m, o) {
     o = o || {};
     var saison = o.saison || "ete";
     var cmd = { zone: cadre.zone };
-    var total = m.reduce(function (a, x) { return a + x.m2; }, 0) || 1;
-    var parts = m.map(function (x) { return x.m2 / total; });
+    var place = function (x) { return x.place || x.m2; };
+    var total = m.reduce(function (a, x) { return a + place(x); }, 0) || 1;
+    var parts = m.map(function (x) { return place(x) / total; });
     boite.innerHTML = '<div class="saisons-btn noprint" role="group" aria-label="Saison">' + SAISONS.map(function (s) {
       return '<button type="button" data-s="' + s[0] + '" aria-pressed="' + (s[0] === saison) + '">' + s[1] + "</button>";
     }).join("") + '</div><div class="vue"></div><ul class="legende"></ul>';
@@ -381,14 +432,23 @@
       var lon = 0, lat = 0; cmd.zone.forEach(function (p) { lon += p[0]; lat += p[1]; });
       ctrl = P.carte(zoneVue, { lon: lon / cmd.zone.length, lat: lat / cmd.zone.length, zone: cmd.zone, dessin: false, sansZone: true, minCote: 20 });
       poly = ctrl.pixels(cmd.zone);
+    } else if (cadre.forme && cadre.forme.length >= 3) {
+      /* Forme dessinée à main levée, mise à l'échelle de la surface indiquée. */
+      poly = formeEnPixels(cadre.forme, 40);
+      var sm = cadre.surface || total;
+      zoneVue.innerHTML = '<div class="carte-img schema"><svg viewBox="0 0 640 640" xmlns="http://www.w3.org/2000/svg"></svg></div><p class="carte-src">Forme dessinée à main levée, mise à l\'échelle de ' + P.nb(sm, 0) + NB + "m².</p>";
     } else {
       /* Pas de contour : un carré schématique de la bonne surface. */
-      var cote = Math.sqrt(total), marge = 40, ech = (640 - 2 * marge) / cote;
-      zoneVue.innerHTML = '<div class="carte-img schema"><svg viewBox="0 0 640 640" xmlns="http://www.w3.org/2000/svg"></svg></div><p class="carte-src">Schéma : un carré de ' + P.nb(total, 0) + NB + "m² (" + P.nb(cote, 1) + NB + "m de côté), sans photo de ton terrain.</p>";
+      var cote = Math.sqrt(total), marge = 40;
+      zoneVue.innerHTML = '<div class="carte-img schema"><svg viewBox="0 0 640 640" xmlns="http://www.w3.org/2000/svg"></svg></div><p class="carte-src">Schéma : un carré de ' + P.nb(total, 0) + NB + "m² (" + P.nb(cote, 1) + NB + "m de côté).</p>";
       poly = [[marge, marge], [640 - marge, marge], [640 - marge, 640 - marge], [marge, 640 - marge]];
     }
     var svg = zoneVue.querySelector("svg");
-    var bandes = arbre(poly, parts);
+    /* Chaque planche est rétrécie autour de son centre : l'écart visible, ce sont les allées. */
+    var bandes = arbre(poly, parts).map(function (b, i) {
+      var x = m[i], f = x.place && x.place > x.m2 ? Math.sqrt(x.m2 / x.place) : 1, c = centre(b);
+      return f === 1 || !c ? b : b.map(function (p) { return [c[0] + (p[0] - c[0]) * f, c[1] + (p[1] - c[1]) * f]; });
+    });
     function dessiner(s) {
       var mois = SAISONS.filter(function (x) { return x[0] === s; })[0][2];
       var h = "";
@@ -450,5 +510,40 @@
     return n;
   }
 
-  P.vue = vue; P.vueMorceaux = vueMorceaux; P.fiches = fiches; P.pages = pages; P.masque = masque; P.SAISONS = SAISONS;
+  P.vue = vue; P.vueMorceaux = vueMorceaux; P.morceaux = morceaux; P.arbre = arbre; P.formeEnPixels = formeEnPixels; P.COULEURS = COULEURS; P.fiches = fiches; P.pages = pages; P.masque = masque; P.SAISONS = SAISONS;
+})();
+
+/* ---------- Croquis à main levée : la forme du terrain quand on ne donne que la surface ---------- */
+(function () {
+  var P = window.PotagerPlan, NB = " ";
+  function aire(pts) { var a = 0; for (var i = 0; i < pts.length; i++) { var j = (i + 1) % pts.length; a += pts[i][0] * pts[j][1] - pts[j][0] * pts[i][1]; } return Math.abs(a) / 2; }
+  /* o = { forme: [[x,y] 0..1], surface: fn() -> m², surChange(forme) } */
+  function croquis(boite, o) {
+    var T = 640, forme = (o.forme || []).map(function (p) { return [p[0] * T, p[1] * T]; });
+    var grille = "";
+    for (var i = 1; i < 10; i++) grille += '<line x1="' + i * 64 + '" y1="0" x2="' + i * 64 + '" y2="640" stroke="#d9cfbd" stroke-width="1"/><line x1="0" y1="' + i * 64 + '" x2="640" y2="' + i * 64 + '" stroke="#d9cfbd" stroke-width="1"/>';
+    boite.innerHTML = '<div class="carte-img schema"><svg viewBox="0 0 640 640" xmlns="http://www.w3.org/2000/svg" style="cursor:crosshair">' + grille + '<g class="trace"></g></svg></div><p class="carte-src croquis-txt"></p>';
+    var svg = boite.querySelector("svg"), g = boite.querySelector(".trace"), txt = boite.querySelector(".croquis-txt");
+    function maj() {
+      var pts = forme.map(function (p) { return p.join(","); }).join(" ");
+      g.innerHTML = (forme.length >= 3 ? '<polygon points="' + pts + '" fill="rgba(47,107,58,.25)" stroke="#2f6b3a" stroke-width="4"/>' : '<polyline points="' + pts + '" fill="none" stroke="#2f6b3a" stroke-width="4"/>') +
+        forme.map(function (p) { return '<circle cx="' + p[0] + '" cy="' + p[1] + '" r="9" fill="#2f6b3a" stroke="#fdfcf9" stroke-width="3"/>'; }).join("");
+      var S = o.surface ? o.surface() : 0;
+      if (forme.length >= 3 && S > 0) {
+        var e = Math.sqrt(S / aire(forme));
+        var xs = forme.map(function (p) { return p[0]; }), ys = forme.map(function (p) { return p[1]; });
+        txt.textContent = "Ton terrain : environ " + P.nb((Math.max.apply(null, xs) - Math.min.apply(null, xs)) * e, 0) + NB + "m sur " + P.nb((Math.max.apply(null, ys) - Math.min.apply(null, ys)) * e, 0) + NB + "m, pour " + P.nb(S, 0) + NB + "m².";
+      } else txt.textContent = forme.length ? "Encore " + (3 - forme.length) + " coin" + (3 - forme.length > 1 ? "s" : "") + " au minimum." : "Touche la grille à chaque coin de ton terrain.";
+      if (o.surChange) o.surChange(forme.length >= 3 ? forme.map(function (p) { return [Math.round(p[0] / T * 1e4) / 1e4, Math.round(p[1] / T * 1e4) / 1e4]; }) : null);
+    }
+    svg.addEventListener("click", function (ev) {
+      if (forme.length >= 40) return;
+      var r = svg.getBoundingClientRect();
+      forme.push([(ev.clientX - r.left) / r.width * T, (ev.clientY - r.top) / r.height * T]);
+      maj();
+    });
+    maj();
+    return { annuler: function () { forme.pop(); maj(); }, effacer: function () { forme = []; maj(); }, maj: maj };
+  }
+  P.croquis = croquis;
 })();
