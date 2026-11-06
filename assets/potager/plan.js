@@ -271,7 +271,7 @@
       '<div><b>' + euros(p.budget.total.bas) + '</b><span>pour démarrer, petit budget</span></div></div>' +
       (p.echelle < 1 ? '<div class="alerte" style="margin-top:12px"><p><b>C\'est le maximum pour ta surface.</b> Sur ' + surf + ", ton potager donne " + nb(p.echelle * 100, 0) + NB + "% des légumes que ton foyer mange en un an. Pour tout loger, il faudrait environ " + nb(p.surfaceIdeale, 0) + NB + "m², allées" + (cmd.poules ? " et poules" : "") + " comprises.</p></div>" : "");
     if (cmd.parcelle && cmd.parcelle.idu) h += '<p class="note">Parcelle cadastrale ' + esc(cmd.parcelle.idu) + (cmd.parcelle.contenance ? ", " + nb(cmd.parcelle.contenance, 0) + NB + "m² au cadastre" : "") + ".</p>";
-    h += '<h3 class="titre-vue">' + (prenom ? "Le jardin " + de(prenom) + " en 3D" : "Ton jardin en 3D") + '</h3><div id="vue-3d" class="noprint"></div><h3 class="titre-vue">Le plan, planche par planche</h3><div id="vue-jardin"></div></section>';
+    h += '<h3 class="titre-vue">' + (prenom ? "Le jardin " + de(prenom) + ", dessiné" : "Ton jardin dessiné") + '</h3><div id="vue-3d"></div><h3 class="titre-vue">Le plan, planche par planche</h3><div id="vue-jardin"></div></section>';
 
     /* L'essentiel, honnête */
     h += '<section><div class="alerte"><p><b>À savoir d\'abord.</b> ';
@@ -457,11 +457,9 @@
     });
   }
 
-  /* La 3D se charge à part (module three.js) : on attend qu'elle soit prête. */
+  /* Le jardin dessiné vu de biais (dessin.js, chargé après ce fichier). */
   function vue3d(el, cmd, plan, o) {
-    if (!el) return;
-    if (window.PotagerPlan.monter3d) window.PotagerPlan.monter3d(el, cmd, plan, o);
-    else (window.__potager3dEnAttente = window.__potager3dEnAttente || []).push([el, cmd, plan, o]);
+    if (el && window.PotagerPlan.monterDessin) window.PotagerPlan.monterDessin(el, cmd, plan, o);
   }
 
   /* « de Camille », « d'Amdy » */

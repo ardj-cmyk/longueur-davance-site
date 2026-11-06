@@ -130,7 +130,7 @@ input:focus-visible,button:focus-visible{outline:3px solid var(--terra);outline-
 .vue3d canvas{display:block;width:100%;touch-action:none}
 .lecture{position:absolute;right:10px;bottom:10px;width:44px;height:44px;border-radius:999px;border:2px solid var(--encre);background:var(--ivoire);font:800 15px 'Inter';cursor:pointer;color:var(--encre)}
 .titre-vue{margin-top:22px}
-@media print{#vue-3d{display:none}}
+@media print{#vue-3d .saisons-btn{display:none}}
 
 /* Plan 2D : légende à côté sur grand écran, fiche de la planche choisie, récap des surfaces */
 .plan-grille{display:grid;gap:14px;margin-top:10px}
