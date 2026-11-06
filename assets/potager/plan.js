@@ -199,14 +199,14 @@
       "Tu as gardé " + p.lignes.length + " culture" + (p.lignes.length > 1 ? "s" : "") + " que vous aimez : " + esc(fav) + "." +
       (p.longues.length ? " Et tu anticipes : " + p.longues.map(function (l) { return esc(l.nom.toLowerCase()); }).join(", ") + "." : "") +
       (p.poules ? " Avec " + p.poules + " poules." : "") + "</p></section>";
-    h += '<section><h2>' + (prenom ? "Le terrain de " + prenom : "Ton terrain et ton foyer") + '</h2><div class="chiffres">' +
+    h += '<section><h2>' + (prenom ? "Le terrain " + de(prenom) : "Ton terrain et ton foyer") + '</h2><div class="chiffres">' +
       '<div><b>' + surf + '</b><span>' + esc(origine) + '</span></div>' +
       '<div><b>' + personnes + '</b><span>à nourrir</span></div>' +
       '<div><b>' + nb(p.pctLegumes, 1) + NB + '%</b><span>des calories du foyer avec tes légumes</span></div>' +
       '<div><b>' + euros(p.budget.total.bas) + '</b><span>pour démarrer, petit budget</span></div></div>' +
       (p.echelle < 1 ? '<div class="alerte" style="margin-top:12px"><p><b>C\'est le maximum pour ta surface.</b> Sur ' + surf + ", ton potager donne " + nb(p.echelle * 100, 0) + NB + "% des légumes que ton foyer mange en un an. Pour tout loger, il faudrait environ " + nb(p.surfaceIdeale, 0) + NB + "m², allées" + (cmd.poules ? " et poules" : "") + " comprises.</p></div>" : "");
     if (cmd.parcelle && cmd.parcelle.idu) h += '<p class="note">Parcelle cadastrale ' + esc(cmd.parcelle.idu) + (cmd.parcelle.contenance ? ", " + nb(cmd.parcelle.contenance, 0) + NB + "m² au cadastre" : "") + ".</p>";
-    h += '<h3 class="titre-vue">' + (prenom ? "Le jardin de " + prenom + " en 3D" : "Ton jardin en 3D") + '</h3><div id="vue-3d" class="noprint"></div><h3 class="titre-vue">Le plan, planche par planche</h3><div id="vue-jardin"></div></section>';
+    h += '<h3 class="titre-vue">' + (prenom ? "Le jardin " + de(prenom) + " en 3D" : "Ton jardin en 3D") + '</h3><div id="vue-3d" class="noprint"></div><h3 class="titre-vue">Le plan, planche par planche</h3><div id="vue-jardin"></div></section>';
 
     /* L'essentiel, honnête */
     h += '<section><div class="alerte"><p><b>À savoir d\'abord.</b> ';
@@ -327,7 +327,10 @@
     else (window.__potager3dEnAttente = window.__potager3dEnAttente || []).push([el, cmd, plan, o]);
   }
 
-  window.PotagerPlan = { vue3d: vue3d, colle: colle, carte: carte, surface: surface, calculer: calculer, rendre: rendre, flouter: flouter, nb: nb, euros: euros, esc: esc };
+  /* « de Camille », « d'Amdy » */
+  function de(prenom) { return (/^[aeiouyhàâäéèêëîïôöûüœ]/i.test(prenom) ? "d'" : "de ") + prenom; }
+
+  window.PotagerPlan = { de: de, vue3d: vue3d, colle: colle, carte: carte, surface: surface, calculer: calculer, rendre: rendre, flouter: flouter, nb: nb, euros: euros, esc: esc };
 })();
 
 /* ---------- Vue du jardin : terrain découpé en bandes, une par culture, et saisons ---------- */

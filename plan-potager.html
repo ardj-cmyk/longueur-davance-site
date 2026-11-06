@@ -165,7 +165,7 @@
   function prenom() { return ($("prenom").value || "").replace(/[<>"&]/g, "").trim().slice(0, 40); }
   $("prenom").addEventListener("input", function () {
     var p = prenom();
-    document.querySelector("h1").innerHTML = p ? "Le potager de <em>" + P.esc(p) + "</em>" : "Le plan de <em>ton</em> potager";
+    document.querySelector("h1").innerHTML = p ? "Le potager " + (/^[aeiouyhàâäéèêëîïôöûüœ]/i.test(p) ? "d'" : "de ") + "<em>" + P.esc(p) + "</em>" : "Le plan de <em>ton</em> potager";
   });
 
   /* ---------- Offre et preuve ---------- */
