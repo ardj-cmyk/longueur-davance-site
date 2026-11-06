@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mon plan de potager</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon-48.png" sizes="48x48" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="/assets/potager/style.css">
+</head>
+<body>
+<main>
+<header>
+<div class="marque"><a href="/">Longueur d'avance</a> · Se nourrir en cas de blackout</div>
+<h1>Le plan de <em>ton</em> potager</h1>
+<p class="chapo" id="chapo">Chargement de ton plan…</p>
+<div class="noprint cache" id="actions">
+<p class="pages" id="nb-pages"></p>
+<div class="btns">
+<button type="button" class="btn plein" id="sortir-pdf">Sortir mon PDF</button>
+<button type="button" class="btn" id="ouvrir-modif">Modifier mes réponses</button>
+<button type="button" class="btn" id="copier">Copier le lien</button>
+</div>
+<p class="note" id="regle-pdf">Tu peux modifier ton plan autant que tu veux. Quand tu sors ton PDF, il est figé.</p>
+</div>
+</header>
+
+<section class="noprint cache" id="modif">
+<h2>Modifier mes réponses</h2>
+<p class="aide">Le terrain reste celui de ta commande. Tu peux redessiner la zone cultivée dessus.</p>
+<div id="carte-modif"></div>
+<p class="surface-live" id="surface-live"></p>
+<div class="btns cache" id="outils-zone"><button type="button" class="btn" id="redessiner">Redessiner ma zone</button><button type="button" class="btn" id="annuler-pt">Annuler le dernier point</button></div>
+<div id="bloc-saisie" class="cache"><label for="surface-saisie">Surface en m²</label><input type="number" id="surface-saisie" min="1" max="1000000" inputmode="decimal"></div>
+<label id="lbl-pers">Personnes à nourrir</label>
+<div class="stepper" role="group" aria-labelledby="lbl-pers">
+<button type="button" id="moins" aria-label="Une personne de moins">−</button>
+<output id="personnes">2</output>
+<button type="button" id="plus" aria-label="Une personne de plus">+</button>
+</div>
+<div class="coche"><input type="checkbox" id="poules"><label for="poules" style="margin:0;font-weight:500">Des poules (4 pour 2 personnes)</label></div>
+<h3>Légumes et fruits rapides</h3>
+<div class="choix" id="rapides"></div>
+<h3>Fruits et plantes à anticiper</h3>
+<div class="choix" id="longues"></div>
+<p class="erreur" id="err-modif" role="alert"></p>
+<div class="btns"><button type="button" class="btn plein" id="enregistrer">Mettre mon plan à jour</button><button type="button" class="btn" id="fermer-modif">Fermer</button></div>
+</section>
+
+<div id="etat"></div>
+<div id="plan"></div>
+<p class="signature">Amdy, Longueur d'avance. Plan calculé à partir du <a href="/potager">modèle pour 2 personnes</a>. Une question sur ton plan : <a href="https://www.instagram.com/ardj.87/">écris-moi sur Instagram</a>.</p>
+</main>
+<script src="/assets/potager/donnees.js"></script>
+<script src="/assets/potager/plan.js"></script>
+<script>
+(function () {
+  var API = "https://lkdoogzfkfhegjkdwcab.supabase.co/functions/v1/potager-commande";
+  var D = window.POTAGER_DONNEES, P = window.PotagerPlan;
+  var $ = function (id) { return document.getElementById(id); };
+  var q = new URLSearchParams(location.search), c = q.get("c"), k = q.get("k");
+  var cmd = null, essais = 0, dessin = null, nouvelleZone = null, nouvelleSurface = null, pers = 2;
+
+  function api(corps) {
+    corps.c = c; corps.k = k;
+    return fetch(API, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(corps) }).then(function (r) { return r.json(); });
+  }
+  function message(html) { $("etat").innerHTML = '<section><div class="alerte">' + html + "</div></section>"; }
+
+  function afficher(flou) {
+    var plan = P.calculer(cmd);
+    var html = P.rendre(cmd, plan);
+    $("plan").innerHTML = html;
+    if (flou) { var vj = $("plan").querySelector("#vue-jardin"); P.flouter($("plan")); if (vj) P.vue(vj, cmd, plan, { flou: true }); return; }
+    P.vue($("vue-jardin"), cmd, plan, { flou: false });
+    $("nb-pages").textContent = "Ton plan : environ " + P.pages(html) + " pages en PDF";
+    $("chapo").textContent = "Pour " + plan.N + " personne" + (plan.N > 1 ? "s" : "") + " sur " + P.nb(cmd.surface_m2, 0) + " m²" + (cmd.gratuite ? ", offert (un des 20 premiers)." : ".");
+    $("actions").classList.remove("cache");
+    if (cmd.fige_le) {
+      $("ouvrir-modif").classList.add("cache");
+      $("sortir-pdf").textContent = "Enregistrer à nouveau en PDF";
+      $("regle-pdf").textContent = "Plan figé le " + new Date(cmd.fige_le).toLocaleDateString("fr-FR") + ", quand tu as sorti ton PDF. Tu peux le réimprimer autant que tu veux.";
+    }
+  }
+
+  function payer() {
+    if (!$("retract2").checked) { $("err2").textContent = "Coche la case des conditions de vente pour payer."; return; }
+    $("payer").disabled = true;
+    api({ action: "payer", consentement: true }).then(function (d) {
+      if (d.url) location.href = d.url; else { $("payer").disabled = false; $("err2").textContent = d.erreur === "paiement_ferme" ? "Le paiement en ligne ouvre très bientôt. Garde ce lien et reviens dans quelques jours." : "Le paiement n'a pas pu s'ouvrir. Réessaie dans un instant."; }
+    }).catch(function () { $("payer").disabled = false; $("err2").textContent = "Connexion impossible."; });
+  }
+
+  function lire() {
+    if (!c || !k) { $("chapo").textContent = "Ce lien est incomplet."; message('<p>Ouvre le lien exact de ton plan, ou <a href="/plan-potager">fais ton plan</a>.</p>'); return; }
+    api({ action: "lire" }).then(function (d) {
+      if (!d.commande) { $("chapo").textContent = "Plan introuvable."; message("<p>Ce lien ne correspond à aucun plan. Vérifie qu'il est complet.</p>"); return; }
+      cmd = d.commande; cmd.surface_m2 = Number(cmd.surface_m2);
+      if (d.statut === "attente") {
+        if (q.get("paiement") === "ok" && essais < 15) { essais++; $("chapo").textContent = "Paiement reçu, ton plan arrive…"; setTimeout(lire, 2000); return; }
+        if (q.get("paiement") === "ok") { $("chapo").textContent = "Ton paiement est en cours de validation."; message("<p>Stripe n'a pas encore confirmé le paiement. Recharge la page dans une minute. Si rien ne change, écris-moi sur Instagram avec l'email utilisé.</p>"); return; }
+        $("chapo").textContent = "Ton plan est prêt, il reste le paiement.";
+        message('<p><b>Voici l\'aperçu de ton plan.</b> Pour tout débloquer : 29,90&nbsp;€ TTC, TVA non applicable, article 293 B du CGI.</p>' +
+          '<div class="coche"><input type="checkbox" id="retract2"><label for="retract2" style="margin:0;font-weight:500">J\'accepte les <a href="/cgv#potager">conditions de vente</a>. Je demande l\'accès immédiat à mon plan et je renonce à mon droit de rétractation dès qu\'il s\'affiche.</label></div>' +
+          '<p class="erreur" id="err2"></p><div class="btns"><button type="button" class="btn plein" id="payer">Payer 29,90&nbsp;€ et voir mon plan</button></div>');
+        $("payer").addEventListener("click", payer);
+        afficher(true);
+        return;
+      }
+      $("etat").innerHTML = "";
+      afficher(false);
+    }).catch(function () { $("chapo").textContent = "Connexion impossible."; message("<p>Recharge la page dans un instant.</p>"); });
+  }
+
+  /* ---------- Sortir le PDF (fige le plan) ---------- */
+  $("sortir-pdf").addEventListener("click", function () {
+    if (cmd.fige_le) { window.print(); return; }
+    if (!confirm("Une fois ton PDF sorti, ton plan est figé : tu ne pourras plus le modifier. On y va ?")) return;
+    api({ action: "figer" }).then(function (d) {
+      if (d.fige_le) { cmd.fige_le = d.fige_le; $("modif").classList.add("cache"); afficher(false); setTimeout(function () { window.print(); }, 300); }
+      else alert("Impossible pour le moment, réessaie dans un instant.");
+    });
+  });
+  $("copier").addEventListener("click", function () {
+    var u = location.origin + location.pathname + "?c=" + c + "&k=" + k;
+    (navigator.clipboard ? navigator.clipboard.writeText(u) : Promise.reject()).then(function () { $("copier").textContent = "Lien copié"; }).catch(function () { prompt("Copie ce lien :", u); });
+  });
+
+  /* ---------- Modifier ---------- */
+  function caseChoix(parent, item, coche, detail, longue) {
+    var l = document.createElement("label");
+    if (longue) l.className = "longue";
+    l.innerHTML = '<input type="checkbox" value="' + item.id + '"' + (coche ? " checked" : "") + '><span><b>' + P.esc(item.nom) + "</b>" +
+      (longue ? ' <span class="tag">long, à anticiper</span>' : "") + '<span class="d">' + P.esc(detail) + "</span></span>";
+    parent.appendChild(l);
+  }
+  $("ouvrir-modif").addEventListener("click", function () {
+    if (!cmd || cmd.fige_le) return;
+    pers = cmd.personnes; $("personnes").textContent = pers; $("poules").checked = !!cmd.poules;
+    $("rapides").innerHTML = ""; $("longues").innerHTML = "";
+    D.CULTURES.forEach(function (x) { caseChoix($("rapides"), x, cmd.cultures.indexOf(x.id) >= 0, "Avant la récolte : " + x.delai, false); });
+    D.LONGUES.forEach(function (x) { caseChoix($("longues"), x, (cmd.longues || []).indexOf(x.id) >= 0, "Première récolte : " + x.delai, x.long); });
+    nouvelleZone = null; nouvelleSurface = null;
+    if (cmd.zone && cmd.zone.length >= 3) {
+      $("outils-zone").classList.remove("cache"); $("bloc-saisie").classList.add("cache");
+      var lon = 0, lat = 0; cmd.zone.forEach(function (p) { lon += p[0]; lat += p[1]; });
+      dessin = P.carte($("carte-modif"), { lon: lon / cmd.zone.length, lat: lat / cmd.zone.length, zone: cmd.zone, dessin: false, minCote: 30 });
+      $("surface-live").textContent = "Zone actuelle : " + P.nb(cmd.surface_m2, 0) + " m²";
+    } else {
+      $("outils-zone").classList.add("cache"); $("bloc-saisie").classList.remove("cache"); $("surface-saisie").value = cmd.surface_m2;
+    }
+    $("modif").classList.remove("cache"); $("modif").scrollIntoView({ behavior: "smooth" });
+  });
+  $("redessiner").addEventListener("click", function () {
+    var lon = 0, lat = 0; cmd.zone.forEach(function (p) { lon += p[0]; lat += p[1]; });
+    dessin = P.carte($("carte-modif"), {
+      lon: lon / cmd.zone.length, lat: lat / cmd.zone.length, zone: [], dessin: true, minCote: 30,
+      surChange: function (z, s) { nouvelleZone = z.length >= 3 ? z : null; nouvelleSurface = s; $("surface-live").textContent = z.length >= 3 ? "Nouvelle zone : " + P.nb(s, 0) + " m²" : "Touche la photo à chaque coin (3 points minimum)"; }
+    });
+  });
+  $("annuler-pt").addEventListener("click", function () { dessin && dessin.annuler && dessin.annuler(); });
+  $("moins").addEventListener("click", function () { pers = Math.max(1, pers - 1); $("personnes").textContent = pers; });
+  $("plus").addEventListener("click", function () { pers = Math.min(12, pers + 1); $("personnes").textContent = pers; });
+  $("fermer-modif").addEventListener("click", function () { $("modif").classList.add("cache"); });
+  $("enregistrer").addEventListener("click", function () {
+    var cultures = [].slice.call(document.querySelectorAll("#rapides input:checked")).map(function (i) { return i.value; });
+    var longues = [].slice.call(document.querySelectorAll("#longues input:checked")).map(function (i) { return i.value; });
+    if (!cultures.length) { $("err-modif").textContent = "Coche au moins une culture rapide."; return; }
+    var n = { personnes: pers, cultures: cultures, longues: longues, poules: $("poules").checked, surface_m2: cmd.surface_m2, surface_source: cmd.surface_source, zone: cmd.zone };
+    if (nouvelleZone) { n.zone = nouvelleZone; n.surface_m2 = Math.round(nouvelleSurface * 10) / 10; n.surface_source = "dessin"; }
+    if (!$("bloc-saisie").classList.contains("cache")) { var v = parseFloat(String($("surface-saisie").value).replace(",", ".")); if (!(v > 0)) { $("err-modif").textContent = "Indique une surface."; return; } n.surface_m2 = v; }
+    $("enregistrer").disabled = true;
+    n.action = "modifier";
+    api(n).then(function (d) {
+      $("enregistrer").disabled = false;
+      if (!d.ok) { $("err-modif").textContent = d.erreur === "fige" ? "Ton plan est figé depuis la sortie du PDF." : "La mise à jour n'a pas marché (" + (d.erreur || "erreur") + ")."; return; }
+      $("err-modif").textContent = "";
+      Object.keys(n).forEach(function (x) { if (x !== "action" && x !== "c" && x !== "k") cmd[x] = n[x]; });
+      $("modif").classList.add("cache");
+      afficher(false);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }).catch(function () { $("enregistrer").disabled = false; $("err-modif").textContent = "Connexion impossible."; });
+  });
+
+  lire();
+})();
+</script>
+</body>
+</html>

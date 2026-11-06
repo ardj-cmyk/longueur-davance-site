@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Le plan de ton potager : gratuit pour 2 personnes, sur mesure pour ton terrain</title>
+<meta name="description" content="Coche ce que vous aimez : le plan de potager pour 2 personnes est gratuit. Avec ton adresse ou ton terrain dessiné sur la photo aérienne, ton plan sur mesure : cultures, surfaces, saisons, semis, conservation, budget, chaque chiffre sourcé.">
+<link rel="canonical" href="https://longueur-davance.fr/plan-potager">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon-48.png" sizes="48x48" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta property="og:title" content="Le plan de ton potager">
+<meta property="og:description" content="Gratuit pour 2 personnes. Sur mesure pour ton terrain : cultures, saisons, semis, budget, chaque chiffre sourcé.">
+<meta property="og:image" content="https://longueur-davance.fr/og/potager.png">
+<meta property="og:url" content="https://longueur-davance.fr/plan-potager">
+<link rel="stylesheet" href="/assets/potager/style.css">
+</head>
+<body>
+<main>
+<header>
+<div class="marque"><a href="/">Longueur d'avance</a> · Se nourrir en cas de blackout · Partie 3</div>
+<h1>Le plan de <em>ton</em> potager</h1>
+<p class="chapo">Ce que vous aimez, combien vous êtes, ton terrain. Le plan sort tout de suite : quoi planter, où, quand semer, quand récolter, comment garder sans frigo, ce que ça coûte. Chaque chiffre a sa source.</p>
+<p class="preuve cache" id="preuve"></p>
+</header>
+
+<div class="collant cache" id="visuel"></div>
+
+<form id="f" novalidate>
+
+<!-- 0. Choix -->
+<section class="slide active" id="s-choix">
+<h2>Quel plan veux-tu ?</h2>
+<div class="choix-offre">
+<button type="button" id="go-gratuit"><span class="t">Gratuit : 2 personnes</span><span class="p">0&nbsp;€</span><span class="d">Tu coches ce que vous aimez, le plan complet pour deux s'affiche. Aucune donnée demandée.</span></button>
+<button type="button" id="go-perso"><span class="t">Sur mesure : ton terrain</span><span class="p" id="prix-perso">29,90&nbsp;€</span><span class="d">Ton adresse ou ton terrain dessiné sur la photo aérienne, ton nombre de personnes, les poules si tu veux. Ton terrain découpé en cultures, saison par saison. Tu modifies autant que tu veux jusqu'à sortir ton PDF.</span></button>
+</div>
+<p class="note">Les deux plans viennent du même calcul, à partir du <a href="/potager">modèle pour 2 personnes</a> recherché et sourcé à la main. Ce que les sources ne donnent pas est écrit « non chiffré ».</p>
+</section>
+
+<!-- 1. Terrain (sur mesure) -->
+<section class="slide" id="s-terrain">
+<p class="etapes">Étape 1 sur 4</p>
+<h2>Ton terrain</h2>
+<div class="onglets" role="group" aria-label="Comment trouver ton terrain">
+<button type="button" data-mode="adresse" aria-pressed="true">Mon adresse</button>
+<button type="button" data-mode="ref" aria-pressed="false">Référence cadastrale</button>
+<button type="button" data-mode="saisie" aria-pressed="false">Je connais la surface</button>
+</div>
+<div id="m-adresse">
+<label for="adresse">Adresse du terrain</label>
+<input type="text" id="adresse" autocomplete="off" placeholder="12 rue des Lilas, 44000 Nantes">
+<ul class="suggestions cache" id="sugg-adresse"></ul>
+<p class="aide">On retrouve ta parcelle au cadastre, puis tu dessines ton potager sur la photo aérienne.</p>
+</div>
+<div id="m-ref" class="cache">
+<label for="commune">Commune</label>
+<input type="text" id="commune" autocomplete="off" placeholder="Nantes">
+<ul class="suggestions cache" id="sugg-commune"></ul>
+<div class="ref">
+<div><label for="section">Section</label><input type="text" id="section" maxlength="2" placeholder="AB" autocapitalize="characters"></div>
+<div><label for="numero">Numéro</label><input type="text" id="numero" maxlength="4" inputmode="numeric" placeholder="123"></div>
+<div><label>&nbsp;</label><button type="button" class="btn" id="chercher-ref">Trouver</button></div>
+</div>
+<p class="aide">La référence est sur ton acte de propriété, ta taxe foncière ou sur cadastre.gouv.fr.</p>
+</div>
+<div id="m-saisie" class="cache">
+<label for="surface-saisie">Surface de ton potager, en m²</label>
+<input type="number" id="surface-saisie" min="1" max="1000000" inputmode="decimal" placeholder="150">
+</div>
+<p class="erreur" id="err-terrain" role="alert"></p>
+<div id="outils-dessin" class="cache">
+<p class="ok" id="info-parcelle"></p>
+<p class="aide"><b>Dessine ton potager :</b> touche la photo à chaque coin de la zone que tu veux cultiver. La surface se calcule toute seule.</p>
+<p class="surface-live" id="surface-live" aria-live="polite"></p>
+<div class="btns">
+<button type="button" class="btn" id="annuler-pt">Annuler le dernier point</button>
+<button type="button" class="btn" id="effacer">Effacer</button>
+<button type="button" class="btn" id="toute-parcelle">Prendre toute la parcelle</button>
+</div>
+</div>
+<div class="btns"><button type="button" class="btn" data-retour="s-choix">Retour</button><button type="button" class="btn plein" id="suite-terrain">Continuer</button></div>
+</section>
+
+<!-- 2. Foyer (sur mesure) -->
+<section class="slide" id="s-foyer">
+<p class="etapes">Étape 2 sur 4</p>
+<h2>Ton foyer</h2>
+<label id="lbl-pers">Combien de personnes à nourrir ?</label>
+<div class="stepper" role="group" aria-labelledby="lbl-pers">
+<button type="button" id="moins" aria-label="Une personne de moins">−</button>
+<output id="personnes" aria-live="polite">2</output>
+<button type="button" id="plus" aria-label="Une personne de plus">+</button>
+</div>
+<div class="coche"><input type="checkbox" id="poules"><label for="poules" style="margin:0;font-weight:500">Je veux des poules (4 pour 2 personnes, l'enclos prend sa place sur le terrain)</label></div>
+<div class="btns"><button type="button" class="btn" data-retour="s-terrain">Retour</button><button type="button" class="btn plein" data-suite="s-gouts">Continuer</button></div>
+</section>
+
+<!-- 3. Goûts (les deux parcours) -->
+<section class="slide" id="s-gouts">
+<p class="etapes" id="etape-gouts">Étape 3 sur 4</p>
+<h2>Ce que vous aimez</h2>
+<p>Décoche ce que vous ne mangez pas. Le délai avant la première récolte est indiqué pour chaque culture.</p>
+<div class="coche cache" id="poules-gratuit-bloc"><input type="checkbox" id="poules-gratuit"><label for="poules-gratuit" style="margin:0;font-weight:500">Ajouter 4 poules</label></div>
+<h3>Légumes et fruits rapides (moins d'un an)</h3>
+<div class="choix" id="rapides"></div>
+<h3>Fruits et plantes à anticiper</h3>
+<p class="aide">En gris : plus de 2 ans avant de manger. Long, mais c'est justement ce qu'il faut planter avant d'en avoir besoin.</p>
+<div class="choix" id="longues"></div>
+<p class="erreur" id="err-gouts" role="alert"></p>
+<div class="btns"><button type="button" class="btn" id="retour-gouts">Retour</button><button type="button" class="btn plein" id="suite-gouts">Voir mon plan</button></div>
+</section>
+
+<!-- 4a. Plan gratuit -->
+<section class="slide" id="s-gratuit">
+<div class="btns noprint"><button type="button" class="btn plein" id="pdf-gratuit">Enregistrer en PDF</button><button type="button" class="btn" data-retour="s-gouts">Changer mes goûts</button></div>
+<div class="alerte noprint" style="margin-top:16px"><p><b>Tu as un terrain ?</b> Le plan sur mesure découpe ton vrai terrain en cultures, pour ton nombre de personnes, saison par saison. <span id="places-txt"></span></p><div class="btns"><button type="button" class="btn plein" id="vers-perso">Faire le plan de mon terrain</button></div></div>
+<div id="plan-gratuit"></div>
+</section>
+
+<!-- 4b. Aperçu + commande (sur mesure) -->
+<section class="slide" id="s-apercu">
+<p class="etapes">Étape 4 sur 4</p>
+<h2>L'aperçu de ton plan</h2>
+<p>Voilà ton terrain découpé. Change de saison pour voir ce qui se récolte. Le détail (cultures, surfaces, délais, semis, prix) se débloque avec ton plan.</p>
+<div id="vue-apercu"></div>
+<span class="pages" id="nb-pages"></span>
+<div id="plan-flou" aria-hidden="true"></div>
+<h2 style="margin-top:28px">Reçois ton plan</h2>
+<p class="compteur" id="compteur"></p>
+<label for="email">Ton email</label>
+<input type="email" id="email" autocomplete="email" placeholder="toi@exemple.fr">
+<p class="aide">Pour retrouver ton plan et recevoir ta facture si tu paies. Pas de newsletter.</p>
+<div class="piege" aria-hidden="true"><label for="site_web">Ne pas remplir</label><input type="text" id="site_web" tabindex="-1" autocomplete="off"></div>
+<div class="coche"><input type="checkbox" id="rgpd"><label for="rgpd" style="margin:0;font-weight:500">J'accepte que mon email, l'adresse ou la référence de mon terrain et le contour dessiné servent à calculer mon plan et à me le renvoyer. Gardés 12 mois puis supprimés (<a href="/confidentialite#potager">confidentialité</a>).</label></div>
+<div class="coche cache" id="bloc-retract"><input type="checkbox" id="retract"><label for="retract" style="margin:0;font-weight:500">J'accepte les <a href="/cgv#potager">conditions de vente</a>. Je demande l'accès immédiat à mon plan et je renonce à mon droit de rétractation dès qu'il s'affiche.</label></div>
+<p class="erreur" id="err-envoi" role="alert"></p>
+<div class="btns"><button type="button" class="btn" data-retour="s-gouts">Retour</button><button type="submit" class="btn plein" id="envoyer">Recevoir mon plan</button></div>
+<p class="note">Prix du plan sur mesure : 29,90&nbsp;€ TTC, TVA non applicable, article 293 B du CGI. Paiement sécurisé par Stripe (carte, Apple Pay, Google Pay). Tu peux modifier ton plan autant que tu veux, il est figé quand tu sors ton PDF.</p>
+</section>
+</form>
+
+<p class="signature noprint">Amdy, Longueur d'avance. <a href="/potager">Le modèle pour 2 personnes</a> · <a href="/cgv#potager">Conditions de vente</a> · <a href="/confidentialite#potager">Confidentialité</a> · <a href="/mentions-legales">Mentions légales</a></p>
+</main>
+
+<script src="/assets/potager/donnees.js"></script>
+<script src="/assets/potager/plan.js"></script>
+<script>
+(function () {
+  var API = "https://lkdoogzfkfhegjkdwcab.supabase.co/functions/v1/potager-commande";
+  var GEO = "https://data.geopf.fr/geocodage/search";
+  var CAD = "https://apicarto.ign.fr/api/cadastre/parcelle";
+  var D = window.POTAGER_DONNEES, P = window.PotagerPlan;
+  var $ = function (id) { return document.getElementById(id); };
+  var etat = { parcours: null, mode: "adresse", personnes: 2, parcelle: null, parcelleGeo: null, point: null, zone: [], surfaceZone: 0, adresse: null, places: null, prix: 2990, codeInsee: null, touteParcelle: false };
+  var dessin = null;
+
+  /* ---------- Offre et preuve ---------- */
+  fetch(API + "?places").then(function (r) { return r.json(); }).then(function (d) {
+    if (typeof d.places !== "number") return;
+    etat.places = d.places; etat.prix = d.prix_centimes;
+    var prix = P.euros(d.prix_centimes / 100);
+    if (d.places > 0) {
+      $("prix-perso").textContent = "Offert pour les 20 premiers : il reste " + d.places + " place" + (d.places > 1 ? "s" : "") + ". Ensuite " + prix;
+      $("compteur").textContent = "Offert : il reste " + d.places + " place" + (d.places > 1 ? "s" : "") + " sur 20";
+      $("places-txt").textContent = "Les 20 premiers sont offerts, il reste " + d.places + " place" + (d.places > 1 ? "s" : "") + ".";
+      $("envoyer").textContent = "Recevoir mon plan offert";
+    } else if (d.paiement_ouvert === false) {
+      etat.ferme = true;
+      $("prix-perso").textContent = "Les 20 plans offerts sont partis. Le paiement en ligne ouvre très bientôt.";
+      $("go-perso").disabled = true; $("go-perso").style.opacity = ".6";
+      $("places-txt").textContent = "Les 20 plans offerts sont partis, le paiement en ligne ouvre très bientôt.";
+      $("vers-perso").classList.add("cache");
+    } else {
+      $("prix-perso").textContent = prix;
+      $("compteur").textContent = "Plan sur mesure : " + prix;
+      $("places-txt").textContent = "Prix : " + prix + ".";
+      $("envoyer").textContent = "Payer " + prix + " et recevoir mon plan";
+      $("bloc-retract").classList.remove("cache");
+    }
+    if (d.total_plans >= 10) { $("preuve").textContent = "Déjà " + P.nb(d.total_plans, 0) + " plans calculés."; $("preuve").classList.remove("cache"); }
+  }).catch(function () {});
+
+  /* ---------- Slides ---------- */
+  function aller(id) {
+    document.querySelectorAll(".slide").forEach(function (s) { s.classList.toggle("active", s.id === id); });
+    var avecVisuel = id === "s-terrain" ? !!(etat.point && etat.mode !== "saisie") : (id === "s-foyer" || id === "s-gouts");
+    if (id === "s-terrain" && etat.point) carteDessin(etat.point[0], etat.point[1], etat.zone);
+    $("visuel").classList.toggle("cache", !avecVisuel);
+    if (id === "s-foyer" || id === "s-gouts") majVisuel();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+  document.querySelectorAll("[data-retour]").forEach(function (b) { b.addEventListener("click", function () { aller(b.dataset.retour); }); });
+  document.querySelectorAll("[data-suite]").forEach(function (b) { b.addEventListener("click", function () { aller(b.dataset.suite); }); });
+
+  $("go-gratuit").addEventListener("click", function () {
+    etat.parcours = "gratuit"; $("etape-gouts").textContent = "Plan gratuit pour 2 personnes";
+    $("poules-gratuit-bloc").classList.remove("cache"); aller("s-gouts");
+  });
+  $("go-perso").addEventListener("click", function () {
+    etat.parcours = "perso"; $("etape-gouts").textContent = "Étape 3 sur 4";
+    $("poules-gratuit-bloc").classList.add("cache"); aller("s-terrain");
+  });
+  $("vers-perso").addEventListener("click", function () { $("go-perso").click(); });
+  $("retour-gouts").addEventListener("click", function () { aller(etat.parcours === "gratuit" ? "s-choix" : "s-foyer"); });
+
+  /* ---------- Réponses ---------- */
+  function coches(sel) { return [].slice.call(document.querySelectorAll(sel + " input:checked")).map(function (i) { return i.value; }); }
+  function surfaceChoisie() {
+    if (etat.mode === "saisie") { var v = parseFloat(String($("surface-saisie").value).replace(",", ".")); return v > 0 ? { s: v, src: "saisie", zone: null } : null; }
+    if (etat.zone.length >= 3 && etat.surfaceZone >= 1) return { s: etat.surfaceZone, src: "dessin", zone: etat.zone };
+    if (etat.touteParcelle && etat.parcelle) return { s: etat.parcelle.contenance, src: "cadastre", zone: anneauParcelle() };
+    return null;
+  }
+  function anneauParcelle() {
+    var g = etat.parcelleGeo; if (!g) return null;
+    var a = g.type === "MultiPolygon" ? g.coordinates[0][0] : g.coordinates[0];
+    a = a.slice(0, a.length - 1);
+    var pas = Math.ceil(a.length / 55);
+    return a.filter(function (_, i) { return i % pas === 0; });
+  }
+  function commande() {
+    if (etat.parcours === "gratuit") {
+      var base = { personnes: 2, cultures: coches("#rapides"), longues: coches("#longues"), poules: $("poules-gratuit").checked, surface_m2: 100000, surface_source: "modele", zone: null };
+      var b = P.calculer(base);
+      base.surface_m2 = Math.max(1, Math.round((b.besoin + b.enclos) * 10) / 10);
+      return base;
+    }
+    var s = surfaceChoisie();
+    return { personnes: etat.personnes, cultures: coches("#rapides"), longues: coches("#longues"), poules: $("poules").checked, surface_m2: s ? s.s : 0, surface_source: s ? s.src : "saisie", zone: s ? s.zone : null };
+  }
+
+  /* Le visuel en haut : le terrain découpé, qui suit les réponses. */
+  function majVisuel() {
+    var cmd = commande();
+    if (!cmd.cultures.length || !(cmd.surface_m2 > 0)) { $("visuel").classList.add("cache"); return; }
+    $("visuel").classList.remove("cache");
+    P.vue($("visuel"), cmd, P.calculer(cmd), { flou: etat.parcours === "perso" });
+  }
+
+  /* ---------- Terrain ---------- */
+  document.querySelectorAll(".onglets button").forEach(function (b) {
+    b.addEventListener("click", function () {
+      etat.mode = b.dataset.mode;
+      document.querySelectorAll(".onglets button").forEach(function (x) { x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
+      ["adresse", "ref", "saisie"].forEach(function (m) { $("m-" + m).classList.toggle("cache", m !== etat.mode); });
+      var carte = etat.mode !== "saisie" && etat.point;
+      $("visuel").classList.toggle("cache", !carte); $("outils-dessin").classList.toggle("cache", !carte);
+      $("err-terrain").textContent = "";
+    });
+  });
+
+  function autocomplete(input, liste, type, choisir) {
+    var t = null;
+    input.addEventListener("input", function () {
+      clearTimeout(t);
+      var q = input.value.trim();
+      if (q.length < 3) { liste.classList.add("cache"); return; }
+      t = setTimeout(function () {
+        fetch(GEO + "?q=" + encodeURIComponent(q) + "&limit=5&autocomplete=1" + (type ? "&type=" + type : "")).then(function (r) { return r.json(); }).then(function (d) {
+          var f = d.features || [];
+          if (!f.length) { liste.classList.add("cache"); return; }
+          liste.innerHTML = "";
+          f.forEach(function (x) {
+            var li = document.createElement("li"), b = document.createElement("button");
+            b.type = "button"; b.textContent = x.properties.label + (type === "municipality" ? " (" + x.properties.postcode + ")" : "");
+            b.addEventListener("click", function () { input.value = x.properties.label; liste.classList.add("cache"); choisir(x); });
+            li.appendChild(b); liste.appendChild(li);
+          });
+          liste.classList.remove("cache");
+        }).catch(function () {});
+      }, 250);
+    });
+  }
+
+  function montrerCarte(lon, lat, feature) {
+    etat.point = [lon, lat];
+    etat.parcelle = feature ? { idu: feature.properties.idu, commune: feature.properties.nom_com, section: feature.properties.section, numero: feature.properties.numero, contenance: feature.properties.contenance } : null;
+    etat.parcelleGeo = feature ? feature.geometry : null;
+    $("info-parcelle").textContent = feature
+      ? "Parcelle trouvée : " + feature.properties.nom_com + ", section " + feature.properties.section + " n° " + feature.properties.numero + ", " + P.nb(feature.properties.contenance, 0) + " m² au cadastre."
+      : "Aucune parcelle cadastrale à ce point. Dessine ton terrain sur la photo.";
+    $("toute-parcelle").classList.toggle("cache", !feature);
+    $("outils-dessin").classList.remove("cache"); $("visuel").classList.remove("cache");
+    etat.zone = []; etat.surfaceZone = 0; etat.touteParcelle = false; $("surface-live").textContent = "";
+    carteDessin(lon, lat, []);
+  }
+  function carteDessin(lon, lat, zone) {
+    var garde = etat.touteParcelle;
+    dessin = P.carte($("visuel"), {
+      lon: lon, lat: lat, parcelle: etat.parcelleGeo, dessin: true, zone: zone,
+      surChange: function (z, s) {
+        etat.zone = z; etat.surfaceZone = s;
+        if (z.length) etat.touteParcelle = false;
+        else etat.touteParcelle = garde;
+        $("surface-live").textContent = z.length >= 3 ? "Ton potager : " + P.nb(s, 0) + " m²" : (z.length ? "Encore " + (3 - z.length) + " point" + (3 - z.length > 1 ? "s" : "") + " au minimum" : "");
+        garde = false;
+      }
+    });
+  }
+  function parcelleAuPoint(lon, lat) {
+    var g = encodeURIComponent(JSON.stringify({ type: "Point", coordinates: [lon, lat] }));
+    return fetch(CAD + "?geom=" + g).then(function (r) { return r.json(); }).then(function (d) { return (d.features || [])[0] || null; });
+  }
+  autocomplete($("adresse"), $("sugg-adresse"), null, function (x) {
+    var c = x.geometry.coordinates;
+    etat.adresse = x.properties.label; $("err-terrain").textContent = "";
+    parcelleAuPoint(c[0], c[1]).then(function (f) { montrerCarte(c[0], c[1], f); }).catch(function () { montrerCarte(c[0], c[1], null); });
+  });
+  autocomplete($("commune"), $("sugg-commune"), "municipality", function (x) { etat.codeInsee = x.properties.citycode; });
+  $("chercher-ref").addEventListener("click", function () {
+    var sec = $("section").value.trim().toUpperCase(), num = $("numero").value.trim();
+    $("err-terrain").textContent = "";
+    if (!etat.codeInsee) { $("err-terrain").textContent = "Choisis ta commune dans la liste."; return; }
+    if (!/^[0-9A-Z]{1,2}$/.test(sec) || !/^\d{1,4}$/.test(num)) { $("err-terrain").textContent = "Section : 1 ou 2 lettres. Numéro : jusqu'à 4 chiffres."; return; }
+    sec = ("0" + sec).slice(-2); num = ("000" + num).slice(-4);
+    fetch(CAD + "?code_insee=" + etat.codeInsee + "&section=" + sec + "&numero=" + num).then(function (r) { return r.json(); }).then(function (d) {
+      var f = (d.features || [])[0];
+      if (!f) { $("err-terrain").textContent = "Parcelle introuvable. Vérifie la section et le numéro."; return; }
+      var ring = f.geometry.type === "MultiPolygon" ? f.geometry.coordinates[0][0] : f.geometry.coordinates[0];
+      var lon = ring.reduce(function (a, p) { return a + p[0]; }, 0) / ring.length, lat = ring.reduce(function (a, p) { return a + p[1]; }, 0) / ring.length;
+      etat.adresse = "Parcelle " + f.properties.idu;
+      montrerCarte(lon, lat, f);
+    }).catch(function () { $("err-terrain").textContent = "Le cadastre ne répond pas. Réessaie ou indique la surface."; });
+  });
+  $("annuler-pt").addEventListener("click", function () { dessin && dessin.annuler(); });
+  $("effacer").addEventListener("click", function () { dessin && dessin.effacer(); });
+  $("toute-parcelle").addEventListener("click", function () {
+    if (!etat.parcelle) return;
+    dessin && dessin.effacer();
+    etat.touteParcelle = true;
+    $("surface-live").textContent = "Toute la parcelle : " + P.nb(etat.parcelle.contenance, 0) + " m² (maison et allées comprises)";
+  });
+  $("suite-terrain").addEventListener("click", function () {
+    if (!surfaceChoisie()) { $("err-terrain").textContent = "Dessine au moins 3 points sur la photo, prends toute la parcelle ou saisis la surface."; return; }
+    $("err-terrain").textContent = ""; aller("s-foyer");
+  });
+
+  /* ---------- Foyer et goûts ---------- */
+  function majPers(d) { etat.personnes = Math.max(1, Math.min(12, etat.personnes + d)); $("personnes").textContent = etat.personnes; majVisuel(); }
+  $("moins").addEventListener("click", function () { majPers(-1); });
+  $("plus").addEventListener("click", function () { majPers(1); });
+  $("poules").addEventListener("change", majVisuel);
+  $("poules-gratuit").addEventListener("change", majVisuel);
+
+  function caseChoix(parent, item, coche, detail, longue) {
+    var l = document.createElement("label");
+    if (longue) l.className = "longue";
+    l.innerHTML = '<input type="checkbox" value="' + item.id + '"' + (coche ? " checked" : "") + '><span><b>' + P.esc(item.nom) + "</b>" +
+      (longue ? ' <span class="tag">long, à anticiper</span>' : "") + '<span class="d">' + P.esc(detail) + "</span></span>";
+    l.querySelector("input").addEventListener("change", majVisuel);
+    parent.appendChild(l);
+  }
+  D.CULTURES.forEach(function (c) { caseChoix($("rapides"), c, true, "Avant la récolte : " + c.delai, false); });
+  D.LONGUES.forEach(function (c) { caseChoix($("longues"), c, false, "Première récolte : " + c.delai, c.long); });
+
+  $("suite-gouts").addEventListener("click", function () {
+    var cmd = commande();
+    if (!cmd.cultures.length) { $("err-gouts").textContent = "Coche au moins une culture rapide."; return; }
+    $("err-gouts").textContent = "";
+    var plan = P.calculer(cmd);
+    if (etat.parcours === "gratuit") {
+      $("plan-gratuit").innerHTML = P.rendre(cmd, plan);
+      aller("s-gratuit");
+      P.vue($("vue-jardin"), cmd, plan, { flou: false });
+      try { if (!sessionStorage.getItem("potager-compte")) { sessionStorage.setItem("potager-compte", "1"); fetch(API, { method: "POST", headers: { "Content-Type": "application/json" }, body: '{"action":"compter"}' }); } } catch (e) {}
+      return;
+    }
+    var html = P.rendre(cmd, plan);
+    $("nb-pages").textContent = "Ton plan fera environ " + P.pages(html) + " pages en PDF";
+    $("plan-flou").innerHTML = html;
+    var vj = $("plan-flou").querySelector("#vue-jardin"); if (vj) vj.remove();
+    P.flouter($("plan-flou"));
+    aller("s-apercu");
+    P.vue($("vue-apercu"), cmd, plan, { flou: true });
+  });
+  $("pdf-gratuit").addEventListener("click", function () { window.print(); });
+
+  /* ---------- Commande ---------- */
+  var enCours = false, attente = null;
+  $("f").addEventListener("submit", function (e) {
+    e.preventDefault();
+    if (enCours || etat.parcours !== "perso") return;
+    var err = $("err-envoi"); err.textContent = "";
+    var cmd = commande(), email = $("email").value.trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { err.textContent = "Ton email n'a pas l'air complet."; return; }
+    if (!$("rgpd").checked) { err.textContent = "Coche la case sur tes données pour qu'on puisse calculer ton plan."; return; }
+    var payant = !$("bloc-retract").classList.contains("cache");
+    if (payant && !$("retract").checked) { err.textContent = "Coche la case des conditions de vente pour payer."; return; }
+    enCours = true; $("envoyer").disabled = true; var txt = $("envoyer").textContent; $("envoyer").textContent = "Un instant…";
+    var corps = attente ? { action: "payer", c: attente.c, k: attente.k, consentement: true } : {
+      action: "creer", email: email, personnes: cmd.personnes, cultures: cmd.cultures, longues: cmd.longues, poules: cmd.poules,
+      surface_m2: cmd.surface_m2, surface_source: cmd.surface_source, zone: cmd.zone,
+      adresse: etat.mode === "saisie" ? null : etat.adresse, parcelle: etat.mode === "saisie" ? null : etat.parcelle,
+      rgpd: true, consentement: payant && $("retract").checked, site_web: $("site_web").value
+    };
+    fetch(API, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(corps) })
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        if (d.url) { location.href = d.url; return; }
+        enCours = false; $("envoyer").disabled = false; $("envoyer").textContent = txt;
+        if (d.besoin_consentement) {
+          attente = { c: d.c, k: d.k };
+          $("bloc-retract").classList.remove("cache");
+          $("envoyer").textContent = "Payer " + P.euros(etat.prix / 100) + " et recevoir mon plan";
+          err.textContent = "Les 20 plans offerts sont partis, ou ton email en a déjà reçu un. Coche la case des conditions de vente pour payer.";
+          return;
+        }
+        if (d.erreur === "trop") { err.textContent = "Trop de demandes depuis ta connexion. Réessaie dans une heure."; return; }
+        if (d.erreur === "paiement_ferme") { err.textContent = "Les 20 plans offerts sont partis, ou ton email en a déjà reçu un. Le paiement en ligne ouvre très bientôt : reviens dans quelques jours. Tes réponses ne sont pas gardées."; return; }
+        err.textContent = d.erreur === "stripe_non_configure" ? "Le paiement n'est pas encore ouvert. Reviens dans quelques heures." : "Ça n'a pas marché (" + (d.erreur || "erreur") + "). Vérifie tes réponses et réessaie.";
+      })
+      .catch(function () { enCours = false; $("envoyer").disabled = false; $("envoyer").textContent = "Réessayer"; err.textContent = "Connexion impossible. Vérifie ton réseau et réessaie."; });
+  });
+})();
+</script>
+</body>
+</html>

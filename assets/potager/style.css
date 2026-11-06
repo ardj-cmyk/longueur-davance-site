@@ -1,0 +1,118 @@
+@font-face{font-family:'Inter';font-style:normal;font-weight:400 800;font-display:swap;src:url(/assets/fonts/Inter-latin.woff2) format('woff2')}
+@font-face{font-family:'Inter';font-style:normal;font-weight:400 800;font-display:swap;src:url(/assets/fonts/Inter-latinext.woff2) format('woff2');unicode-range:U+0100-02BA,U+1E00-1EFF}
+@font-face{font-family:'Playfair Display';font-style:normal;font-weight:600 900;font-display:swap;src:url(/assets/fonts/PlayfairDisplay-latin.woff2) format('woff2')}
+@font-face{font-family:'Playfair Display';font-style:italic;font-weight:600 900;font-display:swap;src:url(/assets/fonts/PlayfairDisplay-italic-latin.woff2) format('woff2')}
+:root{--encre:#12192b;--ivoire:#fdfcf9;--fond:#faf6ee;--terra:#a3461a;--trait:#e3ded4;--doux:#5b6375;--vert:#2f6b3a}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--fond);color:var(--encre);font:400 17px/1.6 'Inter',system-ui,sans-serif;padding:0 18px 64px}
+main{max-width:640px;margin:0 auto}
+header{padding:48px 0 28px;border-bottom:2px solid var(--encre);margin-bottom:28px}
+.marque{font:700 13px/1 'Inter';letter-spacing:.14em;text-transform:uppercase;color:var(--terra)}
+.marque a{color:inherit;text-decoration:none}
+h1{font:800 clamp(32px,8.5vw,50px)/1.05 'Playfair Display',Georgia,serif;margin:14px 0 16px;text-wrap:balance}
+h1 em{font-style:italic;color:var(--terra)}
+.chapo{font-size:19px}
+section{padding:28px 0;border-bottom:1px solid var(--trait)}
+h2{font:800 26px/1.15 'Playfair Display',Georgia,serif;margin-bottom:16px}
+h3{font:800 17px/1.3 'Inter';margin:18px 0 8px}
+p+p{margin-top:10px}
+a{color:var(--encre)}
+.note{margin-top:12px;font-size:15px;color:var(--doux)}
+.note a{color:var(--doux)}
+.alerte{background:var(--ivoire);border:2px solid var(--terra);border-radius:16px;padding:16px 18px}
+.alerte b{color:var(--terra)}
+.tab{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:16px;margin-top:6px}
+table{width:100%;border-collapse:collapse;font-size:16px;background:var(--ivoire);border:2px solid var(--encre);border-radius:16px;overflow:hidden}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--trait);vertical-align:top}
+th{font:700 12px 'Inter';letter-spacing:.08em;text-transform:uppercase;color:var(--doux)}
+td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+td small{color:var(--doux)}
+td small a{color:var(--doux)}
+.tot td{font-weight:800}
+ul.lim{display:grid;gap:8px;padding-left:20px}
+.cartes{display:grid;gap:12px}
+.carte{background:var(--ivoire);border:2px solid var(--encre);border-radius:16px;padding:14px 16px}
+.carte .nom{font:800 18px/1.3 'Inter'}
+.carte p{font-size:16px;margin-top:6px}
+.carte .src{font:500 14px 'Inter';color:var(--doux)}
+.carte .src a{color:var(--doux)}
+.carte.longue{border-color:#9aa0ab;background:#f1efea}
+.tag{display:inline-block;font:700 12px/1 'Inter';letter-spacing:.04em;background:#d9d5cc;color:#4a5060;border-radius:999px;padding:5px 9px;vertical-align:middle}
+.chiffres{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.chiffres div{background:var(--ivoire);border:2px solid var(--encre);border-radius:16px;padding:12px 14px}
+.chiffres b{display:block;font:800 24px/1.1 'Inter';color:var(--terra)}
+.chiffres span{font-size:14px;color:var(--doux);line-height:1.3;display:block;margin-top:4px}
+.saisons{display:grid;gap:10px;margin-bottom:14px}
+.saison{background:var(--ivoire);border:2px solid var(--encre);border-radius:16px;padding:12px 16px}
+.saison h3{margin:0 0 4px;color:var(--terra)}
+.saison p{font-size:16px}
+.carte-img{position:relative;width:100%;aspect-ratio:1;border:2px solid var(--encre);border-radius:16px;overflow:hidden;background:#dcd8cf;margin-top:16px}
+.carte-img img,.carte-img svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+.carte-img svg{touch-action:manipulation}
+.carte-src{font-size:13px;color:var(--doux);margin-top:6px}
+/* Formulaire */
+label{display:block;font-weight:700;margin:14px 0 6px}
+input[type=text],input[type=email],input[type=number]{width:100%;font:500 17px 'Inter';padding:13px 14px;border:2px solid var(--encre);border-radius:12px;background:var(--ivoire);color:var(--encre)}
+input:focus-visible,button:focus-visible{outline:3px solid var(--terra);outline-offset:2px}
+.aide{font-size:15px;color:var(--doux);margin-top:6px}
+.suggestions{list-style:none;border:2px solid var(--encre);border-top:0;border-radius:0 0 12px 12px;background:var(--ivoire);margin-top:-6px;padding-top:6px;overflow:hidden}
+.suggestions li button{all:unset;display:block;width:100%;box-sizing:border-box;padding:12px 14px;cursor:pointer;border-top:1px solid var(--trait);font-size:16px}
+.suggestions li button:hover,.suggestions li button:focus{background:#f3ece0}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font:800 17px 'Inter';padding:14px 22px;border-radius:999px;border:2px solid var(--encre);background:var(--ivoire);color:var(--encre);cursor:pointer;text-decoration:none;min-height:48px}
+.btn.plein{background:var(--encre);color:var(--ivoire);box-shadow:0 6px 0 var(--terra)}
+.btn.plein:disabled{opacity:.5;cursor:not-allowed;box-shadow:none}
+.btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+.surface-live{font:800 22px 'Inter';color:var(--terra);margin-top:10px}
+.choix{display:grid;gap:8px}
+.choix label{margin:0;font-weight:500;display:grid;grid-template-columns:26px 1fr;gap:10px;align-items:start;background:var(--ivoire);border:2px solid var(--encre);border-radius:14px;padding:12px 14px;cursor:pointer}
+.choix label.longue{border-color:#9aa0ab;background:#f1efea;color:#4a5060}
+.choix input{width:22px;height:22px;margin-top:2px;accent-color:var(--terra)}
+.choix .d{display:block;font-size:14px;color:var(--doux);line-height:1.35}
+.choix b{font-weight:800}
+.compteur{display:inline-block;background:var(--terra);color:var(--ivoire);font:800 15px 'Inter';border-radius:999px;padding:8px 14px;margin-top:16px}
+.prix{font:800 30px 'Inter'}
+.coche{display:grid;grid-template-columns:26px 1fr;gap:10px;font-weight:500;font-size:15px;margin-top:14px}
+.coche input{width:22px;height:22px;accent-color:var(--terra)}
+.piege{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.erreur{color:#b3261e;font-weight:700;margin-top:10px}
+.ok{color:var(--vert);font-weight:700}
+.stepper{display:flex;align-items:center;gap:14px}
+.stepper button{width:48px;height:48px;border-radius:999px;border:2px solid var(--encre);background:var(--ivoire);font:800 24px 'Inter';cursor:pointer;color:var(--encre)}
+.stepper output{font:800 30px 'Inter';min-width:40px;text-align:center}
+.cache{display:none!important}
+.onglets{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.onglets button{font:700 15px 'Inter';padding:10px 14px;border-radius:999px;border:2px solid var(--encre);background:var(--ivoire);cursor:pointer;color:var(--encre);min-height:44px}
+.onglets button[aria-pressed=true]{background:var(--encre);color:var(--ivoire)}
+.ref{display:grid;grid-template-columns:2fr 1fr 1fr;gap:8px}
+.signature{margin-top:26px;color:var(--doux);font-size:15px}
+@media (max-width:420px){th,td{padding:9px 8px}.chiffres b{font-size:21px}}
+@media print{body{background:#fff;padding:0}.noprint{display:none!important}section{break-inside:avoid-page}a{text-decoration:none}}
+.flou{filter:blur(5px);user-select:none;pointer-events:none}
+.saisons-btn{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.saisons-btn button{font:700 15px 'Inter';padding:10px 14px;border-radius:999px;border:2px solid var(--encre);background:var(--ivoire);cursor:pointer;color:var(--encre);min-height:44px}
+.saisons-btn button[aria-pressed=true]{background:var(--terra);border-color:var(--terra);color:var(--ivoire)}
+.carte-img.schema{background:#efe8da}
+.legende{list-style:none;display:grid;gap:6px;margin-top:10px;font-size:15px}
+.legende li{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.legende i{width:16px;height:16px;border-radius:4px;display:inline-block;border:1px solid rgba(0,0,0,.15);flex:none}
+.legende li.eteint{color:var(--doux)}
+.legende li.eteint i{opacity:.35}
+.legende small{color:var(--doux)}
+/* Slides */
+.slide{display:none}
+.slide.active{display:block}
+.collant{position:sticky;top:0;z-index:5;background:var(--fond);padding:10px 0 6px}
+.collant .carte-img{margin:0 auto;max-width:min(100%,44vh)}
+.collant .carte-src,.collant .legende{display:none}
+.collant .saisons-btn{display:none}
+.etapes{font:700 13px 'Inter';letter-spacing:.08em;text-transform:uppercase;color:var(--doux);margin-bottom:6px}
+.choix-offre{display:grid;gap:12px}
+.choix-offre button{all:unset;box-sizing:border-box;display:block;cursor:pointer;background:var(--ivoire);border:2px solid var(--encre);border-radius:16px;padding:16px 18px}
+.choix-offre button:focus-visible{outline:3px solid var(--terra);outline-offset:2px}
+.choix-offre .t{font:800 20px/1.2 'Inter';display:block}
+.choix-offre .p{font:800 17px 'Inter';color:var(--terra);display:block;margin-top:4px}
+.choix-offre .d{font-size:15px;color:var(--doux);display:block;margin-top:6px;line-height:1.4}
+.preuve{font-size:15px;color:var(--doux);margin-top:10px}
+.pages{display:inline-block;background:var(--encre);color:var(--ivoire);font:800 15px 'Inter';border-radius:999px;padding:8px 14px;margin-top:12px}
