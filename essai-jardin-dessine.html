@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Essai : jardin dessiné</title>
+<link rel="stylesheet" href="/assets/potager/style.css">
+<style>.dessin-jardin svg{display:block;width:100%;height:auto}</style>
+</head>
+<body>
+<main style="max-width:900px;margin:0 auto;padding-top:24px">
+<p class="marque">Essai, page non publique</p>
+<h2>Jardin dessiné, 2 personnes, poules et lapins</h2>
+<div id="a"></div>
+<h2>Terrain dessiné de 300 m², 4 personnes</h2>
+<div id="b"></div>
+</main>
+<script src="/assets/potager/donnees.js"></script>
+<script src="/assets/potager/plan.js"></script>
+<script src="/assets/potager/dessin.js"></script>
+<script>
+var P = window.PotagerPlan, D = window.POTAGER_DONNEES;
+var c1 = { personnes: 2, cultures: D.CULTURES.map(function (c) { return c.id; }), longues: [], poules: true, lapins: true, surface_m2: 100000, surface_source: "modele", zone: null };
+var b1 = P.calculer(c1); c1.surface_m2 = Math.ceil(b1.surfaceIdeale * 10) / 10;
+var p1 = P.calculer(c1);
+P.monterDessin(document.getElementById("a"), c1, p1, { saison: "ete" });
+var z = [[-1.5536, 47.2181], [-1.5533, 47.2182], [-1.55315, 47.21805], [-1.5533, 47.2179], [-1.5536, 47.21795]];
+var c2 = { personnes: 4, cultures: ["pomme_de_terre", "courge", "carotte", "chou", "tomate", "haricot_vert", "poireau", "oignon", "feve", "courgette"], longues: [], poules: true, lapins: false, surface_m2: 300, surface_source: "dessin", zone: z };
+P.monterDessin(document.getElementById("b"), c2, P.calculer(c2), { saison: "printemps" });
+</script>
+</body>
+</html>
