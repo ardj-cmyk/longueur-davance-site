@@ -13,6 +13,7 @@ const SAISONS = [
   { id: "hiver", nom: "Hiver", mois: [12, 1, 2], decl: -23.44, ciel: 0xe3e7ec, herbe: 0xa7ab9a },
 ];
 const actives = [];
+const VERT_HIVER = new THREE.Color(0x4f7a3a), PAILLE = new THREE.Color(0xc8b27a);
 const HAUTEURS = { tomate: 1.1, courge: 0.45, pomme_de_terre: 0.55, feve: 0.8, haricot_vert: 0.45, poireau: 0.5, chou: 0.45, ail: 0.4, oignon: 0.35, carotte: 0.35, betterave: 0.35 };
 
 /* Contour du terrain en mètres (x vers l'est, z vers le sud), centré sur 0. */
@@ -172,8 +173,10 @@ export function monter3d(boite, cmd, plan, o = {}) {
         if (b && !a) { coul = pl.baseB; hautR = HAUTEURS[r.idB] || 0.4; }
         enRecolte = a || b;
       }
+      let h = enRecolte ? hautR : hautR * 0.25;
+      if (pl.x.couvert && S.id === "hiver") { coul = VERT_HIVER; enRecolte = true; h = 0.28; }
+      else if (pl.x.couvert && S.id === "printemps" && !enRecolte) { coul = PAILLE; enRecolte = true; h = 0.06; }
       pl.mat.color.copy(enRecolte ? coul : sec);
-      const h = enRecolte ? hautR : hautR * 0.25;
       pl.pos.forEach((p, k) => {
         const r = 0.17 + ((k * 37) % 10) / 100;
         v.set(p[0], 0.18 + h / 2, p[1]); s3.set(r, h / 2, r);

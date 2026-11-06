@@ -179,11 +179,21 @@
       });
       budget.postes.push({ k: k, titre: m.titre, mult: mult, bas: bas, haut: haut });
     });
+    /* Engrais vert d'hiver sur les planches libérées avant novembre (vesce d'hiver, 15 g par m²). */
+    var couvertM2 = 0;
+    if (window.PotagerPlan && window.PotagerPlan.morceaux) {
+      couvertM2 = window.PotagerPlan.morceaux(cmd, { lignes: lignes, partage: partage, echelle: echelle, enclos: enclos, poules: poules,
+        relais: relais.map(function (r) { return { a: r.a, b: r.b, m2: r.m2 * echelle }; }) })
+        .filter(function (x) { return x.couvert; }).reduce(function (a, x) { return a + x.m2; }, 0);
+    }
+    var H = D.HIVER, sachetsHiver = couvertM2 > 0 ? Math.ceil(couvertM2 * H.doseGm2 / H.sachet.g) : 0;
+    if (sachetsHiver) budget.postes.push({ k: "hiver", titre: "Engrais vert d'hiver", mult: 1, bas: sachetsHiver * H.sachet.prix, haut: sachetsHiver * H.sachet.prix, sachets: sachetsHiver });
     budget.total = { bas: budget.graines.bas, haut: budget.graines.haut };
     budget.postes.forEach(function (p) { budget.total.bas += p.bas; budget.total.haut += p.haut; });
 
     return {
       relais: relais.map(function (r) { return { a: r.a, b: r.b, m2: r.m2 * echelle }; }), gagne: gagne * echelle, partage: partage,
+      couvertM2: couvertM2, sachetsHiver: sachetsHiver,
       N: N, lots: lots, lignes: lignes, besoin: besoin, dispo: dispo, echelle: echelle, reste: reste, enclos: enclos,
       poules: poules, poulesVoulues: poulesVoulues, poulesLimitees: poulesLimitees, allees: cultivable * K.partAllees,
       surfaceIdeale: surfaceIdeale,
@@ -254,6 +264,17 @@
     }
     h += '<p class="note">Quantités : consommation annuelle d\'une famille de quatre ramenée à ' + personnes + ", surfaces et semences au rendement d'un maraîcher en culture extensive (" + src("jardin30") + "). En culture serrée, la même source donne environ deux fois moins de place. Fraisiers : " + nb(6 * p.N, 0) + " plants, notre choix de départ (6 par personne), pas un chiffre sourcé.</p></section>";
 
+    /* L'hiver nourrit l'été */
+    if (p.couvertM2 > 0) {
+      var H = D.HIVER;
+      h += '<section><h2>L\'hiver nourrit l\'été</h2><p>Sur ' + nb(p.couvertM2, 0) + NB + "m² de planches libérées avant novembre, tu sèmes un <b>engrais vert d'hiver</b> : seigle, vesce d'hiver et féveroles. Il couvre la terre tout l'hiver. Au printemps, tu le fauches avant la floraison, tu l'étales en laissant les racines, tu le couvres 4 à 6 semaines, et il nourrit tes légumes d'été. C'est la méthode de Terre & Humanisme, l'association fondée par Pierre Rabhi, sur sa ferme du Mas de Beaulieu.</p>" +
+        '<div class="alerte" style="margin-top:12px"><p><b>À acheter :</b> ' + p.sachetsHiver + " sachet" + (p.sachetsHiver > 1 ? "s" : "") + " de vesce d'hiver (15" + NB + "g par m², semis d'août à octobre), " + lien(H.sachet.u, euros(H.sachet.prix) + " le sachet de 80" + NB + "g chez Kokopelli") + ". Seigle et féveroles en plus, non chiffrés.</p></div>" +
+        '<p class="note">Sources : ' + H.src.map(function (s) { return lien(s.u, esc(s.t)); }).join(", ") + ". Les légumineuses comme la féverole fixent l'azote de l'air, mais jardiner-malin précise que ça ne garantit pas de l'azote disponible pour la culture suivante (" + lien("https://www.jardiner-malin.fr/fiche/feve.html", "fiche fève") + ").</p></section>";
+    }
+    h += '<section><h2>Le moins d\'entretien possible</h2><div class="cartes">' + D.ENTRETIEN.map(function (e) {
+      return '<div class="carte"><div class="nom">' + esc(e.titre) + "</div><p>" + esc(e.txt) + '</p><p class="src">' + lien(e.src.u, esc(e.src.t)) + "</p></div>";
+    }).join("") + '</div><p class="note">Ce que les sources ne chiffrent pas, on ne le chiffre pas : aucune étude solide ne donne le pourcentage d\'arrosage économisé par le paillage au potager.</p></section>';
+
     /* Calendrier */
     var saisons = [["Printemps", [3, 4, 5]], ["Été", [6, 7, 8]], ["Automne", [9, 10, 11]], ["Hiver", [12, 1, 2]]];
     h += '<section><h2>2. Ton calendrier, saison par saison</h2><div class="saisons">';
@@ -296,12 +317,15 @@
       h += "<tr><td>" + esc(l.c.nom) + "</td><td>" + cell(l.bas) + "</td><td>" + cell(l.haut) + "</td></tr>";
     });
     h += '<tr class="tot"><td>Total</td><td class=n>' + euros(p.budget.graines.bas) + "</td><td class=n>" + euros(p.budget.graines.haut) + "</td></tr></tbody></table></div>";
-    h += '<p class="note">Prix en ligne chez Truffaut, relevés les 5 et 6 novembre 2026, hors livraison, ils peuvent changer.</p></section>';
+    var K = D.KOKOPELLI;
+    h += '<p class="note">Prix en ligne chez Truffaut, relevés les 5 et 6 novembre 2026, hors livraison, ils peuvent changer.</p>' +
+      '<div class="alerte" style="margin-top:12px"><p><b>Notre conseil pour les graines : ' + lien(K.u, "Kokopelli") + ".</b> Des semences bio, libres de droits et <b>reproductibles</b> : tu gardes tes propres graines d'une année sur l'autre, sans racheter. En cas de crise, c'est ce qui compte. Sachets autour de " + euros(K.prixType) + " relevés le " + K.releve + ". La vente de ces variétés aux jardiniers amateurs est autorisée depuis la loi du 10 juin 2020 (" + lien(K.loi.u, "Que Choisir") + "). Les plants, eux, restent à acheter en variétés inscrites.</p></div></section>";
 
     /* Matériel et poules */
     n++;
     h += "<section><h2>" + n + ". Le matériel" + (cmd.poules ? " et les poules" : "") + "</h2>";
     p.budget.postes.forEach(function (po) {
+      if (po.k === "hiver") return;
       var m = D.MATERIEL[po.k];
       h += "<h3>" + esc(m.titre) + (po.k === "poules" ? " : " + p.poules + " poules" + (po.mult > 1 ? ", " + po.mult + " poulaillers" : "") : (po.mult > 1 ? " (x" + po.mult + ")" : "")) + (po.k === "poules" ? "" : "") + '</h3><div class="tab"><table><thead><tr><th>Article</th><th>Petit budget</th><th>Durable</th></tr></thead><tbody>';
       m.items.forEach(function (i) {
@@ -422,6 +446,8 @@
   function masque(s) { return String(s).replace(/[A-Za-zÀ-ÿ0-9]/g, "x"); }
 
   /* Les morceaux du jardin, dans l'ordre : cultures, poules, reste. Surfaces en m². */
+  /* Planche libre l'hiver : aucune récolte de novembre à février, dernière récolte au plus tard en octobre. */
+  function libreHiver(rec) { return rec.length > 0 && !rec.some(function (mm) { return mm >= 11 || mm <= 2; }); }
   function morceaux(cmd, plan) {
     var m = [];
     var kA = 1 / (1 - D.K.partAllees);
@@ -438,10 +464,10 @@
         var recA = l.c.recolte.filter(function (mm) { return mm >= 3 && mm <= fin; });   // la première part avant fin juillet
         var recB = b.c.recolte.filter(function (mm) { return mm > fin; });               // la seconde se récolte après
         m.push({ id: l.c.id + ">" + r.b, nom: l.c.nom + " puis " + b.c.nom.toLowerCase(), m2: r.m2, place: r.m2 * kA,
-          recolte: recA.concat(recB), coul: coul(l.c), relais: { coulA: coul(l.c), coulB: coul(b.c), recA: recA, recB: recB, idA: l.c.id, idB: r.b } });
+          recolte: recA.concat(recB), coul: coul(l.c), couvert: libreHiver(recB), relais: { coulA: coul(l.c), coulB: coul(b.c), recA: recA, recB: recB, idA: l.c.id, idB: r.b } });
         propre -= r.m2;
       });
-      if (propre > 0.05) m.push({ id: l.c.id, nom: l.c.nom, m2: propre, place: propre * kA, recolte: l.c.recolte, coul: coul(l.c) });
+      if (propre > 0.05) m.push({ id: l.c.id, nom: l.c.nom, m2: propre, place: propre * kA, recolte: l.c.recolte, coul: coul(l.c), couvert: l.c.id !== "fraisier" && libreHiver(l.c.recolte) });
     });
     if (plan.enclos) m.push({ id: "poules", nom: plan.poules + " poules (enclos)", m2: plan.enclos, place: plan.enclos, recolte: [3, 4, 5, 6, 7, 8, 9], coul: "#8a7f72" });
     var occupe = m.reduce(function (a, x) { return a + x.place; }, 0);
@@ -498,7 +524,9 @@
       bandes.forEach(function (b, i) {
         if (b.length < 3) return;
         var x = m[i], actif = x.id === "reste" || x.recolte.some(function (mm) { return mois.indexOf(mm) >= 0; });
-        var fill = x.relais ? (x.relais.recB.some(function (mm) { return mois.indexOf(mm) >= 0; }) && !x.relais.recA.some(function (mm) { return mois.indexOf(mm) >= 0; }) ? x.relais.coulB : x.relais.coulA) : x.coul;
+        var hiverVert = x.couvert && s === "hiver", paille = x.couvert && s === "printemps" && !actif;
+        if (hiverVert || paille) actif = true;
+        var fill = hiverVert ? "#4f7a3a" : paille ? "#c8b27a" : x.relais ? (x.relais.recB.some(function (mm) { return mois.indexOf(mm) >= 0; }) && !x.relais.recA.some(function (mm) { return mois.indexOf(mm) >= 0; }) ? x.relais.coulB : x.relais.coulA) : x.coul;
         h += '<polygon points="' + b.map(function (p) { return p[0].toFixed(1) + "," + p[1].toFixed(1); }).join(" ") + '" fill="' + fill + '" fill-opacity="' + (actif ? 0.92 : 0.28) + '" stroke="' + (x.relais ? "#12192b" : "#fdfcf9") + '" stroke-width="' + (x.relais ? 3 : 2) + '"' + (x.relais ? ' stroke-dasharray="8 5"' : "") + "/>";
       });
       bandes.forEach(function (b, i) {
@@ -508,9 +536,12 @@
       svg.innerHTML = (cmd.zone ? svg.innerHTML.split("<!--b-->")[0] : "") + "<!--b-->" + h;
       boite.querySelector(".legende").innerHTML = m.map(function (x, i) {
         var actif = x.id === "reste" || x.recolte.some(function (mm) { return mois.indexOf(mm) >= 0; });
+        var etat = actif && x.id !== "reste" && x.id !== "poules" ? ", " + (o.motSaison || "en récolte") : "";
+        if (x.couvert && s === "hiver") { actif = true; etat = ", engrais vert d'hiver"; }
+        else if (x.couvert && s === "printemps" && !actif) { actif = true; etat = ", engrais vert fauché et couvert"; }
         var nom = o.flou && x.id !== "reste" && x.id !== "poules" ? '<span class="flou">' + masque(x.nom) + "</span>" : P.esc(x.nom);
         return '<li class="' + (actif ? "" : "eteint") + '"><i style="background:' + (x.relais ? "linear-gradient(135deg," + x.relais.coulA + " 50%," + x.relais.coulB + " 50%)" : x.coul) + '"></i><b>' + (i + 1) + ".</b> " + nom +
-          ' <small>' + (o.flou ? '<span class="flou">' + masque(P.nb(x.m2, 1)) + "</span>" : P.nb(x.m2, 1)) + NB + "m²" + (actif && x.id !== "reste" && x.id !== "poules" ? ", " + (o.motSaison || "en récolte") : "") + "</small></li>";
+          ' <small>' + (o.flou ? '<span class="flou">' + masque(P.nb(x.m2, 1)) + "</span>" : P.nb(x.m2, 1)) + NB + "m²" + etat + "</small></li>";
       }).join("");
       boite.querySelectorAll(".saisons-btn button").forEach(function (bt) { bt.setAttribute("aria-pressed", String(bt.dataset.s === s)); });
     }

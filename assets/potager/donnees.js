@@ -239,6 +239,36 @@
     }
   };
 
+  /* L'hiver nourrit l'été : un engrais vert d'hiver sur chaque planche libérée avant novembre.
+     Terre & Humanisme (association de Pierre Rabhi), Mas de Beaulieu : mélange seigle, vesce d'hiver, féveroles,
+     fauché avant floraison au printemps, étalé, racines en place, couvert 4 à 6 semaines, puis on plante. */
+  var HIVER = {
+    finRecolteMax: 10,          // la vesce d'hiver se sème d'août à octobre (Kokopelli)
+    doseGm2: 15,                // vesce d'hiver : environ 15 g par m² (Kokopelli)
+    sachet: { prix: 3.40, g: 80, lib: "Vesce d'hiver, sachet de 80 g (Kokopelli, bio)", u: "https://kokopelli-semences.fr/fr/p/V0008-D-Hiver" },
+    src: [
+      { t: "Terre & Humanisme, « Un potager agroécologique à l'approche de l'automne », 4 septembre 2024", u: "https://formation.terre-humanisme.org/un-potager-agroecologique-a-lapproche-de-lautomne/" },
+      { t: "Terre & Humanisme, « Comment organiser les rotations de culture ? », 11 novembre 2023", u: "https://formation.terre-humanisme.org/comment-organiser-les-rotations-de-culture/" },
+      { t: "Kokopelli, fiche vesce d'hiver (semis août à octobre, 15 g par m², fauchée avant les premières cultures)", u: "https://kokopelli-semences.fr/fr/p/V0008-D-Hiver" }
+    ]
+  };
+
+  /* Entretien minimum : uniquement des gestes sourcés. */
+  var ENTRETIEN = [
+    { titre: "Pailler", txt: "Environ 7 cm de paillis (tontes séchées, feuilles mortes, paille), sur une terre déjà désherbée, sans couvrir le collet des plants. À 10 cm, le paillis empêche les mauvaises herbes de germer entre les légumes. Il limite aussi l'arrosage et le binage. Au printemps, on l'écarte pour que la terre se réchauffe.", src: { t: "DRAAF Auvergne-Rhône-Alpes, fiche « Paillage du potager »", u: "https://draaf.auvergne-rhone-alpes.agriculture.gouv.fr/IMG/pdf/FICHE_TECH_PAILLAGE_AU_POTAGER-1_cle082e1d.pdf" } },
+    { titre: "Ne jamais laisser la terre nue l'hiver", txt: "Après la récolte d'été, un engrais vert d'hiver (seigle, vesce d'hiver, féveroles). Au printemps, on le fauche avant la floraison, on l'étale en laissant les racines, on le couvre 4 à 6 semaines (carton, paillage épais ou bâche), puis on ameublit légèrement et on plante.", src: { t: "Terre & Humanisme, 4 septembre 2024", u: "https://formation.terre-humanisme.org/un-potager-agroecologique-a-lapproche-de-lautomne/" } },
+    { titre: "Ameublir sans retourner", txt: "À la grelinette, sans mélanger les couches de terre.", src: { t: "Terre & Humanisme, « Les engrais verts : quésaco ? », 15 avril 2021", u: "https://formation.terre-humanisme.org/les-engrais-verts-quesaco/" } },
+    { titre: "Compost tous les deux ans", txt: "3 à 6 kg de compost par m² en tête de rotation, au moment de planter les légumes les plus gourmands (tomate, courge).", src: { t: "Terre & Humanisme, rotation du Mas de Beaulieu, 11 novembre 2023", u: "https://formation.terre-humanisme.org/comment-organiser-les-rotations-de-culture/" } },
+    { titre: "Faire tourner les familles", txt: "Un légume gourmand puis un sobre : la courge suivie d'une fève, qui fixe l'azote de l'air, la tomate suivie de carottes d'hiver. Les familles n'attirent pas les mêmes maladies.", src: { t: "Terre & Humanisme, 11 novembre 2023", u: "https://formation.terre-humanisme.org/comment-organiser-les-rotations-de-culture/" } }
+  ];
+
+  /* Semences recommandées : Kokopelli (bio, libres de droits, reproductibles). */
+  var KOKOPELLI = {
+    u: "https://kokopelli-semences.fr/fr/c/semences/potageres",
+    prixType: 3.40, releve: "6 novembre 2026",
+    loi: { t: "Loi n° 2020-699 du 10 juin 2020, article 10 (vente de semences de variétés du domaine public aux jardiniers amateurs)", u: "https://www.quechoisir.org/actualite-jardinage-les-semences-paysannes-restent-autorisees-pour-les-amateurs-n80839/" }
+  };
+
   /* Cultures longues : délai avant la première récolte, sourcé. long = plus de 2 ans (grisé). */
   var LONGUES = [
     { id: "framboisier", nom: "Framboisier", long: false,
@@ -313,5 +343,5 @@
     kcalOeuf: 140                           // kcal/100 g, Ciqual 22000
   };
 
-  window.POTAGER_DONNEES = { SOURCES: S, CULTURES: CULTURES, SEMIS: SEMIS, RELAIS: RELAIS, LONGUES: LONGUES, MATERIEL: MATERIEL, K: CONSTANTES };
+  window.POTAGER_DONNEES = { SOURCES: S, CULTURES: CULTURES, SEMIS: SEMIS, RELAIS: RELAIS, HIVER: HIVER, ENTRETIEN: ENTRETIEN, KOKOPELLI: KOKOPELLI, LONGUES: LONGUES, MATERIEL: MATERIEL, K: CONSTANTES };
 })();
