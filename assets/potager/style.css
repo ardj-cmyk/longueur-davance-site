@@ -216,3 +216,10 @@ input:focus-visible,button:focus-visible{outline:3px solid var(--terra);outline-
 ul.delais{list-style:none;padding:0;margin:10px 0 0;display:grid;gap:8px}
 ul.delais li{background:var(--ivoire);border:2px solid var(--encre);border-left:8px solid var(--terra);border-radius:14px;padding:10px 14px;font-size:15px;line-height:1.45}
 ul.delais b{color:var(--encre)}
+
+/* Jardin dessiné : bulle du nom au survol ou au toucher */
+.dessin-jardin{position:relative}
+.dessin-jardin svg{touch-action:pan-y}
+.dessin-jardin .bulle{position:absolute;transform:translate(-50%,calc(-100% - 12px));background:var(--encre);color:var(--ivoire);font:600 13px/1.3 'Inter',sans-serif;padding:6px 10px;border-radius:10px;pointer-events:none;white-space:nowrap;z-index:3;box-shadow:0 4px 14px rgba(0,0,0,.18)}
+.dessin-jardin .bulle[hidden]{display:none}
+@media print{.dessin-jardin .bulle{display:none}}

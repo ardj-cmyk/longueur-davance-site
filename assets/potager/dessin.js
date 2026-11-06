@@ -26,6 +26,8 @@
   var LARG = { courge: 0.85, courgette: 0.8, pomme_de_terre: 0.55, tomate: 0.5, chou: 0.5, blette: 0.45, haricot_vert: 0.45, feve: 0.35, poireau: 0.28,
     ail: 0.22, oignon: 0.26, carotte: 0.28, betterave: 0.32, fraisier: 0.38, couvert: 0.32, pousse: 0.22, sec: 0.28 };
   /* Les dessins de plantes ont une petite motte de terre : le pied est un peu au-dessus du bas de l'image. */
+  var LIBELLES = { poule: "Poule", lapin: "Lapin", poulailler: "Poulailler", clapier: "Clapier", personne: "Jardinier, 1,75 m pour l'échelle" };
+  var D = window.POTAGER_DONNEES;
   var PIED = { personne: 0.98, poule: 0.97, lapin: 0.96, poulailler: 0.97, clapier: 0.98 };
 
   /* ---------- Géométrie ---------- */
@@ -113,7 +115,7 @@
     var minX = Math.min.apply(null, proj.map(function (q) { return q[0]; })) - 10, maxX = Math.max.apply(null, proj.map(function (q) { return q[0]; })) + 10;
     var minY = Math.min.apply(null, proj.map(function (q) { return q[1]; })) - 10, maxY = Math.max.apply(null, proj.map(function (q) { return q[1]; })) + 26;
 
-    boite.innerHTML = '<div class="saisons-btn noprint" role="group" aria-label="Saison du dessin"></div><div class="dessin-jardin"></div>' +
+    boite.innerHTML = '<div class="saisons-btn noprint" role="group" aria-label="Saison du dessin"></div><div class="dessin-jardin"><div class="bulle" hidden></div></div>' +
       '<p class="carte-src">Ton terrain dessiné vu de biais, à l\'échelle : planches, allées' + (plan.poules ? ", poulailler" : "") + (plan.lapines ? ", clapiers" : "") +
       ". Le jardinier mesure 1,75 m. Touche une saison pour la voir. Illustrations créées pour Longueur d'avance.</p>";
     var btns = boite.querySelector(".saisons-btn"), zone = boite.querySelector(".dessin-jardin");
@@ -138,11 +140,12 @@
     });
 
     /* Une illustration debout, pied en (x, z) à la hauteur y, large de `larg` mètres. */
-    function dessin(nom, x, z, y, larg, miroir, prof) {
+    /* nomLu : ce qui s'affiche au survol (ou au toucher sur téléphone). */
+    function dessin(nom, x, z, y, larg, miroir, nomLu) {
       var dm = DIMS[nom], q = iso(x, z, y), w = larg * K, h = w * dm[1] / dm[0], pied = PIED[nom] || 0.9;
-      var X = q[0] - w / 2, Y = q[1] - h * pied;
-      return { prof: prof != null ? prof : x + z, s: '<image href="' + img(nom) + '" x="' + f1(X) + '" y="' + f1(Y) + '" width="' + f1(w) + '" height="' + f1(h) + '"' +
-        (miroir ? ' transform="matrix(-1 0 0 1 ' + f1(2 * q[0]) + ' 0)"' : "") + "/>" };
+      var X = q[0] - w / 2, Y = q[1] - h * pied, lu = P.esc(nomLu || LIBELLES[nom] || nom);
+      return { prof: x + z, s: '<image href="' + img(nom) + '" x="' + f1(X) + '" y="' + f1(Y) + '" width="' + f1(w) + '" height="' + f1(h) + '" data-nom="' + lu + '"' +
+        (miroir ? ' transform="matrix(-1 0 0 1 ' + f1(2 * q[0]) + ' 0)"' : "") + "><title>" + lu + "</title></image>" };
     }
     function grille(bed, pas, max) {
       var a = Math.abs(aire(bed)); pas = Math.max(pas, Math.sqrt(a / max));
@@ -188,7 +191,7 @@
         /* Planche surélevée : côtés en bois, dessus en terre (ou engrais vert l'hiver). */
         objets.push({ prof: -1e6 + c[0] + c[1], s: cotes(bed, 0, hautPlanche, "bois", 0.05) +
           '<path d="' + chemin(bed, hautPlanche) + '" fill="#7a5638"/>' + '<path d="' + chemin(bed, hautPlanche) + '" fill="url(#t-terre)" opacity=".55"/>' +
-          '<path d="' + chemin(bed, hautPlanche) + '" fill="none" stroke="#e2c08e" stroke-width="2"><title>' + P.esc(x.nom) + "</title></path>" });
+          '<path d="' + chemin(bed, hautPlanche) + '" fill="transparent" stroke="#e2c08e" stroke-width="2" data-nom="Planche : ' + P.esc(x.nom.toLowerCase()) + '"><title>' + P.esc(x.nom) + "</title></path>" });
         plantes(L, S).forEach(function (o2) { objets.push(o2); });
       });
       /* Le jardinier, au coin le plus proche, pour l'échelle. */
@@ -210,15 +213,17 @@
       var id = r ? r.idA : x.id, etat = aOn ? "recolte" : pousse ? "pousse" : "sec";
       if (x.couvert && S.id === "hiver") { id = "couvert"; etat = "recolte"; }
       else if (x.couvert && S.id === "printemps" && !aOn) {
-        out.push({ prof: -1e5 + L.c[0] + L.c[1], s: '<path d="' + chemin(L.bed, hautPlanche + 0.01) + '" fill="url(#t-paille)"/>' });
+        out.push({ prof: -1e5 + L.c[0] + L.c[1], s: '<path d="' + chemin(L.bed, hautPlanche + 0.01) + '" fill="url(#t-paille)" data-nom="Engrais vert fauché, laissé en paillis"/>' });
         return out;
       } else if (r && bOn && !aOn) { id = r.idB; etat = "recolte"; }
       var nom = etat === "recolte" ? (DIMS[id] ? id : "pousse") : etat;
+      var c0 = D.CULTURES.filter(function (c) { return c.id === id; })[0], nc = c0 ? c0.nom.replace(/ \(.*\)/, "") : "";
+      var lu = id === "couvert" ? "Engrais vert d'hiver (seigle, vesce, féveroles)" : etat === "recolte" ? nc + ", en récolte" : etat === "pousse" ? nc + ", en train de pousser" : nc + ", récolte finie";
       var g = grille(L.bed, (PAS[nom] || 0.35) * (etat === "recolte" ? 1.1 : 1), 26);
       g.pos.forEach(function (p, k) {
         if (etat === "sec" && k % 2) return;
-        var v = 0.92 + ((k * 37) % 10) / 60, larg = Math.min(g.pas * 1.1, LARG[nom] || 0.35) * v;
-        out.push(dessin(nom, p[0], p[1], hautPlanche, larg, (k * 7) % 3 === 0));
+        var v = 0.92 + ((k * 37) % 10) / 60, larg = Math.min(g.pas * 0.8, (LARG[nom] || 0.35) * 0.72) * v;
+        out.push(dessin(nom, p[0], p[1], hautPlanche, larg, (k * 7) % 3 === 0, lu));
       });
       return out;
     }
@@ -251,6 +256,21 @@
     function arret() { if (cine) { clearInterval(cine); cine = null; } }
     boite.__arret = arret;
     svg.addEventListener("pointerdown", arret);
+    /* Bulle : le nom de ce qu'on survole à la souris, ou de ce qu'on touche du doigt (3 secondes). */
+    var bulle = zone.querySelector(".bulle"), minuterie = null;
+    function montrer(e) {
+      var t = e.target.closest && e.target.closest("[data-nom]");
+      if (!t) { if (e.pointerType !== "touch") bulle.hidden = true; return; }
+      var r = zone.getBoundingClientRect();
+      bulle.textContent = t.getAttribute("data-nom");
+      bulle.style.left = Math.min(Math.max(e.clientX - r.left, 70), r.width - 70) + "px";
+      bulle.style.top = (e.clientY - r.top) + "px";
+      bulle.hidden = false;
+      if (e.pointerType === "touch") { clearTimeout(minuterie); minuterie = setTimeout(function () { bulle.hidden = true; }, 3000); }
+    }
+    svg.addEventListener("pointermove", function (e) { if (e.pointerType !== "touch") montrer(e); });
+    svg.addEventListener("pointerdown", montrer);
+    svg.addEventListener("pointerleave", function (e) { if (e.pointerType !== "touch") bulle.hidden = true; });
     dessiner(courante);
   }
 
