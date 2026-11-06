@@ -135,3 +135,30 @@ export function modele(id) {
   cache[id].computeVertexNormals();
   return cache[id];
 }
+
+/* Modèles du pack Quaternius « LowPoly Crops Pack » (licence CC0, OpenGameArt, 2021), convertis en JSON.
+   Deux stades par culture : pousse et récolte. Taille finale = plus grande dimension, en mètres. */
+const TAILLE_PACK = { carotte: 0.35, betterave: 0.4, tomate: 1.2, courge: 1.1, chou: 0.55, fraisier: 0.3, couvert: 0.45 };
+const pack = {};
+let promesse = null;
+export function chargerModeles() {
+  if (!promesse) promesse = fetch("/assets/potager/modeles3d.json").then((r) => (r.ok ? r.json() : {})).then((d) => {
+    Object.keys(d).forEach((id) => {
+      pack[id] = {};
+      ["pousse", "recolte"].forEach((st) => {
+        const m = d[id][st], n = m.p.length / 3, col = new Float32Array(n * 3);
+        m.c.forEach((k, t) => { const c = m.pal[k]; for (let s = 0; s < 3; s++) { col[(t * 3 + s) * 3] = c[0]; col[(t * 3 + s) * 3 + 1] = c[1]; col[(t * 3 + s) * 3 + 2] = c[2]; } });
+        const g = new THREE.BufferGeometry();
+        g.setAttribute("position", new THREE.BufferAttribute(new Float32Array(m.p), 3));
+        g.setAttribute("color", new THREE.BufferAttribute(col, 3));
+        g.scale(TAILLE_PACK[id] || 0.4, TAILLE_PACK[id] || 0.4, TAILLE_PACK[id] || 0.4);
+        g.computeVertexNormals();
+        pack[id][st] = g;
+      });
+    });
+  }).catch(() => {});
+  return promesse;
+}
+/* Géométrie d'une culture à un stade : modèle du pack s'il existe, sinon silhouette dessinée. */
+export function modeleStade(id, stade) { return pack[id] ? pack[id][stade] : modele(id); }
+export function aUnModele(id) { return !!pack[id]; }

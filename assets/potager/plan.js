@@ -211,6 +211,25 @@
   function src(k) { var s = D.SOURCES[k]; return lien(s.u, esc(s.t)); }
   function ligneSrc(c) { return c.src.map(function (u, i) { return lien(u, "source" + (c.src.length > 1 ? " " + (i + 1) : "")); }).join(", "); }
 
+  /* Kg mangés chaque mois : récolte + garde sourcée, répartis à parts égales. */
+  function assiette(p) {
+    var mois = [];
+    for (var i = 0; i < 12; i++) mois.push({ kg: 0, kcal: 0, items: [] });
+    p.lignes.forEach(function (l) {
+      if (!l.kg) return;
+      var m = l.c.recolte.slice(), g = D.GARDE_MOIS[l.c.id];
+      if (g) {
+        var fin = l.c.recolte.indexOf(12) >= 0 && l.c.recolte.indexOf(1) < 0 ? 12 : Math.max.apply(null, l.c.recolte.filter(function (x) { return x >= 6; }).concat([0]));
+        for (var k = 1; k <= g.mois; k++) { var mm = ((fin - 1 + k) % 12) + 1; if (m.indexOf(mm) < 0) m.push(mm); }
+      }
+      var part = l.kg / m.length, kcal = l.kcal / m.length;
+      m.forEach(function (mm) { mois[mm - 1].kg += part; mois[mm - 1].kcal += kcal; mois[mm - 1].items.push({ nom: l.c.nom.replace(/ \(.*\)/, ""), kg: part }); });
+    });
+    var besoinMois = p.N * (D.K.kcalHomme + D.K.kcalFemme) / 2 * 365 / 12;
+    mois.forEach(function (m) { m.items.sort(function (a, b) { return b.kg - a.kg; }); m.pct = m.kcal / besoinMois * 100; });
+    return mois;
+  }
+
   function rendre(cmd, p) {
     var h = "";
     var personnes = p.N + NB + "personne" + (p.N > 1 ? "s" : "");
@@ -299,6 +318,17 @@
     h += '</div><p class="note">Case colorée = mois de récolte. Sources : ' + p.lignes.map(function (l) { return lien(l.c.src[0], esc(l.c.nom.toLowerCase())); }).join(", ") + ".</p>";
     h += '<p class="note">Pour savoir quand semer, compte le délai à rebours depuis le mois où tu veux récolter. Associations de plantes : la plupart des tableaux qui circulent ne sont pas prouvés, ils seront ajoutés quand ils seront sourcés.</p></section>';
 
+    /* Dans l'assiette, mois par mois */
+    var tableMois = assiette(p);
+    var maxKg = Math.max.apply(null, tableMois.map(function (m) { return m.kg; })) || 1;
+    h += '<section><h2>Dans votre assiette, mois par mois</h2><p>Ce que ton potager met sur la table chaque mois, en comptant les récoltes et ce qui se garde. Chaque culture est répartie à parts égales sur les mois où on la mange.</p><div class="assiette">';
+    tableMois.forEach(function (m, i) {
+      h += '<div class="mois-carte"><div class="mois-tete"><b>' + MOIS[i].charAt(0).toUpperCase() + MOIS[i].slice(1) + '</b><span>' + nb(m.kg, 0) + NB + 'kg</span></div><div class="mois-barre"><i style="width:' + (m.kg / maxKg * 100).toFixed(0) + '%"></i></div><p>' +
+        (m.items.length ? m.items.map(function (it) { return esc(it.nom) + " " + nb(it.kg, it.kg < 1 ? 1 : 0) + NB + "kg"; }).join(", ") : "rien de ta liste") +
+        '</p><small>' + nb(m.pct, 1) + NB + "% des calories du mois" + (p.poules ? ", plus les œufs" : "") + "</small></div>";
+    });
+    h += '</div><p class="note">Garde comptée seulement quand une source la chiffre : courge jusqu\'en mars, oignon 6 mois (la source dit 6 à 8), carotte 4 mois en caisse de sable (la source dit 4 à 5), poireau et chou restent en terre. Pommes de terre, ail et betteraves se gardent aussi, mais nos sources ne donnent pas de durée : ils ne sont comptés qu\'aux mois de récolte. Fraisiers sans quantité chiffrée, non comptés. Les œufs ne sont pas répartis par mois : la ponte baisse en automne et s\'arrête presque en hiver.</p></section>';
+
     /* Longues */
     if (p.longues.length) {
       h += '<section><h2>3. Fruits et plantes à anticiper</h2><div class="cartes">';
@@ -385,7 +415,7 @@
   /* « de Camille », « d'Amdy » */
   function de(prenom) { return (/^[aeiouyhàâäéèêëîïôöûüœ]/i.test(prenom) ? "d'" : "de ") + prenom; }
 
-  window.PotagerPlan = { de: de, vue3d: vue3d, colle: colle, carte: carte, surface: surface, calculer: calculer, rendre: rendre, flouter: flouter, nb: nb, euros: euros, esc: esc };
+  window.PotagerPlan = { assiette: assiette, de: de, vue3d: vue3d, colle: colle, carte: carte, surface: surface, calculer: calculer, rendre: rendre, flouter: flouter, nb: nb, euros: euros, esc: esc };
 })();
 
 /* ---------- Vue du jardin : terrain découpé en bandes, une par culture, et saisons ---------- */

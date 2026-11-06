@@ -189,3 +189,15 @@ input:focus-visible,button:focus-visible{outline:3px solid var(--terra);outline-
 .barre-haut{position:absolute;left:0;top:0;bottom:0;background:#e2c9b7;border-radius:999px}
 .barre-bas{position:absolute;left:0;top:0;bottom:0;background:var(--terra);border-radius:999px}
 @media print{.cc,.gr,.frise,.mini{break-inside:avoid}}
+
+/* Dans l'assiette, mois par mois */
+.assiette{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+@media (min-width:560px){.assiette{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.mois-carte{background:var(--ivoire);border:2px solid var(--encre);border-radius:14px;padding:10px 12px;font-size:13px;line-height:1.35}
+.mois-tete{display:flex;justify-content:space-between;align-items:baseline}
+.mois-tete b{font:800 15px 'Inter'}
+.mois-tete span{font:800 18px 'Inter';color:var(--terra)}
+.mois-barre{height:8px;background:#eee8dc;border-radius:999px;margin:6px 0;overflow:hidden}
+.mois-barre i{display:block;height:100%;background:var(--terra);border-radius:999px}
+.mois-carte p{margin:0}
+.mois-carte small{color:var(--doux);display:block;margin-top:4px}

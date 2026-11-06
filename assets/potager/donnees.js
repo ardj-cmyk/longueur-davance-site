@@ -269,6 +269,13 @@
     loi: { t: "Loi n° 2020-699 du 10 juin 2020, article 10 (vente de semences de variétés du domaine public aux jardiniers amateurs)", u: "https://www.quechoisir.org/actualite-jardinage-les-semences-paysannes-restent-autorisees-pour-les-amateurs-n80839/" }
   };
 
+  /* Mois de garde après la dernière récolte, quand une source les chiffre (sinon : mangé seulement au mois de récolte). */
+  var GARDE_MOIS = {
+    courge: { mois: 3, txt: "jusqu'en mars" },            // jardiner-malin, fiche courge
+    oignon: { mois: 6, txt: "6 à 8 mois, on compte 6" },  // jardiner-malin, fiche oignon
+    carotte: { mois: 4, txt: "4 à 5 mois en sable, on compte 4" } // jardiner-malin, carottes au sable
+  };
+
   /* Cultures longues : délai avant la première récolte, sourcé. long = plus de 2 ans (grisé). */
   var LONGUES = [
     { id: "framboisier", nom: "Framboisier", long: false,
@@ -343,5 +350,5 @@
     kcalOeuf: 140                           // kcal/100 g, Ciqual 22000
   };
 
-  window.POTAGER_DONNEES = { SOURCES: S, CULTURES: CULTURES, SEMIS: SEMIS, RELAIS: RELAIS, HIVER: HIVER, ENTRETIEN: ENTRETIEN, KOKOPELLI: KOKOPELLI, LONGUES: LONGUES, MATERIEL: MATERIEL, K: CONSTANTES };
+  window.POTAGER_DONNEES = { SOURCES: S, CULTURES: CULTURES, SEMIS: SEMIS, RELAIS: RELAIS, GARDE_MOIS: GARDE_MOIS, HIVER: HIVER, ENTRETIEN: ENTRETIEN, KOKOPELLI: KOKOPELLI, LONGUES: LONGUES, MATERIEL: MATERIEL, K: CONSTANTES };
 })();

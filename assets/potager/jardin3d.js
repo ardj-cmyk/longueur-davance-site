@@ -4,7 +4,11 @@
    Hauteur du soleil à midi : 90° - latitude + déclinaison (0° aux équinoxes, +23,44° en été, -23,44° en hiver). */
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
-import { modele, ESPACEMENT } from "./plantes3d.js";
+import { modele, ESPACEMENT, chargerModeles, modeleStade, aUnModele } from "./plantes3d.js";
+import { texture } from "./textures3d.js";
+/* Texture répétée tous les `metres` (les géométries extrudées ont des UV en mètres). */
+function tex(nom, repet) { const t = texture(nom).clone(); t.needsUpdate = true; t.repeat.set(repet, repet); return t; }
+const TEINTE_HERBE = { printemps: 0xffffff, ete: 0xf4f0cf, automne: 0xe8d6a2, hiver: 0xc9ccbf };
 
 const P = window.PotagerPlan, D = window.POTAGER_DONNEES;
 const SAISONS = [
@@ -63,16 +67,18 @@ function plaque(pts, hauteur, matiere, y0 = 0) {
   return m;
 }
 
-export function monter3d(boite, cmd, plan, o = {}) {
+export async function monter3d(boite, cmd, plan, o = {}) {
+  await chargerModeles();
   /* Nettoie une scène précédente dans la même boîte. */
   for (let i = actives.length - 1; i >= 0; i--) if (actives[i].boite === boite || !document.body.contains(actives[i].boite)) { actives[i].stop(); actives.splice(i, 1); }
   let renderer;
   try { renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false }); } catch (e) { boite.innerHTML = ""; return; }
 
-  boite.innerHTML = '<div class="saisons-btn noprint" role="group" aria-label="Saison en 3D"></div><div class="vue3d"><button type="button" class="lecture noprint" aria-label="Pause"></button></div><p class="carte-src">Vue 3D de ton terrain : glisse pour tourner, pince pour zoomer. Le personnage mesure 1,75 m. Les allées sont les passages entre les planches. Le soleil est à sa hauteur de midi pour la saison.</p>';
+  boite.innerHTML = '<div class="saisons-btn noprint" role="group" aria-label="Saison en 3D"></div><div class="vue3d"><button type="button" class="lecture noprint" aria-label="Pause"></button></div><p class="carte-src">Vue 3D de ton terrain : glisse pour tourner, pince pour zoomer. Le personnage mesure 1,75 m. Les allées sont les passages entre les planches. Une partie des plantes vient du pack libre de droits de Quaternius (CC0). Le soleil est à sa hauteur de midi pour la saison.</p>';
   const cadre = boite.querySelector(".vue3d"), btns = boite.querySelector(".saisons-btn"), lecture = boite.querySelector(".lecture");
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
   renderer.shadowMap.enabled = true;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.1;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   cadre.prepend(renderer.domElement);
 
@@ -96,10 +102,10 @@ export function monter3d(boite, cmd, plan, o = {}) {
   scene.add(soleil, soleil.target);
 
   /* Sol autour, terrain, allées. */
-  const matTour = new THREE.MeshLambertMaterial({ color: 0xc3cba6 });
+  const matTour = new THREE.MeshLambertMaterial({ map: tex("herbe", taille * 6 / 1.2) });
   const tour = new THREE.Mesh(new THREE.CircleGeometry(taille * 3, 48), matTour);
   tour.rotation.x = -Math.PI / 2; tour.position.y = -0.02; tour.receiveShadow = true; scene.add(tour);
-  const matAllee = new THREE.MeshLambertMaterial({ color: 0xd9cba8 });
+  const matAllee = new THREE.MeshLambertMaterial({ map: tex("allee", 1 / 0.8) });
   scene.add(plaque(pts, 0.02, matAllee));
 
   /* Un adulte de 1,75 m au coin du terrain, pour l'échelle. */
@@ -113,8 +119,8 @@ export function monter3d(boite, cmd, plan, o = {}) {
   const m = P.morceaux(cmd, plan);
   const tot = m.reduce((a, x) => a + (x.place || x.m2), 0) || 1;
   const morceaux = P.arbre(pts, m.map((x) => (x.place || x.m2) / tot));
-  const matTerre = new THREE.MeshLambertMaterial({ color: 0x6b4a32 });
-  const matHerbe = new THREE.MeshLambertMaterial({ color: 0x8aa84e });
+  const matTerre = new THREE.MeshLambertMaterial({ map: tex("terre", 1 / 0.7) });
+  const matHerbe = new THREE.MeshLambertMaterial({ map: tex("herbe", 1 / 1.2) });
   const plantes = [];
   morceaux.forEach((b, i) => {
     if (b.length < 3) return;
@@ -123,7 +129,7 @@ export function monter3d(boite, cmd, plan, o = {}) {
     const bed = b.map((p) => [c[0] + (p[0] - c[0]) * f, c[1] + (p[1] - c[1]) * f]);
     if (x.id === "reste") { scene.add(plaque(bed, 0.04, matHerbe)); return; }
     if (x.id === "poules") {
-      scene.add(plaque(bed, 0.03, new THREE.MeshLambertMaterial({ color: 0xb59f78 })));
+      scene.add(plaque(bed, 0.03, new THREE.MeshLambertMaterial({ map: tex("paille", 1 / 0.8), color: 0xd8c9a8 })));
       const piquet = new THREE.MeshLambertMaterial({ color: 0x5a5a5a });
       for (let k = 0; k < bed.length; k++) {
         const a = bed[k], z = bed[(k + 1) % bed.length], L = Math.hypot(z[0] - a[0], z[1] - a[1]);
@@ -146,7 +152,7 @@ export function monter3d(boite, cmd, plan, o = {}) {
     scene.add(plaque(bed, 0.18, matTerre));
     /* Les plantes, avec leur vraie silhouette (plantes3d.js), en quinconce dans la planche. */
     const bx = bed.map((p) => p[0]), bz = bed.map((p) => p[1]);
-    const couche = (id, max = 90) => {
+    const couche = (id, max = 90, stade = "recolte") => {
       const pas = Math.max(ESPACEMENT[id] || 0.35, Math.sqrt(aire(bed) / max));
       const pos = [];
       let ligne = 0;
@@ -155,15 +161,16 @@ export function monter3d(boite, cmd, plan, o = {}) {
           if (dedans([px, pz], bed)) pos.push([px, pz]);
       if (!pos.length) return null;
       const mat = new THREE.MeshLambertMaterial({ vertexColors: true });
-      const mesh = new THREE.InstancedMesh(modele(id), mat, pos.length);
+      const mesh = new THREE.InstancedMesh(modeleStade(id, stade), mat, pos.length);
       mesh.castShadow = true; mesh.receiveShadow = true;
       scene.add(mesh);
       return { mesh, mat, pos };
     };
     const idA = x.relais ? x.relais.idA : x.id, idB = x.relais ? x.relais.idB : null;
-    const paillis = x.couvert ? plaque(bed, 0.02, new THREE.MeshLambertMaterial({ color: 0xc8b27a }), 0.18) : null;
+    const paillis = x.couvert ? plaque(bed, 0.02, new THREE.MeshLambertMaterial({ map: tex("paille", 1 / 0.6) }), 0.18) : null;
     if (paillis) { paillis.visible = false; scene.add(paillis); }
-    plantes.push({ x, A: couche(idA), B: idB ? couche(idB) : null, C: x.couvert ? couche("couvert", 120) : null, paillis });
+    const paire = (id) => ({ r: couche(id), p: aUnModele(id) ? couche(id, 90, "pousse") : null });
+    plantes.push({ x, A: paire(idA), B: idB ? paire(idB) : null, C: x.couvert ? couche("couvert", 120, "recolte") : null, paillis });
   });
 
   const mat4 = new THREE.Matrix4(), q = new THREE.Quaternion(), v = new THREE.Vector3(), s3 = new THREE.Vector3(), AXE_Y = new THREE.Vector3(0, 1, 0);
@@ -173,7 +180,8 @@ export function monter3d(boite, cmd, plan, o = {}) {
     saisonCourante = id;
     const S = SAISONS.find((x) => x.id === id);
     scene.background = new THREE.Color(S.ciel);
-    matHerbe.color.setHex(S.herbe);
+    scene.fog = new THREE.Fog(S.ciel, taille * 2.2, taille * 7);
+    matHerbe.color.setHex(TEINTE_HERBE[S.id]); matTour.color.setHex(TEINTE_HERBE[S.id]);
     const hauteur = (90 - lat + S.decl) * Math.PI / 180;
     soleil.position.set(0, Math.sin(hauteur) * taille * 3, Math.cos(hauteur) * taille * 3); // plein sud à midi
     soleil.intensity = id === "hiver" ? 1.1 : 1.6;
@@ -198,8 +206,14 @@ export function monter3d(boite, cmd, plan, o = {}) {
       if (x.couvert && S.id === "hiver") montrer = "C";
       else if (x.couvert && S.id === "printemps" && !aOn) montrer = "paillis";
       else if (r && bOn && !aOn) { montrer = "B"; ech = 1; sec = false; }
-      poser(pl.A, montrer === "A", ech, sec);
-      poser(pl.B, montrer === "B", 1, false);
+      /* Un modèle du pack a son propre stade « pousse » : on l'affiche en entier. Sinon, la silhouette en petit. */
+      const poserPaire = (pp, visible, recolte, sec) => {
+        if (!pp) return;
+        if (pp.p) { poser(pp.r, visible && recolte, 1, false); poser(pp.p, visible && !recolte, sec ? 0.8 : 1, sec); }
+        else poser(pp.r, visible, recolte ? 1 : 0.45, sec);
+      };
+      poserPaire(pl.A, montrer === "A", ech === 1, sec);
+      poserPaire(pl.B, montrer === "B", true, false);
       poser(pl.C, montrer === "C", 1, false);
       if (pl.paillis) pl.paillis.visible = montrer === "paillis";
     });
