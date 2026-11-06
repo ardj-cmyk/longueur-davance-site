@@ -152,7 +152,7 @@
       var xs = bed.map(function (p) { return p[0]; }), zs = bed.map(function (p) { return p[1]; }), out = [], ligne = 0;
       for (var z = Math.min.apply(null, zs) + pas / 2; z < Math.max.apply(null, zs); z += pas, ligne++)
         for (var x = Math.min.apply(null, xs) + pas / 2; x < Math.max.apply(null, xs); x += pas)
-          if (dedans([x, z], bed)) out.push([x, z]);
+          if (dedans([x, z], bed)) out.push([x, z, ligne]);
       return { pos: out, pas: pas };
     }
 
@@ -216,14 +216,25 @@
         out.push({ prof: -1e5 + L.c[0] + L.c[1], s: '<path d="' + chemin(L.bed, hautPlanche + 0.01) + '" fill="url(#t-paille)" data-nom="Engrais vert fauché, laissé en paillis"/>' });
         return out;
       } else if (r && bOn && !aOn) { id = r.idB; etat = "recolte"; }
-      var nom = etat === "recolte" ? (DIMS[id] ? id : "pousse") : etat;
-      var c0 = D.CULTURES.filter(function (c) { return c.id === id; })[0], nc = c0 ? c0.nom.replace(/ \(.*\)/, "") : "";
-      var lu = id === "couvert" ? "Engrais vert d'hiver (seigle, vesce, féveroles)" : etat === "recolte" ? nc + ", en récolte" : etat === "pousse" ? nc + ", en train de pousser" : nc + ", récolte finie";
-      var g = grille(L.bed, (PAS[nom] || 0.35) * (etat === "recolte" ? 1.1 : 1), 26);
+      function vu(id, etat) {
+        var nom = etat === "recolte" ? (DIMS[id] ? id : "pousse") : etat;
+        var c0 = D.CULTURES.filter(function (c) { return c.id === id; })[0], nc = c0 ? c0.nom.replace(/ \(.*\)/, "") : "";
+        var lu = id === "couvert" ? "Engrais vert d'hiver (seigle, vesce, féveroles)" : etat === "recolte" ? nc + ", en récolte" : etat === "pousse" ? nc + ", en train de pousser" : nc + ", récolte finie";
+        return { nom: nom, lu: lu, etat: etat };
+      }
+      var A = vu(id, etat), B = null, as = x.assoc;
+      /* Association : le compagnon occupe un rang sur deux (rangs alternés) ou un sur trois (entre les pieds). */
+      if (as && id !== "couvert") {
+        A = vu(as.idA, dans(as.recA) ? "recolte" : pousse ? "pousse" : "sec");
+        B = vu(as.idB, dans(as.recB) ? "recolte" : pousse ? "pousse" : "sec");
+      }
+      var pasG = Math.max(PAS[A.nom] || 0.35, B ? PAS[B.nom] || 0.35 : 0) * (A.etat === "recolte" ? 1.1 : 1);
+      var g = grille(L.bed, pasG, B ? 36 : 26), pas = B ? (as.type === "rangs" ? 2 : 3) : 0;
       g.pos.forEach(function (p, k) {
-        if (etat === "sec" && k % 2) return;
-        var v = 0.92 + ((k * 37) % 10) / 60, larg = Math.min(g.pas * 0.8, (LARG[nom] || 0.35) * 0.72) * v;
-        out.push(dessin(nom, p[0], p[1], hautPlanche, larg, (k * 7) % 3 === 0, lu));
+        var V = B && p[2] % pas === 1 ? B : A;
+        if (V.etat === "sec" && k % 2) return;
+        var v = 0.92 + ((k * 37) % 10) / 60, larg = Math.min(g.pas * 0.8, (LARG[V.nom] || 0.35) * 0.72) * v;
+        out.push(dessin(V.nom, p[0], p[1], hautPlanche, larg, (k * 7) % 3 === 0, V.lu));
       });
       return out;
     }

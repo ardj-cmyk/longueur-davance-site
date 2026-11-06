@@ -244,6 +244,29 @@
     }
   };
 
+  /* Associations : deux légumes sur la même planche, au même moment. Uniquement les paires mesurées par une étude.
+     type "entre" : le compagnon pousse entre les pieds de l'hôte, part = fraction de sa récolte normale gagnée par m² d'hôte
+     (rapport de surface mesuré moins 1, récolte de l'hôte inchangée). type "rangs" : rangs alternés sur une planche commune,
+     aucun gain de place compté faute de chiffre publié. Chaque légume ne sert qu'à une association, dans l'ordre de la liste. */
+  var ETUDE_TOMATE = { t: "Reynafarje, Siura et Pérez 2016, Acta Horticulturae 1128 : tomate bio semée avec laitue (rapport de surface 1,3) ou haricot vert (1,2) sans perte de tomates. Avec courgette, basilic ou crotalaire : jusqu'à 64 % de tomates en moins", u: "https://www.actahort.org/books/1128/1128_45.htm" };
+  var ETUDE_CHOU = { t: "Guvenc et Yildirim 2006, Journal of Sustainable Agriculture 28(4) : chou associé à la laitue, l'oignon ou le haricot, récolte de chou inchangée, rapport de surface supérieur à 1, revenu plus élevé. Avec le radis, moins de choux", u: "https://avesis.atauni.edu.tr/yayin/c140fa7f-e9d5-4833-abb1-a27327f7da3a/increasing-productivity-with-intercropping-systems-in-cabbage-production" };
+  var ASSOCIATIONS = [
+    { hote: "tomate", avec: "haricot_vert", type: "entre", part: 0.2,
+      txt: "Des haricots verts semés entre les pieds de tomates, en même temps qu'eux.",
+      res: "20 % d'une récolte de haricots en plus sur la planche des tomates, sans perdre de tomates.", src: [ETUDE_TOMATE] },
+    { hote: "carotte", avec: "oignon", type: "rangs",
+      txt: "Carottes et oignons en rangs alternés sur la même planche.",
+      res: "Moins de mouche de la carotte et moins de thrips sur l'oignon. Un essai finlandais trouve un effet faible. Aucun gain de place compté.",
+      src: [{ t: "Uvah et Coaker 1984, Entomologia Experimentalis et Applicata (carotte et oignon en rangs alternés)", u: "https://agris.fao.org/search/en/records/65deb2ea0f3e94b9e5d08c14" },
+            { t: "Varis 1991, essai en Finlande (effet faible)", u: "https://journal.fi/afs/article/view/72420" }] },
+    { hote: "chou", avec: "oignon", type: "rangs",
+      txt: "Des oignons plantés entre les rangs de choux.",
+      res: "Autant de choux et des oignons en plus sur la même terre. L'étude ne publie pas le gain exact en libre accès, on ne compte donc aucun gain de place.", src: [ETUDE_CHOU] },
+    { hote: "chou", avec: "haricot_vert", type: "rangs",
+      txt: "Des haricots verts semés entre les rangs de choux.",
+      res: "Autant de choux et des haricots en plus sur la même terre. L'étude ne publie pas le gain exact en libre accès, on ne compte donc aucun gain de place.", src: [ETUDE_CHOU] }
+  ];
+
   /* L'hiver nourrit l'été : un engrais vert d'hiver sur chaque planche libérée avant novembre.
      Terre & Humanisme (association de Pierre Rabhi), Mas de Beaulieu : mélange seigle, vesce d'hiver, féveroles,
      fauché avant floraison au printemps, étalé, racines en place, couvert 4 à 6 semaines, puis on plante. */
@@ -369,5 +392,5 @@
   /* Prix relevés le 06/11/2026. Clapiers d'élevage et lapins : pas de prix en ligne fiable, non chiffrés. */
   var LAPINS = { granules: { lib: "Aliment complet lapin en granulés, sac de 20 kg", prix: 27.49, kg: 20, u: "https://www.truffaut.com/aliment-complet-pour-lapin-en-granule-regal-20kg-785055.html" } };
 
-  window.POTAGER_DONNEES = { SOURCES: S, CULTURES: CULTURES, SEMIS: SEMIS, RELAIS: RELAIS, GARDE_MOIS: GARDE_MOIS, HIVER: HIVER, ENTRETIEN: ENTRETIEN, KOKOPELLI: KOKOPELLI, LONGUES: LONGUES, MATERIEL: MATERIEL, LAPINS: LAPINS, K: CONSTANTES };
+  window.POTAGER_DONNEES = { SOURCES: S, CULTURES: CULTURES, SEMIS: SEMIS, RELAIS: RELAIS, ASSOCIATIONS: ASSOCIATIONS, GARDE_MOIS: GARDE_MOIS, HIVER: HIVER, ENTRETIEN: ENTRETIEN, KOKOPELLI: KOKOPELLI, LONGUES: LONGUES, MATERIEL: MATERIEL, LAPINS: LAPINS, K: CONSTANTES };
 })();

@@ -146,7 +146,17 @@
         });
       });
     var gagne = relais.reduce(function (x, r) { return x + r.m2; }, 0);
-    var besoin = choisies.reduce(function (a, c) { return a + (c.m2 ? c.m2 * f0 : 0); }, 0) - gagne;
+    /* Associations prouvées : deux légumes sur la même planche, au même moment (D.ASSOCIATIONS, une étude par paire). */
+    var assoc = [], pris = {}, m2De = {};
+    choisies.forEach(function (c) { if (c.m2) m2De[c.id] = c.m2 * f0 - (partage[c.id] || 0); });
+    D.ASSOCIATIONS.forEach(function (a) {
+      if (pris[a.hote] || pris[a.avec] || !(m2De[a.hote] > 0.05) || !(m2De[a.avec] > 0.05)) return;
+      var g = a.type === "entre" ? Math.min(a.part * m2De[a.hote], m2De[a.avec]) : 0;
+      assoc.push({ a: a, hote: a.hote, avec: a.avec, type: a.type, gain: g });
+      pris[a.hote] = pris[a.avec] = true;
+    });
+    var gagneAssoc = assoc.reduce(function (x, r) { return x + r.gain; }, 0);
+    var besoin = choisies.reduce(function (a, c) { return a + (c.m2 ? c.m2 * f0 : 0); }, 0) - gagne - gagneAssoc;
     var echelle = besoin > 0 ? Math.min(1, dispo / besoin) : 1;
     var reste = Math.max(0, dispo - besoin);
     var surfaceIdeale = besoin / (1 - K.partAllees) + poulesVoulues * K.enclosParPoule + clapiers;
@@ -192,7 +202,7 @@
     var couvertM2 = 0;
     if (window.PotagerPlan && window.PotagerPlan.morceaux) {
       couvertM2 = window.PotagerPlan.morceaux(cmd, { lignes: lignes, partage: partage, echelle: echelle, enclos: enclos - clapiers, poules: poules, lapines: lapines, clapiers: clapiers,
-        relais: relais.map(function (r) { return { a: r.a, b: r.b, m2: r.m2 * echelle }; }) })
+        relais: relais.map(function (r) { return { a: r.a, b: r.b, m2: r.m2 * echelle }; }), assoc: assoc })
         .filter(function (x) { return x.couvert; }).reduce(function (a, x) { return a + x.m2; }, 0);
     }
     var H = D.HIVER, sachetsHiver = couvertM2 > 0 ? Math.ceil(couvertM2 * H.doseGm2 / H.sachet.g) : 0;
@@ -201,7 +211,7 @@
     budget.postes.forEach(function (p) { budget.total.bas += p.bas; budget.total.haut += p.haut; });
 
     return {
-      relais: relais.map(function (r) { return { a: r.a, b: r.b, m2: r.m2 * echelle }; }), gagne: gagne * echelle, partage: partage,
+      relais: relais.map(function (r) { return { a: r.a, b: r.b, m2: r.m2 * echelle }; }), gagne: gagne * echelle, partage: partage, assoc: assoc, gagneAssoc: gagneAssoc * echelle,
       couvertM2: couvertM2, sachetsHiver: sachetsHiver,
       N: N, lots: lots, lignes: lignes, besoin: besoin, dispo: dispo, echelle: echelle, reste: reste, enclos: enclos - clapiers,
       lapines: lapines, clapiers: clapiers, lapinsMin: lapinsMin, lapinsMax: lapinsMax, kgLapinMin: lapinsMin * kgLapin, kgLapinMax: lapinsMax * kgLapin,
@@ -301,7 +311,14 @@
       p.relais.forEach(function (r) {
         h += '<div class="relais-carte"><div><b>' + nomDe(r.a) + "</b><small>" + esc(D.RELAIS.avant[r.a].txt) + " · " + lien(D.RELAIS.avant[r.a].u, "source") + '</small></div><div class="fleche" aria-hidden="true">→</div><div><b>' + nomDe(r.b) + "</b><small>" + esc(D.RELAIS.apres[r.b].txt) + " · " + lien(D.RELAIS.apres[r.b].u, "source") + '</small></div><div class="relais-m2">' + nb(r.m2, 1) + NB + "m²</div></div>";
       });
-      h += '</div><p class="note">Principe : ' + src("yu") + ". Une culture semée en juillet peut donner moins qu'au printemps, la source ne chiffre pas l'écart. Les associations de plantes qui poussent en même temps (« compagnonnage ») ne sont pas incluses : la plupart ne sont pas prouvées.</p>";
+      h += '</div><p class="note">Principe : ' + src("yu") + ". Une culture semée en juillet peut donner moins qu'au printemps, la source ne chiffre pas l'écart. Les légumes qui poussent côte à côte au même moment sont juste en dessous.</p>";
+    }
+    if (p.assoc.length) {
+      h += '<h3>Ce qui pousse côte à côte</h3><p>Deux légumes sur la même planche, au même moment. On ne garde que les paires mesurées par une étude' + (p.gagneAssoc > 0.05 ? ", et ton potager prend <b>" + nb(p.gagneAssoc, 1) + NB + "m² de moins</b>" : "") + '.</p><div class="relais-liste">';
+      p.assoc.forEach(function (r) {
+        h += '<div class="relais-carte assoc-carte"><div><b>' + nomDe(r.hote) + " + " + nomDe(r.avec).toLowerCase() + "</b><small>" + esc(r.a.txt) + " " + esc(r.a.res) + " · " + r.a.src.map(function (x, i) { return lien(x.u, "étude" + (r.a.src.length > 1 ? " " + (i + 1) : "")); }).join(", ") + '</small></div><div class="relais-m2">' + (r.gain > 0.05 ? "−" + nb(r.gain * p.echelle, 1) + NB + "m²" : "même place") + "</div></div>";
+      });
+      h += '</div><p class="note">Toutes les paires ne marchent pas : la tomate avec la courgette ou le basilic a donné jusqu\'à 64 % de tomates en moins (' + lien(D.ASSOCIATIONS[0].src[0].u, "même étude") + "). Les études ont été faites dans des champs d'autres pays, le résultat dans ton jardin peut varier.</p>";
     }
     h += '<p class="note">Quantités : consommation annuelle d\'une famille de quatre ramenée à ' + personnes + ", surfaces et semences au rendement d'un maraîcher en culture extensive (" + src("jardin30") + "). En culture serrée, la même source donne environ deux fois moins de place. Fraisiers : " + nb(6 * p.N, 0) + " plants, notre choix de départ (6 par personne), pas un chiffre sourcé.</p></section>";
 
@@ -541,11 +558,15 @@
     var kA = 1 / (1 - D.K.partAllees);
     var coul = function (c) { return COULEURS[D.CULTURES.indexOf(c) % COULEURS.length]; };
     var parId = {}; plan.lignes.forEach(function (l) { parId[l.c.id] = l; });
-    var e = plan.echelle;
+    var e = plan.echelle, assoc = plan.assoc || [];
+    var propreDe = function (l) { return l.m2 - (plan.partage[l.c.id] || 0) * e - plan.relais.filter(function (r) { return r.a === l.c.id; }).reduce(function (a, r) { return a + r.m2; }, 0); };
     plan.lignes.forEach(function (l) {
       if (!l.m2) return;
       var dejaPartage = (plan.partage[l.c.id] || 0) * e;          // cette culture vit sur la planche d'une autre
       var propre = l.m2 - dejaPartage;
+      var compagnon = assoc.filter(function (a) { return a.avec === l.c.id; })[0];
+      if (compagnon) propre -= compagnon.type === "rangs" ? propreDe(l) : compagnon.gain * e;   // elle pousse sur la planche de son hôte
+      var hote = assoc.filter(function (a) { return a.hote === l.c.id; })[0];
       var heberge = plan.relais.filter(function (r) { return r.a === l.c.id; });
       heberge.forEach(function (r) {
         var b = parId[r.b], fin = D.RELAIS.avant[l.c.id].fin;
@@ -555,6 +576,14 @@
           recolte: recA.concat(recB), coul: coul(l.c), couvert: libreHiver(recB), relais: { coulA: coul(l.c), coulB: coul(b.c), recA: recA, recB: recB, idA: l.c.id, idB: r.b } });
         propre -= r.m2;
       });
+      if (hote && propre > 0.05) {
+        var b = parId[hote.avec], m2h = propre + (hote.type === "rangs" ? propreDe(b) : 0);
+        var rec = l.c.recolte.concat(b.c.recolte.filter(function (mm) { return l.c.recolte.indexOf(mm) < 0; }));
+        m.push({ id: l.c.id + "+" + hote.avec, nom: hote.type === "rangs" ? l.c.nom + " et " + b.c.nom.toLowerCase() + " en rangs alternés" : l.c.nom + ", " + b.c.nom.toLowerCase() + " entre les pieds",
+          m2: m2h, place: m2h * kA, recolte: rec, coul: coul(l.c), couvert: libreHiver(rec),
+          assoc: { idA: l.c.id, idB: hote.avec, coulA: coul(l.c), coulB: coul(b.c), recA: l.c.recolte, recB: b.c.recolte, type: hote.type, nomA: l.c.nom, nomB: b.c.nom } });
+        propre = 0;
+      }
       if (propre > 0.05) m.push({ id: l.c.id, nom: l.c.nom, m2: propre, place: propre * kA, recolte: l.c.recolte, coul: coul(l.c), couvert: l.c.id !== "fraisier" && libreHiver(l.c.recolte) });
     });
     if (plan.clapiers) m.push({ id: "lapins", nom: plan.lapines + " lapine" + (plan.lapines > 1 ? "s" : "") + " et 1 mâle (clapiers)", m2: plan.clapiers, place: plan.clapiers, recolte: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], coul: "#a07c5b" });
@@ -643,6 +672,11 @@
       if (x.id === "poules") return { actif: true, txt: "les poules", fill: x.coul };
       if (x.id === "lapins") return { actif: true, txt: "les lapins", fill: x.coul };
       if (x.couvert && s === "hiver") return { actif: true, txt: "engrais vert d'hiver", fill: "#4f7a3a" };
+      if (x.assoc) {
+        var ea = dans(x.assoc.recA), eb = dans(x.assoc.recB), mot = o.motSaison || "en récolte";
+        if (x.couvert && s === "printemps" && !ea && !eb) return { actif: true, txt: "engrais vert fauché et couvert", fill: "#c8b27a" };
+        return { actif: ea || eb, txt: ea && eb ? mot + " (les deux)" : ea ? mot + " (" + x.assoc.nomA.replace(/ \(.*\)/, "").toLowerCase() + ")" : eb ? mot + " (" + x.assoc.nomB.replace(/ \(.*\)/, "").toLowerCase() + ")" : "pas de récolte cette saison", fill: ea || !eb ? x.assoc.coulA : x.assoc.coulB };
+      }
       var a = x.relais ? dans(x.relais.recA) : dans(x.recolte), bb = x.relais ? dans(x.relais.recB) : false;
       if (x.couvert && s === "printemps" && !a) return { actif: true, txt: "engrais vert fauché et couvert", fill: "#c8b27a" };
       if (x.relais && bb && !a) return { actif: true, txt: (o.motSaison || "en récolte") + " (deuxième culture)", fill: x.relais.coulB };
@@ -679,7 +713,7 @@
       grille.querySelector(".legende").innerHTML = m.map(function (x, i) {
         var e = etatDe(x, s);
         var nom = o.flou && x.id !== "reste" && x.id !== "poules" && x.id !== "lapins" ? '<span class="flou">' + masque(x.nom) + "</span>" : P.esc(x.nom);
-        return '<li data-i="' + i + '" class="' + (e.actif ? "" : "eteint") + (sel === i ? " sel" : "") + '"><i style="background:' + (x.relais ? "linear-gradient(135deg," + x.relais.coulA + " 50%," + x.relais.coulB + " 50%)" : x.coul) + '"></i><b>' + (i + 1) + ".</b> " + nom +
+        return '<li data-i="' + i + '" class="' + (e.actif ? "" : "eteint") + (sel === i ? " sel" : "") + '"><i style="background:' + (x.relais ? "linear-gradient(135deg," + x.relais.coulA + " 50%," + x.relais.coulB + " 50%)" : x.assoc ? "repeating-linear-gradient(90deg," + x.assoc.coulA + " 0 4px," + x.assoc.coulB + " 4px 8px)" : x.coul) + '"></i><b>' + (i + 1) + ".</b> " + nom +
           ' <small>' + (o.flou ? '<span class="flou">' + masque(P.nb(x.m2, 1)) + "</span>" : P.nb(x.m2, 1)) + NB + "m², " + e.txt + "</small></li>";
       }).join("");
       boite.querySelectorAll(".saisons-btn button").forEach(function (bt) { bt.setAttribute("aria-pressed", String(bt.dataset.s === s)); });
@@ -713,7 +747,8 @@
       var s = D.SEMIS[l.c.id]; if (!s) return;
       var f = function (t) { return flou ? '<span class="flou">' + masque(t) + "</span>" : P.esc(t); };
       h += '<div class="carte"><div class="nom">' + P.esc(l.c.nom) + "</div><p><b>Pourquoi elle est là :</b> " + f(pourquoi(plan, l)) + "</p><p><b>Quand :</b> " + f(s.quand) + ".</p><p><b>Comment :</b> " + f(s.comment) + "</p>" +
-        (s.expo ? "<p><b>Exposition :</b> " + f(s.expo) + "</p>" : "") + '<p class="src">' + (flou ? "" : s.src.map(function (u, i) { return '<a href="' + P.esc(u) + '" target="_blank" rel="noopener">source' + (s.src.length > 1 ? " " + (i + 1) : "") + "</a>"; }).join(", ")) + "</p></div>";
+        (s.expo ? "<p><b>Exposition :</b> " + f(s.expo) + "</p>" : "") +
+        (plan.assoc || []).filter(function (a) { return a.hote === l.c.id || a.avec === l.c.id; }).map(function (a) { return "<p><b>Sur la même planche :</b> " + f(a.a.txt) + "</p>"; }).join("") + '<p class="src">' + (flou ? "" : s.src.map(function (u, i) { return '<a href="' + P.esc(u) + '" target="_blank" rel="noopener">source' + (s.src.length > 1 ? " " + (i + 1) : "") + "</a>"; }).join(", ")) + "</p></div>";
     });
     return h + "</div>";
   }
