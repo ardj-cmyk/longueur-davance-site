@@ -235,7 +235,7 @@
     h += "</tbody></table></div></section>";
 
     var n = p.longues.length ? 5 : 4;
-    h += "<section><h2>" + n + ". Semer et planter, culture par culture</h2>" + (window.PotagerPlan.fiches ? window.PotagerPlan.fiches(p, false) : "") + '<p class="note">Conseils relevés sur la fiche Truffaut du sachet recommandé ou sur jardiner-malin, lien sous chaque fiche. Ce qu\'aucune source ne donne est écrit « non chiffré ».</p></section>';
+    h += "<section><h2>" + n + ". Pourquoi chaque culture, et comment la semer</h2>" + (window.PotagerPlan.fiches ? window.PotagerPlan.fiches(p, false) : "") + '<p class="note">Calories au m² : kg par an et surface du modèle (un-jardin-bio.com) multipliés par les calories Ciqual. Conseils de semis relevés sur la fiche Truffaut du sachet recommandé ou sur jardiner-malin, lien sous chaque fiche. Ce qu\'aucune source ne donne est écrit « non chiffré ».</p></section>';
     n++;
     /* Graines */
     h += "<section><h2>" + n + ". Les graines et les plants à acheter</h2><div class=\"tab\"><table><thead><tr><th>Culture</th><th>Petit budget</th><th>Bio ou plus</th></tr></thead><tbody>";
@@ -415,12 +415,26 @@
   }
 
   /* Fiches semis, une par culture choisie. */
+  /* « Pourquoi elle est là » : uniquement à partir des chiffres sourcés (kg, surface, calories Ciqual, conservation). */
+  function pourquoi(plan, l) {
+    var parM2 = function (x) { return x.c.kg2 && x.c.kcal && x.c.m2 ? x.c.kg2 * x.c.kcal * 10 / x.c.m2 : 0; };
+    var k = parM2(l);
+    var classes = plan.lignes.filter(function (x) { return parM2(x) > 0; }).sort(function (a, b) { return parM2(b) - parM2(a); });
+    var t = "Tu l'as choisie. ";
+    if (k > 0) {
+      var rang = classes.indexOf(l) + 1;
+      t += "Environ " + P.nb(k, 0) + " kcal par m² et par an" + (rang === 1 ? ", la plus nourrissante au m² de ton plan" : ", " + rang + "e sur " + classes.length + " de ton plan pour les calories au m²") + ". ";
+    } else t += "Pas de valeur calorique fiable pour elle, elle compte pour le goût et la variété. ";
+    t += "Conservation : " + l.c.garde.charAt(0).toLowerCase() + l.c.garde.slice(1) + ".";
+    return t;
+  }
+
   function fiches(plan, flou) {
     var h = '<div class="cartes">';
     plan.lignes.forEach(function (l) {
       var s = D.SEMIS[l.c.id]; if (!s) return;
       var f = function (t) { return flou ? '<span class="flou">' + masque(t) + "</span>" : P.esc(t); };
-      h += '<div class="carte"><div class="nom">' + P.esc(l.c.nom) + "</div><p><b>Quand :</b> " + f(s.quand) + ".</p><p><b>Comment :</b> " + f(s.comment) + "</p>" +
+      h += '<div class="carte"><div class="nom">' + P.esc(l.c.nom) + "</div><p><b>Pourquoi elle est là :</b> " + f(pourquoi(plan, l)) + "</p><p><b>Quand :</b> " + f(s.quand) + ".</p><p><b>Comment :</b> " + f(s.comment) + "</p>" +
         (s.expo ? "<p><b>Exposition :</b> " + f(s.expo) + "</p>" : "") + '<p class="src">' + (flou ? "" : s.src.map(function (u, i) { return '<a href="' + P.esc(u) + '" target="_blank" rel="noopener">source' + (s.src.length > 1 ? " " + (i + 1) : "") + "</a>"; }).join(", ")) + "</p></div>";
     });
     return h + "</div>";
