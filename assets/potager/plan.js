@@ -359,9 +359,17 @@
 
   /* Dessine le jardin dans `boite`. o = { flou, saison } */
   function vue(boite, cmd, plan, o) {
+    return vueMorceaux(boite, { zone: cmd.zone }, morceaux(cmd, plan), o);
+  }
+
+  /* Entrée générique, indépendante du potager : n'importe quelle base de plantes peut s'y brancher.
+     cadre = { zone: [[lon,lat]...] ou null }   (sans zone : carré schématique de la surface totale)
+     m = [{ id, nom, m2, recolte: [mois 1..12 où la plante « se voit » ou se récolte], coul }]
+     o = { flou, saison, motSaison (« en récolte » par défaut, « en fleur » pour un jardin d'agrément) } */
+  function vueMorceaux(boite, cadre, m, o) {
     o = o || {};
     var saison = o.saison || "ete";
-    var m = morceaux(cmd, plan);
+    var cmd = { zone: cadre.zone };
     var total = m.reduce(function (a, x) { return a + x.m2; }, 0) || 1;
     var parts = m.map(function (x) { return x.m2 / total; });
     boite.innerHTML = '<div class="saisons-btn noprint" role="group" aria-label="Saison">' + SAISONS.map(function (s) {
@@ -398,7 +406,7 @@
         var actif = x.id === "reste" || x.recolte.some(function (mm) { return mois.indexOf(mm) >= 0; });
         var nom = o.flou && x.id !== "reste" && x.id !== "poules" ? '<span class="flou">' + masque(x.nom) + "</span>" : P.esc(x.nom);
         return '<li class="' + (actif ? "" : "eteint") + '"><i style="background:' + x.coul + '"></i><b>' + (i + 1) + ".</b> " + nom +
-          ' <small>' + (o.flou ? '<span class="flou">' + masque(P.nb(x.m2, 1)) + "</span>" : P.nb(x.m2, 1)) + NB + "m²" + (actif && x.id !== "reste" && x.id !== "poules" ? ", en récolte" : "") + "</small></li>";
+          ' <small>' + (o.flou ? '<span class="flou">' + masque(P.nb(x.m2, 1)) + "</span>" : P.nb(x.m2, 1)) + NB + "m²" + (actif && x.id !== "reste" && x.id !== "poules" ? ", " + (o.motSaison || "en récolte") : "") + "</small></li>";
       }).join("");
       boite.querySelectorAll(".saisons-btn button").forEach(function (bt) { bt.setAttribute("aria-pressed", String(bt.dataset.s === s)); });
     }
@@ -428,5 +436,5 @@
     return n;
   }
 
-  P.vue = vue; P.fiches = fiches; P.pages = pages; P.masque = masque; P.SAISONS = SAISONS;
+  P.vue = vue; P.vueMorceaux = vueMorceaux; P.fiches = fiches; P.pages = pages; P.masque = masque; P.SAISONS = SAISONS;
 })();
