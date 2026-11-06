@@ -33,7 +33,7 @@ EXCLUES = {"index", "ressources"}
 PRINCIPALES = [("", 1.0)] + [(m, 0.9) for m in (
     "avocat", "comptable", "batiment", "immobilier", "architecte", "medical", "traiteur", "garage",
     "transport", "camping", "recrutement", "communication", "commercial", "solo")] + [
-    ("automatisation", 0.7), ("formation", 0.7), ("verdict", 0.6), ("plan-potager", 0.6), ("ressources", 0.7)]
+    ("automatisation", 0.7), ("formation", 0.7), ("verdict", 0.6), ("ressources", 0.7)]
 
 
 def git_date(f, premiere=False):
