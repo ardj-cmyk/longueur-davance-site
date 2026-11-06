@@ -122,6 +122,11 @@
     if (poules < 2) poules = 0;
     var poulesLimitees = cmd.poules && poules < poulesVoulues;
     var enclos = poules * K.enclosParPoule;
+    /* Lapins : 1 lapine pour 2 personnes (notre règle de départ) et 1 mâle. Clapiers au sol : cage de femelle,
+       sa portée en engraissement (10 lapins par m² sur litière) et la cage du mâle (FAO). */
+    var lapines = cmd.lapins ? Math.ceil(N / 2) : 0;
+    var clapiers = lapines ? lapines * (K.cageLapine + K.porteeEnCage / K.lapinsParM2) + K.cageMale : 0;
+    enclos += clapiers;
 
     /* Allées : 20 % du terrain cultivé (Ecology Action : 2 000 sq ft de planches, 2 500 avec les allées). */
     var cultivable = Math.max(0, cmd.surface_m2 - enclos);
@@ -144,7 +149,7 @@
     var besoin = choisies.reduce(function (a, c) { return a + (c.m2 ? c.m2 * f0 : 0); }, 0) - gagne;
     var echelle = besoin > 0 ? Math.min(1, dispo / besoin) : 1;
     var reste = Math.max(0, dispo - besoin);
-    var surfaceIdeale = besoin / (1 - K.partAllees) + poulesVoulues * K.enclosParPoule;
+    var surfaceIdeale = besoin / (1 - K.partAllees) + poulesVoulues * K.enclosParPoule + clapiers;
 
     var lignes = choisies.map(function (c) {
       var e = c.m2 ? echelle : 1;
@@ -166,6 +171,9 @@
     var oeufsMin = poules * K.oeufsParPouleMin, oeufsMax = poules * K.oeufsParPouleMax;
     var kcalOeuf = K.poidsOeuf / 100 * K.kcalOeuf;
     var besoinAn = N * (K.kcalHomme + K.kcalFemme) / 2 * 365;
+    var kgLapin = K.poidsVifLapin * K.rendementLapin;                    // kg de carcasse par lapin
+    var lapinsMin = lapines * K.lapinsParLapineMin, lapinsMax = lapines * K.lapinsParLapineMax;
+    var alimentLapins = lapinsMax * K.poidsVifLapin * K.alimentParKgLapin; // kg de granulés par an, au haut de la fourchette
 
     var budget = { graines: { bas: 0, haut: 0 }, postes: [] };
     lignes.forEach(function (l) { budget.graines.bas += l.bas.prix; budget.graines.haut += l.haut.prix; });
@@ -179,10 +187,11 @@
       });
       budget.postes.push({ k: k, titre: m.titre, mult: mult, bas: bas, haut: haut });
     });
+    if (lapines) budget.postes.push({ k: "lapins", titre: "Lapins : premier sac de granulés", mult: 1, bas: D.LAPINS.granules.prix, haut: D.LAPINS.granules.prix });
     /* Engrais vert d'hiver sur les planches libérées avant novembre (vesce d'hiver, 15 g par m²). */
     var couvertM2 = 0;
     if (window.PotagerPlan && window.PotagerPlan.morceaux) {
-      couvertM2 = window.PotagerPlan.morceaux(cmd, { lignes: lignes, partage: partage, echelle: echelle, enclos: enclos, poules: poules,
+      couvertM2 = window.PotagerPlan.morceaux(cmd, { lignes: lignes, partage: partage, echelle: echelle, enclos: enclos - clapiers, poules: poules, lapines: lapines, clapiers: clapiers,
         relais: relais.map(function (r) { return { a: r.a, b: r.b, m2: r.m2 * echelle }; }) })
         .filter(function (x) { return x.couvert; }).reduce(function (a, x) { return a + x.m2; }, 0);
     }
@@ -194,7 +203,9 @@
     return {
       relais: relais.map(function (r) { return { a: r.a, b: r.b, m2: r.m2 * echelle }; }), gagne: gagne * echelle, partage: partage,
       couvertM2: couvertM2, sachetsHiver: sachetsHiver,
-      N: N, lots: lots, lignes: lignes, besoin: besoin, dispo: dispo, echelle: echelle, reste: reste, enclos: enclos,
+      N: N, lots: lots, lignes: lignes, besoin: besoin, dispo: dispo, echelle: echelle, reste: reste, enclos: enclos - clapiers,
+      lapines: lapines, clapiers: clapiers, lapinsMin: lapinsMin, lapinsMax: lapinsMax, kgLapinMin: lapinsMin * kgLapin, kgLapinMax: lapinsMax * kgLapin,
+      kcalLapinMin: lapinsMin * kgLapin * K.kcalLapin * 10, kcalLapinMax: lapinsMax * kgLapin * K.kcalLapin * 10, alimentLapins: alimentLapins,
       poules: poules, poulesVoulues: poulesVoulues, poulesLimitees: poulesLimitees, allees: cultivable * K.partAllees,
       surfaceIdeale: surfaceIdeale,
       kcalLegumes: kcalLegumes, bonusKg: bonusKg, bonusKcal: bonusKcal,
@@ -209,6 +220,7 @@
 
   /* ---------- Rendu du plan ---------- */
   function src(k) { var s = D.SOURCES[k]; return lien(s.u, esc(s.t)); }
+  function srcC(k, t) { return lien(D.SOURCES[k].u, esc(t)); }
   function ligneSrc(c) { return c.src.map(function (u, i) { return lien(u, "source" + (c.src.length > 1 ? " " + (i + 1) : "")); }).join(", "); }
 
   /* Kg mangés chaque mois : récolte + garde sourcée, répartis à parts égales. */
@@ -226,7 +238,15 @@
       m.forEach(function (mm) { mois[mm - 1].kg += part; mois[mm - 1].kcal += kcal; mois[mm - 1].items.push({ nom: l.c.nom.replace(/ \(.*\)/, ""), kg: part }); });
     });
     var besoinMois = p.N * (D.K.kcalHomme + D.K.kcalFemme) / 2 * 365 / 12;
-    mois.forEach(function (m) { m.items.sort(function (a, b) { return b.kg - a.kg; }); m.pct = m.kcal / besoinMois * 100; });
+    var kcalOeuf = D.K.poidsOeuf / 100 * D.K.kcalOeuf;
+    mois.forEach(function (m, i) {
+      m.items.sort(function (a, b) { return b.kg - a.kg; });
+      m.oeufs = p.oeufsMin && i >= 2 && i <= 8 ? p.oeufsMin / 7 : 0;              // œufs de mars à septembre
+      m.lapins = p.kgLapinMin ? p.kgLapinMin / 12 : 0;                           // kg de lapin, toute l'année
+      m.kcalTotal = m.kcal + m.oeufs * kcalOeuf + (p.kcalLapinMin ? p.kcalLapinMin / 12 : 0);
+      m.pct = m.kcal / besoinMois * 100;
+      m.manque = Math.max(0, besoinMois - m.kcalTotal) / (365 / 12) / p.N;      // kcal par jour et par personne
+    });
     return mois;
   }
 
@@ -258,7 +278,7 @@
     if (p.echelle < 1) {
       h += "Ton terrain ne loge pas tous les légumes choisis en quantité normale : il faudrait environ " + nb(p.surfaceIdeale, 0) + NB + "m². Le plan réduit chaque culture à " + nb(p.echelle * 100, 0) + NB + "% de ce que ton foyer consomme. ";
     } else {
-      h += "Tes légumes prennent " + nb(p.besoin, 0) + NB + "m² de planches, plus les allées" + (p.enclos ? ", les poules " + nb(p.enclos, 0) + NB + "m²" : "") + ". Il te reste " + nb(p.reste, 0) + NB + "m² de planches libres. ";
+      h += "Tes légumes prennent " + nb(p.besoin, 0) + NB + "m² de planches, plus les allées" + (p.enclos ? ", les poules " + nb(p.enclos, 0) + NB + "m²" : "") + (p.clapiers ? ", les clapiers " + nb(p.clapiers, 1) + NB + "m²" : "") + ". Il te reste " + nb(p.reste, 0) + NB + "m² de planches libres. ";
     }
     h += "Ces légumes couvrent environ " + nb(p.pctLegumes, 1) + NB + "% des calories dont ton foyer a besoin. ";
     if (p.reste > 1) h += "Si tu mets les " + nb(p.reste, 0) + NB + "m² restants en pommes de terre, tu montes à environ " + nb(p.pctAvecBonus, 0) + NB + "% (" + nb(p.bonusKg, 0) + NB + "kg de plus par an). ";
@@ -318,16 +338,41 @@
     h += '</div><p class="note">Case colorée = mois de récolte. Sources : ' + p.lignes.map(function (l) { return lien(l.c.src[0], esc(l.c.nom.toLowerCase())); }).join(", ") + ".</p>";
     h += '<p class="note">Pour savoir quand semer, compte le délai à rebours depuis le mois où tu veux récolter. Associations de plantes : la plupart des tableaux qui circulent ne sont pas prouvés, ils seront ajoutés quand ils seront sourcés.</p></section>';
 
-    /* Dans l'assiette, mois par mois */
-    var tableMois = assiette(p);
-    var maxKg = Math.max.apply(null, tableMois.map(function (m) { return m.kg; })) || 1;
-    h += '<section><h2>Dans votre assiette, mois par mois</h2><p>Ce que ton potager met sur la table chaque mois, en comptant les récoltes et ce qui se garde. Chaque culture est répartie à parts égales sur les mois où on la mange.</p><div class="assiette">';
+    /* Dans l'assiette : aujourd'hui, avec le jardin, la réserve, et quand ça commence. */
+    var tableMois = assiette(p), KK = D.K, jm = 365 / 12;
+    var besoinJour = (KK.kcalHomme + KK.kcalFemme) / 2;
+    var parJour = tableMois.reduce(function (a, m) { return a + m.kcalTotal; }, 0) / 365 / p.N;
+    var manqueJour = Math.max(0, besoinJour - parJour);
+    var rizAn = tableMois.reduce(function (a, m) { return a + m.manque * p.N * jm; }, 0) / (KK.kcalRiz * 10);
+    var bleAn = rizAn * KK.kcalRiz / KK.kcalBle;
+    var quoi = ["tes légumes"].concat(p.poules ? ["les œufs"] : [], p.lapines ? ["les lapins"] : []);
+    h += '<section><h2>Dans ton assiette : aujourd\'hui et avec ton jardin</h2><p>Par jour et par personne, en calories. ' + (quoi.length > 1 ? "On compte " + quoi.slice(0, -1).join(", ") + " et " + quoi[quoi.length - 1] + ", au bas de la fourchette." : "On compte tes légumes.") + '</p><div class="compare">' +
+      '<div><small>Aujourd\'hui</small><b>' + nb(besoinJour, 0) + NB + 'kcal</b><span>tout vient du magasin</span></div>' +
+      '<div class="cmp-jardin"><small>Ton jardin donne</small><b>' + nb(parJour, 0) + NB + 'kcal</b><span>' + nb(parJour / besoinJour * 100, 0) + NB + '% de ce qu\'il te faut</span></div>' +
+      '<div class="cmp-manque"><small>Il manque</small><b>' + nb(manqueJour, 0) + NB + 'kcal</b><span>soit ' + nb(manqueJour / KK.kcalRiz * 100, 0) + NB + 'g de riz par jour</span></div></div>';
+    h += '<h3>Mois par mois</h3><div class="assiette">';
     tableMois.forEach(function (m, i) {
-      h += '<div class="mois-carte"><div class="mois-tete"><b>' + MOIS[i].charAt(0).toUpperCase() + MOIS[i].slice(1) + '</b><span>' + nb(m.kg, 0) + NB + 'kg</span></div><div class="mois-barre"><i style="width:' + (m.kg / maxKg * 100).toFixed(0) + '%"></i></div><p>' +
+      var j = m.kcalTotal / jm / p.N, pct = Math.min(100, j / besoinJour * 100);
+      h += '<div class="mois-carte"><div class="mois-tete"><b>' + MOIS[i].charAt(0).toUpperCase() + MOIS[i].slice(1) + '</b><span>' + nb(j, 0) + NB + 'kcal par jour</span></div><div class="mois-barre"><i style="width:' + pct.toFixed(0) + '%"></i></div><p>' +
         (m.items.length ? m.items.map(function (it) { return esc(it.nom) + " " + nb(it.kg, it.kg < 1 ? 1 : 0) + NB + "kg"; }).join(", ") : "rien de ta liste") +
-        '</p><small>' + nb(m.pct, 1) + NB + "% des calories du mois" + (p.poules ? ", plus les œufs" : "") + "</small></div>";
+        (m.oeufs ? ", " + nb(m.oeufs, 0) + " œufs" : "") + (m.lapins ? ", " + nb(m.lapins, 1) + NB + "kg de lapin" : "") +
+        '</p><small>' + nb(pct, 0) + NB + "% de tes besoins. Réserve : " + nb(m.manque / KK.kcalRiz * 100, 0) + NB + "g de riz par jour et par personne</small></div>";
     });
-    h += '</div><p class="note">Garde comptée seulement quand une source la chiffre : courge jusqu\'en mars, oignon 6 mois (la source dit 6 à 8), carotte 4 mois en caisse de sable (la source dit 4 à 5), poireau et chou restent en terre. Pommes de terre, ail et betteraves se gardent aussi, mais nos sources ne donnent pas de durée : ils ne sont comptés qu\'aux mois de récolte. Fraisiers sans quantité chiffrée, non comptés. Les œufs ne sont pas répartis par mois : la ponte baisse en automne et s\'arrête presque en hiver.</p></section>';
+    h += '</div><p class="note">Barre pleine = 100' + NB + '% des calories. Chaque culture est répartie à parts égales sur les mois où on la mange. Garde comptée seulement quand une source la chiffre : courge jusqu\'en mars, oignon 6 mois (la source dit 6 à 8), carotte 4 mois en caisse de sable (la source dit 4 à 5), poireau et chou restent en terre. Pommes de terre, ail et betteraves se gardent aussi, mais nos sources ne donnent pas de durée : ils ne sont comptés qu\'aux mois de récolte. Fraisiers sans quantité chiffrée, non comptés.' +
+      (p.poules ? " Œufs comptés de mars à septembre : la ponte baisse en automne et s'arrête presque en hiver." : "") +
+      (p.lapines ? " Lapins répartis sur toute l'année." : "") + "</p>";
+
+    /* La réserve */
+    h += '<div class="alerte" style="margin-top:14px"><p><b>Ta réserve pour un an : ' + nb(rizAn, 0) + NB + 'kg de riz</b> pour ' + (p.N > 1 ? "vous " + p.N : "toi") + ", ou " + nb(bleAn, 0) + NB + "kg de blé. C'est ce que ton jardin ne couvre pas. Le riz blanc apporte " + KK.kcalRiz + NB + "kcal pour 100" + NB + "g (" + srcC("usdaRiz", "USDA") + "), le blé " + KK.kcalBle + NB + "kcal (" + srcC("usdaBle", "USDA") + "). Bien fermé avec des absorbeurs d'oxygène, le riz blanc se garde jusqu'à 10 ans à 21" + NB + "°C, et 1 à 2 ans une fois ouvert (" + srcC("usu", "Utah State University") + ").</p></div>";
+
+    /* Combien de temps avant de manger */
+    var rapides = p.lignes.filter(function (l) { return l.c.jours && l.kg; }).sort(function (x, y) { return x.c.jours - y.c.jours; });
+    h += '<h3>Combien de temps avant que ça te nourrisse</h3><ul class="delais">';
+    if (p.poules) h += "<li><b>Œufs : tout de suite.</b> Achète des poules « prêtes à pondre », vendues vers 18 semaines (" + srcC("poulesPretes", "Volailles d'Occitanie") + ").</li>";
+    if (rapides.length) h += "<li><b>Premiers légumes : " + rapides[0].c.jours + " jours</b> après le semis (" + esc(rapides[0].c.nom.toLowerCase().replace(/ \(.*\)/, "")) + ")" + (rapides.length > 1 ? ", et " + rapides[rapides.length - 1].c.jours + " jours pour le plus lent de ta liste (" + esc(rapides[rapides.length - 1].c.nom.toLowerCase().replace(/ \(.*\)/, "")) + ")" : "") + ".</li>";
+    if (p.lapines) h += "<li><b>Lapins : environ 3 mois et demi</b> après le premier accouplement, 31 jours de gestation puis abattage vers 11 semaines. Une jeune lapine s'accouple vers 4 mois (120 à 130 jours) (" + srcC("fao", "manuel FAO") + ").</li>";
+    h += "<li><b>Une année complète : 1 an.</b> Il faut un tour de saisons pour remplir chaque mois du tableau : les courges, les oignons et les carottes de l'automne nourrissent l'hiver.</li>" +
+      "<li><b>En attendant : tout vient de la réserve.</b> Pour " + nb(besoinJour, 0) + NB + "kcal par jour, il faut " + nb(besoinJour / KK.kcalRiz * 100, 0) + NB + "g de riz par jour et par personne.</li></ul></section>";
 
     /* Longues */
     if (p.longues.length) {
@@ -358,9 +403,9 @@
 
     /* Matériel et poules */
     n++;
-    h += "<section><h2>" + n + ". Le matériel" + (cmd.poules ? " et les poules" : "") + "</h2>";
+    h += "<section><h2>" + n + ". Le matériel" + (p.poules ? " et les poules" : "") + (p.lapines ? (p.poules ? ", les lapins" : " et les lapins") : "") + "</h2>";
     p.budget.postes.forEach(function (po) {
-      if (po.k === "hiver") return;
+      if (po.k === "hiver" || po.k === "lapins") return;
       var m = D.MATERIEL[po.k];
       h += "<h3>" + esc(m.titre) + (po.k === "poules" ? " : " + p.poules + " poules" + (po.mult > 1 ? ", " + po.mult + " poulaillers" : "") : (po.mult > 1 ? " (x" + po.mult + ")" : "")) + (po.k === "poules" ? "" : "") + '</h3><div class="tab"><table><thead><tr><th>Article</th><th>Petit budget</th><th>Durable</th></tr></thead><tbody>';
       m.items.forEach(function (i) {
@@ -372,6 +417,13 @@
     });
     if (p.poules) {
       h += '<p class="note">' + p.poules + " poules : de quoi couvrir la consommation moyenne d'œufs, 224 par personne et par an en France, comptée au bas de la ponte, 280 œufs par poule. Elles pondent " + nb(p.oeufsMin, 0) + " à " + nb(p.oeufsMax, 0) + " œufs par an au mieux (280 à 320 par poule en élevage, " + src("vetagro") + "). La ponte ralentit à l'automne et s'arrête presque en hiver. Enclos couvert : 8 à 10" + NB + "m² minimum pour 2 poules (" + src("m2a") + "), soit 4,5" + NB + "m² par poule et " + nb(p.enclos, 0) + NB + "m² ici (notre estimation), jamais plus du quart du terrain (notre règle). Déclaration en mairie : plus obligatoire partout depuis 2023 (" + src("legifrance") + "), conseillée, et obligatoire si la préfecture la demande en cas de grippe aviaire (Cerfa 15472).</p>";
+    }
+    if (p.lapines) {
+      var G = D.LAPINS.granules, sacs = Math.ceil(p.alimentLapins / G.kg);
+      h += "<h3>Lapins : " + p.lapines + " lapine" + (p.lapines > 1 ? "s" : "") + ' et 1 mâle</h3><div class="tab"><table><thead><tr><th>Article</th><th>Prix</th></tr></thead><tbody>' +
+        "<tr><td>" + esc(G.lib) + "</td><td class=n>" + lien(G.u, euros(G.prix)) + "</td></tr>" +
+        "<tr><td>Clapiers et lapins</td><td class=n>non chiffré</td></tr></tbody></table></div>" +
+        '<p class="note">Chaque lapine donne 15 à 30 lapins par an (30 à 35 chez les meilleurs éleveurs, ' + srcC("fao", "manuel FAO") + "). Abattus vers 2,3" + NB + "kg, ils font 57" + NB + "% de viande prête à cuire : " + nb(p.kgLapinMin, 0) + " à " + nb(p.kgLapinMax, 0) + NB + "kg par an ici. Nourriture : jusqu'à " + nb(p.alimentLapins, 0) + NB + "kg de granulés par an (3,8" + NB + "kg par kg de lapin, parents compris), soit " + sacs + " sacs et environ " + nb(sacs * G.prix, 0) + NB + "€ par an. L'herbe, le foin et les fanes du potager en remplacent une partie, mais les lapins grandissent alors moins vite. Clapiers : une cage de 70 x 50" + NB + "cm par lapine, 40 x 50" + NB + "cm pour le mâle, 10 lapins par m² à l'engraissement, soit " + nb(p.clapiers, 1) + NB + "m² au sol ici, à mettre à l'abri de la pluie, du soleil et des prédateurs. Clapiers d'élevage et lapins se trouvent chez les éleveurs, sans prix fiable en ligne. Tuer et manger ses propres lapins est autorisé pour sa seule consommation (" + lien("https://www.reussir.fr/chevre/peut-abattre-ses-animaux-pour-les-manger", "Réussir") + ").</p>";
     }
     h += "<p class=\"note\">Prix Castorama et Truffaut relevés les 5 et 6 novembre 2026. Un jeu d'outils pour le foyer, stockage multiplié par lot de 2 personnes, un poulailler de 4 places par groupe de 4 poules (notre règle de calcul). Non chiffrés : terreau, paillage, voile d'hivernage, marmite pour les bocaux, raccords d'arrosage.</p></section>";
 
@@ -389,7 +441,7 @@
       "<li>Quantités : règle de trois sur le modèle 2 personnes (" + lien("/potager", "longueur-davance.fr/potager") + ").</li>" +
       "<li>Besoin en calories : moyenne homme et femme de l'ANSES, sans tenir compte de l'âge ni de l'activité.</li>" +
       "<li>Blette et fraisier comptés à 0" + NB + "kcal (pas de valeur fiable).</li>" +
-      (p.poules ? "<li>Œuf de 58" + NB + "g, enclos de 4,5" + NB + "m² par poule, au plus un quart du terrain.</li>" : "") + "<li>Allées : 20" + NB + "% du terrain cultivé (proportion d'Ecology Action).</li>" +
+      (p.poules ? "<li>Œuf de 58" + NB + "g, enclos de 4,5" + NB + "m² par poule, au plus un quart du terrain.</li>" : "") + (p.lapines ? "<li>Lapins : 1 lapine pour 2 personnes et 1 mâle (notre règle de départ), calories comptées sur 15 lapins par lapine, carcasse avec ses os, 160" + NB + "kcal pour 100" + NB + "g de viande (FAO) : la vraie valeur est un peu plus basse.</li>" : "") + "<li>Réserve : comptée en riz blanc, pour combler les calories, pas les vitamines.</li>" + "<li>Allées : 20" + NB + "% du terrain cultivé (proportion d'Ecology Action).</li>" +
       "<li>Culture extensive, rendement d'un maraîcher. Un débutant récolte souvent moins.</li></ul></section>";
     return colle(h);
   }
@@ -507,6 +559,7 @@
       });
       if (propre > 0.05) m.push({ id: l.c.id, nom: l.c.nom, m2: propre, place: propre * kA, recolte: l.c.recolte, coul: coul(l.c), couvert: l.c.id !== "fraisier" && libreHiver(l.c.recolte) });
     });
+    if (plan.clapiers) m.push({ id: "lapins", nom: plan.lapines + " lapine" + (plan.lapines > 1 ? "s" : "") + " et 1 mâle (clapiers)", m2: plan.clapiers, place: plan.clapiers, recolte: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], coul: "#a07c5b" });
     if (plan.enclos) m.push({ id: "poules", nom: plan.poules + " poules (enclos)", m2: plan.enclos, place: plan.enclos, recolte: [3, 4, 5, 6, 7, 8, 9], coul: "#8a7f72" });
     var occupe = m.reduce(function (a, x) { return a + x.place; }, 0);
     if (cmd.surface_m2 - occupe > 0.5) m.push({ id: "reste", nom: "Libre (pommes de terre en plus ?)", m2: (cmd.surface_m2 - occupe) * (1 - D.K.partAllees), place: cmd.surface_m2 - occupe, recolte: [], coul: "#e9e2d3" });
@@ -564,9 +617,10 @@
       var L = (Math.max.apply(null, xs) - Math.min.apply(null, xs)) * mpp, l = (Math.max.apply(null, ys) - Math.min.apply(null, ys)) * mpp;
       return [Math.max(L, l), Math.min(L, l)];
     });
-    var planches = 0, allees = 0, enclos = 0, libre = 0;
+    var planches = 0, allees = 0, enclos = 0, clap = 0, libre = 0;
     m.forEach(function (x) {
       if (x.id === "poules") enclos += x.m2;
+      else if (x.id === "lapins") clap += x.m2;
       else if (x.id === "reste") { libre += x.m2; allees += place(x) - x.m2; }
       else { planches += x.m2; allees += place(x) - x.m2; }
     });
@@ -577,6 +631,7 @@
       "<span><b>" + P.nb(planches, 0) + NB + "m²</b> de planches</span>" +
       "<span><b>" + P.nb(allees, 0) + NB + "m²</b> d'allées</span>" +
       (enclos ? "<span><b>" + P.nb(enclos, 0) + NB + "m²</b> de poules</span>" : "") +
+      (clap ? "<span><b>" + P.nb(clap, 1) + NB + "m²</b> de clapiers</span>" : "") +
       (libre > 0.5 ? "<span><b>" + P.nb(libre, 0) + NB + "m²</b> libres</span>" : "") + "</div>");
     zoneVue.insertAdjacentHTML("beforeend", '<div class="fiche-planche" aria-live="polite"><p>Touche une planche ou un numéro pour voir ce qu\'il y pousse.</p></div>');
     var fiche = zoneVue.querySelector(".fiche-planche");
@@ -588,6 +643,7 @@
       var mois = SAISONS.filter(function (y) { return y[0] === s; })[0][2], dans = function (rec) { return rec.some(function (mm) { return mois.indexOf(mm) >= 0; }); };
       if (x.id === "reste") return { actif: true, txt: "libre", fill: x.coul };
       if (x.id === "poules") return { actif: true, txt: "les poules", fill: x.coul };
+      if (x.id === "lapins") return { actif: true, txt: "les lapins", fill: x.coul };
       if (x.couvert && s === "hiver") return { actif: true, txt: "engrais vert d'hiver", fill: "#4f7a3a" };
       var a = x.relais ? dans(x.relais.recA) : dans(x.recolte), bb = x.relais ? dans(x.relais.recB) : false;
       if (x.couvert && s === "printemps" && !a) return { actif: true, txt: "engrais vert fauché et couvert", fill: "#c8b27a" };
@@ -599,7 +655,7 @@
       var x = m[sel], d = dims[sel], e = etatDe(x, saisonCour);
       var quoi = x.relais ? cache(x.nom.split(" puis ")[0]) + " au printemps et au début de l'été, puis " + cache(x.nom.split(" puis ")[1]) + " semé en juillet" : cache(x.nom);
       fiche.innerHTML = '<p class="fp-titre"><b>' + (sel + 1) + ".</b> " + quoi + "</p><p>" +
-        (o.flou ? '<span class="flou">' + masque(P.nb(x.m2, 1)) + "</span>" : P.nb(x.m2, 1)) + NB + "m²" + (x.id === "poules" ? " d'enclos" : x.id === "reste" ? " libres" : " de planche") +
+        (o.flou ? '<span class="flou">' + masque(P.nb(x.m2, 1)) + "</span>" : P.nb(x.m2, 1)) + NB + "m²" + (x.id === "poules" ? " d'enclos" : x.id === "lapins" ? " de clapiers" : x.id === "reste" ? " libres" : " de planche") +
         (d ? ", environ " + P.nb(d[0], 1) + NB + "m × " + P.nb(d[1], 1) + NB + "m" : "") +
         (x.place && x.place > x.m2 ? ", plus " + P.nb(x.place - x.m2, 1) + NB + "m² d'allées autour" : "") + ".</p><p><b>" + SAISONS.filter(function (y) { return y[0] === saisonCour; })[0][1] + " :</b> " + e.txt + ".</p>";
     }
@@ -624,7 +680,7 @@
       svg.innerHTML = (cmd.zone ? svg.innerHTML.split("<!--b-->")[0] : "") + "<!--b-->" + h;
       grille.querySelector(".legende").innerHTML = m.map(function (x, i) {
         var e = etatDe(x, s);
-        var nom = o.flou && x.id !== "reste" && x.id !== "poules" ? '<span class="flou">' + masque(x.nom) + "</span>" : P.esc(x.nom);
+        var nom = o.flou && x.id !== "reste" && x.id !== "poules" && x.id !== "lapins" ? '<span class="flou">' + masque(x.nom) + "</span>" : P.esc(x.nom);
         return '<li data-i="' + i + '" class="' + (e.actif ? "" : "eteint") + (sel === i ? " sel" : "") + '"><i style="background:' + (x.relais ? "linear-gradient(135deg," + x.relais.coulA + " 50%," + x.relais.coulB + " 50%)" : x.coul) + '"></i><b>' + (i + 1) + ".</b> " + nom +
           ' <small>' + (o.flou ? '<span class="flou">' + masque(P.nb(x.m2, 1)) + "</span>" : P.nb(x.m2, 1)) + NB + "m², " + e.txt + "</small></li>";
       }).join("");

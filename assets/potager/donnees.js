@@ -13,6 +13,11 @@
     m2a: { t: "Guide de l'adoptant de poules, Mulhouse Alsace Agglomération, 2026", u: "https://www.m2a.fr/wp-content/uploads/2026/04/Guide-de-ladoptant-poules-m2A-2026.pdf" },
     legifrance: { t: "Arrêté du 25 septembre 2023, article 51 (Légifrance)", u: "https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000048110961" },
     pdtFiche: { t: "jardiner-malin, pomme de terre", u: "https://www.jardiner-malin.fr/fiche/pomme-de-terre.html" },
+    fao: { t: "FAO, Le lapin : élevage et pathologie (Lebas et al., 1996), chapitres reproduction, nutrition, logement", u: "https://www.fao.org/4/t1690f/t1690f00.pdf" },
+    usdaRiz: { t: "USDA FoodData Central, riz blanc long grain cru (fdcId 169756) : 365 kcal pour 100 g", u: "https://fdc.nal.usda.gov/food-details/169756/nutrients" },
+    usdaBle: { t: "USDA FoodData Central, blé tendre d'hiver (fdcId 168890) : 327 kcal pour 100 g", u: "https://fdc.nal.usda.gov/food-details/168890/nutrients" },
+    usu: { t: "Utah State University Extension, conserver le riz blanc", u: "https://extension.usu.edu/preserve-the-harvest/research/storing-white-rice.php" },
+    poulesPretes: { t: "Volailles d'Occitanie, poules « prêtes à pondre » vendues vers 18 semaines", u: "https://volailles-occitanie.com/produits/poules-pondeuses-demarrees/" },
     yu: { t: "Yu et al. 2015, Field Crops Research, méta-analyse des cultures associées (en moyenne autant de récolte sur environ 18 % de terrain en moins, gain plus fort quand les cultures n'occupent pas la terre au même moment)", u: "https://doi.org/10.1016/j.fcr.2015.09.010" }
   };
 
@@ -23,32 +28,32 @@
      besoin2 : semences ou plants pour 2, achat : sachet ou lot le moins cher (bas) et bio ou plus fourni (haut),
      recolte : mois de récolte (1 = janvier). */
   var CULTURES = [
-    { id: "pomme_de_terre", nom: "Pomme de terre", kg2: 48, m2: 19.2, kcal: 80.5, kcalSrc: "ciqual",
+    { id: "pomme_de_terre", jours: 80, nom: "Pomme de terre", kg2: 48, m2: 19.2, kcal: 80.5, kcalSrc: "ciqual",
       besoin2: 85, unite: "plants", achat: {
         bas: { prix: 6.99, qte: 25, lib: "étui de 25 plants Celtiane", u: "https://www.truffaut.com/pomme-terre-celtiane-calibre-25-32-etui-25-plants-543477.html" },
         haut: { prix: 3.99, qte: 10, lib: "filet de 10 plants Charlotte", u: "https://www.truffaut.com/pomme-terre-charlotte-filet-10-plants-319468.html" } },
       delai: "80 jours en primeur, à maturité quand le feuillage a jauni", recolte: [5, 6, 7, 9, 10, 11],
       plantation: "au printemps",
       garde: "À l'abri de la lumière, au sec, au frais, aéré", src: [jm("pomme-de-terre"), "https://www.truffaut.com/pomme-terre-celtiane-calibre-25-32-etui-25-plants-543477.html"] },
-    { id: "courge", nom: "Courge butternut", kg2: 30, m2: 7.5, kcal: 45, kcalSrc: "usdaCourge",
+    { id: "courge", jours: 110, nom: "Courge butternut", kg2: 30, m2: 7.5, kcal: 45, kcalSrc: "usdaCourge",
       besoin2: 1.1, unite: "g", achat: {
         bas: { prix: 2.79, qte: 3, lib: "sachet de 3 g", u: "https://www.truffaut.com/courge-butternut-en-sachet-726048.html" },
         haut: { prix: 3.69, qte: 2, lib: "sachet bio de 2 g", u: "https://www.truffaut.com/courge-musquee-waltham-butternut-bio-858956.html" } },
       delai: "110 à 120 jours", recolte: [9, 10, 11, 12],
       garde: "Jusqu'en mars dans une pièce à 12 à 15 °C, après 10 jours de séchage à 20 °C", src: [jm("courge")] },
-    { id: "oignon", nom: "Oignon (bulbilles)", kg2: 21, m2: 7.0, kcal: 37.8, kcalSrc: "ciqual",
+    { id: "oignon", jours: 90, nom: "Oignon (bulbilles)", kg2: 21, m2: 7.0, kcal: 37.8, kcalSrc: "ciqual",
       besoin2: 700, unite: "g", achat: {
         bas: { prix: 6.90, qte: 500, lib: "500 g de bulbilles", u: "https://www.truffaut.com/shakespeare-bulbes-oignons-a-repiquer-500-gr.html" },
         haut: { prix: 6.90, qte: 500, lib: "500 g de bulbilles (seule offre trouvée)", u: "https://www.truffaut.com/shakespeare-bulbes-oignons-a-repiquer-500-gr.html" } },
       delai: "3 à 6 mois", recolte: [7, 8, 9], plantation: "en mars-avril",
       garde: "Séché 2 à 3 semaines, puis 6 à 8 mois près de 0 °C, sans gel", src: [jm("oignon")] },
-    { id: "haricot_vert", nom: "Haricot vert", kg2: 9, m2: 6.0, kcal: 28, kcalSrc: "ciqual",
+    { id: "haricot_vert", jours: 60, nom: "Haricot vert", kg2: 9, m2: 6.0, kcal: 28, kcalSrc: "ciqual",
       besoin2: 120, unite: "g", achat: {
         bas: { prix: 5.69, qte: 200, lib: "boîte de 200 g", u: "https://www.truffaut.com/haricot-nain-mangetout-contender-boite-200g-726194.html" },
         haut: { prix: 5.99, qte: 50, lib: "sachet bio de 50 g", u: "https://www.truffaut.com/graines-potageres-haricot-vert-nain-rugally-bio-696462.html" } },
       delai: "60 à 70 jours", recolte: [6, 7, 8, 9],
       garde: "Une semaine au frais", src: ["https://www.truffaut.com/graines-de-haricot-nain-vert-signal-bio-5-metres.html"] },
-    { id: "carotte", nom: "Carotte", kg2: 26, m2: 5.2, kcal: 40.2, kcalSrc: "ciqual",
+    { id: "carotte", jours: 90, nom: "Carotte", kg2: 26, m2: 5.2, kcal: 40.2, kcalSrc: "ciqual",
       besoin2: 1.6, unite: "g", achat: {
         bas: { prix: 2.79, qte: 4, lib: "sachet de 4 g", u: "https://www.truffaut.com/carotte-touchon-en-sachet-726041.html" },
         haut: { prix: 3.69, qte: 2, lib: "sachet bio de 2 g", u: "https://www.truffaut.com/carotte-berlikumer-2-g-726128.html" } },
@@ -66,31 +71,31 @@
         haut: { prix: 9.90, qte: 500, lib: "500 g d'ail violet", u: "https://www.truffaut.com/germidour-violet-ail-a-repiquer-500gr.html" } },
       delai: "récolte quand le feuillage jaunit", recolte: [6, 7, 8],
       garde: "En tresses, au sec, à l'obscurité, jamais au frigo", src: [jm("ail")] },
-    { id: "chou", nom: "Chou pommé", kg2: 20, m2: 2.9, kcal: 36.5, kcalSrc: "ciqual",
+    { id: "chou", jours: 60, nom: "Chou pommé", kg2: 20, m2: 2.9, kcal: 36.5, kcalSrc: "ciqual",
       besoin2: 0.1, unite: "g", achat: {
         bas: { prix: 1.99, qte: null, lib: "sachet Vilmorin (grammage non affiché, un sachet compté)", u: "https://www.truffaut.com/vilmorin-chou-cabus-de-brunswick.html" },
         haut: { prix: 3.50, qte: 2, lib: "sachet de 2 g", u: "https://www.truffaut.com/chou-cabus-chou-pomme-nantais-hatif-le-sachet-de-400-graines-environ-2g.html" } },
       delai: "2 à 3 mois après plantation (précoce), 6 à 7 mois (tardif)", recolte: [6, 7, 8, 9, 10, 11, 12, 1, 2, 3],
       garde: "Cave fraîche ou en place au jardin, sous paillage", src: [jm("chou-pomme")] },
-    { id: "blette", nom: "Blette", kg2: 8, m2: 2.7, kcal: null, kcalSrc: null,
+    { id: "blette", jours: 70, nom: "Blette", kg2: 8, m2: 2.7, kcal: null, kcalSrc: null,
       besoin2: 2, unite: "g", achat: {
         bas: { prix: 2.79, qte: 5, lib: "sachet de 5 g", u: "https://www.truffaut.com/poiree-blonde-carde-blanche-2-en-sachet-726070.html" },
         haut: { prix: 3.79, qte: 3, lib: "sachet bio de 3 g", u: "https://www.truffaut.com/graines-potageres-blette-ou-carde-blanche-ampuis-bio-681478.html" } },
       delai: "10 semaines, puis au fil des besoins jusqu'aux gelées", recolte: [7, 8, 9, 10, 11, 12],
       garde: "Une semaine au frais, se congèle", src: ["https://www.truffaut.com/graines-potageres-blette-ou-carde-blanche-ampuis-bio-681478.html"] },
-    { id: "courgette", nom: "Courgette", kg2: 10, m2: 2.5, kcal: 16.5, kcalSrc: "ciqual",
+    { id: "courgette", jours: 42, nom: "Courgette", kg2: 10, m2: 2.5, kcal: 16.5, kcalSrc: "ciqual",
       besoin2: 0.5, unite: "g", achat: {
         bas: { prix: 1.79, qte: 4, lib: "sachet de 4 g", u: "https://www.truffaut.com/courgette-verte-petite-alger-4-g-726014.html" },
         haut: { prix: 3.69, qte: 3, lib: "sachet bio de 3 g", u: "https://www.truffaut.com/courgette-verte-noire-maraichere-bio-en-sachet-726136.html" } },
       delai: "6 à 10 semaines", recolte: [7, 8, 9, 10],
       garde: "Une semaine au frais", src: [jm("courgette")] },
-    { id: "betterave", nom: "Betterave", kg2: 9, m2: 2.2, kcal: 42.8, kcalSrc: "ciqual",
+    { id: "betterave", jours: 135, nom: "Betterave", kg2: 9, m2: 2.2, kcal: 42.8, kcalSrc: "ciqual",
       besoin2: 0.18, unite: "g", achat: {
         bas: { prix: 1.79, qte: 4, lib: "sachet de 4 g", u: "https://www.truffaut.com/betterave-noire-egypte-en-sachet-726004.html" },
         haut: { prix: 3.69, qte: 4, lib: "sachet bio de 4 g", u: "https://www.truffaut.com/betterave-noire-egypte-bio-en-sachet-726125.html" } },
       delai: "4,5 à 5 mois", recolte: [7, 8, 9, 10, 11],
       garde: "En silo, dans du sable", src: ["https://www.truffaut.com/graines-potageres-betterave-noire-plate-egypte-bio-681453.html", "https://ecoconso.be/fr/node/1975/printable/pdf"] },
-    { id: "feve", nom: "Fève", kg2: 6, m2: 2.0, kcal: 82.9, kcalSrc: "ciqual",
+    { id: "feve", jours: 60, nom: "Fève", kg2: 6, m2: 2.0, kcal: 82.9, kcalSrc: "ciqual",
       besoin2: 40, unite: "g", achat: {
         bas: { prix: 5.99, qte: 70, lib: "sachet bio de 70 g", u: "https://www.truffaut.com/graines-potageres-feve-aguadulce-tres-longues-cosses-bio-645156.html" },
         haut: { prix: 7.99, qte: 242, lib: "sachet de 242 g", u: "https://www.truffaut.com/feve-seville-longue-cosse-242-g-750765.html" } },
@@ -347,8 +352,22 @@
     partAllees: 0.2,                        // Ecology Action : 2 000 sq ft de planches, 2 500 avec les allées
     oeufsParPouleMin: 280, oeufsParPouleMax: 320, // VetAgro Sup, élevage
     poidsOeuf: 58,                          // g, hypothèse
-    kcalOeuf: 140                           // kcal/100 g, Ciqual 22000
+    kcalOeuf: 140,                          // kcal/100 g, Ciqual 22000
+    /* Lapins : manuel FAO (Lebas et al. 1996). */
+    lapinsParLapineMin: 15, lapinsParLapineMax: 30, // lapereaux sevrés par lapine et par an, rythme extensif : 30 à 35 chez les meilleurs éleveurs, 15 à 30 en conditions plus difficiles
+    poidsVifLapin: 2.3,                     // kg à l'abattage (engraissés jusqu'à 2,3 à 2,4 kg)
+    rendementLapin: 0.57,                   // carcasse prête à cuire, 54,7 à 59,4 % selon la race (tableau 6)
+    kcalLapin: 160,                         // kcal pour 100 g de viande (tableau 10)
+    alimentParKgLapin: 3.8,                 // kg de granulés par kg de lapin vif, reproducteurs compris (bons élevages)
+    cageLapine: 0.35, cageMale: 0.2,        // m², cage de femelle 70 x 50 cm, cage de mâle 40 x 50 cm (tableau 52)
+    lapinsParM2: 10,                        // engraissement sur litière : 10 lapins par m²
+    porteeEnCage: 6,                        // 30 lapins par an et une portée tous les 2,5 mois = 6 lapereaux à engraisser à la fois
+    gestation: 31, abattageJours: 77,       // 30 ou 31 jours de gestation, abattage vers 11 semaines
+    kcalRiz: 365, kcalBle: 327              // kcal pour 100 g (USDA)
   };
 
-  window.POTAGER_DONNEES = { SOURCES: S, CULTURES: CULTURES, SEMIS: SEMIS, RELAIS: RELAIS, GARDE_MOIS: GARDE_MOIS, HIVER: HIVER, ENTRETIEN: ENTRETIEN, KOKOPELLI: KOKOPELLI, LONGUES: LONGUES, MATERIEL: MATERIEL, K: CONSTANTES };
+  /* Prix relevés le 06/11/2026. Clapiers d'élevage et lapins : pas de prix en ligne fiable, non chiffrés. */
+  var LAPINS = { granules: { lib: "Aliment complet lapin en granulés, sac de 20 kg", prix: 27.49, kg: 20, u: "https://www.truffaut.com/aliment-complet-pour-lapin-en-granule-regal-20kg-785055.html" } };
+
+  window.POTAGER_DONNEES = { SOURCES: S, CULTURES: CULTURES, SEMIS: SEMIS, RELAIS: RELAIS, GARDE_MOIS: GARDE_MOIS, HIVER: HIVER, ENTRETIEN: ENTRETIEN, KOKOPELLI: KOKOPELLI, LONGUES: LONGUES, MATERIEL: MATERIEL, LAPINS: LAPINS, K: CONSTANTES };
 })();

@@ -35,7 +35,7 @@
 <h2 style="margin-top:24px">Quel plan veux-tu ?</h2>
 <div class="choix-offre">
 <button type="button" id="go-gratuit"><span class="t">Gratuit : 2 personnes</span><span class="p">0&nbsp;€</span><span class="d">Tu coches ce que vous aimez, le plan complet pour deux s'affiche. Aucune donnée demandée.</span></button>
-<button type="button" id="go-perso"><span class="t">Sur mesure : ton terrain</span><span class="p" id="prix-perso">29,90&nbsp;€</span><span class="d">Ton adresse ou ton terrain dessiné sur la photo aérienne, ton nombre de personnes, les poules si tu veux. Ton terrain découpé en cultures, saison par saison. Tu modifies autant que tu veux jusqu'à sortir ton PDF.</span></button>
+<button type="button" id="go-perso"><span class="t">Sur mesure : ton terrain</span><span class="p" id="prix-perso">29,90&nbsp;€</span><span class="d">Ton adresse ou ton terrain dessiné sur la photo aérienne, ton nombre de personnes, les poules ou les lapins si tu veux. Ton terrain découpé en cultures, saison par saison. Tu modifies autant que tu veux jusqu'à sortir ton PDF.</span></button>
 </div>
 <p class="note">Les deux plans viennent du même calcul, à partir du <a href="/potager">modèle pour 2 personnes</a> recherché et sourcé à la main. Ce que les sources ne donnent pas est écrit « non chiffré ».</p>
 </section>
@@ -98,7 +98,9 @@
 <output id="personnes" aria-live="polite">2</output>
 <button type="button" id="plus" aria-label="Une personne de plus">+</button>
 </div>
-<div class="coche"><input type="checkbox" id="poules"><label for="poules" style="margin:0;font-weight:500">Je veux des poules (4 pour 2 personnes, l'enclos prend sa place sur le terrain)</label></div>
+<h3>Des animaux en plus ?</h3>
+<div class="coche"><input type="checkbox" id="poules"><label for="poules" style="margin:0;font-weight:500">Des poules, pour les œufs (l'enclos prend sa place sur le terrain)</label></div>
+<div class="coche"><input type="checkbox" id="lapins"><label for="lapins" style="margin:0;font-weight:500">Des lapins, pour la viande (1 lapine pour 2 personnes et 1 mâle)</label></div>
 <div class="btns nav"><button type="button" class="btn" data-retour="s-terrain">Retour</button><button type="button" class="btn plein" data-suite="s-gouts">Continuer</button></div>
 </section>
 
@@ -107,7 +109,9 @@
 <p class="etapes" id="etape-gouts">Étape 3 sur 4</p>
 <h2>Ce que vous aimez</h2>
 <p>Décoche ce que vous ne mangez pas. Le délai avant la première récolte est indiqué pour chaque culture.</p>
-<div class="coche cache" id="poules-gratuit-bloc"><input type="checkbox" id="poules-gratuit"><label for="poules-gratuit" style="margin:0;font-weight:500">Ajouter 4 poules</label></div>
+<div class="cache" id="poules-gratuit-bloc"><h3>Des animaux en plus ?</h3>
+<div class="coche"><input type="checkbox" id="poules-gratuit"><label for="poules-gratuit" style="margin:0;font-weight:500">Des poules, pour les œufs</label></div>
+<div class="coche"><input type="checkbox" id="lapins-gratuit"><label for="lapins-gratuit" style="margin:0;font-weight:500">Des lapins, pour la viande</label></div></div>
 <h3>Légumes et fruits rapides (moins d'un an)</h3>
 <div class="choix" id="rapides"></div>
 <h3>Fruits et plantes à anticiper</h3>
@@ -234,13 +238,13 @@
   }
   function commande() {
     if (etat.parcours === "gratuit") {
-      var base = { prenom: prenom(), personnes: 2, cultures: coches("#rapides"), longues: coches("#longues"), poules: $("poules-gratuit").checked, surface_m2: 100000, surface_source: "modele", zone: null };
+      var base = { prenom: prenom(), personnes: 2, cultures: coches("#rapides"), longues: coches("#longues"), poules: $("poules-gratuit").checked, lapins: $("lapins-gratuit").checked, surface_m2: 100000, surface_source: "modele", zone: null };
       var b = P.calculer(base);
       base.surface_m2 = Math.max(1, Math.ceil(b.surfaceIdeale * 10) / 10);   // planches + allées + poules
       return base;
     }
     var s = surfaceChoisie();
-    return { prenom: prenom(), personnes: etat.personnes, parcelle: etat.mode === "saisie" ? null : etat.parcelle, cultures: coches("#rapides"), longues: coches("#longues"), poules: $("poules").checked, surface_m2: s ? s.s : 0, surface_source: s ? s.src : "saisie", zone: s ? s.zone : null };
+    return { prenom: prenom(), personnes: etat.personnes, parcelle: etat.mode === "saisie" ? null : etat.parcelle, cultures: coches("#rapides"), longues: coches("#longues"), poules: $("poules").checked, lapins: $("lapins").checked, surface_m2: s ? s.s : 0, surface_source: s ? s.src : "saisie", zone: s ? s.zone : null };
   }
 
   /* Le visuel en haut : le terrain découpé, qui suit les réponses. */
@@ -362,6 +366,8 @@
   $("plus").addEventListener("click", function () { majPers(1); });
   $("poules").addEventListener("change", majVisuel);
   $("poules-gratuit").addEventListener("change", majVisuel);
+  $("lapins").addEventListener("change", majVisuel);
+  $("lapins-gratuit").addEventListener("change", majVisuel);
 
   function caseChoix(parent, item, coche, detail, longue) {
     var l = document.createElement("label");
@@ -412,7 +418,7 @@
     if (payant && !$("retract").checked) { err.textContent = "Coche la case des conditions de vente pour payer."; return; }
     enCours = true; $("envoyer").disabled = true; var txt = $("envoyer").textContent; $("envoyer").textContent = "Un instant…";
     var corps = attente ? { action: "payer", c: attente.c, k: attente.k, consentement: true } : {
-      action: "creer", prenom: cmd.prenom, email: email, personnes: cmd.personnes, cultures: cmd.cultures, longues: cmd.longues, poules: cmd.poules,
+      action: "creer", prenom: cmd.prenom, email: email, personnes: cmd.personnes, cultures: cmd.cultures, longues: cmd.longues, poules: cmd.poules, lapins: cmd.lapins,
       surface_m2: cmd.surface_m2, surface_source: cmd.surface_source, zone: cmd.zone,
       adresse: etat.mode === "saisie" ? null : etat.adresse, parcelle: etat.mode === "saisie" ? null : etat.parcelle,
       rgpd: true, consentement: payant && $("retract").checked, site_web: $("site_web").value

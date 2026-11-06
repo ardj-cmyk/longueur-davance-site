@@ -128,6 +128,21 @@ export async function monter3d(boite, cmd, plan, o = {}) {
     const f = x.place && x.place > x.m2 ? Math.sqrt(x.m2 / x.place) : 1;
     const bed = b.map((p) => [c[0] + (p[0] - c[0]) * f, c[1] + (p[1] - c[1]) * f]);
     if (x.id === "reste") { scene.add(plaque(bed, 0.04, matHerbe)); return; }
+    if (x.id === "lapins") {
+      /* Clapiers : une rangée de cages en bois sur pieds, toit en pente, façade grillagée. */
+      scene.add(plaque(bed, 0.03, new THREE.MeshLambertMaterial({ map: tex("paille", 1 / 0.8), color: 0xd8c9a8 })));
+      const n = (plan.lapines || 1) + 1, L = 0.75, bois = new THREE.MeshLambertMaterial({ color: 0x8c5a2b });
+      const grille = new THREE.MeshLambertMaterial({ color: 0x9aa39a, transparent: true, opacity: 0.55 });
+      for (let k = 0; k < n; k++) {
+        const px = c[0] + (k - (n - 1) / 2) * (L + 0.05);
+        const cage = new THREE.Mesh(new THREE.BoxGeometry(L, 0.5, 0.55), bois); cage.position.set(px, 0.85, c[1]); cage.castShadow = true; scene.add(cage);
+        const face = new THREE.Mesh(new THREE.PlaneGeometry(L * 0.8, 0.36), grille); face.position.set(px, 0.85, c[1] + 0.28); scene.add(face);
+        const toit = new THREE.Mesh(new THREE.BoxGeometry(L + 0.06, 0.04, 0.7), new THREE.MeshLambertMaterial({ color: 0x7b2d3b }));
+        toit.position.set(px, 1.13, c[1]); toit.rotation.x = 0.18; toit.castShadow = true; scene.add(toit);
+        [-1, 1].forEach((sx) => { const pied = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.6, 0.05), bois); pied.position.set(px + sx * (L / 2 - 0.04), 0.3, c[1]); scene.add(pied); });
+      }
+      return;
+    }
     if (x.id === "poules") {
       scene.add(plaque(bed, 0.03, new THREE.MeshLambertMaterial({ map: tex("paille", 1 / 0.8), color: 0xd8c9a8 })));
       const piquet = new THREE.MeshLambertMaterial({ color: 0x5a5a5a });

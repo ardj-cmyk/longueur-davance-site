@@ -41,7 +41,8 @@
 <output id="personnes">2</output>
 <button type="button" id="plus" aria-label="Une personne de plus">+</button>
 </div>
-<div class="coche"><input type="checkbox" id="poules"><label for="poules" style="margin:0;font-weight:500">Des poules (4 pour 2 personnes)</label></div>
+<div class="coche"><input type="checkbox" id="poules"><label for="poules" style="margin:0;font-weight:500">Des poules, pour les œufs</label></div>
+<div class="coche"><input type="checkbox" id="lapins"><label for="lapins" style="margin:0;font-weight:500">Des lapins, pour la viande</label></div>
 <h3>Légumes et fruits rapides</h3>
 <div class="choix" id="rapides"></div>
 <h3>Fruits et plantes à anticiper</h3>
@@ -142,7 +143,7 @@
   }
   $("ouvrir-modif").addEventListener("click", function () {
     if (!cmd || cmd.fige_le) return;
-    pers = cmd.personnes; $("personnes").textContent = pers; $("poules").checked = !!cmd.poules;
+    pers = cmd.personnes; $("personnes").textContent = pers; $("poules").checked = !!cmd.poules; $("lapins").checked = !!cmd.lapins;
     $("rapides").innerHTML = ""; $("longues").innerHTML = "";
     D.CULTURES.forEach(function (x) { caseChoix($("rapides"), x, cmd.cultures.indexOf(x.id) >= 0, "Avant la récolte : " + x.delai, false); });
     D.LONGUES.forEach(function (x) { caseChoix($("longues"), x, (cmd.longues || []).indexOf(x.id) >= 0, "Première récolte : " + x.delai, x.long); });
@@ -172,7 +173,7 @@
     var cultures = [].slice.call(document.querySelectorAll("#rapides input:checked")).map(function (i) { return i.value; });
     var longues = [].slice.call(document.querySelectorAll("#longues input:checked")).map(function (i) { return i.value; });
     if (!cultures.length) { $("err-modif").textContent = "Coche au moins une culture rapide."; return; }
-    var n = { personnes: pers, cultures: cultures, longues: longues, poules: $("poules").checked, surface_m2: cmd.surface_m2, surface_source: cmd.surface_source, zone: cmd.zone };
+    var n = { personnes: pers, cultures: cultures, longues: longues, poules: $("poules").checked, lapins: $("lapins").checked, surface_m2: cmd.surface_m2, surface_source: cmd.surface_source, zone: cmd.zone };
     if (nouvelleZone) { n.zone = nouvelleZone; n.surface_m2 = Math.round(nouvelleSurface * 10) / 10; n.surface_source = "dessin"; }
     if (!$("bloc-saisie").classList.contains("cache")) { var v = parseFloat(String($("surface-saisie").value).replace(",", ".")); if (!(v > 0)) { $("err-modif").textContent = "Indique une surface."; return; } n.surface_m2 = v; }
     $("enregistrer").disabled = true;
