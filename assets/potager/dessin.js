@@ -18,17 +18,18 @@
     { id: "hiver", nom: "Hiver", mois: [12, 1, 2], sol: "0.75 0.18 0.07 0 0.05  0.14 0.78 0.08 0 0.05  0.14 0.18 0.68 0 0.06  0 0 0 1 0" }
   ];
   /* Largeur et hauteur des illustrations (pixels), pour garder leurs proportions. */
-  var DIMS = { ail: [159, 256], betterave: [238, 256], blette: [256, 255], carotte: [242, 256], chou: [256, 194], clapier: [250, 256], courge: [241, 256], courgette: [256, 220], couvert: [256, 248], feve: [179, 256], fraisier: [256, 226], haricot_vert: [142, 256], lapin: [245, 256], oignon: [217, 256], personne: [146, 256], poireau: [183, 256], pomme_de_terre: [256, 245], poulailler: [228, 256], poule: [239, 256], pousse: [255, 256], sec: [230, 256], tomate: [205, 256] };
+  var DIMS = { ail: [83, 256], betterave: [161, 256], blette: [222, 256], carotte: [166, 256], chou: [256, 213], clapier: [256, 246], courge: [247, 256], courgette: [256, 224], couvert: [256, 244], feve: [138, 256], fraisier: [256, 200], haricot_vert: [132, 256], lapin: [216, 256], oignon: [96, 256], personne: [83, 256], poireau: [195, 256], pomme_de_terre: [256, 233], poulailler: [193, 256], poule: [225, 256], pousse: [256, 251], sec: [237, 256], tomate: [184, 256] };
   /* Écart entre deux pieds (m) : sert à placer et à dimensionner chaque dessin. */
   var PAS = { tomate: 0.6, courge: 1.0, pomme_de_terre: 0.5, feve: 0.35, haricot_vert: 0.55, poireau: 0.3, chou: 0.55, ail: 0.25, oignon: 0.28,
     carotte: 0.3, betterave: 0.3, blette: 0.45, courgette: 0.9, fraisier: 0.4, couvert: 0.35, pousse: 0.3, sec: 0.35 };
   /* Largeur réelle d'un pied adulte vu de biais (m), plafond du dessin : une courge n'est pas plus large qu'une planche. */
   var LARG = { courge: 0.85, courgette: 0.8, pomme_de_terre: 0.55, tomate: 0.5, chou: 0.5, blette: 0.45, haricot_vert: 0.45, feve: 0.35, poireau: 0.28,
     ail: 0.22, oignon: 0.26, carotte: 0.28, betterave: 0.32, fraisier: 0.38, couvert: 0.32, pousse: 0.22, sec: 0.28 };
-  /* Les dessins de plantes ont une petite motte de terre : le pied est un peu au-dessus du bas de l'image. */
+  /* Les dessins de plantes n'ont que quelques miettes de terre : le pied est presque au bas de l'image. */
   var LIBELLES = { poule: "Poule", lapin: "Lapin", poulailler: "Poulailler", clapier: "Clapier", personne: "Jardinier, 1,75 m pour l'échelle" };
   var D = window.POTAGER_DONNEES;
   var PIED = { personne: 0.98, poule: 0.97, lapin: 0.96, poulailler: 0.97, clapier: 0.98 };
+  var ENCRE = "#4a3626";               // trait d'encre commun (style illustration éditoriale)
 
   /* ---------- Géométrie ---------- */
   function aire(pts) { var a = 0; for (var i = 0; i < pts.length; i++) { var j = (i + 1) % pts.length; a += pts[i][0] * pts[j][1] - pts[j][0] * pts[i][1]; } return a / 2; }
@@ -92,9 +93,10 @@
       var q = [iso(a[0], a[1], y0), iso(b[0], b[1], y0), iso(b[0], b[1], y1), iso(a[0], a[1], y1)];
       var d = "M" + q.map(function (p) { return f1(p[0]) + " " + f1(p[1]); }).join("L") + "Z";
       var leLongDeX = Math.abs(nz) >= Math.abs(nx);
-      s += (matiere === "terre" ? '<path d="' + d + '" fill="#6b4b33"/>' : "") + '<path d="' + d + '" fill="url(#' + matiere + (leLongDeX ? "-x" : "-z") + ')"' + (matiere === "terre" ? ' opacity=".45"' : "") + "/>" +
+      s += (matiere === "terre" ? '<path d="' + d + '" fill="#a07a56"/>' : "") + '<path d="' + d + '" fill="url(#' + matiere + (leLongDeX ? "-x" : "-z") + ')"' + (matiere === "terre" ? ' opacity=".6"' : "") + "/>" +
         
-        '<path d="' + d + '" fill="#1d120a" opacity="' + (leLongDeX ? ombre : ombre + 0.16) + '"/>';
+        '<path d="' + d + '" fill="#5a3e28" opacity="' + (leLongDeX ? ombre : ombre + 0.12) + '"/>' +
+        '<path d="' + d + '" fill="none" stroke="' + ENCRE + '" stroke-width="1" stroke-linejoin="round" opacity=".7"/>';
     }
     return s;
   }
@@ -142,7 +144,7 @@
     /* Une illustration debout, pied en (x, z) à la hauteur y, large de `larg` mètres. */
     /* nomLu : ce qui s'affiche au survol (ou au toucher sur téléphone). */
     function dessin(nom, x, z, y, larg, miroir, nomLu) {
-      var dm = DIMS[nom], q = iso(x, z, y), w = larg * K, h = w * dm[1] / dm[0], pied = PIED[nom] || 0.9;
+      var dm = DIMS[nom], q = iso(x, z, y), w = larg * K, h = w * dm[1] / dm[0], pied = PIED[nom] || 0.96;
       var X = q[0] - w / 2, Y = q[1] - h * pied, lu = P.esc(nomLu || LIBELLES[nom] || nom);
       return { prof: x + z, s: '<image href="' + img(nom) + '" x="' + f1(X) + '" y="' + f1(Y) + '" width="' + f1(w) + '" height="' + f1(h) + '" data-nom="' + lu + '"' +
         (miroir ? ' transform="matrix(-1 0 0 1 ' + f1(2 * q[0]) + ' 0)"' : "") + "><title>" + lu + "</title></image>" };
@@ -151,7 +153,8 @@
       var a = Math.abs(aire(bed)); pas = Math.max(pas, Math.sqrt(a / max));
       var xs = bed.map(function (p) { return p[0]; }), zs = bed.map(function (p) { return p[1]; }), out = [], ligne = 0;
       for (var z = Math.min.apply(null, zs) + pas / 2; z < Math.max.apply(null, zs); z += pas, ligne++)
-        for (var x = Math.min.apply(null, xs) + pas / 2; x < Math.max.apply(null, xs); x += pas)
+        /* Quinconce : un rang sur deux décalé d'un demi-pas, les rangs restent droits mais deux pieds ne se cachent plus l'un l'autre. */
+        for (var x = Math.min.apply(null, xs) + pas / 2 + (ligne % 2 ? pas / 2 : 0); x < Math.max.apply(null, xs); x += pas)
           if (dedans([x, z], bed)) out.push([x, z, ligne]);
       return { pos: out, pas: pas };
     }
@@ -159,17 +162,17 @@
     function dessiner(sid) {
       var S = SAISONS.filter(function (s) { return s.id === sid; })[0];
       var fond = "", objets = [];
-      fond += '<ellipse cx="' + ((minX + maxX) / 2).toFixed(0) + '" cy="' + (maxY - 30).toFixed(0) + '" rx="' + ((maxX - minX) * 0.42).toFixed(0) + '" ry="24" fill="#2a1d10" opacity=".18" filter="url(#d-flou)"/>';
+      fond += '<ellipse cx="' + ((minX + maxX) / 2).toFixed(0) + '" cy="' + (maxY - 30).toFixed(0) + '" rx="' + ((maxX - minX) * 0.42).toFixed(0) + '" ry="24" fill="#5a3e28" opacity=".14" filter="url(#d-flou)"/>';
       /* Socle en coupe, herbe autour, allées en gravier. */
       fond += cotes(bord, -epais, 0, "terre", 0.28);
-      var herbe = function (d) { return '<path d="' + d + '" fill="#b7c493"/><path d="' + d + '" fill="url(#t-herbe)" opacity=".28"/><path d="' + d + '" fill="url(#t-herbe2)" opacity=".18"/>'; };
-      var sol = herbe(chemin(bord, 0)) + '<path d="' + chemin(pts, 0) + '" fill="#efe6d2"/><path d="' + chemin(pts, 0) + '" fill="url(#t-gravier)" opacity=".35"/>';
+      var herbe = function (d) { return '<path d="' + d + '" fill="#c4cb9c"/><path d="' + d + '" fill="url(#t-herbe)" opacity=".9"/><path d="' + d + '" fill="url(#t-herbe2)" opacity=".25"/><path d="' + d + '" fill="none" stroke="' + ENCRE + '" stroke-width="1.2" stroke-linejoin="round" opacity=".55"/>'; };
+      var sol = herbe(chemin(bord, 0)) + '<path d="' + chemin(pts, 0) + '" fill="#ece2cc"/><path d="' + chemin(pts, 0) + '" fill="url(#t-gravier)" opacity=".9"/>';
 
       lits.forEach(function (L) {
         var x = L.x, bed = L.bed, c = L.c;
         if (x.id === "reste") { sol += herbe(chemin(bed, 0)); return; }
         if (x.id === "poules") {
-          sol += '<path d="' + chemin(bed, 0) + '" fill="#e7d3a1"/><path d="' + chemin(bed, 0) + '" fill="url(#t-paille)" opacity=".35"/>';
+          sol += '<path d="' + chemin(bed, 0) + '" fill="#e8d098"/><path d="' + chemin(bed, 0) + '" fill="url(#t-paille)" opacity=".9" stroke="' + ENCRE + '" stroke-width="1" stroke-linejoin="round" stroke-opacity=".6"/>';
           objets.push(dessin("poulailler", c[0] - 0.3, c[1] - 0.3, 0, 1.5));
           for (var k = 0; k < (plan.poules || 0); k++) {
             var ang = k * 2.4 + 0.6, r = 1.0 + (k % 3) * 0.35, pt = [c[0] + Math.cos(ang) * r, c[1] + Math.sin(ang) * r];
@@ -179,7 +182,7 @@
           return;
         }
         if (x.id === "lapins") {
-          sol += '<path d="' + chemin(bed, 0) + '" fill="#e7d3a1"/><path d="' + chemin(bed, 0) + '" fill="url(#t-paille)" opacity=".35"/>';
+          sol += '<path d="' + chemin(bed, 0) + '" fill="#e8d098"/><path d="' + chemin(bed, 0) + '" fill="url(#t-paille)" opacity=".9" stroke="' + ENCRE + '" stroke-width="1" stroke-linejoin="round" stroke-opacity=".6"/>';
           var n2 = (plan.lapines || 1) + 1;
           for (var j = 0; j < n2; j++) {
             var t = j - (n2 - 1) / 2;
@@ -190,8 +193,8 @@
         }
         /* Planche surélevée : côtés en bois, dessus en terre (ou engrais vert l'hiver). */
         objets.push({ prof: -1e6 + c[0] + c[1], s: cotes(bed, 0, hautPlanche, "bois", 0.05) +
-          '<path d="' + chemin(bed, hautPlanche) + '" fill="#7a5638"/>' + '<path d="' + chemin(bed, hautPlanche) + '" fill="url(#t-terre)" opacity=".55"/>' +
-          '<path d="' + chemin(bed, hautPlanche) + '" fill="transparent" stroke="#e2c08e" stroke-width="2" data-nom="Planche : ' + P.esc(x.nom.toLowerCase()) + '"><title>' + P.esc(x.nom) + "</title></path>" });
+          '<path d="' + chemin(bed, hautPlanche) + '" fill="#a67c58"/>' + '<path d="' + chemin(bed, hautPlanche) + '" fill="url(#t-terre)" opacity=".95"/>' +
+          '<path d="' + chemin(bed, hautPlanche) + '" fill="transparent" stroke="' + ENCRE + '" stroke-width="1.3" stroke-linejoin="round" data-nom="Planche : ' + P.esc(x.nom.toLowerCase()) + '"><title>' + P.esc(x.nom) + "</title></path>" });
         plantes(L, S).forEach(function (o2) { objets.push(o2); });
       });
       /* Le jardinier, au coin le plus proche, pour l'échelle. */
@@ -217,10 +220,11 @@
         return out;
       } else if (r && bOn && !aOn) { id = r.idB; etat = "recolte"; }
       function vu(id, etat) {
-        var nom = etat === "recolte" ? (DIMS[id] ? id : "pousse") : etat;
+        var nom = etat === "recolte" ? (DIMS[id] ? id : "pousse") : etat, taille = 1;
+        if (etat === "pousse" && S.id === "ete" && DIMS[id]) { nom = id; taille = 0.75; }
         var c0 = D.CULTURES.filter(function (c) { return c.id === id; })[0], nc = c0 ? c0.nom.replace(/ \(.*\)/, "") : "";
         var lu = id === "couvert" ? "Engrais vert d'hiver (seigle, vesce, féveroles)" : etat === "recolte" ? nc + ", en récolte" : etat === "pousse" ? nc + ", en train de pousser" : nc + ", récolte finie";
-        return { nom: nom, lu: lu, etat: etat };
+        return { nom: nom, lu: lu, etat: etat, taille: taille };
       }
       var A = vu(id, etat), B = null, as = x.assoc;
       /* Association : le compagnon occupe un rang sur deux (rangs alternés) ou un sur trois (entre les pieds). */
@@ -233,7 +237,7 @@
       g.pos.forEach(function (p, k) {
         var V = B && p[2] % pas === 1 ? B : A;
         if (V.etat === "sec" && k % 2) return;
-        var v = 0.92 + ((k * 37) % 10) / 60, larg = Math.min(g.pas * 0.8, (LARG[V.nom] || 0.35) * 0.72) * v;
+        var v = 0.92 + ((k * 37) % 10) / 60, larg = Math.min(g.pas * 0.95, LARG[V.nom] || 0.35) * v * V.taille;
         out.push(dessin(V.nom, p[0], p[1], hautPlanche, larg, (k * 7) % 3 === 0, V.lu));
       });
       return out;
