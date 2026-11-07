@@ -81,7 +81,7 @@
     P.vue($("vue-jardin"), cmd, plan, { flou: false });
     P.vue3d($("vue-3d"), cmd, plan, {});
     $("nb-pages").textContent = "Ton plan : environ " + P.pages(html) + " pages en PDF";
-    $("chapo").textContent = "Pour " + plan.N + " personne" + (plan.N > 1 ? "s" : "") + " sur " + P.nb(cmd.surface_m2, 0) + " m²" + (cmd.gratuite ? ", offert (un des 400 premiers)." : ".");
+    $("chapo").textContent = "Pour " + plan.N + " personne" + (plan.N > 1 ? "s" : "") + " sur " + P.nb(cmd.surface_m2, 0) + " m²" + (cmd.gratuite ? ", offert (un des 100 premiers)." : ".");
     $("actions").classList.remove("cache");
     if (cmd.fige_le) {
       $("ouvrir-modif").classList.add("cache");
