@@ -32,15 +32,15 @@
   var CULTURES = [
     { id: "pomme_de_terre", jours: 80, nom: "Pomme de terre", kg2: 48, m2: 19.2, kcal: 80.5, kcalSrc: "ciqual",
       besoin2: 85, unite: "plants", achat: {
-        bas: { prix: 6.99, qte: 25, lib: "étui de 25 plants Celtiane", u: "https://www.truffaut.com/pomme-terre-celtiane-calibre-25-32-etui-25-plants-543477.html" },
-        haut: { prix: 3.99, qte: 10, lib: "filet de 10 plants Charlotte", u: "https://www.truffaut.com/pomme-terre-charlotte-filet-10-plants-319468.html" } },
+        bas: { prix: 11.90, qte: 60, lib: "filet de 1,5 kg Charlotte bio (60 plants en moyenne), Kokopelli", u: "https://kokopelli-semences.fr/fr/p/JP0004-Pomme-de-terre-Charlotte-bio-calibre-25-35" },
+        haut: { prix: 6.90, qte: 25, lib: "filet de 25 plants Charlotte bio, Kokopelli", u: "https://kokopelli-semences.fr/fr/p/JP0004-Pomme-de-terre-Charlotte-bio-calibre-25-35" } },
       delai: "80 jours en primeur, à maturité quand le feuillage a jauni", recolte: [5, 6, 7, 9, 10, 11],
       plantation: "au printemps",
       garde: "À l'abri de la lumière, au sec, au frais, aéré", src: [jm("pomme-de-terre"), "https://www.truffaut.com/pomme-terre-celtiane-calibre-25-32-etui-25-plants-543477.html"] },
     { id: "courge", jours: 110, nom: "Courge butternut", kg2: 30, m2: 7.5, kcal: 45, kcalSrc: "usdaCourge",
       besoin2: 1.1, unite: "g", achat: {
-        bas: { prix: 2.79, qte: 3, lib: "sachet de 3 g", u: "https://www.truffaut.com/courge-butternut-en-sachet-726048.html" },
-        haut: { prix: 3.69, qte: 2, lib: "sachet bio de 2 g", u: "https://www.truffaut.com/courge-musquee-waltham-butternut-bio-858956.html" } },
+        bas: { prix: 3.40, qte: 0.8, lib: "sachet de 12 graines Butternut Ponca bio (environ 0,8 g), Kokopelli", u: "https://kokopelli-semences.fr/fr/p/P2305-Butternut-Ponca" },
+        haut: { prix: 3.40, qte: 0.8, lib: "sachet de 12 graines Musquée de Provence bio (environ 0,8 g), Kokopelli", u: "https://kokopelli-semences.fr/fr/p/P2311-Musquee-de-Provence" } },
       delai: "110 à 120 jours", recolte: [9, 10, 11, 12],
       garde: "Jusqu'en mars dans une pièce à 12 à 15 °C, après 10 jours de séchage à 20 °C", src: [jm("courge")] },
     { id: "oignon", jours: 90, nom: "Oignon (bulbilles)", kg2: 21, m2: 7.0, kcal: 37.8, kcalSrc: "ciqual",
@@ -57,62 +57,62 @@
       garde: "Une semaine au frais", src: ["https://www.truffaut.com/graines-de-haricot-nain-vert-signal-bio-5-metres.html"] },
     { id: "carotte", jours: 90, nom: "Carotte", kg2: 26, m2: 5.2, kcal: 40.2, kcalSrc: "ciqual",
       besoin2: 1.6, unite: "g", achat: {
-        bas: { prix: 2.79, qte: 4, lib: "sachet de 4 g", u: "https://www.truffaut.com/carotte-touchon-en-sachet-726041.html" },
-        haut: { prix: 3.69, qte: 2, lib: "sachet bio de 2 g", u: "https://www.truffaut.com/carotte-berlikumer-2-g-726128.html" } },
+        bas: { prix: 3.40, qte: 4, lib: "sachet de 4 g Nantaise améliorée bio, Kokopelli", u: "https://kokopelli-semences.fr/fr/p/P0602-Dolciva-Nantaise-Amelioree" },
+        haut: { prix: 3.40, qte: 2, lib: "sachet de 2 g Touchon bio, Kokopelli", u: "https://kokopelli-semences.fr/fr/p/P0617-Touchon" } },
       delai: "90 à 100 jours", recolte: [7, 8, 9, 10, 11, 12],
       garde: "4 à 5 mois en caisse de sable, pièce à 0 à 4 °C", src: ["https://www.truffaut.com/vilmorin-carotte-nantaise-amelioree-3.html", jm("carotte-chantenay-conservation")] },
     { id: "poireau", nom: "Poireau", kg2: 13, m2: 5.2, kcal: 32.3, kcalSrc: "ciqual",
       besoin2: 2.6, unite: "g", achat: {
-        bas: { prix: 1.79, qte: 3, lib: "sachet de 3 g", u: "https://www.truffaut.com/poireau-monstrueux-carentan-2-en-sachet-726028.html" },
-        haut: { prix: 3.79, qte: 1.3, lib: "sachet bio de 1,3 g", u: "https://www.truffaut.com/graines-potageres-poireau-carentan-bio-1-3g-822976.html" } },
+        bas: { prix: 3.40, qte: 2, lib: "sachet de 2 g Monstrueux de Carentan bio, Kokopelli", u: "https://kokopelli-semences.fr/fr/p/P5526-Monstrueux-de-Carentan" },
+        haut: { prix: 3.40, qte: 2, lib: "sachet de 2 g Monstrueux de Carentan bio, Kokopelli", u: "https://kokopelli-semences.fr/fr/p/P5526-Monstrueux-de-Carentan" } },
       delai: "semé de mars à mai, récolté de septembre à mars selon la variété", recolte: [9, 10, 11, 12, 1, 2, 3], plantation: "semis de mars à mai",
       garde: "Reste en terre l'hiver", src: [jm("poireau")] },
     { id: "ail", nom: "Ail", kg2: 3, m2: 4.3, kcal: 111, kcalSrc: "ciqual",
       besoin2: 430, unite: "g", achat: {
-        bas: { prix: 9.49, qte: 500, lib: "500 g de caïeux", u: "https://www.truffaut.com/ail-edenrose-500-g.html" },
-        haut: { prix: 9.90, qte: 500, lib: "500 g d'ail violet", u: "https://www.truffaut.com/germidour-violet-ail-a-repiquer-500gr.html" } },
+        bas: { prix: 7.50, qte: 250, lib: "250 g d'ail violet Germidour bio, Kokopelli", u: "https://kokopelli-semences.fr/fr/p/BA0004-Bulbes-Ail-d-automne-Germidour-violet-250-g-AB-Allium-sativum" },
+        haut: { prix: 7.50, qte: 250, lib: "250 g d'ail blanc Messidrome bio, Kokopelli", u: "https://kokopelli-semences.fr/fr/p/BA0001-Bulbes-d-Ail-blanc-Messidrome-AB-250-g-Allium-sativum" } },
       delai: "récolte quand le feuillage jaunit", recolte: [6, 7, 8],
       garde: "En tresses, au sec, à l'obscurité, jamais au frigo", src: [jm("ail")] },
     { id: "chou", jours: 60, nom: "Chou pommé", kg2: 20, m2: 2.9, kcal: 36.5, kcalSrc: "ciqual",
       besoin2: 0.1, unite: "g", achat: {
-        bas: { prix: 1.99, qte: null, lib: "sachet Vilmorin (grammage non affiché, un sachet compté)", u: "https://www.truffaut.com/vilmorin-chou-cabus-de-brunswick.html" },
-        haut: { prix: 3.50, qte: 2, lib: "sachet de 2 g", u: "https://www.truffaut.com/chou-cabus-chou-pomme-nantais-hatif-le-sachet-de-400-graines-environ-2g.html" } },
+        bas: { prix: 3.40, qte: 0.5, lib: "sachet de 200 graines De Brunswick bio (environ 0,5 g), Kokopelli", u: "https://kokopelli-semences.fr/fr/p/P1015-De-Brunswick" },
+        haut: { prix: 3.40, qte: 0.5, lib: "sachet de 200 graines De Brunswick bio (environ 0,5 g), Kokopelli", u: "https://kokopelli-semences.fr/fr/p/P1015-De-Brunswick" } },
       delai: "2 à 3 mois après plantation (précoce), 6 à 7 mois (tardif)", recolte: [6, 7, 8, 9, 10, 11, 12, 1, 2, 3],
       garde: "Cave fraîche ou en place au jardin, sous paillage", src: [jm("chou-pomme")] },
     { id: "blette", jours: 70, nom: "Blette", kg2: 8, m2: 2.7, kcal: null, kcalSrc: null,
       besoin2: 2, unite: "g", achat: {
-        bas: { prix: 2.79, qte: 5, lib: "sachet de 5 g", u: "https://www.truffaut.com/poiree-blonde-carde-blanche-2-en-sachet-726070.html" },
-        haut: { prix: 3.79, qte: 3, lib: "sachet bio de 3 g", u: "https://www.truffaut.com/graines-potageres-blette-ou-carde-blanche-ampuis-bio-681478.html" } },
+        bas: { prix: 3.40, qte: 6, lib: "sachet de 6 g Verte à cardes blanches bio, Kokopelli", u: "https://kokopelli-semences.fr/fr/p/P2012-Verte-a-Cardes-Blanches" },
+        haut: { prix: 3.40, qte: 6, lib: "sachet de 6 g Verte à cardes blanches bio, Kokopelli", u: "https://kokopelli-semences.fr/fr/p/P2012-Verte-a-Cardes-Blanches" } },
       delai: "10 semaines, puis au fil des besoins jusqu'aux gelées", recolte: [7, 8, 9, 10, 11, 12],
       garde: "Une semaine au frais, se congèle", src: ["https://www.truffaut.com/graines-potageres-blette-ou-carde-blanche-ampuis-bio-681478.html"] },
     { id: "courgette", jours: 42, nom: "Courgette", kg2: 10, m2: 2.5, kcal: 16.5, kcalSrc: "ciqual",
       besoin2: 0.5, unite: "g", achat: {
-        bas: { prix: 1.79, qte: 4, lib: "sachet de 4 g", u: "https://www.truffaut.com/courgette-verte-petite-alger-4-g-726014.html" },
-        haut: { prix: 3.69, qte: 3, lib: "sachet bio de 3 g", u: "https://www.truffaut.com/courgette-verte-noire-maraichere-bio-en-sachet-726136.html" } },
+        bas: { prix: 3.40, qte: 1.09, lib: "sachet de 12 graines Petite grise d'Alger bio (environ 1,1 g), Kokopelli", u: "https://kokopelli-semences.fr/fr/p/P2637-Petite-Grise-d-Alger" },
+        haut: { prix: 3.40, qte: 1.09, lib: "sachet de 12 graines Black Beauty bio (environ 1,1 g), Kokopelli", u: "https://kokopelli-semences.fr/fr/p/P2604-Verte-de-Milan-Black-Beauty" } },
       delai: "6 à 10 semaines", recolte: [7, 8, 9, 10],
       garde: "Une semaine au frais", src: [jm("courgette")] },
     { id: "betterave", jours: 135, nom: "Betterave", kg2: 9, m2: 2.2, kcal: 42.8, kcalSrc: "ciqual",
       besoin2: 0.18, unite: "g", achat: {
-        bas: { prix: 1.79, qte: 4, lib: "sachet de 4 g", u: "https://www.truffaut.com/betterave-noire-egypte-en-sachet-726004.html" },
-        haut: { prix: 3.69, qte: 4, lib: "sachet bio de 4 g", u: "https://www.truffaut.com/betterave-noire-egypte-bio-en-sachet-726125.html" } },
+        bas: { prix: 3.40, qte: 6, lib: "sachet de 6 g Noire plate d'Égypte bio, Kokopelli", u: "https://kokopelli-semences.fr/fr/p/P0505-Noire-Plate-d-Egypte" },
+        haut: { prix: 3.40, qte: 6, lib: "sachet de 6 g Noire plate d'Égypte bio, Kokopelli", u: "https://kokopelli-semences.fr/fr/p/P0505-Noire-Plate-d-Egypte" } },
       delai: "4,5 à 5 mois", recolte: [7, 8, 9, 10, 11],
       garde: "En silo, dans du sable", src: ["https://www.truffaut.com/graines-potageres-betterave-noire-plate-egypte-bio-681453.html", "https://ecoconso.be/fr/node/1975/printable/pdf"] },
     { id: "feve", jours: 60, nom: "Fève", kg2: 6, m2: 2.0, kcal: 82.9, kcalSrc: "ciqual",
       besoin2: 40, unite: "g", achat: {
-        bas: { prix: 5.99, qte: 70, lib: "sachet bio de 70 g", u: "https://www.truffaut.com/graines-potageres-feve-aguadulce-tres-longues-cosses-bio-645156.html" },
-        haut: { prix: 7.99, qte: 242, lib: "sachet de 242 g", u: "https://www.truffaut.com/feve-seville-longue-cosse-242-g-750765.html" } },
+        bas: { prix: 4.80, qte: 100, lib: "sachet de 100 g D'Aquadulce bio, Kokopelli", u: "https://kokopelli-semences.fr/fr/p/P8805-D-Aquadulce" },
+        haut: { prix: 4.80, qte: 100, lib: "sachet de 100 g D'Aquadulce bio, Kokopelli", u: "https://kokopelli-semences.fr/fr/p/P8805-D-Aquadulce" } },
       delai: "60 jours (semis de printemps)", recolte: [4, 5, 6, 7],
       garde: "Se mange fraîche, 2 à 3 jours après la récolte", src: ["https://www.truffaut.com/graines-potageres-feve-aguadulce-tres-longues-cosses-bio-645156.html"] },
     { id: "tomate", nom: "Tomate (abri)", kg2: 12, m2: 1.2, kcal: 19.3, kcalSrc: "ciqual",
       besoin2: 3, unite: "plants", hypothese: "3 plants pour 2 personnes", achat: {
-        bas: { prix: 5.79, qte: 3, lib: "barquette de 3 plants", u: "https://www.truffaut.com/tomate-marmande-barquette-3-plants-282452.html" },
-        haut: { prix: 6.29, qte: 3, lib: "barquette bio de 3 plants", u: "https://www.truffaut.com/plants-tomates-marmande-bio-barquette-3-plants-764726.html" } },
+        bas: { prix: 6.40, qte: 2, lib: "2 plants de tomate Marmande bio, Kokopelli", u: "https://kokopelli-semences.fr/fr/p/ZX0041-Tomate-Marmande-2-plants-bio" },
+        haut: { prix: 6.40, qte: 2, lib: "2 plants de tomate Marmande bio, Kokopelli", u: "https://kokopelli-semences.fr/fr/p/ZX0041-Tomate-Marmande-2-plants-bio" } },
       delai: "plants à repiquer au printemps", recolte: [7, 8, 9, 10], plantation: "au printemps",
       garde: "Finit de mûrir à l'intérieur avant les gelées", src: [jm("tomate"), "https://www.truffaut.com/plants-tomates-marmande-bio-barquette-3-plants-764726.html"] },
     { id: "fraisier", nom: "Fraisier", kg2: null, m2: null, kcal: null, kcalSrc: null,
       besoin2: 12, unite: "plants", hypothese: "12 plants pour 2 personnes", achat: {
         bas: { prix: 7.99, qte: 6, lib: "barquette de 6 plants Gariguette", u: "https://www.truffaut.com/fraisier-gariguette-barquette-6-plants-60385.html" },
-        haut: { prix: 16.10, qte: 6, lib: "barquette de 6 godets Gariguette", u: "https://www.truffaut.com/plant-de-fraisier-gariguette-barquette-de-6-godets.html" } },
+        haut: { prix: 7.80, qte: 2, lib: "2 plants Gariguette bio, Kokopelli", u: "https://kokopelli-semences.fr/fr/p/ZS0087-Fraisier-Gariguette-2-plants-bio" } },
       delai: "plantation au printemps ou en fin d'été", recolte: [5, 6, 7, 8, 9, 10], plantation: "au printemps ou en fin d'été",
       garde: "Se garde peu : frais, confiture ou congélation", src: [jm("fraisier")] }
   ];
@@ -301,7 +301,7 @@
   /* Semences recommandées : Kokopelli (bio, libres de droits, reproductibles). */
   var KOKOPELLI = {
     u: "https://kokopelli-semences.fr/fr/c/semences/potageres",
-    prixType: 3.40, releve: "6 novembre 2026",
+    prixType: 3.40, releve: "7 novembre 2026",
     loi: { t: "Loi n° 2020-699 du 10 juin 2020, article 10 (vente de semences de variétés du domaine public aux jardiniers amateurs)", u: "https://www.quechoisir.org/actualite-jardinage-les-semences-paysannes-restent-autorisees-pour-les-amateurs-n80839/" }
   };
 

@@ -467,8 +467,8 @@
     });
     h += "</div>";
     var K = D.KOKOPELLI;
-    h += '<p class="note">Prix en ligne chez Truffaut, relevés les 5 et 6 novembre 2026, hors livraison, ils peuvent changer.</p>' +
-      '<div class="alerte" style="margin-top:12px"><p><b>Notre conseil pour les graines : ' + lien(K.u, "Kokopelli") + ".</b> Des semences bio, libres de droits et <b>reproductibles</b> : tu gardes tes propres graines d'une année sur l'autre, sans racheter. En cas de crise, c'est ce qui compte. Sachets autour de " + euros(K.prixType) + " relevés le " + K.releve + ". La vente de ces variétés aux jardiniers amateurs est autorisée depuis la loi du 10 juin 2020 (" + lien(K.loi.u, "Que Choisir") + "). Les plants, eux, restent à acheter en variétés inscrites.</p></div></section>";
+    h += '<p class="note">Graines, ail, pommes de terre, plants de tomates et fraisiers bio : prix Kokopelli relevés le 7 novembre 2026, hors livraison. Certaines variétés sont en rupture hors saison (pommes de terre de retour en janvier 2027). Kokopelli vend ses graines au nombre pour la courge, la courgette et le chou : nous comptons le poids le plus léger donné par la table de ' + lien("https://vitalseeds.co.uk/growing-resources/seed-saving-resources/seeds-per-gram", "Vital Seeds") + ', pour ne jamais en acheter trop peu. Oignons en bulbilles, haricots verts et fraisiers petit budget : Truffaut, relevés les 5 et 6 novembre 2026 (Kokopelli ne vend pas de bulbilles, et n\'avait aucun haricot en ligne le 7 novembre).</p>' +
+      '<div class="alerte" style="margin-top:12px"><p><b>Notre conseil pour les graines : ' + lien(K.u, "Kokopelli") + ".</b> Des semences bio, libres de droits et <b>reproductibles</b> : tu gardes tes propres graines d'une année sur l'autre, sans racheter. En cas de crise, c'est ce qui compte. La plupart des sachets sont à " + euros(K.prixType) + " (relevé du " + K.releve + "). La vente de ces variétés aux jardiniers amateurs est autorisée depuis la loi du 10 juin 2020 (" + lien(K.loi.u, "Que Choisir") + ").</p></div></section>";
 
     /* Matériel et poules */
     n++;
