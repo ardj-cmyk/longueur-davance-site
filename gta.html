@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>GTA 6 : ta veille X en automatique pour poster dans l'heure</title>
+<meta name="description" content="Chauffer ton compte avec Claude avant la sortie de GTA 6 le 19 novembre, puis une veille X qui te prévient toute seule : liste privée, cloche, recherche prête. Ce que Rockstar fait supprimer. Avec les sources.">
+<style>
+@font-face{font-family:'Inter';font-style:normal;font-weight:400 800;font-display:swap;src:url(/assets/fonts/Inter-latin.woff2) format('woff2')}
+@font-face{font-family:'Inter';font-style:normal;font-weight:400 800;font-display:swap;src:url(/assets/fonts/Inter-latinext.woff2) format('woff2');unicode-range:U+0100-02BA,U+1E00-1EFF}
+@font-face{font-family:'Playfair Display';font-style:normal;font-weight:600 900;font-display:swap;src:url(/assets/fonts/PlayfairDisplay-latin.woff2) format('woff2')}
+@font-face{font-family:'Playfair Display';font-style:italic;font-weight:600 900;font-display:swap;src:url(/assets/fonts/PlayfairDisplay-italic-latin.woff2) format('woff2')}
+:root{--encre:#12192b;--ivoire:#fdfcf9;--fond:#faf6ee;--terra:#a3461a;--trait:#e3ded4;--doux:#5b6375}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--fond);color:var(--encre);font:400 17px/1.6 'Inter',system-ui,sans-serif;padding:0 18px 64px}
+main{max-width:640px;margin:0 auto}
+header{padding:48px 0 28px;border-bottom:2px solid var(--encre);margin-bottom:28px}
+.marque{font:700 13px/1 'Inter';letter-spacing:.14em;text-transform:uppercase;color:var(--terra)}
+h1{font:800 clamp(32px,8.5vw,50px)/1.05 'Playfair Display',Georgia,serif;margin:14px 0 16px;text-wrap:balance}
+h1 em{font-style:italic;color:var(--terra)}
+.chapo{font-size:19px}
+section{padding:28px 0;border-bottom:1px solid var(--trait)}
+h2{font:800 26px/1.15 'Playfair Display',Georgia,serif;margin-bottom:16px}
+.cartes{display:grid;gap:12px}
+.carte{background:var(--ivoire);border:2px solid var(--encre);border-radius:16px;padding:14px 16px;display:grid;grid-template-columns:44px 1fr;gap:4px 12px;align-items:start}
+.carte .ico{font-size:26px;line-height:1.2;grid-row:span 4}
+.carte .nom{font:800 18px/1.2 'Inter'}
+.carte .nom b{color:var(--terra)}
+.carte p{font-size:16px}
+.carte .src{font:500 14px 'Inter';color:var(--doux)}
+.carte .src a{color:var(--doux)}
+.regle{background:var(--encre);color:var(--ivoire);border-radius:16px;padding:18px 18px}
+.regle h2{color:var(--ivoire);font-size:22px;margin-bottom:10px}
+.regle ol{list-style:none;display:grid;gap:8px;counter-reset:r}
+.regle li{counter-increment:r;padding-left:36px;position:relative}
+.regle li::before{content:counter(r);position:absolute;left:0;top:1px;width:26px;height:26px;border-radius:999px;background:var(--terra);color:var(--ivoire);font-weight:800;font-size:14px;display:flex;align-items:center;justify-content:center}
+table{width:100%;border-collapse:collapse;font-size:16px;background:var(--ivoire);border:2px solid var(--encre);border-radius:16px;overflow:hidden}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--trait)}
+th{font:700 12px 'Inter';letter-spacing:.08em;text-transform:uppercase;color:var(--doux)}
+td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+ul.lim{display:grid;gap:8px;padding-left:20px}
+.note{margin-top:12px;font-size:15px;color:var(--doux)}
+.note a{color:var(--doux)}
+.fin h2{margin-bottom:10px}
+.cta{display:inline-block;margin-top:18px;background:var(--encre);color:var(--ivoire);text-decoration:none;font:800 18px 'Inter';padding:16px 26px;border-radius:999px;box-shadow:0 6px 0 var(--terra)}
+.signature{margin-top:26px;color:var(--doux);font-size:15px}
+.copie{background:var(--ivoire);border:2px solid var(--encre);border-radius:16px;padding:16px;white-space:pre-wrap;font:400 15px/1.55 'Inter';margin-top:4px}
+.btn{margin-top:12px;border:0;background:var(--terra);color:var(--ivoire);font:800 16px 'Inter';padding:12px 20px;border-radius:999px;cursor:pointer}
+.btn.done{background:var(--encre)}
+.faits{display:grid;gap:10px;padding-left:20px}
+.faits a{color:var(--doux)}
+
+</style>
+<link rel="canonical" href="https://longueur-davance.fr/gta">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon-48.png" sizes="48x48" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+</head>
+<body>
+<main>
+<header>
+  <div class="marque">Longueur d'avance · GTA 6 · Parties 1 et 2</div>
+  <h1>Ta veille GTA 6 <em>en automatique</em></h1>
+  <p class="chapo">Le jeu sort le 19 novembre. Sur une sortie pareille, celui qui poste en premier prend les vues. Voici comment chauffer ton compte avant, avec Claude qui fait le montage, puis régler X pour que les astuces viennent à toi, et poster dans l'heure.</p>
+</header>
+
+<section>
+  <div class="regle">
+    <h2>Les dates</h2>
+    <ol>
+      <li><b>10 novembre</b> : ouverture du préchargement.</li>
+      <li><b>19 novembre</b> : sortie sur PS5 et Xbox Series, en solo au départ.</li>
+    </ol>
+    <p class="note" style="color:var(--ivoire);opacity:.85">Sources : <a style="color:var(--ivoire)" href="https://www.rockstargames.com/newswire/article/ak3ak31a49a221/grand-theft-auto-vi-is-now-set-to-launch-november-19-2026">Rockstar, date de sortie</a>, <a style="color:var(--ivoire)" href="https://www.rockstargames.com/newswire/article/k4ak9okk485712/grand-theft-auto-vi-pre-load-begins-on-november-10">Rockstar, préchargement</a>. Rockstar n'a pas encore donné de date pour le mode en ligne ni pour la version PC.</p>
+  </div>
+</section>
+
+<section>
+  <h2>1. Chauffe ton compte maintenant</h2>
+  <div class="cartes">
+    <div class="carte"><div class="ico">🎬</div><div class="nom">Les bandes-annonces <b>officielles</b>, montées par Claude</div><p>Claude Code découpe la bande-annonce en clips courts, la recadre en vertical, ajoute les sous-titres et ta photo dans un coin. Sur chaque clip, tu ajoutes ta voix ou ton avis : un détail repéré, ce que tu attends, ce qui t'a surpris. Le message à lui envoyer est juste en dessous.</p><p class="src">Rockstar publie ses bandes-annonces sur <a href="https://www.rockstargames.com/VI">rockstargames.com/VI</a>.</p></div>
+    <div class="carte"><div class="ico">🗣️</div><div class="nom">Jamais de <b>copier-coller brut</b></div><p>Depuis le 30/04/2026, Instagram ne recommande plus les comptes qui repostent surtout le contenu des autres. Ajouter ta voix, ton avis ou ton montage, c'est ce qui rend le clip original.</p><p class="src">Sources : <a href="https://techcrunch.com/2026/04/30/instagram-restricts-reach-of-content-aggregators-in-new-crackdown/">TechCrunch</a>, <a href="https://petapixel.com/2026/04/30/new-instagram-policies-target-reposted-content/">PetaPixel</a> (30/04/2026).</p></div>
+    <div class="carte"><div class="ico">📅</div><div class="nom">Un clip <b>par jour</b></div><p>TikTok en priorité, puis la même vidéo sur Instagram. Le jour de la sortie, tout le monde poste en même temps : toi, tu auras déjà des abonnés qui attendent.</p></div>
+  </div>
+</section>
+
+<section>
+  <h2>Le message à envoyer à Claude Code</h2>
+  <p style="margin-bottom:12px">Claude Code travaille directement sur ton ordinateur : il lance lui-même les outils de montage. Il est inclus dans l'abonnement Pro de Claude (<a href="https://claude.com/pricing">voir les offres</a>), pas dans la version gratuite. Ouvre-le dans le dossier où se trouvent la bande-annonce et ta photo, puis colle ce texte :</p>
+  <div class="copie" id="consigne">Dans ce dossier, il y a une bande-annonce de GTA 6 et ma photo. Fais-moi des clips pour TikTok et Instagram :
+- découpe la bande-annonce en clips de 15 à 30 secondes, sur les moments les plus forts
+- recadre chaque clip en vertical, 1080 × 1920, sans déformer l'image
+- ajoute les sous-titres en français, gros et lisibles, en bas au centre
+- ajoute ma photo en rond dans un coin
+- coupe complètement le son d'origine : la musique des bandes-annonces appartient à d'autres artistes, pas à Rockstar
+
+Installe ce qu'il faut (par exemple ffmpeg pour le montage et Whisper pour les sous-titres), et explique-moi chaque étape avant de la lancer.</div>
+  <button class="btn" id="copier" type="button">Copier le texte</button>
+  <p class="note">Ensuite, enregistre ta voix ou ton avis sur chaque clip : c'est ce qui le rend original.</p>
+</section>
+
+<section>
+  <h2>2. Ta veille X en automatique</h2>
+  <p style="margin-bottom:14px">Trois réglages gratuits, dix minutes. Ensuite, tu ne cours plus après les infos : ce sont elles qui viennent à toi.</p>
+  <div class="cartes">
+    <div class="carte"><div class="ico">📋</div><div class="nom">Une liste <b>privée</b> « GTA 6 »</div><p>Profil, Listes, nouvelle liste, curseur « Privée ». Ajoute les comptes avec la recherche de la liste (Gérer les membres). Puis épingle-la : elle s'affiche à côté de « Pour vous » et « Abonnements », en haut de ton fil.</p><p class="src">Source : <a href="https://help.x.com/en/using-x/x-lists">aide X, les Listes</a>.</p></div>
+    <div class="carte"><div class="ico">🔎</div><div class="nom">Trouver les <b>bons comptes</b></div><p>Demande à Claude de te sortir les comptes qui publient les astuces GTA en premier, ou à Grok, l'IA intégrée à X. Ou cherche toi-même « GTA 6 » avec « bug », « glitch », « astuce » ou « mission cachée », onglet Récents, et note qui sort l'info en premier. Recherche toute prête : <a href="https://x.com/search?q=%22GTA%206%22%20(bug%20OR%20glitch%20OR%20%22mission%20cach%C3%A9e%22%20OR%20astuce)%20-leak&amp;f=live">ouvrir sur X</a>.</p><p class="src">La recherche avancée (mots, langue, comptes, dates) : <a href="https://help.x.com/en/using-x/x-advanced-search">aide X</a>.</p></div>
+    <div class="carte"><div class="ico">🔔</div><div class="nom">La cloche sur les <b>3 ou 4 plus rapides</b></div><p>Sur leur profil, l'icône Notification, puis « Tous les posts ». Vérifie que c'est activé : Réglages et confidentialité, Notifications, Préférences, Notifications push, Posts. Dès qu'ils publient, ton téléphone sonne.</p><p class="src">Source : <a href="https://help.x.com/fr/managing-your-account/notifications-on-mobile-devices">aide X, notifications mobiles</a>.</p></div>
+  </div>
+</section>
+
+<section>
+  <h2>3. Le brief de Claude à chaque notification</h2>
+  <p style="margin-bottom:12px">La cloche sonne : tu fais une capture du post et tu l'envoies dans ton projet Claude. En quelques secondes, il te sort où aller, quoi faire, dans quel ordre, et le texte à dire sur ta vidéo.</p>
+  <ul class="lim" style="margin-bottom:14px">
+    <li>Dans Claude (site, ordinateur ou appli), ouvre <b>Projets</b>, crée un projet « Brief GTA ».</li>
+    <li>Dans ses <b>instructions</b>, colle le texte ci-dessous. Il s'applique à chaque conversation du projet.</li>
+    <li>Sur ton téléphone, partage la capture du post vers l'appli Claude, dans ce projet.</li>
+  </ul>
+  <div class="copie" id="consigne2">Tu es mon assistant pour mes vidéos GTA 6. À chaque fois que je t'envoie la capture d'un post (une astuce, un bug, une mission cachée), réponds toujours avec ce brief :
+
+1. Ce que montre le post, en une phrase.
+2. Où aller : le lieu exact, d'après le post et sa carte s'il y en a une. Si le post ne le dit pas, dis-le clairement et n'invente rien.
+3. Quoi faire, étape par étape, dans l'ordre.
+4. Le texte à dire sur ma vidéo : une accroche de 3 secondes, puis 20 secondes maximum, en tutoyant.
+5. La légende du post, avec trois mots-clés.
+
+Ne propose jamais de fuites d'avant la sortie, la fin de l'histoire ou de triche en ligne.</div>
+  <button class="btn" id="copier2" type="button">Copier le texte</button>
+  <p class="note">Claude se base sur ce que montre le post : il ne connaît pas la carte du jeu à ta place. Si le post ne dit pas où aller, il te le dit. Les projets sont inclus dans la version gratuite (cinq au maximum) et sans limite avec Pro (<a href="https://claude.com/pricing">offres de Claude</a>, lu le 05/11/2026).</p>
+</section>
+
+<section>
+  <h2>4. Le jour J : poster dans l'heure</h2>
+  <ul class="lim">
+    <li>Avec le brief de Claude, tu lances le jeu et tu refais l'astuce <b>avec tes propres images</b>. C'est du contenu original, c'est ce que les plateformes mettent en avant.</li>
+    <li>Claude te monte le clip comme pour les bandes-annonces, tu ajoutes ta voix, tu postes <b>dans l'heure</b>.</li>
+    <li>TikTok en priorité, puis la même vidéo sur Instagram.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Ce que Rockstar fait supprimer</h2>
+  <ul class="lim">
+    <li><b>Les fuites</b> : toute image du jeu avant sa sortie officielle, déballages en avance compris.</li>
+    <li><b>Les spoilers</b> : la fin de l'histoire, et les cinématiques postées seules (elles passent dans une partie complète ou commentée).</li>
+    <li><b>La triche en ligne</b> : glitchs et « god mode » qui donnent un avantage sur les autres joueurs, argent ou objets dupliqués, menus de mods.</li>
+  </ul>
+  <p class="note">Rockstar accepte les vidéos de fans dans un cadre non commercial, c'est-à-dire sans gagner d'argent avec ses images, et se réserve le droit de retirer ce qu'il veut. Source : <a href="https://support.rockstargames.com/articles/200153756/rockstar-games-video-policy">règle de Rockstar sur les vidéos</a>, mise à jour du 10/01/2025.</p>
+</section>
+
+<section class="fin">
+  <h2>Les deux vidéos</h2>
+  <p>Partie 1 : chauffer ton compte avec Claude. Partie 2 : la veille X, le brief de Claude et poster dans l'heure. Elles sont sur mon profil Instagram et TikTok.</p>
+  <p style="margin-top:12px">Et si tu veux utiliser l'IA pour gagner du temps dans ton activité, c'est ce que je fais avec les entreprises.</p>
+  <a class="cta" href="/">Le premier échange est gratuit</a>
+  <p class="signature">Amdy · Longueur d'avance. Suis-moi, je décrypte l'IA sans bullshit, tous les jours.</p>
+</section>
+</main>
+<script>
+[['copier','consigne'],['copier2','consigne2']].forEach(function (c) { document.getElementById(c[0]).addEventListener('click', function () {
+  var b = this, t = document.getElementById(c[1]).innerText;
+  var done = function () { b.textContent = 'Copié ✓'; b.classList.add('done'); setTimeout(function () { b.textContent = 'Copier le texte'; b.classList.remove('done'); }, 1800); };
+  if (navigator.clipboard) { navigator.clipboard.writeText(t).then(done, done); }
+  else { var a = document.createElement('textarea'); a.value = t; document.body.appendChild(a); a.select(); document.execCommand('copy'); document.body.removeChild(a); done(); }
+}); });
+</script>
+</body>
+</html>
