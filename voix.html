@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cloner ta voix avec ElevenLabs : la marche à suivre</title>
+<meta name="description" content="Clone instantané ou clone pro chez ElevenLabs : combien de minutes de voix enregistrer, comment les enregistrer et les nettoyer, la vérification, mes réglages et l'étiquette IA sur Instagram. Avec les sources.">
+<style>
+@font-face{font-family:'Inter';font-style:normal;font-weight:400 800;font-display:swap;src:url(/assets/fonts/Inter-latin.woff2) format('woff2')}
+@font-face{font-family:'Inter';font-style:normal;font-weight:400 800;font-display:swap;src:url(/assets/fonts/Inter-latinext.woff2) format('woff2');unicode-range:U+0100-02BA,U+1E00-1EFF}
+@font-face{font-family:'Playfair Display';font-style:normal;font-weight:600 900;font-display:swap;src:url(/assets/fonts/PlayfairDisplay-latin.woff2) format('woff2')}
+@font-face{font-family:'Playfair Display';font-style:italic;font-weight:600 900;font-display:swap;src:url(/assets/fonts/PlayfairDisplay-italic-latin.woff2) format('woff2')}
+:root{--encre:#12192b;--ivoire:#fdfcf9;--fond:#faf6ee;--terra:#a3461a;--trait:#e3ded4;--doux:#5b6375}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--fond);color:var(--encre);font:400 17px/1.6 'Inter',system-ui,sans-serif;padding:0 18px 64px}
+main{max-width:640px;margin:0 auto}
+header{padding:48px 0 28px;border-bottom:2px solid var(--encre);margin-bottom:28px}
+.marque{font:700 13px/1 'Inter';letter-spacing:.14em;text-transform:uppercase;color:var(--terra)}
+h1{font:800 clamp(32px,8.5vw,50px)/1.05 'Playfair Display',Georgia,serif;margin:14px 0 16px;text-wrap:balance}
+h1 em{font-style:italic;color:var(--terra)}
+.chapo{font-size:19px}
+section{padding:28px 0;border-bottom:1px solid var(--trait)}
+h2{font:800 26px/1.15 'Playfair Display',Georgia,serif;margin-bottom:16px}
+.cartes{display:grid;gap:12px}
+.carte{background:var(--ivoire);border:2px solid var(--encre);border-radius:16px;padding:14px 16px;display:grid;grid-template-columns:44px 1fr;gap:4px 12px;align-items:start}
+.carte .ico{font-size:26px;line-height:1.2;grid-row:span 4}
+.carte .nom{font:800 18px/1.2 'Inter'}
+.carte .nom b{color:var(--terra)}
+.carte p{font-size:16px}
+.carte .src{font:500 14px 'Inter';color:var(--doux)}
+.carte .src a{color:var(--doux)}
+.regle{background:var(--encre);color:var(--ivoire);border-radius:16px;padding:18px 18px}
+.regle h2{color:var(--ivoire);font-size:22px;margin-bottom:10px}
+.regle ol{list-style:none;display:grid;gap:8px;counter-reset:r}
+.regle li{counter-increment:r;padding-left:36px;position:relative}
+.regle li::before{content:counter(r);position:absolute;left:0;top:1px;width:26px;height:26px;border-radius:999px;background:var(--terra);color:var(--ivoire);font-weight:800;font-size:14px;display:flex;align-items:center;justify-content:center}
+.tab{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:15px;background:var(--ivoire);border:2px solid var(--encre);border-radius:16px;overflow:hidden}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--trait);vertical-align:top}
+th{font:700 12px 'Inter';letter-spacing:.08em;text-transform:uppercase;color:var(--doux)}
+tr:last-child td{border-bottom:0}
+ul.lim{display:grid;gap:8px;padding-left:20px}
+.note{margin-top:12px;font-size:15px;color:var(--doux)}
+.note a{color:var(--doux)}
+.fin h2{margin-bottom:10px}
+.cta{display:inline-block;margin-top:18px;background:var(--encre);color:var(--ivoire);text-decoration:none;font:800 18px 'Inter';padding:16px 26px;border-radius:999px;box-shadow:0 6px 0 var(--terra)}
+.signature{margin-top:26px;color:var(--doux);font-size:15px}
+</style>
+<link rel="canonical" href="https://longueur-davance.fr/voix">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon-48.png" sizes="48x48" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script type="application/ld+json" id="ld-ressource">{"@context":"https://schema.org","@graph":[{"@type":"Article","@id":"https://longueur-davance.fr/voix#article","headline":"Cloner ta voix avec ElevenLabs : la marche à suivre","description":"Clone instantané ou clone pro chez ElevenLabs : combien de minutes de voix enregistrer, comment les enregistrer et les nettoyer, la vérification, mes réglages et l'étiquette IA sur Instagram. Avec les sources.","url":"https://longueur-davance.fr/voix","mainEntityOfPage":"https://longueur-davance.fr/voix","image":"https://longueur-davance.fr/og/voix.png","inLanguage":"fr-FR","author":{"@type":"Person","@id":"https://longueur-davance.fr/#amdy","name":"Amdy Richard Diop Jouanguy","url":"https://longueur-davance.fr/","sameAs":["https://www.instagram.com/ardj.87/"]},"publisher":{"@type":"Organization","@id":"https://longueur-davance.fr/#org","name":"Longueur d'avance","url":"https://longueur-davance.fr/","logo":"https://longueur-davance.fr/assets/logo-512.png"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Accueil","item":"https://longueur-davance.fr/"},{"@type":"ListItem","position":2,"name":"Ressources","item":"https://longueur-davance.fr/ressources"},{"@type":"ListItem","position":3,"name":"Cloner ta voix avec ElevenLabs : la marche à suivre","item":"https://longueur-davance.fr/voix"}]}]}</script>
+</head>
+<body>
+<main>
+<header>
+  <div class="marque">Longueur d'avance · Voix IA · Vidéo 55</div>
+  <h1>Cloner ta voix, <em>pas à pas</em></h1>
+  <p class="chapo">La vidéo 55 est dite par mon clone, pas par moi. Voici comment je l'ai fait chez ElevenLabs : quel clone choisir, combien de minutes enregistrer, comment, et les réglages que j'utilise.</p>
+</header>
+
+<section>
+  <h2>1. Choisir ton clone</h2>
+  <div class="tab"><table>
+    <tr><th></th><th>Clone instantané</th><th>Clone pro</th></tr>
+    <tr><td><b>Voix à fournir</b></td><td>1 à 2 minutes, jamais plus de 3</td><td>30 minutes au minimum, l'idéal proche de 3 heures</td></tr>
+    <tr><td><b>Abonnement</b></td><td>Starter et au-dessus</td><td>Creator et au-dessus (une place)</td></tr>
+    <tr><td><b>Entraînement</b></td><td>immédiat</td><td>3 à 6 heures annoncées (chez moi, moins d'une heure)</td></tr>
+    <tr><td><b>Vérification</b></td><td>non</td><td>oui, tu lis un texte au micro</td></tr>
+  </table></div>
+  <p class="note">Mon test : avec 3 minutes, le clone instantané avait presque ma hauteur de voix (84,9 Hz pour moi, 83,3 Hz pour lui), mais à l'oreille il sonnait IA. Le clone pro est plus proche. Prix relevés le 08/11/2026 sur <a href="https://elevenlabs.io/pricing">elevenlabs.io/pricing</a> : Starter 6 $ par mois (1 $ le premier mois), Creator 22 $ par mois (11 $ le premier mois). Sources : <a href="https://elevenlabs.io/docs/product-guides/voices/voice-cloning/instant-voice-cloning">clone instantané</a>, <a href="https://elevenlabs.io/docs/product-guides/voices/voice-cloning/professional-voice-cloning">clone pro</a>.</p>
+</section>
+
+<section>
+  <h2>2. Enregistrer</h2>
+  <div class="cartes">
+    <div class="carte"><div class="ico">🎙️</div><div class="nom">Un seul micro, <b>toujours le même</b></div><p>À environ deux poings de ta bouche, avec un filtre anti-pop si tu en as un.</p></div>
+    <div class="carte"><div class="ico">🔇</div><div class="nom">Une pièce <b>calme, sans écho</b></div><p>Pas de musique, pas de bruit derrière. Une couette épaisse étouffe l'écho d'une pièce vide : le clone recopie l'écho.</p></div>
+    <div class="carte"><div class="ico">🗣️</div><div class="nom">Un seul <b>ton</b>, une seule voix</div><p>Le clone copie ta façon de parler, tes longs blancs et tes « euh » compris. Enregistre dans la langue de tes vidéos.</p></div>
+  </div>
+  <p class="note">Source : <a href="https://elevenlabs.io/docs/product-guides/voices/voice-cloning/professional-voice-cloning">ElevenLabs, clone pro</a>, conseils d'enregistrement.</p>
+</section>
+
+<section>
+  <h2>3. Nettoyer avant d'envoyer</h2>
+  <ul class="lim">
+    <li>Coupe les longs blancs, les « euh » et les bruits.</li>
+    <li>Garde un volume régulier : ElevenLabs vise entre -23 et -18 dB RMS, avec des crêtes à -3 dB.</li>
+    <li>Envoie des MP3 à 192 kbps ou plus. Si tu as plusieurs heures, coupe-les en morceaux d'environ 30 minutes.</li>
+  </ul>
+  <p class="note">Sur mes prises, c'est Claude qui a trié les meilleures, retiré les blancs et remis le volume au bon niveau.</p>
+</section>
+
+<section>
+  <div class="regle">
+    <h2>4. La vérification (clone pro)</h2>
+    <ol>
+      <li>ElevenLabs affiche un texte : tu le lis au micro.</li>
+      <li>Prends le même micro et le même ton que pour tes prises.</li>
+      <li>Si ça échoue, tu peux réessayer 24 heures plus tard.</li>
+    </ol>
+    <p class="note" style="color:var(--ivoire);opacity:.85">C'est ce qui garantit qu'on clone sa propre voix.</p>
+  </div>
+</section>
+
+<section>
+  <h2>5. Mes réglages</h2>
+  <div class="tab"><table>
+    <tr><th>Réglage</th><th>Valeur</th></tr>
+    <tr><td>Modèle</td><td>Multilingual v2</td></tr>
+    <tr><td>Stabilité</td><td>0,5</td></tr>
+    <tr><td>Similarité</td><td>0,85</td></tr>
+    <tr><td>Style</td><td>0</td></tr>
+    <tr><td>Vitesse</td><td>1,2 (le clone pro parle plus lentement que moi)</td></tr>
+  </table></div>
+  <p class="note">Astuce : le clone ajoute parfois un petit « e » en fin de phrase. Je coupe chaque phrase juste après sa dernière lettre, puis je recolle avec un blanc court.</p>
+</section>
+
+<section>
+  <h2>6. Déclarer l'IA</h2>
+  <p>Sur Instagram, une voix réaliste créée par IA doit être déclarée avec l'étiquette IA, au moment de publier. Sinon, Meta peut sanctionner.</p>
+  <p class="note">Source : <a href="https://about.fb.com/news/2026/02/meta-prepares-for-2026-us-midterms/">Meta, février 2026</a>.</p>
+</section>
+
+<section class="fin">
+  <h2>La suite</h2>
+  <p>Dans les prochaines vidéos, on voit comment l'utiliser. Et si tu veux utiliser l'IA pour gagner du temps dans ton activité, c'est ce que je fais avec les entreprises.</p>
+  <a class="cta" href="/">Le premier échange est gratuit</a>
+  <p class="signature">Amdy · Longueur d'avance. Suis-moi, je décrypte l'IA sans bullshit, tous les jours.</p>
+</section>
+</main>
+</body>
+</html>
