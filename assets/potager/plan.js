@@ -63,17 +63,34 @@
     var cote = Math.max(maxx - minx, maxy - miny) * 1.35;
     cote = Math.max(cote, (o.minCote || 70) / cosl);
     var cx = (minx + maxx) / 2, cy = (miny + maxy) / 2;
-    var b = [cx - cote / 2, cy - cote / 2, cx + cote / 2, cy + cote / 2];
-    var url = "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG:3857&BBOX=" +
-      b.map(function (v) { return v.toFixed(2); }).join(",") + "&WIDTH=" + TAILLE + "&HEIGHT=" + TAILLE + "&FORMAT=image/jpeg";
+    var b;
+    function cadrer() { b = [cx - cote / 2, cy - cote / 2, cx + cote / 2, cy + cote / 2]; }
+    function urlPhoto() {
+      return "https://data.geopf.fr/wms-r/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=ORTHOIMAGERY.ORTHOPHOTOS&STYLES=&CRS=EPSG:3857&BBOX=" +
+        b.map(function (v) { return v.toFixed(2); }).join(",") + "&WIDTH=" + TAILLE + "&HEIGHT=" + TAILLE + "&FORMAT=image/jpeg";
+    }
+    function legende() { return "Photo aérienne © IGN Géoplateforme" + (o.parcelle ? ", contour cadastral API Carto IGN" : "") + ". Échelle : " + Math.round(cote * cosl) + NB + "m de côté."; }
+    cadrer();
     function px(p) { var m = merc(p[0], p[1]); return [(m[0] - b[0]) / cote * TAILLE, (b[3] - m[1]) / cote * TAILLE]; }
     function geo(x, y) { return demerc(b[0] + x / TAILLE * cote, b[3] - y / TAILLE * cote); }
     var zone = (o.zone || []).slice();
-    boite.innerHTML = '<div class="carte-img"><img alt="Photo aérienne IGN du terrain" src="' + url + '" width="' + TAILLE + '" height="' + TAILLE + '">' +
-      '<svg viewBox="0 0 ' + TAILLE + " " + TAILLE + '" xmlns="http://www.w3.org/2000/svg"></svg></div>' +
-      '<p class="carte-src">Photo aérienne © IGN Géoplateforme' + (o.parcelle ? ", contour cadastral API Carto IGN" : "") + ". Échelle : " + Math.round(cote * cosl) + NB + "m de côté.</p>";
+    /* Flèches et zoom (dessin seulement) : le terrain n'est pas toujours autour du point de l'adresse. */
+    var nav = o.dessin ? '<div class="carte-nav noprint">' +
+      '<button type="button" data-nav="o" class="n-o" aria-label="Voir plus à gauche">◀</button>' +
+      '<button type="button" data-nav="e" class="n-e" aria-label="Voir plus à droite">▶</button>' +
+      '<button type="button" data-nav="n" class="n-n" aria-label="Voir plus haut">▲</button>' +
+      '<button type="button" data-nav="s" class="n-s" aria-label="Voir plus bas">▼</button>' +
+      '<button type="button" data-nav="moins" class="n-moins" aria-label="Dézoomer, voir plus large">−</button>' +
+      '<button type="button" data-nav="plus" class="n-plus" aria-label="Zoomer">+</button></div>' : "";
+    boite.innerHTML = '<div class="carte-img"><img alt="Photo aérienne IGN du terrain" src="' + urlPhoto() + '" width="' + TAILLE + '" height="' + TAILLE + '">' +
+      '<svg viewBox="0 0 ' + TAILLE + " " + TAILLE + '" xmlns="http://www.w3.org/2000/svg"></svg>' + nav + "</div>" +
+      '<p class="carte-src">' + legende() + "</p>" +
+      (o.dessin ? '<p class="carte-aide noprint">Ton terrain sort de la photo ? Les flèches la déplacent, le bouton − montre plus large.</p>' : "");
+    /* Le service photo IGN refuse parfois une demande (environ 1 sur 12 mesuré le 08/11/2026) : on réessaie jusqu'à 3 fois. */
+    var photo = boite.querySelector(".carte-img img"), essais = 0;
+    photo.addEventListener("error", function () { if (essais < 3) { essais++; photo.src = urlPhoto() + "&essai=" + essais; } });
     var svg = boite.querySelector("svg");
-    function trace() {
+    function trace(silence) {
       var h = "";
       anneaux(o.parcelle).forEach(function (a) {
         h += '<polygon points="' + a.map(function (p) { return px(p).join(","); }).join(" ") + '" fill="none" stroke="#fdfcf9" stroke-width="3" stroke-dasharray="10 6"/>';
@@ -87,7 +104,7 @@
         }
       }
       svg.innerHTML = h;
-      if (o.surChange) o.surChange(zone.slice(), surface(zone));
+      if (o.surChange && !silence) o.surChange(zone.slice(), surface(zone));
     }
     if (o.dessin) {
       svg.style.cursor = "crosshair";
@@ -97,6 +114,20 @@
         if (zone.length >= 60) return;
         zone.push(geo(x, y).map(function (v) { return Math.round(v * 1e7) / 1e7; }));
         trace();
+      });
+      boite.querySelectorAll(".carte-nav button").forEach(function (bt) {
+        bt.addEventListener("click", function (e) {
+          e.stopPropagation();
+          var pas = cote * 0.4, k = bt.dataset.nav;
+          if (k === "o") cx -= pas; else if (k === "e") cx += pas; else if (k === "n") cy += pas; else if (k === "s") cy -= pas;
+          else if (k === "moins") cote = Math.min(cote * 1.6, 1500 / cosl);
+          else if (k === "plus") cote = Math.max(cote / 1.6, 20 / cosl);
+          cadrer();
+          essais = 0;
+          photo.src = urlPhoto();
+          boite.querySelector(".carte-src").textContent = legende();
+          trace(true);
+        });
       });
     }
     trace();
