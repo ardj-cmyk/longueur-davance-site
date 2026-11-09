@@ -284,7 +284,7 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b{font-variant-numeric:lining-
       e_sso: "Cette connexion n'est pas encore disponible. Utilisez une autre option ou votre email.",
       e_adresse: 'Vérifiez votre adresse email.',
       ok_envoi: 'C’est envoyé. Ouvrez le mail reçu sur {email} et touchez le lien pour vous connecter.',
-      e_envoi: "L'envoi n'a pas marché. Réessayez dans une minute."
+      e_envoi: "L'envoi n'a pas marché. Réessayez dans une minute.", e_attente: "Un lien vient de partir à cette adresse. Regardez votre boîte mail, et les spams. Vous pourrez en redemander un dans 1 minute."
     },
     en: {
       nom: 'English',
@@ -315,7 +315,7 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b{font-variant-numeric:lining-
       e_sso: 'This sign-in option is not available yet. Use another option or your email.',
       e_adresse: 'Please check your email address.',
       ok_envoi: 'Sent. Open the email we sent to {email} and tap the link to sign in.',
-      e_envoi: 'Sending failed. Please try again in a minute.'
+      e_envoi: 'Sending failed. Please try again in a minute.', e_attente: 'A link was just sent to this address. Check your inbox, and your spam folder. You can ask for a new one in 1 minute.'
     }
   };
   var RTL = ['ar', 'he', 'fa', 'ur'];
@@ -419,8 +419,8 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b{font-variant-numeric:lining-
         if (r.error) throw r.error;
         afficher(T.ok_envoi.replace('{email}', email), 'ok');
       })
-      .catch(function(){
-        afficher(T.e_envoi, 'err');
+      .catch(function(e){
+        afficher((e && (e.status === 429 || /seconds|security purposes/i.test(e.message || ''))) ? T.e_attente : T.e_envoi, 'err');
       })
       .then(function(){ bouton.disabled = false; });
   });
