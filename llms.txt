@@ -19,6 +19,7 @@ Points clés :
 - [Artisans du bâtiment](https://longueur-davance.fr/batiment): devis rédigés depuis les notes de visite, relances, comptes rendus de chantier, impayés
 - [Agences immobilières](https://longueur-davance.fr/immobilier): annonces, comptes rendus de visite, tri des demandes, diffusion sur les portails
 - [Architectes](https://longueur-davance.fr/architecte): métré, dépouillement des devis, comptes rendus de chantier, pièces écrites, maquette 3D à partir des plans
+- [Architectes-paysagistes](https://longueur-davance.fr/architecte-paysagiste): plan de plantation dessiné saison par saison, fiche « pourquoi cette plante » pour le client, exemple réel du jardin potager
 - [Cabinets médicaux](https://longueur-davance.fr/medical): rappels de rendez-vous, courriers aux confrères, questions administratives
 - [Traiteurs](https://longueur-davance.fr/traiteur): devis événementiels, relances, acomptes, fiches techniques, commandes fournisseurs
 - [Garages](https://longueur-davance.fr/garage): devis expliqués, rappels d'entretien, comptes rendus d'intervention, rendez-vous
