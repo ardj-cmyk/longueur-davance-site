@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Architectes-paysagistes : le plan de plantation saison par saison</title>
+<meta name="description" content="Le plan de plantation que vos clients voient changer au fil des saisons. Exemple réel : le jardin potager construit par Longueur d'avance, du cadastre au dessin.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon-48.png" sizes="48x48" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="/assets/potager/style.css">
+<style>
+header{padding:48px 0 28px;border-bottom:2px solid var(--encre);margin-bottom:8px}
+.exemple{background:var(--ivoire);border:2px solid var(--encre);border-radius:16px;padding:6px 14px 14px;margin-top:16px}
+.exemple .dessin-jardin svg{display:block;width:100%;height:auto}
+.etiquette{display:inline-block;font:700 12px/1.3 'Inter';letter-spacing:.1em;text-transform:uppercase;background:var(--encre);color:var(--ivoire);border-radius:999px;padding:7px 11px;margin-top:10px}
+.etiquette.a-faire{background:var(--ivoire);color:var(--terra);border:2px solid var(--terra);padding:5px 9px}
+.metier{display:grid;gap:12px;margin-top:4px}
+.metier article{background:var(--ivoire);border:2px solid var(--encre);border-radius:16px;padding:16px 18px}
+.metier h3{font:800 19px/1.25 'Inter';margin-bottom:6px}
+.metier p{font-size:16px}
+.regle{background:var(--encre);color:var(--ivoire);border-radius:16px;padding:18px;margin-top:4px}
+.regle ol{list-style:none;display:grid;gap:10px;counter-reset:r}
+.regle li{counter-increment:r;padding-left:38px;position:relative}
+.regle li::before{content:counter(r);position:absolute;left:0;top:1px;width:26px;height:26px;border-radius:999px;background:var(--terra);color:var(--ivoire);font-weight:800;font-size:14px;display:flex;align-items:center;justify-content:center}
+.regle a{color:var(--ivoire)}
+ul.lim{display:grid;gap:8px;padding-left:20px}
+section>p a,ul.lim a{color:var(--encre)}
+.chiffres-mini{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
+.chiffres-mini div{background:var(--ivoire);border:2px solid var(--encre);border-radius:14px;padding:10px 8px;text-align:center}
+.chiffres-mini b{display:block;font:800 22px/1.1 'Playfair Display',Georgia,serif;color:var(--terra)}
+.chiffres-mini span{display:block;font-size:13px;line-height:1.3;color:var(--doux);margin-top:4px}
+.cta{display:inline-block;margin-top:18px;background:var(--encre);color:var(--ivoire);text-decoration:none;font:800 18px 'Inter';padding:16px 26px;border-radius:999px;box-shadow:0 6px 0 var(--terra)}
+@media (max-width:380px){.chiffres-mini b{font-size:19px}}
+</style>
+</head>
+<body>
+<main>
+<header>
+  <div class="marque">Longueur d'avance · Architectes-paysagistes</div>
+  <h1>Le plan de plantation que vos clients <em>voient vivre</em>, saison par saison</h1>
+  <p class="chapo">Vos clients signent sur un plan et une 3D figés. Ils ne voient pas ce qui fleurit en mai, ce qui tient l'hiver, ce qui disparaît en novembre. On a construit un outil qui le montre, pour un potager. Voici le résultat, en vrai, et ce qu'il deviendrait chez vous.</p>
+</header>
+
+<section>
+  <h2>Le jardin qu'on a construit</h2>
+  <p>Un potager pour 2 personnes, avec un poulailler. Le dessin ci-dessous n'est pas une image : il est calculé à partir du plan, culture par culture. Touchez une saison pour voir le jardin changer.</p>
+  <div class="exemple"><div id="jardin"></div></div>
+  <div class="chiffres-mini">
+    <div><b>13</b><span>légumes, plus des fraisiers</span></div>
+    <div><b id="c-poules">2</b><span>poules et leur enclos</span></div>
+    <div><b>4</b><span>saisons dessinées</span></div>
+  </div>
+  <span class="etiquette">En ligne depuis le 6 novembre 2026</span>
+</section>
+
+<section>
+  <h2>Ce que fait l'outil, étape par étape</h2>
+  <div class="regle">
+    <ol>
+      <li><b>L'adresse.</b> L'outil retrouve la parcelle dans le cadastre de l'IGN.</li>
+      <li><b>Le dessin.</b> On trace la zone à aménager sur la photo aérienne de l'IGN. La surface se calcule seule.</li>
+      <li><b>Les choix.</b> Ce que le foyer aime, combien ils sont, poules ou non.</li>
+      <li><b>Le plan.</b> Chaque culture reçoit sa planche, avec sa surface et une fiche « pourquoi elle est là ».</li>
+      <li><b>L'eau.</b> Les besoins sont calculés avec la pluie et l'évaporation relevées par 616 stations Météo-France.</li>
+      <li><b>Les saisons.</b> Le jardin est dessiné au printemps, en été, en automne et en hiver.</li>
+    </ol>
+  </div>
+  <p class="note">Construit avec Claude en moins de 24 heures, entre l'idée et la mise en ligne. Chaque chiffre de l'outil a sa source. Vous pouvez l'essayer sur votre propre adresse&nbsp;: <a href="/plan-potager">longueur-davance.fr/plan-potager</a>.</p>
+</section>
+
+<section>
+  <h2>Transposé à votre métier</h2>
+  <p>Le moteur ne sait pas que ce sont des légumes. On lui donne une liste de plantes et une surface, il découpe, place et dessine. Avec vos plantes à la place des nôtres, voici ce que ça donne.</p>
+  <div class="metier">
+    <article>
+      <h3>Le massif par saison</h3>
+      <p>Pour chaque saison : ce qui est à son meilleur, ce qui reste visible, ce qui est au repos. Le client comprend pourquoi le massif sera vide en janvier, avant de signer.</p>
+      <span class="etiquette">Maquette testée, 14 plantes</span>
+    </article>
+    <article>
+      <h3>« Pourquoi cette plante » pour le client</h3>
+      <p>Une fiche par plante : exposition, sol, floraison, taille adulte, entretien, rusticité. Le client lit vos choix au lieu de vous les redemander.</p>
+      <span class="etiquette">Maquette testée, 14 plantes</span>
+    </article>
+    <article>
+      <h3>Vos fournisseurs, vos plantes</h3>
+      <p>La maquette part des fiches de la Royal Horticultural Society. Chez vous, la base devient la vôtre : vos fournisseurs, vos variétés, vos associations. Le savoir reste le vôtre, l'outil le met en forme.</p>
+      <span class="etiquette a-faire">À construire avec vous</span>
+    </article>
+    <article>
+      <h3>De la liste de plantes au devis travaux</h3>
+      <p>Le plan connaît déjà chaque plante et son nombre de pieds. Cette liste peut alimenter votre devis travaux au lieu d'être ressaisie ligne par ligne.</p>
+      <span class="etiquette a-faire">À construire avec vous</span>
+    </article>
+  </div>
+</section>
+
+<section>
+  <h2>Ce qui n'existe pas encore</h2>
+  <ul class="lim">
+    <li>Le rendu 3D par saison dans SketchUp. Aujourd'hui la vue par saison est un plan dessiné, pas votre modèle 3D.</li>
+    <li>Les associations entre plantes : on n'a trouvé aucune source fiable pour les proposer automatiquement. C'est votre savoir qui les décide.</li>
+    <li>Les quantités et l'entretien de la maquette sont des règles de départ, à valider par un professionnel.</li>
+  </ul>
+</section>
+
+<section class="fin">
+  <h2>On en parle&nbsp;?</h2>
+  <p>On regarde ensemble un de vos projets récents et ce que ce plan aurait changé pour votre client.</p>
+  <a class="cta" href="/plan-potager">Voir l'outil en ligne</a>
+  <p class="signature">Amdy · Longueur d'avance</p>
+</section>
+</main>
+<script src="/assets/potager/donnees.js"></script>
+<script src="/assets/potager/plan.js"></script>
+<script src="/assets/potager/dessin.js"></script>
+<script>
+(function () {
+  var P = window.PotagerPlan, D = window.POTAGER_DONNEES;
+  if (!P || !D || !P.monterDessin) return;
+  var cmd = { personnes: 2, cultures: D.CULTURES.map(function (c) { return c.id; }), longues: [], poules: true, lapins: false, surface_m2: 100000, surface_source: "modele", zone: null };
+  var base = P.calculer(cmd); cmd.surface_m2 = Math.ceil(base.surfaceIdeale * 10) / 10;
+  var plan = P.calculer(cmd);
+  P.monterDessin(document.getElementById("jardin"), cmd, plan, { saison: "ete" });
+  if (plan.poules) document.getElementById("c-poules").textContent = plan.poules;
+  var leg = document.querySelector("#jardin > p");
+  if (leg) leg.textContent = "Le jardin vu de biais, à l'échelle : planches, allées, poulailler. Le jardinier mesure 1,75 m. Touchez une saison pour la voir. Illustrations créées pour Longueur d'avance.";
+})();
+</script>
+</body>
+</html>
