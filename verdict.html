@@ -601,8 +601,10 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b,.origine{font-variant-numeri
         <textarea id="question" name="question" maxlength="1000" data-tp="f_q_ex" placeholder="Ex. « il dit que c'est gratuit et sans risque RGPD, c'est vrai ? »"></textarea>
       </div>
       <div class="field">
-        <label for="pays" data-t="f_pays">Votre pays</label>
-        <select id="pays" name="pays" required class="select"></select>
+        <label for="pays-texte" data-t="f_pays">Votre pays</label>
+        <input type="text" id="pays-texte" list="pays-liste" class="select" autocomplete="country-name" autocapitalize="words" spellcheck="false" data-tp="f_pays_choix" placeholder="Choisissez votre pays">
+        <datalist id="pays-liste"></datalist>
+        <input type="hidden" id="pays" name="pays">
         <p class="hint" data-t="f_pays_h">Pour appliquer les bonnes règles dans votre rapport.</p>
       </div>
       <div aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden">
@@ -1022,22 +1024,42 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b,.origine{font-variant-numeri
     }
     return '';
   }
+  // 09/11 (Amdy) : un champ où l'on tape, avec suggestions, au lieu d'un menu déroulant
+  // (sur téléphone, le menu ouvre une roue sans clavier : impossible de taper la première lettre).
+  var NOMS_PAYS = [];
+  function sansAccent(s){ return (s || '').toString().normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim(); }
+  function codeDuTexte(txt){
+    var n = sansAccent(txt); if (!n) return '';
+    var exact = NOMS_PAYS.filter(function(x){ return sansAccent(x.nom) === n; });
+    if (exact.length) return exact[0].code;
+    var debut = NOMS_PAYS.filter(function(x){ return sansAccent(x.nom).indexOf(n) === 0; });
+    return debut.length === 1 ? debut[0].code : '';
+  }
   function remplirPays(){
-    var menuPays = document.getElementById('pays');
-    var choisi = menuPays.value || paysDuNavigateur();
+    var cache = document.getElementById('pays');
+    var champ = document.getElementById('pays-texte');
+    var liste = document.getElementById('pays-liste');
+    var choisi = cache.value || paysDuNavigateur();
     var noms = null;
     try { noms = new Intl.DisplayNames([LANGUE], { type: 'region' }); } catch (e) {}
-    var liste = PAYS.map(function(c){ return { code: c, nom: noms ? noms.of(c) : c }; });
-    liste.sort(function(a, b){ return a.nom.localeCompare(b.nom, LANGUE); });
-    menuPays.innerHTML = '';
-    var vide = document.createElement('option'); vide.value = ''; vide.textContent = T.f_pays_choix;
-    menuPays.appendChild(vide);
-    liste.forEach(function(x){
-      var o = document.createElement('option'); o.value = x.code; o.textContent = x.nom;
-      if (x.code === choisi) o.selected = true;
-      menuPays.appendChild(o);
-    });
+    NOMS_PAYS = PAYS.map(function(c){ return { code: c, nom: noms ? noms.of(c) : c }; });
+    NOMS_PAYS.sort(function(a, b){ return a.nom.localeCompare(b.nom, LANGUE); });
+    liste.innerHTML = '';
+    NOMS_PAYS.forEach(function(x){ var o = document.createElement('option'); o.value = x.nom; liste.appendChild(o); });
+    var trouve = NOMS_PAYS.filter(function(x){ return x.code === choisi; })[0];
+    if (trouve){ cache.value = trouve.code; champ.value = trouve.nom; }
   }
+  (function(){
+    var champ = document.getElementById('pays-texte');
+    function maj(){ document.getElementById('pays').value = codeDuTexte(champ.value); }
+    champ.addEventListener('input', maj);
+    champ.addEventListener('change', function(){
+      maj();
+      var c = document.getElementById('pays').value;
+      var x = NOMS_PAYS.filter(function(p){ return p.code === c; })[0];
+      if (x) champ.value = x.nom;
+    });
+  })();
 
   function appliquerLangue(){
     document.documentElement.lang = LANGUE;
@@ -1243,7 +1265,7 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b,.origine{font-variant-numeri
     var lien = (d.get('lien') || '').toString().trim();
     if (!/^https?:\/\/.+/i.test(lien)) { afficher(msgForm, T.e_lien, 'err'); return; }
     var pays = (d.get('pays') || '').toString();
-    if (!pays) { afficher(msgForm, T.e_pays, 'err'); document.getElementById('pays').focus(); return; }
+    if (!pays) { afficher(msgForm, T.e_pays, 'err'); document.getElementById('pays-texte').focus(); return; }
     var meta = session.user.user_metadata || {};
     var charge = {
       lien: lien,
