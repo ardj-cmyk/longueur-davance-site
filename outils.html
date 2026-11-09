@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nos outils : le Verdict, le plan de potager, la maquette 3D · Longueur d'avance</title>
+<meta name="description" content="Les outils construits par Longueur d'avance, à essayer : le Verdict pour vérifier une promesse, le plan de potager sourcé, la maquette 3D pour les architectes.">
+<meta property="og:title" content="Nos outils · Longueur d'avance">
+<meta property="og:description" content="Les outils construits par Longueur d'avance, à essayer : le Verdict pour vérifier une promesse, le plan de potager sourcé, la maquette 3D pour les architectes.">
+<meta property="og:url" content="https://longueur-davance.fr/outils">
+<link rel="canonical" href="https://longueur-davance.fr/outils">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+.lp-head { padding: 14px 0; }
+.lp-head .nav-wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.subbar { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: var(--paper); }
+.subnav { display:flex; gap:22px; overflow-x:auto; font-size:14px; font-weight:600; padding: 10px 0; white-space:nowrap; }
+.subnav a { color: var(--muted); text-decoration:none; }
+.subnav a:hover, .subnav a[aria-current] { color: var(--accent); }
+.dark { background: var(--ink); color: var(--paper); }
+.dark h2 { color: var(--paper); }
+.dark p { color: rgba(253,252,249,.76); }
+.dark .kicker { color: var(--gold); }
+.dark .kicker::before { background: var(--gold); }
+.faq-q { border-top: 1px solid var(--line); padding: 18px 0; font-size: 16px; font-weight: 600;
+  cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 16px; background: none; }
+.faq-q::-webkit-details-marker { display: none; }
+.faq-q::after { content: '+'; color: var(--accent); font-size: 22px; font-weight: 400; flex-shrink: 0; }
+details[open] .faq-q::after { content: '\2212'; }
+details { background: none; border: none; box-shadow: none; }
+details p { font-size: 14.5px; color: var(--muted); line-height: 1.7; padding-bottom: 18px; }
+.cta-band { text-align: center; }
+.cta-band h2 { font-size: clamp(26px, 5.5vw, 40px); max-width: 18ch; margin: 0 auto 16px; }
+.cta-band p { max-width: 46ch; margin: 0 auto 26px; }
+
+.outils { display:grid; gap: 18px; grid-template-columns: 1fr; margin-top: 30px; }
+@media (min-width: 760px) { .outils { grid-template-columns: repeat(3, 1fr); } }
+.outil { display:flex; flex-direction:column; gap: 10px; background:#fff; border:1px solid var(--line); border-radius: var(--r-lg);
+  padding: 24px 22px; text-decoration:none; color: var(--ink); transition: transform .3s var(--ease), box-shadow .3s var(--ease); }
+.outil:hover { transform: translateY(-3px); box-shadow: var(--sh); }
+.outil .tag { font-size: 11px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); }
+.outil h2 { font-family:'Playfair Display',Georgia,serif; font-size: 24px; line-height:1.15; margin: 0; }
+.outil p { font-size: 14.5px; line-height: 1.65; color: var(--muted); margin: 0; flex: 1; }
+.outil .go { font-weight: 700; font-size: 14.5px; color: var(--accent); }
+
+.note { border-left: 2px solid var(--accent); padding: 4px 0 4px 16px; font-size: 14.5px; line-height: 1.7; margin-top: 26px; }</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "Outils Longueur d'avance",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Le Verdict",
+      "url": "https://longueur-davance.fr/verdict"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Le plan de potager",
+      "url": "https://longueur-davance.fr/plan-potager"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "La maquette 3D",
+      "url": "https://longueur-davance.fr/architecte#maquette"
+    }
+  ]
+}
+</script>
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Longueur d'avance">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:image" content="https://longueur-davance.fr/og/accueil.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon-48.png" sizes="48x48" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+</head>
+<body>
+<header class="lp-head">
+  <div class="wrap nav-wrap">
+    <a class="logo" href="/" aria-label="Longueur d'avance, accueil">
+      <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <rect width="64" height="64" rx="12" fill="#b4551e"/>
+        <path d="M14 44 L30 28 L38 36 L52 18" stroke="#fdfcf9" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <div class="logo-name">Longueur d'avance<span class="logo-sub">Formations · Outils</span></div>
+    </a>
+    <a class="cta-text js-book" href="https://calendar.app.google/S5K8G7FLFWj4d4sF7" target="_blank" rel="noopener" data-loc="nav">
+      Réserver 30 min
+      <svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+    </a>
+  </div>
+</header>
+<div class="subbar"><div class="wrap"><nav class="subnav" aria-label="Rubriques"><a href="/formations">Formations</a><a href="/outils" aria-current=page>Nos outils</a><a href="/ressources">Les guides</a></nav></div></div>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-pill">Nos outils</div>
+    <h1>Ce qu'on a construit, à essayer vous-même.</h1>
+    <p class="sub">
+      Des outils qu'on a conçus avec l'IA et mis en ligne. Ils montrent ce qu'on sait faire mieux qu'un long discours,
+      et chacun sert déjà à quelque chose.
+    </p>
+  </div>
+</section>
+<section style="background:var(--surface)">
+  <div class="wrap rv">
+    <div class="outils"><a class="outil" href="/verdict"><span class="tag">Vérification</span><h2>Le Verdict</h2><p>Collez le lien d'un reel, d'une pub ou d'une offre : chaque affirmation est vérifiée à la source, et vous recevez un verdict noté sur 10, sources à l'appui.</p><span class="go">Vérifier une promesse →</span></a><a class="outil" href="/plan-potager"><span class="tag">Autonomie</span><h2>Le plan de potager</h2><p>Cochez ce que vous aimez manger : le plan pour nourrir deux personnes, avec les surfaces, les saisons, l'eau et le budget, chaque chiffre sourcé.</p><span class="go">Faire mon plan →</span></a><a class="outil" href="/architecte#maquette"><span class="tag">Démonstration</span><h2>La maquette 3D</h2><p>À partir de trois plans, une maquette que le client fait tourner sur son téléphone. Faite pour les architectes, à essayer en direct.</p><span class="go">Voir la maquette →</span></a></div>
+    <p class="note" style="max-width:640px">Vous voulez un outil de ce genre pour votre entreprise, ou apprendre à le construire vous-même ? C'est l'objet de nos <a href="/formations">formations</a> et de notre <a href="/formation">accompagnement</a>.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div>
+          <div class="footer-brand">Longueur d'avance</div>
+          <div class="footer-tagline">Audit IA · Accompagnement pour cabinets et PME</div>
+        </div>
+        <a class="cta-text js-book" href="https://calendar.app.google/S5K8G7FLFWj4d4sF7" target="_blank" rel="noopener" data-loc="footer">
+          Prendre rendez-vous
+          <svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+        </a>
+      </div>
+      <div class="footer-bottom">
+        <span>© Longueur d'avance 2026 · contact@longueur-davance.fr</span>
+        <span><a href="/mentions-legales">Mentions légales</a> · <a href="/confidentialite">Confidentialité</a>
+        <a href="/cgv">CGV</a> · <a href="/">Accueil</a></span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script defer src="/_vercel/insights/script.js"></script>
+<script>
+(function () {
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.rv').forEach(function (el) { io.observe(el); });
+
+  var q = new URLSearchParams(location.search), ctx = {};
+  ['p','utm_source','utm_medium','utm_campaign','utm_content'].forEach(function (k) {
+    if (q.get(k)) ctx[k] = q.get(k);
+  });
+  if (Object.keys(ctx).length) { try { sessionStorage.setItem('lda_ctx', JSON.stringify(ctx)); } catch (e) {} }
+  else { try { ctx = JSON.parse(sessionStorage.getItem('lda_ctx') || '{}'); } catch (e) { ctx = {}; } }
+
+  document.querySelectorAll('.js-book').forEach(function (a) {
+    a.addEventListener('click', function () {
+      if (window.va) window.va('event', { name: 'clic_reservation',
+        data: Object.assign({ page: 'outils', position: a.dataset.loc || '' }, ctx) });
+    });
+  });
+  if (window.va) window.va('event', { name: 'page_vue', data: Object.assign({ page: 'outils' }, ctx) });
+})();
+</script>
+</body>
+</html>

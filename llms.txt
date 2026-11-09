@@ -9,7 +9,8 @@ Points clés :
 - Un rapport de 4 pages : les tâches récurrentes chiffrées en heures et en euros, trois priorités, et ce qui est écarté avec les raisons.
 - Des sessions en visio sur les vrais dossiers du client jusqu'à l'autonomie, puis trois mois de suivi.
 - Aucun outil revendu, aucun partenariat caché avec un éditeur. Les données restent dans les outils du client.
-- Pas de prix affiché : un devis écrit après l'échange, selon ce qui a été chiffré.
+- Accompagnement : pas de prix affiché, un devis écrit après l'échange, selon ce qui a été chiffré.
+- Formations : trois journées de 6 heures à 1 500 € net la journée, pour 1 à 4 stagiaires d'une même entreprise.
 
 ## Accompagnement IA par métier
 
@@ -27,6 +28,15 @@ Points clés :
 - [Agences de communication](https://longueur-davance.fr/communication): reportings clients, comptes rendus, calendriers éditoriaux
 - [Commerciaux indépendants](https://longueur-davance.fr/commercial): comptes rendus dictés, relances, préparation de tournée, suivi à jour
 - [Indépendants](https://longueur-davance.fr/solo): devis et factures, relances, mails récurrents, veille
+
+## Formations
+
+- [Les trois formations](https://longueur-davance.fr/formations): l'IA au quotidien du dirigeant, prospecter et communiquer avec l'IA, créer et faire vivre le site de l'entreprise. 6 heures, 1 500 € la journée, en présentiel ou à distance
+
+## Nos outils
+
+- [Tous nos outils](https://longueur-davance.fr/outils): le Verdict, le plan de potager, la maquette 3D
+- [Le plan de potager](https://longueur-davance.fr/plan-potager): plan pour nourrir deux personnes, surfaces, saisons, eau et budget sourcés
 
 ## Ressources
 
