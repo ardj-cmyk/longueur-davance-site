@@ -198,6 +198,11 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b{font-variant-numeric:lining-
           <input type="email" id="email" name="email" autocomplete="email" inputmode="email" placeholder="vous@exemple.fr" data-tp="exemple" required>
           <button class="btn" type="submit" id="btn-email" data-t="envoyer">Recevoir mon lien de connexion</button>
         </form>
+        <form id="form-code" novalidate hidden>
+          <label for="code" data-t="code_label">Le code reçu par email</label>
+          <input type="text" id="code" name="code" inputmode="numeric" autocomplete="one-time-code" maxlength="10" placeholder="123456">
+          <button class="btn" type="submit" id="btn-code" data-t="code_btn">Me connecter</button>
+        </form>
         <p class="msg" id="msg-connexion" role="status"></p>
       </div>
 
@@ -283,7 +288,7 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b{font-variant-numeric:lining-
       e_charge: "La connexion n'a pas pu se charger. Rechargez la page.",
       e_sso: "Cette connexion n'est pas encore disponible. Utilisez une autre option ou votre email.",
       e_adresse: 'Vérifiez votre adresse email.',
-      ok_envoi: 'C’est envoyé. Ouvrez le mail reçu sur {email} et touchez le lien pour vous connecter.',
+      ok_envoi: 'C’est envoyé sur {email}. Tapez ici le code reçu par email (ou touchez le bouton du mail).', code_label: 'Le code reçu par email', code_btn: 'Me connecter', e_code: 'Ce code ne marche pas ou a expiré. Vérifiez-le, ou redemandez-en un.',
       e_envoi: "L'envoi n'a pas marché. Réessayez dans une minute.", e_attente: "Un lien vient de partir à cette adresse. Regardez votre boîte mail, et les spams. Vous pourrez en redemander un dans 1 minute."
     },
     en: {
@@ -314,7 +319,7 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b{font-variant-numeric:lining-
       e_charge: 'Sign-in could not load. Please reload the page.',
       e_sso: 'This sign-in option is not available yet. Use another option or your email.',
       e_adresse: 'Please check your email address.',
-      ok_envoi: 'Sent. Open the email we sent to {email} and tap the link to sign in.',
+      ok_envoi: 'Sent to {email}. Type the code from the email here (or tap the button in the email).', code_label: 'The code from the email', code_btn: 'Sign in', e_code: 'This code does not work or has expired. Check it, or ask for a new one.',
       e_envoi: 'Sending failed. Please try again in a minute.', e_attente: 'A link was just sent to this address. Check your inbox, and your spam folder. You can ask for a new one in 1 minute.'
     }
   };
@@ -403,6 +408,18 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b{font-variant-numeric:lining-
   });
 
   // Lien magique par email : pas de mot de passe.
+  document.getElementById('form-code').addEventListener('submit', function(e){
+    e.preventDefault();
+    var code = document.getElementById('code').value.replace(/\D/g, '');
+    var em = document.getElementById('email').value.trim();
+    var b = document.getElementById('btn-code');
+    b.disabled = true;
+    sb.auth.verifyOtp({ email: em, token: code, type: 'email' })
+      .then(function(r){ if (r.error) throw r.error; })
+      .catch(function(){ afficher(T.e_code, 'err'); })
+      .then(function(){ b.disabled = false; });
+  });
+
   document.getElementById('form-email').addEventListener('submit', function(e){
     e.preventDefault();
     var champ = document.getElementById('email');
@@ -417,7 +434,7 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b{font-variant-numeric:lining-
     sb.auth.signInWithOtp({ email: email, options: { emailRedirectTo: RETOUR } })
       .then(function(r){
         if (r.error) throw r.error;
-        afficher(T.ok_envoi.replace('{email}', email), 'ok');
+        afficher(T.ok_envoi.replace('{email}', email), 'ok'); document.getElementById('form-code').hidden = false; document.getElementById('code').focus();
       })
       .catch(function(e){
         afficher((e && (e.status === 429 || /seconds|security purposes/i.test(e.message || ''))) ? T.e_attente : T.e_envoi, 'err');
