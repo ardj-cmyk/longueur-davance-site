@@ -425,7 +425,7 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b{font-variant-numeric:lining-
 
   // Interrupteur du paiement : false tant que Stripe n'est pas en mode réel
   // (clés live, médiateur de la consommation dans les CGV, fonctions à 10 et 100 crédits publiées).
-  var PAIEMENT_OUVERT = false;
+  var PAIEMENT_OUVERT = true;
   document.getElementById('recharge').hidden = !PAIEMENT_OUVERT;
   document.getElementById('paiement-bientot').hidden = PAIEMENT_OUVERT;
 
