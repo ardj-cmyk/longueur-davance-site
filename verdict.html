@@ -1070,7 +1070,7 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b,.origine{font-variant-numeri
   // ── Connexion (Supabase Auth, même projet que /compte) ────────────────────
   var SUPABASE_URL = 'https://lkdoogzfkfhegjkdwcab.supabase.co';
   var SUPABASE_KEY = 'sb_publishable_G53hXTn6vKb0MCDWstVFnA_7ZrgQZAh';
-  var RETOUR = location.origin + '/verdict#verifier';
+  var RETOUR = location.origin + '/verdict?connexion=1';  // 09/11 : pas de # ici, Supabase ajoute son propre #access_token (un double # cassait la connexion)
   var vueConnexion = document.getElementById('vue-connexion');
   var form = document.getElementById('form');
   var msgCo = document.getElementById('msg-connexion');
@@ -1209,7 +1209,14 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b,.origine{font-variant-numeri
   });
 
   sb.auth.getSession().then(function(r){ if (r.data && r.data.session) montrerFormulaire(r.data.session); });
-  sb.auth.onAuthStateChange(function(ev, s){ if (s) montrerFormulaire(s); else montrerConnexion(); });
+  sb.auth.onAuthStateChange(function(ev, s){
+    if (s) {
+      montrerFormulaire(s);
+      if (/connexion=1/.test(location.search)) {
+        setTimeout(function(){ var v = document.getElementById('verifier'); if (v) v.scrollIntoView({ behavior: 'smooth' }); history.replaceState(null, '', location.pathname + '#verifier'); }, 300);
+      }
+    } else montrerConnexion();
+  });
 
   // ── Envoi d'une vérification (table soumissions, mêmes règles qu'avant) ───
   form.addEventListener('submit', function(e){
