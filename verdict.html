@@ -100,6 +100,8 @@ h1 em{display:block;font-style:italic;color:var(--accent);}
 .sso-google{background:#fff;color:#1f1f1f;border-color:#dadce0;}
 .sso-apple{background:#fff;color:#000;}
 .sso-facebook{background:#1877f2;color:#fff;}
+/* 09/11 : Google, Apple et Facebook ne sont pas encore activés dans Supabase, connexion par email seulement */
+.sso,.sep{display:none!important;}
 
 .sep{display:flex;align-items:center;gap:12px;margin:22px 0;color:var(--muted-d);font-size:13px;}
 .sep::before,.sep::after{content:'';flex:1;height:1px;background:var(--line);}
