@@ -9,8 +9,8 @@ Points clés :
 - Un rapport de 4 pages : les tâches récurrentes chiffrées en heures et en euros, trois priorités, et ce qui est écarté avec les raisons.
 - Des sessions en visio sur les vrais dossiers du client jusqu'à l'autonomie, puis trois mois de suivi.
 - Aucun outil revendu, aucun partenariat caché avec un éditeur. Les données restent dans les outils du client.
-- Accompagnement : pas de prix affiché, un devis écrit après l'échange, selon ce qui a été chiffré.
-- Formations : trois journées de 6 heures à 1 500 € net la journée, pour 1 à 4 stagiaires d'une même entreprise.
+- Accompagnement : 250 € de l'heure de consulting, le nombre d'heures écrit dans un devis après l'échange gratuit.
+- Formations : dix modules de 3 heures, vendus à la journée, 1 500 € net la journée de deux modules pour 1 à 3 stagiaires d'une même entreprise.
 
 ## Accompagnement IA par métier
 
@@ -32,7 +32,7 @@ Points clés :
 
 ## Formations
 
-- [Les trois formations](https://longueur-davance.fr/formations): l'IA au quotidien du dirigeant, prospecter et communiquer avec l'IA, créer et faire vivre le site de l'entreprise. 6 heures, 1 500 € la journée, en présentiel ou à distance
+- [Les formations](https://longueur-davance.fr/formations): dix modules de 3 heures (prendre en main l'IA et Claude, documents, automatisation, prospection, réseaux sociaux, relation client, site, référencement, contenus), 1 500 € la journée de deux modules, parcours conseillé en 5 journées ou à la carte
 
 ## Nos outils
 

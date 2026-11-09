@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Formations à l'IA pour dirigeants : 3 journées, 1 500 € · Longueur d'avance</title>
-<meta name="description" content="Trois formations d'une journée à l'IA générative pour TPE et PME : le quotidien du dirigeant, la prospection, le site de l'entreprise. 6 heures, 1 à 4 stagiaires, 1 500 € la journée.">
+<title>Formations à l'IA pour dirigeants : 1 500 € la journée · Longueur d'avance</title>
+<meta name="description" content="Dix modules de 3 heures sur l'IA générative pour TPE et PME, vendus à la journée : 1 500 € la journée de deux modules, pour 1 à 3 stagiaires. Parcours conseillé en 5 journées ou à la carte.">
 <meta property="og:title" content="Formations IA pour dirigeants · Longueur d'avance">
-<meta property="og:description" content="Trois formations d'une journée à l'IA générative pour TPE et PME : le quotidien du dirigeant, la prospection, le site de l'entreprise. 6 heures, 1 à 4 stagiaires, 1 500 € la journée.">
+<meta property="og:description" content="Dix modules de 3 heures sur l'IA générative pour TPE et PME, vendus à la journée : 1 500 € la journée de deux modules, pour 1 à 3 stagiaires. Parcours conseillé en 5 journées ou à la carte.">
 <meta property="og:url" content="https://longueur-davance.fr/formations">
 <link rel="canonical" href="https://longueur-davance.fr/formations">
 <link rel="stylesheet" href="assets/site.css">
@@ -22,43 +22,80 @@
 .dark p { color: rgba(253,252,249,.76); }
 .dark .kicker { color: var(--gold); }
 .dark .kicker::before { background: var(--gold); }
-.faq-q { border-top: 1px solid var(--line); padding: 18px 0; font-size: 16px; font-weight: 600;
-  cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 16px; background: none; }
+.h2s { font-size: clamp(26px,5.5vw,40px); max-width: 22ch; margin-bottom: 14px; }
+.hero-dl { display:inline-block; margin-top: 18px; font-weight:700; color: var(--accent); text-decoration:none; border-bottom: 1.5px solid currentColor; }
+.how { display:grid; gap: 14px; grid-template-columns: 1fr; margin-top: 22px; }
+@media (min-width: 760px) { .how { grid-template-columns: repeat(3, 1fr); } }
+.how div { border-left: 2px solid var(--accent); padding: 4px 0 4px 16px; font-size: 15px; line-height: 1.6; }
+.how b { display:block; font-family:'Playfair Display',Georgia,serif; font-size: 20px; margin-bottom: 4px; }
+.parties { display:grid; gap: 12px; margin-top: 22px; }
+.partie { background:#fff; border:1px solid var(--line); border-radius: var(--r); padding: 16px 18px; display:grid; grid-template-columns: 1fr auto; gap: 4px 14px; }
+.partie .n { font-size: 11px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color: var(--accent); }
+.partie .p { font-weight:700; white-space:nowrap; grid-row: span 2; align-self:center; }
+.partie h3 { font-family:'Playfair Display',Georgia,serif; font-size: 19px; margin: 0; }
+.partie ul { grid-column: 1 / -1; list-style:none; padding:0; margin: 6px 0 0; font-size: 14px; color: var(--muted); line-height:1.55; }
+.partie ul a { color: inherit; text-decoration: none; border-bottom: 1px dotted var(--muted); }
+details.jour { background:#fff; border:1px solid var(--line); border-radius: var(--r); padding: 0 18px; scroll-margin-top: 16px; }
+details.jour > summary { list-style:none; cursor:pointer; padding: 16px 0; display:grid; grid-template-columns: 1fr auto; gap: 4px 14px; }
+details.jour > summary::-webkit-details-marker { display:none; }
+details.jour .n { font-size: 11px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color: var(--accent); }
+details.jour .p { font-weight:700; white-space:nowrap; grid-row: span 2; align-self:center; }
+details.jour .h { font-family:'Playfair Display',Georgia,serif; font-size: 20px; line-height:1.25; }
+details.jour .sm { grid-column: 1 / -1; color: var(--muted); font-size: 14px; line-height: 1.5; }
+details.jour .more { grid-column: 1 / -1; margin-top: 4px; font-size: 13.5px; font-weight: 700; color: var(--accent); }
+details.jour .more::after { content: ' +'; }
+details.jour[open] .more::after { content: ' 2'; }
+details.jour[open] .more .o, details.jour:not([open]) .more .c { display:none; }
+.jbody { border-top: 1px solid var(--line); padding: 6px 0 16px; }
+.jm { padding: 14px 0 6px; scroll-margin-top: 16px; }
+.jh { display:flex; flex-wrap:wrap; gap: 4px 12px; align-items:baseline; }
+.jh .quand { font-weight: 700; color: var(--ink); background: var(--surface); border-radius: 99px; padding: 2px 10px; font-size: 13px; white-space:nowrap; }
+.jh .ref { font-size: 11.5px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color: var(--muted); }
+.jt { font-size: 17px; margin: 8px 0 4px; line-height:1.35; }
+.ja { color: var(--muted); font-size: 14px; line-height:1.55; margin:0; }
+.jcols { display:grid; grid-template-columns: 1fr; gap: 4px 22px; }
+@media (min-width: 700px) { .jcols { grid-template-columns: 1fr 1fr; } }
+.jcols h5 { font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin: 12px 0 4px; }
+.jcols ul { padding-left: 18px; margin: 0; font-size: 14.5px; line-height: 1.6; }
+.jp { font-size: 13.5px; color: var(--muted); margin: 10px 0 0; }
+.dej { text-align:center; font-size: 13px; color: var(--muted); border-top: 1px dashed var(--line); border-bottom: 1px dashed var(--line); padding: 8px 0; margin: 10px 0; }
+.carte { margin-top: 18px; font-size: 15px; line-height: 1.7; }
+.prices { display:flex; flex-wrap:wrap; gap: 8px; margin-top: 10px; }
+.prices span { background:#fff; border:1px solid var(--line); border-radius: 99px; padding: 5px 12px; font-size: 13.5px; font-weight:600; white-space:nowrap; }
+.axe { margin-top: 34px; }
+.axe h3.axe-t { font-family:'Playfair Display',Georgia,serif; font-size: 23px; margin: 0 0 4px; }
+.axe .axe-p { color: var(--muted); font-size: 14.5px; margin: 0 0 12px; }
+details.mod { background:#fff; border:1px solid var(--line); border-radius: var(--r); margin: 10px 0; padding: 0 18px; scroll-margin-top: 16px; }
+details.mod > summary { list-style:none; cursor:pointer; padding: 16px 0; display:grid; grid-template-columns: 1fr; gap: 4px; }
+details.mod > summary::-webkit-details-marker { display:none; }
+details.mod .ref { font-size: 11px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color: var(--accent); }
+details.mod .t { font-weight: 700; font-size: 16px; line-height: 1.35; }
+details.mod .a { color: var(--muted); font-size: 14px; line-height: 1.55; }
+details.mod .more { margin-top: 6px; font-size: 13.5px; font-weight: 700; color: var(--accent); }
+details.mod .more::after { content: ' +'; }
+details.mod[open] .more::after { content: ' \2212'; }
+details.mod[open] .more .o { display:none; }
+details.mod:not([open]) .more .c { display:none; }
+.mod-body { border-top: 1px solid var(--line); padding: 12px 0 18px; font-size: 14.5px; line-height: 1.65; }
+.mod-body h4 { font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin: 12px 0 4px; }
+.mod-body ul { padding-left: 18px; margin: 0; }
+.mod-body p { margin: 0; }
+details.cond { margin-top: 22px; border-top: 1px solid var(--line); }
+details.cond > summary { cursor:pointer; list-style:none; padding: 16px 0; font-weight: 700; color: var(--accent); }
+details.cond > summary::-webkit-details-marker { display:none; }
+.kv div { display:grid; grid-template-columns: 1fr; gap: 2px; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 14.5px; line-height: 1.6; }
+.kv dt { font-weight: 700; color: var(--muted); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; }
+.kv dd { margin: 0; }
+@media (min-width: 700px) { .kv div { grid-template-columns: 160px 1fr; gap: 18px; } }
+.faq-q { border-top: 1px solid var(--line); padding: 18px 0; font-size: 16px; font-weight: 600; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 16px; }
 .faq-q::-webkit-details-marker { display: none; }
 .faq-q::after { content: '+'; color: var(--accent); font-size: 22px; font-weight: 400; flex-shrink: 0; }
 details[open] .faq-q::after { content: '\2212'; }
-details { background: none; border: none; box-shadow: none; }
-details p { font-size: 14.5px; color: var(--muted); line-height: 1.7; padding-bottom: 18px; }
+details.faq p { font-size: 14.5px; color: var(--muted); line-height: 1.7; padding-bottom: 18px; }
+.note { border-left: 2px solid var(--gold); padding: 4px 0 4px 16px; font-size: 14.5px; line-height: 1.7; margin-top: 18px; }
 .cta-band { text-align: center; }
 .cta-band h2 { font-size: clamp(26px, 5.5vw, 40px); max-width: 18ch; margin: 0 auto 16px; }
 .cta-band p { max-width: 46ch; margin: 0 auto 26px; }
-
-.recap { margin-top: 28px; border: 1px solid var(--line); border-radius: var(--r-lg); background:#fff; overflow:hidden; }
-.recap a { display:grid; grid-template-columns: 34px 1fr auto; gap: 12px; align-items:center; padding: 16px 18px;
-  border-bottom: 1px solid var(--line); text-decoration:none; color: var(--ink); }
-.recap a:last-child { border-bottom:none; }
-.recap .n { font-family:'Playfair Display',Georgia,serif; font-size:22px; color: var(--accent); }
-.recap .t { font-weight:600; line-height:1.35; font-size:15.5px; }
-.recap .p { font-variant-numeric: tabular-nums; font-weight:700; white-space:nowrap; font-size:15px; }
-.recap .p small { display:block; font-weight:500; color: var(--muted); font-size:12px; text-align:right; }
-.prix { display:flex; flex-wrap:wrap; gap:10px 26px; align-items:baseline; margin-top: 22px; }
-.prix .big { font-family:'Playfair Display',Georgia,serif; font-size: clamp(38px, 9vw, 56px); line-height:1; }
-.prix .sm { color: var(--muted); font-size: 15px; }
-.fiche { scroll-margin-top: 20px; }
-.fiche h2 { font-size: clamp(25px, 5.4vw, 36px); max-width: 24ch; margin-bottom: 12px; }
-.fiche .accroche { color: var(--muted); max-width: 60ch; }
-.kv { margin: 26px 0 8px; border-top: 1px solid var(--line); }
-.kv div { display:grid; grid-template-columns: 1fr; gap: 2px; padding: 12px 0; border-bottom: 1px solid var(--line); font-size: 14.5px; line-height: 1.6; }
-.kv dt { font-weight: 700; color: var(--muted); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; }
-.kv dd { margin: 0; }
-@media (min-width: 700px) { .kv div { grid-template-columns: 170px 1fr; gap: 18px; } }
-.fiche h3 { font-family:'Playfair Display',Georgia,serif; font-size: 20px; margin: 28px 0 10px; }
-.fiche ul { padding-left: 20px; font-size: 15px; line-height: 1.65; }
-.fiche ul li { margin: 4px 0; }
-.demi { color: var(--accent); font-weight: 700; font-size: 14px; margin: 16px 0 6px; }
-.fiche p.txt { font-size: 15px; line-height: 1.7; }
-.note { border-left: 2px solid var(--accent); padding: 4px 0 4px 16px; font-size: 14.5px; line-height: 1.7; margin-top: 18px; }
-.dark .note { border-color: var(--gold); }
 </style>
 <script type="application/ld+json">
 {
@@ -71,19 +108,13 @@ details p { font-size: 14.5px; color: var(--muted); line-height: 1.7; padding-bo
       "position": 1,
       "item": {
         "@type": "Course",
-        "name": "Intégrer l'IA générative dans son quotidien de dirigeant",
-        "description": "La journée de base : comprendre ce que l'IA fait bien, ce qu'elle fait mal, et l'utiliser tout de suite sur les tâches qui prennent du temps chaque semaine.",
-        "url": "https://longueur-davance.fr/formations#ia-quotidien",
+        "name": "Découvrir l'IA générative et la prendre en main",
+        "description": "Le module de départ, pour ceux qui partent de zéro : comprendre ce qu'est l'IA et comment elle fonctionne, puis s'en servir tout de suite.",
+        "url": "https://longueur-davance.fr/formations#m1-1",
         "provider": {
           "@type": "Organization",
           "name": "Longueur d'avance",
           "url": "https://longueur-davance.fr/"
-        },
-        "offers": {
-          "@type": "Offer",
-          "price": "1500",
-          "priceCurrency": "EUR",
-          "category": "Journée de 6 heures, groupe de 1 à 4 stagiaires"
         },
         "hasCourseInstance": {
           "@type": "CourseInstance",
@@ -91,7 +122,7 @@ details p { font-size: 14.5px; color: var(--muted); line-height: 1.7; padding-bo
             "Onsite",
             "Online"
           ],
-          "courseWorkload": "PT6H"
+          "courseWorkload": "PT3H"
         }
       }
     },
@@ -100,19 +131,13 @@ details p { font-size: 14.5px; color: var(--muted); line-height: 1.7; padding-bo
       "position": 2,
       "item": {
         "@type": "Course",
-        "name": "Prospecter et communiquer avec l'IA",
-        "description": "La journée commerciale : trouver et classer les bons prospects, leur écrire un message qui leur parle, et tenir une communication régulière sans y passer ses soirées.",
-        "url": "https://longueur-davance.fr/formations#prospecter",
+        "name": "Prendre en main Claude : réglages, projets et fichier d'instructions",
+        "description": "Le module outil : bien connaître Claude, l'assistant d'IA que nous utilisons au quotidien, le paramétrer pour l'entreprise et lui donner une fois pour toutes le contexte dont il a besoin.",
+        "url": "https://longueur-davance.fr/formations#m1-2",
         "provider": {
           "@type": "Organization",
           "name": "Longueur d'avance",
           "url": "https://longueur-davance.fr/"
-        },
-        "offers": {
-          "@type": "Offer",
-          "price": "1500",
-          "priceCurrency": "EUR",
-          "category": "Journée de 6 heures, groupe de 1 à 4 stagiaires"
         },
         "hasCourseInstance": {
           "@type": "CourseInstance",
@@ -120,7 +145,7 @@ details p { font-size: 14.5px; color: var(--muted); line-height: 1.7; padding-bo
             "Onsite",
             "Online"
           ],
-          "courseWorkload": "PT6H"
+          "courseWorkload": "PT3H"
         }
       }
     },
@@ -129,19 +154,13 @@ details p { font-size: 14.5px; color: var(--muted); line-height: 1.7; padding-bo
       "position": 3,
       "item": {
         "@type": "Course",
-        "name": "Créer et faire vivre le site de son entreprise avec l'IA",
-        "description": "La journée visibilité : construire ou refaire le site de l'entreprise sans développeur, le mettre à jour soi-même et être trouvé par les clients.",
-        "url": "https://longueur-davance.fr/formations#site",
+        "name": "Produire ses documents avec l'IA : devis, courriers, comptes rendus",
+        "description": "Le module documents : transformer des notes en devis, en courrier ou en compte rendu propre, et garder la main sur ce qui part chez le client.",
+        "url": "https://longueur-davance.fr/formations#m1-3",
         "provider": {
           "@type": "Organization",
           "name": "Longueur d'avance",
           "url": "https://longueur-davance.fr/"
-        },
-        "offers": {
-          "@type": "Offer",
-          "price": "1500",
-          "priceCurrency": "EUR",
-          "category": "Journée de 6 heures, groupe de 1 à 4 stagiaires"
         },
         "hasCourseInstance": {
           "@type": "CourseInstance",
@@ -149,7 +168,168 @@ details p { font-size: 14.5px; color: var(--muted); line-height: 1.7; padding-bo
             "Onsite",
             "Online"
           ],
-          "courseWorkload": "PT6H"
+          "courseWorkload": "PT3H"
+        }
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "item": {
+        "@type": "Course",
+        "name": "Organiser et automatiser ses tâches répétitives avec l'IA",
+        "description": "Le module organisation : repérer ce qui revient sans cesse, le confier à l'IA quand c'est sûr, et mesurer le temps gagné.",
+        "url": "https://longueur-davance.fr/formations#m1-4",
+        "provider": {
+          "@type": "Organization",
+          "name": "Longueur d'avance",
+          "url": "https://longueur-davance.fr/"
+        },
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": [
+            "Onsite",
+            "Online"
+          ],
+          "courseWorkload": "PT3H"
+        }
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 5,
+      "item": {
+        "@type": "Course",
+        "name": "Prospecter avec l'IA : trouver, classer et contacter ses clients",
+        "description": "Le module prospection : trouver les bons prospects, savoir par qui commencer, et leur écrire un message qui leur parle.",
+        "url": "https://longueur-davance.fr/formations#m2-1",
+        "provider": {
+          "@type": "Organization",
+          "name": "Longueur d'avance",
+          "url": "https://longueur-davance.fr/"
+        },
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": [
+            "Onsite",
+            "Online"
+          ],
+          "courseWorkload": "PT3H"
+        }
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 6,
+      "item": {
+        "@type": "Course",
+        "name": "Communiquer sur les réseaux sociaux avec l'IA",
+        "description": "Le module communication : trouver quoi dire, l'écrire vite et bien, et tenir un rythme régulier sans y passer ses soirées.",
+        "url": "https://longueur-davance.fr/formations#m2-2",
+        "provider": {
+          "@type": "Organization",
+          "name": "Longueur d'avance",
+          "url": "https://longueur-davance.fr/"
+        },
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": [
+            "Onsite",
+            "Online"
+          ],
+          "courseWorkload": "PT3H"
+        }
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 7,
+      "item": {
+        "@type": "Course",
+        "name": "Suivre ses clients et conclure avec l'IA",
+        "description": "Le module relation client : préparer ses rendez-vous, relancer ses devis au bon moment, répondre aux avis et garder ses clients.",
+        "url": "https://longueur-davance.fr/formations#m2-3",
+        "provider": {
+          "@type": "Organization",
+          "name": "Longueur d'avance",
+          "url": "https://longueur-davance.fr/"
+        },
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": [
+            "Onsite",
+            "Online"
+          ],
+          "courseWorkload": "PT3H"
+        }
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 8,
+      "item": {
+        "@type": "Course",
+        "name": "Créer le site de son entreprise avec l'IA",
+        "description": "Le module site : construire ou refaire le site de l'entreprise sans développeur, et savoir le mettre à jour soi-même.",
+        "url": "https://longueur-davance.fr/formations#m3-1",
+        "provider": {
+          "@type": "Organization",
+          "name": "Longueur d'avance",
+          "url": "https://longueur-davance.fr/"
+        },
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": [
+            "Onsite",
+            "Online"
+          ],
+          "courseWorkload": "PT3H"
+        }
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 9,
+      "item": {
+        "@type": "Course",
+        "name": "Être trouvé sur les moteurs de recherche et par les assistants d'IA",
+        "description": "Le module référencement : comprendre comment les clients vous cherchent, et faire en sorte qu'ils vous trouvent, sur les moteurs comme dans les réponses des assistants d'IA.",
+        "url": "https://longueur-davance.fr/formations#m3-2",
+        "provider": {
+          "@type": "Organization",
+          "name": "Longueur d'avance",
+          "url": "https://longueur-davance.fr/"
+        },
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": [
+            "Onsite",
+            "Online"
+          ],
+          "courseWorkload": "PT3H"
+        }
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 10,
+      "item": {
+        "@type": "Course",
+        "name": "Faire vivre son site : articles, contenus et avis clients",
+        "description": "Le module contenus : publier régulièrement des articles utiles et mettre en valeur les avis des clients.",
+        "url": "https://longueur-davance.fr/formations#m3-3",
+        "provider": {
+          "@type": "Organization",
+          "name": "Longueur d'avance",
+          "url": "https://longueur-davance.fr/"
+        },
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": [
+            "Onsite",
+            "Online"
+          ],
+          "courseWorkload": "PT3H"
         }
       }
     }
@@ -183,103 +363,69 @@ details p { font-size: 14.5px; color: var(--muted); line-height: 1.7; padding-bo
     </a>
   </div>
 </header>
-<div class="subbar"><div class="wrap"><nav class="subnav" aria-label="Rubriques"><a href="/formations" aria-current=page>Formations</a><a href="/outils">Nos outils</a><a href="/ressources">Les guides</a></nav></div></div>
+<div class="subbar"><div class="wrap"><nav class="subnav" aria-label="Rubriques"><a href="/formations" aria-current="page">Formations</a><a href="/outils">Nos outils</a><a href="/formation">Accompagnement</a><a href="/ressources">Les guides</a></nav></div></div>
 
 <section class="hero">
   <div class="wrap">
     <div class="hero-pill">Formations</div>
-    <h1>L'IA dans votre entreprise, en trois journées.</h1>
-    <p class="sub">
-      Trois formations indépendantes d'une journée, chez vous ou à distance, pour 1 à 4 personnes
-      de votre entreprise. On travaille sur vos vrais documents, et chacun repart en sachant le refaire seul.
-    </p>
+    <h1>L'IA dans votre entreprise, à la journée.</h1>
+    <p class="sub">Dix modules de 3 heures, chez vous ou à distance, pour 1 à 3 personnes de votre entreprise. On travaille sur vos vrais documents, et chacun repart en sachant le refaire seul.</p>
     <div class="hero-trust">
       <span class="trust-item">1 500 € la journée</span>
-      <span class="trust-item">6 heures</span>
-      <span class="trust-item">De 1 à 4 stagiaires</span>
+      <span class="trust-item">2 modules de 3 h</span>
+      <span class="trust-item">1 à 3 stagiaires</span>
     </div>
+    <a class="hero-dl js-dl" href="/catalogue-formations.pdf" download="Catalogue formations IA - Longueur d'avance.pdf">Télécharger le catalogue (PDF)</a>
   </div>
 </section>
 
 <section>
-  <div class="wrap rv" style="max-width:760px">
-    <div class="kicker">Les tarifs</div>
-    <h2 style="font-size:clamp(26px,5.5vw,40px);max-width:22ch">Un seul prix, affiché pour tout le monde.</h2>
-    <div class="prix"><span class="big">1 500 €</span><span class="sm">net la journée de 6 heures, pour le groupe<br>soit 250 € de l'heure</span></div>
-    <div class="recap"><a href="#ia-quotidien"><span class="n">1</span><span class="t">Intégrer l'IA générative dans son quotidien de dirigeant</span><span class="p">1 500 €<small>6 h</small></span></a><a href="#prospecter"><span class="n">2</span><span class="t">Prospecter et communiquer avec l'IA</span><span class="p">1 500 €<small>6 h</small></span></a><a href="#site"><span class="n">3</span><span class="t">Créer et faire vivre le site de son entreprise avec l'IA</span><span class="p">1 500 €<small>6 h</small></span></a></div>
-    <p class="note">Les trois journées : 18 heures, 4 500 €. Tarifs nets, par groupe de 1 à 4 stagiaires d'une même entreprise. TVA non applicable, article 293 B du CGI.</p>
+  <div class="wrap rv" style="max-width:860px">
+    <div class="kicker">Comment ça marche</div>
+    <h2 class="h2s">Une journée, deux modules, un prix.</h2>
+    <div class="how">
+      <div><b>3 heures</b>Chaque module est une formation complète : objectifs, exercices sur vos documents, évaluation et attestation.</div>
+      <div><b>1 500 € la journée</b>Un module le matin, un l'après-midi. Le même prix pour 1, 2 ou 3 stagiaires, soit 250 € de l'heure.</div>
+      <div><b>À votre rythme</b>Le parcours conseillé en 5 journées, ou vos modules à la carte. Une journée minimum.</div>
+    </div>
   </div>
 </section>
 
-<section class="fiche" id="ia-quotidien" style="background:var(--surface)">
-  <div class="wrap rv" style="max-width:760px">
-    <div class="kicker">Formation 1 · 1 journée · 1 500 €</div>
-    <h2>Intégrer l'IA générative dans son quotidien de dirigeant</h2>
-    <p class="accroche">La journée de base : comprendre ce que l'IA fait bien, ce qu'elle fait mal, et l'utiliser tout de suite sur les tâches qui prennent du temps chaque semaine.</p>
-    <dl class="kv"><div><dt>Public</dt><dd>Dirigeants et salariés de TPE et PME, artisans, professions libérales, restaurateurs, viticulteurs.</dd></div><div><dt>Prérequis</dt><dd>Aucun. Savoir utiliser un ordinateur et une messagerie.</dd></div><div><dt>Format</dt><dd>Intra-entreprise, de 1 à 4 stagiaires d'une même entreprise.</dd></div><div><dt>Durée</dt><dd>1 journée de 6 heures : 9h00 à 12h00, puis 13h30 à 16h30.</dd></div><div><dt>Modalités</dt><dd>En présentiel dans l'entreprise, ou à distance en direct sur demande.</dd></div><div><dt>Délai d'accès</dt><dd>En général 2 à 4 semaines entre la demande et la journée de formation, le temps de fixer la date. Plus long si un financeur doit d'abord donner son accord.</dd></div><div><dt>Tarif</dt><dd><b>1 500 € net la journée</b>, pour le groupe, soit 250 € de l'heure. TVA non applicable, article 293 B du CGI.</dd></div><div><dt>Reconnaissance</dt><dd>Attestation de fin de formation remise à chaque stagiaire. Formation non certifiante.</dd></div><div><dt>Accessibilité</dt><dd>Une personne en situation de handicap nous signale ses besoins avant la formation : le lieu, le support et le rythme sont adaptés. Si une adaptation n'est pas possible, nous vous orientons vers un relais spécialisé.</dd></div></dl>
-    <h3>Objectifs : à la fin de la journée, les stagiaires savent</h3>
-    <ul><li>expliquer ce qu'un assistant d'IA générative sait faire et ses limites</li><li>écrire une consigne claire qui donne un résultat utilisable du premier coup</li><li>vérifier une réponse et repérer une erreur ou une invention</li><li>protéger les données de l'entreprise et de ses clients</li><li>rédiger plus vite leurs mails, devis et comptes rendus avec l'IA</li></ul>
-    <h3>Programme</h3>
-    <p class="demi">Matin, 9h00 à 12h00</p><ul><li>Ce qu'est un assistant d'IA générative, ce qu'il ne faut jamais lui confier</li><li>Les erreurs et les inventions : comment les repérer et les corriger</li><li>Écrire une consigne : le contexte, le rôle, le résultat attendu</li><li>Exercices sur les vrais mails de l'entreprise</li></ul>
-    <p class="demi">Après-midi, 13h30 à 16h30</p><ul><li>Devis, comptes rendus, documents types : les faire préparer, puis les relire</li><li>Construire la bibliothèque de consignes de l'entreprise, réutilisable par tous</li><li>Confidentialité : ce qui peut être partagé, ce qui reste en interne</li><li>Mise en situation finale sur une tâche réelle de la semaine</li></ul>
-    <h3>Méthodes</h3><p class="txt">Apports courts suivis d'exercices sur le poste des stagiaires, avec les documents réels de l'entreprise, jamais sur un exemple. Support écrit remis à chaque stagiaire : fiches de consignes adaptées au métier.</p>
-    <h3>Évaluation et suivi</h3><p class="txt">Questionnaire de positionnement à l'entrée. Exercices pratiques corrigés pendant la journée. Mise en situation finale sur un cas réel de l'entreprise. Feuille d'émargement par demi-journée, questionnaire de satisfaction, attestation de fin de formation remise à chaque stagiaire.</p>
-  </div>
-</section>
-<section class="fiche" id="prospecter">
-  <div class="wrap rv" style="max-width:760px">
-    <div class="kicker">Formation 2 · 1 journée · 1 500 €</div>
-    <h2>Prospecter et communiquer avec l'IA</h2>
-    <p class="accroche">La journée commerciale : trouver et classer les bons prospects, leur écrire un message qui leur parle, et tenir une communication régulière sans y passer ses soirées.</p>
-    <dl class="kv"><div><dt>Public</dt><dd>Dirigeants et salariés de TPE et PME, artisans, professions libérales, restaurateurs, viticulteurs.</dd></div><div><dt>Prérequis</dt><dd>Avoir suivi la formation 1, ou utiliser déjà un assistant d'IA chaque semaine.</dd></div><div><dt>Format</dt><dd>Intra-entreprise, de 1 à 4 stagiaires d'une même entreprise.</dd></div><div><dt>Durée</dt><dd>1 journée de 6 heures : 9h00 à 12h00, puis 13h30 à 16h30.</dd></div><div><dt>Modalités</dt><dd>En présentiel dans l'entreprise, ou à distance en direct sur demande.</dd></div><div><dt>Délai d'accès</dt><dd>En général 2 à 4 semaines entre la demande et la journée de formation, le temps de fixer la date. Plus long si un financeur doit d'abord donner son accord.</dd></div><div><dt>Tarif</dt><dd><b>1 500 € net la journée</b>, pour le groupe, soit 250 € de l'heure. TVA non applicable, article 293 B du CGI.</dd></div><div><dt>Reconnaissance</dt><dd>Attestation de fin de formation remise à chaque stagiaire. Formation non certifiante.</dd></div><div><dt>Accessibilité</dt><dd>Une personne en situation de handicap nous signale ses besoins avant la formation : le lieu, le support et le rythme sont adaptés. Si une adaptation n'est pas possible, nous vous orientons vers un relais spécialisé.</dd></div></dl>
-    <h3>Objectifs : à la fin de la journée, les stagiaires savent</h3>
-    <ul><li>définir leur client idéal et constituer une liste de prospects à partir de sources publiques</li><li>classer cette liste pour contacter d'abord ceux qui ont le plus de chances de signer</li><li>rédiger des messages et des relances personnalisés pour chaque prospect</li><li>préparer un mois de publications pour leurs réseaux à partir de leur savoir-faire</li><li>suivre les résultats et ajuster</li></ul>
-    <h3>Programme</h3>
-    <p class="demi">Matin, 9h00 à 12h00</p><ul><li>Le client idéal : qui, où, pourquoi maintenant</li><li>Constituer et nettoyer une liste de prospects à partir de sources publiques</li><li>Classer les prospects par ordre de chance de signature</li><li>Rédiger le premier message et les relances, adaptés à chaque prospect</li></ul>
-    <p class="demi">Après-midi, 13h30 à 16h30</p><ul><li>Transformer photos, chantiers et réalisations en contenus pour les réseaux</li><li>Construire un calendrier de publication sur un mois</li><li>Suivre les réponses et les résultats, savoir quoi changer</li><li>Mise en situation finale : une campagne réelle prête à partir</li></ul>
-    <h3>Méthodes</h3><p class="txt">Apports courts suivis d'exercices sur le poste des stagiaires, avec les documents réels de l'entreprise, jamais sur un exemple. Support écrit remis à chaque stagiaire : fiches de consignes adaptées au métier.</p>
-    <h3>Évaluation et suivi</h3><p class="txt">Questionnaire de positionnement à l'entrée. Exercices pratiques corrigés pendant la journée. Mise en situation finale sur un cas réel de l'entreprise. Feuille d'émargement par demi-journée, questionnaire de satisfaction, attestation de fin de formation remise à chaque stagiaire.</p>
-  </div>
-</section>
-<section class="fiche" id="site" style="background:var(--surface)">
-  <div class="wrap rv" style="max-width:760px">
-    <div class="kicker">Formation 3 · 1 journée · 1 500 €</div>
-    <h2>Créer et faire vivre le site de son entreprise avec l'IA</h2>
-    <p class="accroche">La journée visibilité : construire ou refaire le site de l'entreprise sans développeur, le mettre à jour soi-même et être trouvé par les clients.</p>
-    <dl class="kv"><div><dt>Public</dt><dd>Dirigeants et salariés de TPE et PME, artisans, professions libérales, restaurateurs, viticulteurs.</dd></div><div><dt>Prérequis</dt><dd>Avoir suivi la formation 1, ou utiliser déjà un assistant d'IA chaque semaine.</dd></div><div><dt>Format</dt><dd>Intra-entreprise, de 1 à 4 stagiaires d'une même entreprise.</dd></div><div><dt>Durée</dt><dd>1 journée de 6 heures : 9h00 à 12h00, puis 13h30 à 16h30.</dd></div><div><dt>Modalités</dt><dd>En présentiel dans l'entreprise, ou à distance en direct sur demande.</dd></div><div><dt>Délai d'accès</dt><dd>En général 2 à 4 semaines entre la demande et la journée de formation, le temps de fixer la date. Plus long si un financeur doit d'abord donner son accord.</dd></div><div><dt>Tarif</dt><dd><b>1 500 € net la journée</b>, pour le groupe, soit 250 € de l'heure. TVA non applicable, article 293 B du CGI.</dd></div><div><dt>Reconnaissance</dt><dd>Attestation de fin de formation remise à chaque stagiaire. Formation non certifiante.</dd></div><div><dt>Accessibilité</dt><dd>Une personne en situation de handicap nous signale ses besoins avant la formation : le lieu, le support et le rythme sont adaptés. Si une adaptation n'est pas possible, nous vous orientons vers un relais spécialisé.</dd></div></dl>
-    <h3>Objectifs : à la fin de la journée, les stagiaires savent</h3>
-    <ul><li>définir la structure et les pages utiles du site de leur entreprise</li><li>rédiger les textes de chaque page avec l'IA, dans le ton de l'entreprise</li><li>créer, publier et mettre à jour un site sans faire appel à un développeur</li><li>écrire et publier un article de blog</li><li>appliquer les bases du référencement pour être trouvé sur les moteurs de recherche et dans les réponses des assistants d'IA</li></ul>
-    <h3>Programme</h3>
-    <p class="demi">Matin, 9h00 à 12h00</p><ul><li>Ce que le site doit faire : les pages utiles, le parcours du client</li><li>Rédiger les textes de chaque page dans le ton de l'entreprise</li><li>Construire le site avec l'aide de l'IA, page par page</li></ul>
-    <p class="demi">Après-midi, 13h30 à 16h30</p><ul><li>Publier le site et le mettre à jour soi-même</li><li>Écrire un article de blog à partir d'une question fréquente des clients</li><li>Les bases du référencement : titres, descriptions, fiche d'établissement</li><li>Mise en situation finale : une page ou un article réellement mis en ligne</li></ul>
-    <h3>Méthodes</h3><p class="txt">Apports courts suivis d'exercices sur le poste des stagiaires, avec les documents réels de l'entreprise, jamais sur un exemple. Support écrit remis à chaque stagiaire : fiches de consignes adaptées au métier.</p>
-    <h3>Évaluation et suivi</h3><p class="txt">Questionnaire de positionnement à l'entrée. Exercices pratiques corrigés pendant la journée. Mise en situation finale sur un cas réel de l'entreprise. Feuille d'émargement par demi-journée, questionnaire de satisfaction, attestation de fin de formation remise à chaque stagiaire.</p>
+<section style="background:var(--surface)" id="parcours">
+  <div class="wrap rv" style="max-width:860px">
+    <div class="kicker">Le parcours conseillé</div>
+    <h2 class="h2s">Cinq journées, de la prise en main aux clients.</h2>
+    <p style="color:var(--muted);font-size:15px">Cliquez sur une journée pour voir son déroulé, module par module.</p>
+    <div class="parties"><details class="jour" id="partie-1"><summary><span class="n">Partie 1 · 1 journée · 6 h</span><span class="p">1 500 €</span><span class="h">Démarrer avec l'IA</span><span class="sm">Découvrir l'IA générative et la prendre en main · Prendre en main Claude : réglages, projets et fichier d'instructions</span><span class="more"><span class="o">Voir le déroulé de la journée</span><span class="c">Masquer le déroulé</span></span></summary><div class="jbody"><div class="jm" id="m1-1"><div class="jh"><span class="quand">9h00 à 12h00</span><span class="ref">Module 1.1 · Axe 1, Gagner du temps avec l'IA</span></div><h4 class="jt">Découvrir l'IA générative et la prendre en main</h4><p class="ja">Le module de départ, pour ceux qui partent de zéro : comprendre ce qu'est l'IA et comment elle fonctionne, puis s'en servir tout de suite.</p><div class="jcols"><div><h5>Les stagiaires savent ensuite</h5><ul><li>expliquer simplement ce qu'est l'IA générative et comment elle produit une réponse</li><li>distinguer ce qu'elle fait bien, ce qu'elle fait mal et ce qu'il ne faut jamais lui confier</li><li>écrire une consigne claire, puis vérifier la réponse et repérer une invention</li><li>appliquer les règles de base sur les données personnelles et la confidentialité</li></ul></div><div><h5>Programme</h5><ul><li>Ce qu'est l'IA générative, en mots simples, et pourquoi elle peut inventer</li><li>Les usages qui servent vraiment dans une petite entreprise, démonstrations à l'appui</li><li>Première conversation, première consigne, vérifier et faire corriger</li><li>Mise en situation finale : trois usages testés sur une tâche réelle de la semaine</li></ul></div></div><p class="jp"><b>Prérequis</b> : Aucun. Savoir utiliser un ordinateur et une messagerie.</p></div><div class="dej">12h00 à 13h30 · pause déjeuner</div><div class="jm" id="m1-2"><div class="jh"><span class="quand">13h30 à 16h30</span><span class="ref">Module 1.2 · Axe 1, Gagner du temps avec l'IA</span></div><h4 class="jt">Prendre en main Claude : réglages, projets et fichier d'instructions</h4><p class="ja">Le module outil : bien connaître Claude, l'assistant d'IA que nous utilisons au quotidien, le paramétrer pour l'entreprise et lui donner une fois pour toutes le contexte dont il a besoin.</p><div class="jcols"><div><h5>Les stagiaires savent ensuite</h5><ul><li>expliquer ce qu'est Claude, à qui il s'adresse et choisir la formule adaptée à leur usage</li><li>paramétrer leur compte : confidentialité, préférences, mémoire</li><li>organiser leur travail en projets, chacun avec ses instructions et ses documents</li><li>rédiger un fichier d'instructions au format Markdown (.md) et relier Claude à leurs outils en gardant le contrôle</li></ul></div><div><h5>Programme</h5><ul><li>Claude : ce que c'est, pour qui, pourquoi, les formules gratuites et payantes</li><li>Paramétrer son compte : confidentialité, préférences, mémoire</li><li>Les projets et le fichier d'instructions en Markdown (.md) : l'entreprise, son ton, ses règles</li><li>Mise en situation finale : le projet de l'entreprise configuré, connecteurs compris</li></ul></div></div><p class="jp"><b>Prérequis</b> : Avoir suivi le module 1.1, ou utiliser déjà un assistant d'IA chaque semaine.</p></div></div></details><details class="jour" id="partie-2"><summary><span class="n">Partie 2 · 1 journée · 6 h</span><span class="p">1 500 €</span><span class="h">Gagner du temps au bureau</span><span class="sm">Produire ses documents avec l'IA : devis, courriers, comptes rendus · Organiser et automatiser ses tâches répétitives avec l'IA</span><span class="more"><span class="o">Voir le déroulé de la journée</span><span class="c">Masquer le déroulé</span></span></summary><div class="jbody"><div class="jm" id="m1-3"><div class="jh"><span class="quand">9h00 à 12h00</span><span class="ref">Module 1.3 · Axe 1, Gagner du temps avec l'IA</span></div><h4 class="jt">Produire ses documents avec l'IA : devis, courriers, comptes rendus</h4><p class="ja">Le module documents : transformer des notes en devis, en courrier ou en compte rendu propre, et garder la main sur ce qui part chez le client.</p><div class="jcols"><div><h5>Les stagiaires savent ensuite</h5><ul><li>transformer des notes ou une dictée en compte rendu structuré</li><li>préparer un devis à partir de notes et d'une grille tarifaire</li><li>créer des modèles de courriers réutilisables par l'équipe</li><li>contrôler les chiffres, les mentions et le ton avant tout envoi</li></ul></div><div><h5>Programme</h5><ul><li>De la note dictée au compte rendu propre</li><li>Devis et propositions à partir de ses notes et de sa grille tarifaire</li><li>Courriers types et réponses aux questions fréquentes</li><li>Mise en situation finale : un document réel produit et vérifié</li></ul></div></div><p class="jp"><b>Prérequis</b> : Avoir suivi le module 1.1, ou utiliser déjà un assistant d'IA chaque semaine.</p></div><div class="dej">12h00 à 13h30 · pause déjeuner</div><div class="jm" id="m1-4"><div class="jh"><span class="quand">13h30 à 16h30</span><span class="ref">Module 1.4 · Axe 1, Gagner du temps avec l'IA</span></div><h4 class="jt">Organiser et automatiser ses tâches répétitives avec l'IA</h4><p class="ja">Le module organisation : repérer ce qui revient sans cesse, le confier à l'IA quand c'est sûr, et mesurer le temps gagné.</p><div class="jcols"><div><h5>Les stagiaires savent ensuite</h5><ul><li>lister leurs tâches répétitives et chiffrer le temps qu'elles prennent</li><li>distinguer ce qui peut être confié à l'IA de ce qui doit rester humain</li><li>trier, résumer et prioriser les mails et les demandes entrantes</li><li>enchaîner plusieurs étapes, de la demande reçue au document prêt</li></ul></div><div><h5>Programme</h5><ul><li>Faire la liste de ses tâches répétitives et chiffrer leur temps</li><li>Trier, résumer et prioriser ses mails et ses demandes</li><li>Enchaîner plusieurs étapes avec un contrôle humain à la fin</li><li>Mise en situation finale : une tâche réelle automatisée et chronométrée</li></ul></div></div><p class="jp"><b>Prérequis</b> : Avoir suivi le module 1.2, ou utiliser déjà un assistant d'IA chaque semaine.</p></div></div></details><details class="jour" id="partie-3"><summary><span class="n">Partie 3 · 1 journée · 6 h</span><span class="p">1 500 €</span><span class="h">Trouver des clients</span><span class="sm">Prospecter avec l'IA : trouver, classer et contacter ses clients · Communiquer sur les réseaux sociaux avec l'IA</span><span class="more"><span class="o">Voir le déroulé de la journée</span><span class="c">Masquer le déroulé</span></span></summary><div class="jbody"><div class="jm" id="m2-1"><div class="jh"><span class="quand">9h00 à 12h00</span><span class="ref">Module 2.1 · Axe 2, Développer ses ventes avec l'IA</span></div><h4 class="jt">Prospecter avec l'IA : trouver, classer et contacter ses clients</h4><p class="ja">Le module prospection : trouver les bons prospects, savoir par qui commencer, et leur écrire un message qui leur parle.</p><div class="jcols"><div><h5>Les stagiaires savent ensuite</h5><ul><li>définir leur client idéal à partir de leurs meilleurs clients actuels</li><li>constituer et classer une liste de prospects à partir de sources publiques</li><li>rédiger un premier message et des relances personnalisés</li><li>préparer un appel de prospection et les réponses aux objections</li></ul></div><div><h5>Programme</h5><ul><li>Le client idéal : qui, où, pourquoi maintenant</li><li>Constituer et classer une liste de prospects à partir de sources publiques</li><li>Le premier message et les relances, adaptés à chaque prospect</li><li>Mise en situation finale : une campagne réelle prête à partir</li></ul></div></div><p class="jp"><b>Prérequis</b> : Aucun. Savoir utiliser un ordinateur et une messagerie.</p></div><div class="dej">12h00 à 13h30 · pause déjeuner</div><div class="jm" id="m2-2"><div class="jh"><span class="quand">13h30 à 16h30</span><span class="ref">Module 2.2 · Axe 2, Développer ses ventes avec l'IA</span></div><h4 class="jt">Communiquer sur les réseaux sociaux avec l'IA</h4><p class="ja">Le module communication : trouver quoi dire, l'écrire vite et bien, et tenir un rythme régulier sans y passer ses soirées.</p><div class="jcols"><div><h5>Les stagiaires savent ensuite</h5><ul><li>définir une ligne éditoriale et un ton propres à l'entreprise</li><li>transformer leur savoir-faire et leurs réalisations en publications</li><li>écrire une publication avec une accroche, un message et un appel à l'action</li><li>préparer un calendrier de publication sur un mois</li></ul></div><div><h5>Programme</h5><ul><li>La ligne éditoriale : ce que vos clients veulent voir</li><li>Trouver des sujets dans son quotidien et les écrire</li><li>Adapter un même contenu à chaque réseau, légender ses photos</li><li>Mise en situation finale : un mois de publications prêt à programmer</li></ul></div></div><p class="jp"><b>Prérequis</b> : Avoir suivi le module 1.1 ou 2.1, ou utiliser déjà un assistant d'IA chaque semaine.</p></div></div></details><details class="jour" id="partie-4"><summary><span class="n">Partie 4 · 1 journée · 6 h</span><span class="p">1 500 €</span><span class="h">Avoir un site qui travaille</span><span class="sm">Créer le site de son entreprise avec l'IA · Être trouvé sur les moteurs de recherche et par les assistants d'IA</span><span class="more"><span class="o">Voir le déroulé de la journée</span><span class="c">Masquer le déroulé</span></span></summary><div class="jbody"><div class="jm" id="m3-1"><div class="jh"><span class="quand">9h00 à 12h00</span><span class="ref">Module 3.1 · Axe 3, Être visible en ligne avec l'IA</span></div><h4 class="jt">Créer le site de son entreprise avec l'IA</h4><p class="ja">Le module site : construire ou refaire le site de l'entreprise sans développeur, et savoir le mettre à jour soi-même.</p><div class="jcols"><div><h5>Les stagiaires savent ensuite</h5><ul><li>définir la structure et les pages utiles du site de leur entreprise</li><li>rédiger les textes de chaque page avec l'IA, dans le ton de l'entreprise</li><li>créer et publier un site sans faire appel à un développeur</li><li>mettre à jour le site eux-mêmes, en autonomie</li></ul></div><div><h5>Programme</h5><ul><li>Ce que le site doit faire : les pages utiles, le parcours du client</li><li>Rédiger les textes et construire le site page par page</li><li>Publier à l'adresse de l'entreprise, ajouter un formulaire de contact</li><li>Mise en situation finale : une page réellement mise en ligne</li></ul></div></div><p class="jp"><b>Prérequis</b> : Aucun. Savoir utiliser un ordinateur et une messagerie.</p></div><div class="dej">12h00 à 13h30 · pause déjeuner</div><div class="jm" id="m3-2"><div class="jh"><span class="quand">13h30 à 16h30</span><span class="ref">Module 3.2 · Axe 3, Être visible en ligne avec l'IA</span></div><h4 class="jt">Être trouvé sur les moteurs de recherche et par les assistants d'IA</h4><p class="ja">Le module référencement : comprendre comment les clients vous cherchent, et faire en sorte qu'ils vous trouvent, sur les moteurs comme dans les réponses des assistants d'IA.</p><div class="jcols"><div><h5>Les stagiaires savent ensuite</h5><ul><li>expliquer comment un moteur de recherche et un assistant d'IA choisissent leurs réponses</li><li>trouver les mots et les questions que leurs clients utilisent</li><li>améliorer les titres, les descriptions et la fiche d'établissement</li><li>mesurer les visites et les demandes reçues</li></ul></div><div><h5>Programme</h5><ul><li>Comment les moteurs et les assistants d'IA choisissent leurs réponses</li><li>Les mots et les questions de vos clients, appliqués à vos pages</li><li>La fiche d'établissement et les informations qui vous font citer</li><li>Mise en situation finale : le plan d'action référencement de l'entreprise</li></ul></div></div><p class="jp"><b>Prérequis</b> : Avoir suivi le module 3.1, ou utiliser déjà un assistant d'IA chaque semaine. Avoir un site en ligne.</p></div></div></details><details class="jour" id="partie-5"><summary><span class="n">Partie 5 · 1 journée · 6 h</span><span class="p">1 500 €</span><span class="h">Fidéliser et faire vivre sa présence</span><span class="sm">Suivre ses clients et conclure avec l'IA · Faire vivre son site : articles, contenus et avis clients</span><span class="more"><span class="o">Voir le déroulé de la journée</span><span class="c">Masquer le déroulé</span></span></summary><div class="jbody"><div class="jm" id="m2-3"><div class="jh"><span class="quand">9h00 à 12h00</span><span class="ref">Module 2.3 · Axe 2, Développer ses ventes avec l'IA</span></div><h4 class="jt">Suivre ses clients et conclure avec l'IA</h4><p class="ja">Le module relation client : préparer ses rendez-vous, relancer ses devis au bon moment, répondre aux avis et garder ses clients.</p><div class="jcols"><div><h5>Les stagiaires savent ensuite</h5><ul><li>préparer un rendez-vous client à partir des informations disponibles</li><li>rédiger une proposition commerciale claire et chiffrée</li><li>relancer les devis sans réponse au bon moment, avec le bon message</li><li>répondre aux avis et aux réclamations</li></ul></div><div><h5>Programme</h5><ul><li>Préparer un rendez-vous : ce qu'on sait du client, les questions à poser</li><li>La proposition commerciale et les objections fréquentes</li><li>Relancer les devis, répondre aux avis, garder le contact</li><li>Mise en situation finale : le suivi complet d'un client réel</li></ul></div></div><p class="jp"><b>Prérequis</b> : Avoir suivi le module 1.1 ou 2.1, ou utiliser déjà un assistant d'IA chaque semaine.</p></div><div class="dej">12h00 à 13h30 · pause déjeuner</div><div class="jm" id="m3-3"><div class="jh"><span class="quand">13h30 à 16h30</span><span class="ref">Module 3.3 · Axe 3, Être visible en ligne avec l'IA</span></div><h4 class="jt">Faire vivre son site : articles, contenus et avis clients</h4><p class="ja">Le module contenus : publier régulièrement des articles utiles et mettre en valeur les avis des clients.</p><div class="jcols"><div><h5>Les stagiaires savent ensuite</h5><ul><li>construire un plan de contenus sur trois mois à partir des questions des clients</li><li>rédiger et illustrer un article utile, dans le ton de l'entreprise</li><li>demander, collecter et mettre en valeur les avis des clients</li><li>relier le site, les réseaux sociaux et la lettre d'information</li></ul></div><div><h5>Programme</h5><ul><li>Les questions de vos clients, source de vos articles, et le plan de trois mois</li><li>Écrire et illustrer un article utile</li><li>Collecter et afficher les avis, relier site et réseaux</li><li>Mise en situation finale : un article réellement publié</li></ul></div></div><p class="jp"><b>Prérequis</b> : Avoir suivi le module 3.1, ou utiliser déjà un assistant d'IA chaque semaine. Avoir un site en ligne.</p></div></div></details></div>
+    <p class="carte"><b>À la carte</b> : choisissez votre nombre de journées, puis 2 modules par journée parmi les dix ci-dessus, dans l'ordre qui vous convient, prérequis respectés.</p>
+    <div class="prices"><span>1 partie · 1 500 €</span><span>2 parties · 3 000 €</span><span>3 parties · 4 500 €</span><span>4 parties · 6 000 €</span><span>5 parties · 7 500 €</span></div>
+    <details class="cond"><summary>Public, délais, financement, évaluation, accessibilité : toutes les conditions</summary><dl class="kv"><div><dt>Public</dt><dd>Dirigeants et salariés de TPE et PME, artisans, professions libérales, restaurateurs, viticulteurs.</dd></div><div><dt>Format</dt><dd>Intra-entreprise, de 1 à 3 stagiaires d'une même entreprise.</dd></div><div><dt>Durée</dt><dd>Chaque module dure 3 heures. Une journée de formation réunit 2 modules : le premier le matin (9h00 à 12h00), le second l'après-midi (13h30 à 16h30).</dd></div><div><dt>Modalités</dt><dd>En présentiel dans l'entreprise, ou à distance en direct sur demande.</dd></div><div><dt>Délai d'accès</dt><dd>En général 2 à 4 semaines entre la demande et la première journée, le temps de fixer les dates. Plus long si un financeur doit d'abord donner son accord.</dd></div><div><dt>Tarif</dt><dd>1 500 € net la journée de formation (2 modules de 3 heures), le même prix pour 1, 2 ou 3 stagiaires, soit 250 € de l'heure. La formation se vend à la journée, 1 journée minimum. TVA non applicable, article 293 B du CGI.</dd></div><div><dt>Facturation</dt><dd>Chaque journée est une formation complète, avec ses objectifs, son évaluation et son attestation. Elle est facturée à l'issue de la journée.</dd></div><div><dt>Financement</dt><dd>Une prise en charge peut être demandée à votre opérateur de compétences ou à votre fonds de formation, selon votre situation. Elle n'est jamais garantie : elle dépend des règles et de l'accord écrit du financeur, à obtenir avant la formation.</dd></div><div><dt>Reconnaissance</dt><dd>Attestation de fin de formation remise à chaque stagiaire, pour chaque journée. Formation non certifiante.</dd></div><div><dt>Accessibilité</dt><dd>Une personne en situation de handicap nous signale ses besoins avant la formation : le lieu, le support et le rythme sont adaptés. Si une adaptation n'est pas possible, nous l'orientons vers un relais spécialisé.</dd></div><div><dt>Méthodes</dt><dd>Apports courts suivis d'exercices sur le poste des stagiaires, avec les documents réels de l'entreprise, jamais sur un exemple. Support écrit remis à chaque stagiaire : fiches de consignes adaptées au métier.</dd></div><div><dt>Évaluation</dt><dd>Questionnaire de positionnement au début du module. Exercices pratiques corrigés pendant la séance. Mise en situation finale sur un cas réel de l'entreprise. Feuille d'émargement, questionnaire de satisfaction, attestation de fin de formation remise à chaque stagiaire. Un QCM de fin de module mesure les acquis.</dd></div><div><dt>Contact</dt><dd>Amdy Richard Diop Jouanguy, formateur et référent handicap · <a href="mailto:contact@longueur-davance.fr">contact@longueur-davance.fr</a></dd></div></dl></details>
   </div>
 </section>
 
 <section class="dark">
   <div class="wrap rv" style="max-width:760px">
     <div class="kicker">Le formateur</div>
-    <h2 style="font-size:clamp(26px,5.5vw,40px);max-width:22ch">Amdy Richard Diop Jouanguy</h2>
-    <p>Entrepreneur dans le numérique, il accompagne les TPE à l'intelligence artificielle générative sous le nom Longueur d'avance, et pratique ces outils au quotidien depuis novembre 2022. Avant cela, il a dirigé pendant près de deux ans une équipe de trois ingénieurs sur un projet logiciel.</p>
-    <p class="note">Résultats : les premières sessions de ce catalogue ont lieu à partir de fin 2026. Après chaque session, nous publions ici le nombre de stagiaires formés, le taux de satisfaction et le taux de réalisation des heures prévues.</p>
+    <h2 class="h2s" style="color:var(--paper)">Amdy Richard Diop Jouanguy</h2>
+    <p>Entrepreneur dans le numérique depuis 2022, il a dirigé pendant près de deux ans une équipe de trois ingénieurs sur un projet logiciel, et accompagne aujourd'hui les TPE à l'intelligence artificielle générative sous le nom Longueur d'avance.</p>
+    <p class="note">Résultats : les premières sessions de ce catalogue ont lieu à partir de fin 2026. Après chaque session, nous publions ici le nombre de stagiaires formés, le taux de satisfaction et le taux de réussite aux évaluations.</p>
   </div>
 </section>
 
 <section>
   <div class="wrap rv" style="max-width:760px">
     <div class="kicker">Questions</div>
-    <h2 style="font-size:clamp(26px,5.5vw,40px);max-width:20ch;margin-bottom:18px">Avant de vous inscrire.</h2>
-    <details><summary class="faq-q">Ces formations peuvent-elles être financées ?</summary><p>Parfois, selon votre situation. Les salariés d'une entreprise relèvent de son opérateur de compétences (OPCO), un dirigeant non salarié d'un fonds d'assurance formation, un exploitant agricole de VIVEA. Chaque financeur a ses propres règles, ses plafonds et ses délais. Aucune prise en charge n'est garantie : elle dépend de l'accord écrit du financeur, à obtenir avant la formation. Dites-nous votre situation, on vous dit quel organisme interroger.</p></details><details><summary class="faq-q">Êtes-vous certifiés Qualiopi ?</summary><p>Non. La plupart des financeurs exigent que la formation soit portée par un organisme certifié Qualiopi. Nous mettons en place ce cadre avec un organisme de formation certifié. Tant qu'il n'est pas signé, nous vous le disons avant toute inscription, et vous savez si votre formation peut être financée ou non.</p></details><details><summary class="faq-q">Le prix est-il par personne ?</summary><p>Non, il est par journée et pour le groupe : 1 500 € pour 1 à 4 stagiaires d'une même entreprise. À quatre, cela revient à 375 € par personne pour la journée.</p></details><details><summary class="faq-q">Faut-il suivre les trois formations ?</summary><p>Non. Chaque journée est une formation complète, avec ses objectifs, son programme et son évaluation. Pour une équipe qui débute, la formation 1 passe en premier.</p></details><details><summary class="faq-q">Et les données de l'entreprise ?</summary><p>On travaille sur vos documents réels, sur vos postes. Nous ne gardons aucune copie. La formation 1 consacre une partie entière à ce qui peut être confié à une IA et à ce qui doit rester en interne.</p></details>
+    <h2 class="h2s">Avant de vous inscrire.</h2>
+    <details class="faq"><summary class="faq-q">Le prix est-il par personne ?</summary><p>Non. 1 500 € la journée, que vous soyez 1, 2 ou 3 stagiaires de la même entreprise.</p></details><details class="faq"><summary class="faq-q">Ces formations peuvent-elles être financées ?</summary><p>Parfois, selon votre situation : opérateur de compétences pour les salariés, fonds d'assurance formation pour un dirigeant non salarié, VIVEA pour un exploitant agricole. Aucune prise en charge n'est garantie : elle dépend des règles et de l'accord écrit du financeur, à obtenir avant la formation. Dites-nous votre situation, on vous dit quel organisme interroger.</p></details><details class="faq"><summary class="faq-q">Êtes-vous certifiés Qualiopi ?</summary><p>Non. La plupart des financeurs exigent que la formation soit portée par un organisme certifié Qualiopi. Nous mettons en place ce cadre avec un organisme de formation certifié. Tant qu'il n'est pas signé, nous vous le disons avant toute inscription.</p></details><details class="faq"><summary class="faq-q">Et les données de l'entreprise ?</summary><p>On travaille sur vos documents réels, sur vos postes, et nous n'en gardons aucune copie. Ce qui peut être confié à une IA, et ce qui doit rester chez vous, fait partie du premier module.</p></details>
   </div>
 </section>
 
 <section class="cta-band" style="background:var(--surface)" id="contact">
   <div class="wrap rv">
     <div class="kicker">Contact et inscription</div>
-    <h2>On fixe la date ensemble.</h2>
-    <p>Écrivez-nous à <a href="mailto:contact@longueur-davance.fr?subject=Formation">contact@longueur-davance.fr</a> en précisant la formation, le nombre de stagiaires et vos disponibilités, ou réservez un appel de 30 minutes. Besoin d'une adaptation liée à un handicap : dites-le dans le même message.</p>
-    <a class="btn js-book" href="https://calendar.app.google/S5K8G7FLFWj4d4sF7" target="_blank" rel="noopener" data-loc="bas">Réserver un appel de 30 min <svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+    <h2>On fixe les dates ensemble.</h2>
+    <p>Écrivez-nous à <a href="mailto:contact@longueur-davance.fr?subject=Formation">contact@longueur-davance.fr</a> avec les modules qui vous intéressent, le nombre de stagiaires et vos disponibilités, ou réservez un appel de 30 minutes. Besoin d'une adaptation liée à un handicap : dites-le dans le même message.</p>
+    <a class="btn js-book" href="https://calendar.app.google/S5K8G7FLFWj4d4sF7" target="_blank" rel="noopener" data-loc="bas">Réserver un appel de 30 min <span class="arr">→</span></a>
   </div>
 </section>
 
@@ -326,6 +472,8 @@ details p { font-size: 14.5px; color: var(--muted); line-height: 1.7; padding-bo
         data: Object.assign({ page: 'formations', position: a.dataset.loc || '' }, ctx) });
     });
   });
+  document.querySelectorAll('.js-dl').forEach(function (a) { a.addEventListener('click', function () { if (window.va) window.va('event', { name: 'telechargement_catalogue', data: ctx }); }); });
+  if (location.hash && /^#(m\d-\d|partie-\d)$/.test(location.hash)) { var d = document.querySelector(location.hash); var j = d && (d.tagName === 'DETAILS' ? d : d.closest('details')); if (j) { j.open = true; d.scrollIntoView(); } }
   if (window.va) window.va('event', { name: 'page_vue', data: Object.assign({ page: 'formations' }, ctx) });
 })();
 </script>
