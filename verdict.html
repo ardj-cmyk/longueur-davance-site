@@ -302,6 +302,8 @@ textarea{resize:vertical;min-height:84px;}
 select.select{width:100%;font-family:inherit;font-size:16px;color:var(--ink);background:var(--paper);border:1.5px solid var(--line);border-radius:999px;padding:14px 20px;min-height:54px;appearance:none;-webkit-appearance:none;background-image:linear-gradient(45deg,transparent 50%,#e8b88a 50%),linear-gradient(135deg,#e8b88a 50%,transparent 50%);background-position:calc(100% - 24px) 50%,calc(100% - 18px) 50%;background-size:6px 6px;background-repeat:no-repeat;}
 select.select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft);}
 .hint{font-size:12.5px;color:var(--muted);margin-top:6px;}
+.cout{font-size:15px;font-weight:600;color:var(--ink);margin-top:12px;}
+.cout.err{color:var(--accent);}
 .chips{display:flex;flex-wrap:wrap;gap:8px;}
 .chip input{position:absolute;opacity:0;pointer-events:none;}
 .chip span{display:inline-block;font-size:13.5px;padding:8px 13px;border:1px solid var(--line);border-radius:999px;cursor:pointer;color:var(--ink);transition:background .2s,border-color .2s;}
@@ -599,6 +601,21 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b,.origine{font-variant-numeri
         <p class="hint" data-t="f_lien_h">Reel, TikTok, page de vente, post LinkedIn, tout contenu public.</p>
       </div>
       <div class="field">
+        <label for="type" data-t="f_type">Ce que vous envoyez</label>
+        <select id="type" name="type" class="select">
+          <option value="180" data-t="ty1">Une vidéo jusqu'à 3 min</option>
+          <option value="900" data-t="ty2">Une vidéo de 3 à 15 min</option>
+          <option value="long" data-t="ty3">Une vidéo de plus de 15 min</option>
+          <option value="page" data-t="ty4">Une page ou un post écrit</option>
+        </select>
+        <div id="duree-bloc" hidden style="margin-top:12px">
+          <label for="minutes" data-t="f_min">Sa durée, en minutes</label>
+          <input type="text" id="minutes" inputmode="numeric" maxlength="3" autocomplete="off" placeholder="60">
+        </div>
+        <p class="cout" id="cout" role="status"></p>
+        <p class="hint" data-t="f_type_h">Si la durée réelle est différente, votre compte est ajusté et le trop-perçu vous est rendu.</p>
+      </div>
+      <div class="field">
         <label for="question"><span data-t="f_q">Ce qui vous fait douter</span> <span class="opt" data-t="opt">(optionnel)</span></label>
         <textarea id="question" name="question" maxlength="1000" data-tp="f_q_ex" placeholder="Ex. « il dit que c'est gratuit et sans risque RGPD, c'est vrai ? »"></textarea>
       </div>
@@ -838,7 +855,13 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b,.origine{font-variant-numeri
       e_rapide: "Vous venez d'envoyer une demande. Réessayez dans quelques minutes.",
       e_jour: "Vous avez atteint la limite de demandes pour aujourd'hui.",
       e_sature: 'Beaucoup de demandes en ce moment. Réessayez demain.',
-      e_form: "L'envoi a échoué. Réessayez dans un instant.", envoi: 'Envoi…'
+      e_form: "L'envoi a échoué. Réessayez dans un instant.", envoi: 'Envoi…',
+      f_type: 'Ce que vous envoyez', ty1: "Une vidéo jusqu'à 3 min", ty2: 'Une vidéo de 3 à 15 min', ty3: 'Une vidéo de plus de 15 min', ty4: 'Une page ou un post écrit',
+      f_min: 'Sa durée, en minutes', f_type_h: 'Si la durée réelle est différente, votre compte est ajusté et le trop-perçu vous est rendu.',
+      cout_1: 'Cette vérification utilise 1 crédit.', cout_n: 'Cette vérification utilise {n} crédits.',
+      cout_min: 'Indiquez la durée, entre 16 et 120 minutes.', cout_max: "Le Verdict vérifie les vidéos jusqu'à 2 h. Envoyez la partie qui vous intéresse.",
+      e_solde: 'Il vous manque des crédits pour cette vérification. Rechargez votre compte plus bas, puis relancez.',
+      btn_1: 'Vérifier ce contenu (1 crédit)', btn_n: 'Vérifier ce contenu ({n} crédits)'
     },
     en: {
       e_pays: "Please choose your country, so the report applies the right rules.",
@@ -999,7 +1022,13 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b,.origine{font-variant-numeri
       e_rapide: 'You just sent a request. Please try again in a few minutes.',
       e_jour: 'You have reached today’s request limit.',
       e_sature: 'Lots of requests right now. Please try again tomorrow.',
-      e_form: 'Sending failed. Please try again in a moment.', envoi: 'Sending…'
+      e_form: 'Sending failed. Please try again in a moment.', envoi: 'Sending…',
+      f_type: 'What you are sending', ty1: 'A video up to 3 min', ty2: 'A video from 3 to 15 min', ty3: 'A video over 15 min', ty4: 'A written page or post',
+      f_min: 'Its length, in minutes', f_type_h: 'If the real length is different, your account is adjusted and any excess is returned.',
+      cout_1: 'This check uses 1 credit.', cout_n: 'This check uses {n} credits.',
+      cout_min: 'Enter the length, between 16 and 120 minutes.', cout_max: 'The Verdict checks videos up to 2 h. Send the part you care about.',
+      e_solde: 'You do not have enough credits for this check. Top up your account below, then try again.',
+      btn_1: 'Check this content (1 credit)', btn_n: 'Check this content ({n} credits)'
     }
   };
   var RTL = ['ar', 'he', 'fa', 'ur'];
@@ -1168,6 +1197,39 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b,.origine{font-variant-numeri
   var PAIEMENT_OUVERT = true;
   document.getElementById('paiement-bientot').hidden = PAIEMENT_OUVERT;
 
+  // ── Crédits de la demande : même grille que le serveur (verdict_credits_video), qui reste seul juge.
+  var solde = null;
+  var champType = document.getElementById('type'), champMin = document.getElementById('minutes');
+  var blocDuree = document.getElementById('duree-bloc'), ligneCout = document.getElementById('cout');
+  function secondesDemande(){
+    var v = champType.value;
+    if (v === 'page') return null;
+    if (v !== 'long') return parseInt(v, 10);
+    var m = parseInt(champMin.value, 10);
+    return (m >= 16) ? m * 60 : NaN;
+  }
+  function creditsPour(sec){
+    if (sec === null) return 1;
+    if (isNaN(sec)) return 0;
+    if (sec > 7200) return -1;
+    if (sec <= 180) return 1;
+    if (sec <= 900) return 2;
+    return 2 + Math.ceil((sec - 900) / 900);
+  }
+  function majCout(){
+    blocDuree.hidden = champType.value !== 'long';
+    var n = creditsPour(secondesDemande()), bouton = document.getElementById('submit');
+    ligneCout.className = 'cout';
+    if (n === 0) { ligneCout.textContent = T.cout_min; bouton.textContent = T.f_envoyer; return n; }
+    if (n < 0) { ligneCout.textContent = T.cout_max; ligneCout.className = 'cout err'; bouton.textContent = T.f_envoyer; return n; }
+    ligneCout.textContent = n > 1 ? T.cout_n.replace('{n}', n) : T.cout_1;
+    bouton.textContent = n > 1 ? T.btn_n.replace('{n}', n) : T.btn_1;
+    if (solde !== null && solde < n) { ligneCout.textContent += ' ' + T.e_solde; ligneCout.className = 'cout err'; }
+    return n;
+  }
+  champType.addEventListener('change', majCout);
+  champMin.addEventListener('input', majCout);
+
   function montrerFormulaire(s){
     session = s;
     document.getElementById('solde-qui').textContent = s.user.email || '';
@@ -1180,8 +1242,10 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b,.origine{font-variant-numeri
     sb.from('profils').select('credits').eq('id', s.user.id).maybeSingle().then(function(r){
       var n = (r.data && typeof r.data.credits === 'number') ? r.data.credits : 0;
       var mot = n > 1 ? T.credits : T.credit;
+      solde = n;
       document.getElementById('solde-n').textContent = n;
       document.getElementById('solde-mot').textContent = mot;
+      majCout();
       document.getElementById('rech-solde-n').textContent = n;
       document.getElementById('rech-solde-mot').textContent = mot;
     });
@@ -1278,36 +1342,33 @@ h1,h2,.voy b,.note-big,.rech b,.prix-val b,.solde b,.origine{font-variant-numeri
     if (!/^https?:\/\/.+/i.test(lien)) { afficher(msgForm, T.e_lien, 'err'); return; }
     var pays = (d.get('pays') || '').toString();
     if (!pays) { afficher(msgForm, T.e_pays, 'err'); document.getElementById('pays-texte').focus(); return; }
-    var meta = session.user.user_metadata || {};
-    var charge = {
-      lien: lien,
-      question: (d.get('question') || '').toString().trim() || null,
-      email: session.user.email,
-      prenom: (meta.given_name || (meta.full_name || meta.name || '').split(' ')[0] || '').slice(0, 60) || null,
-      newsletter: d.get('newsletter') === 'oui',
-      pays: pays,
-      piege: (d.get('piege') || '').toString()
-    };
+    var cout = majCout();
+    if (cout === 0) { afficher(msgForm, T.cout_min, 'err'); champMin.focus(); return; }
+    if (cout < 0) { afficher(msgForm, T.cout_max, 'err'); return; }
+    if (solde !== null && solde < cout) { afficher(msgForm, T.e_solde, 'err'); location.hash = '#prix'; return; }
     var bouton = document.getElementById('submit');
     bouton.disabled = true; bouton.textContent = T.envoi;
     msgForm.className = 'msg';
-    fetch(SUPABASE_URL + '/rest/v1/soumissions', {
-      method: 'POST',
-      headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
-      body: JSON.stringify(charge)
-    })
-    .then(function(r){
-      if (r.ok) { window.location.href = '/merci'; return; }
-      return r.text().then(function(t){ throw new Error(t || r.status); });
-    })
-    .catch(function(err){
-      var m = String(err && err.message || '');
-      if (m.indexOf('trop rapide') > -1) afficher(msgForm, T.e_rapide, 'err');
+    // Le serveur débite les crédits et dépose la demande dans la même opération : pas de demande sans débit.
+    sb.rpc('verdict_soumettre', {
+      p_lien: lien,
+      p_question: (d.get('question') || '').toString().trim() || null,
+      p_pays: pays,
+      p_newsletter: d.get('newsletter') === 'oui',
+      p_secondes: secondesDemande(),
+      p_piege: (d.get('piege') || '').toString()
+    }).then(function(r){
+      if (!r.error) { window.location.href = '/merci'; return; }
+      var m = String(r.error.message || '');
+      if (m.indexOf('SOLDE_INSUFFISANT') > -1) afficher(msgForm, T.e_solde, 'err');
+      else if (m.indexOf('VIDEO_TROP_LONGUE') > -1) afficher(msgForm, T.cout_max, 'err');
+      else if (m.indexOf('NON_CONNECTE') > -1) { montrerConnexion(); return; }
+      else if (m.indexOf('trop rapide') > -1) afficher(msgForm, T.e_rapide, 'err');
       else if (m.indexOf('limite quotidienne') > -1) afficher(msgForm, T.e_jour, 'err');
       else if (m.indexOf('sature') > -1) afficher(msgForm, T.e_sature, 'err');
       else if (m.indexOf('lien invalide') > -1) afficher(msgForm, T.e_lien, 'err');
       else afficher(msgForm, T.e_form, 'err');
-      bouton.disabled = false; bouton.textContent = T.f_envoyer;
+      bouton.disabled = false; majCout();
     });
   });
 })();
