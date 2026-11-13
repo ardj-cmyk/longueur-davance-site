@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://longueur-davance.fr/</loc><lastmod>2026-11-01</lastmod><priority>1.0</priority></url>
+  <url><loc>https://longueur-davance.fr/</loc><lastmod>2026-11-09</lastmod><priority>1.0</priority></url>
   <url><loc>https://longueur-davance.fr/avocat</loc><lastmod>2026-11-01</lastmod><priority>0.9</priority></url>
   <url><loc>https://longueur-davance.fr/comptable</loc><lastmod>2026-11-01</lastmod><priority>0.9</priority></url>
   <url><loc>https://longueur-davance.fr/batiment</loc><lastmod>2026-11-01</lastmod><priority>0.9</priority></url>
   <url><loc>https://longueur-davance.fr/immobilier</loc><lastmod>2026-11-01</lastmod><priority>0.9</priority></url>
   <url><loc>https://longueur-davance.fr/architecte</loc><lastmod>2026-11-01</lastmod><priority>0.9</priority></url>
-  <url><loc>https://longueur-davance.fr/architecte-paysagiste</loc><lastmod>2026-11-09</lastmod><priority>0.8</priority></url>
   <url><loc>https://longueur-davance.fr/medical</loc><lastmod>2026-11-01</lastmod><priority>0.9</priority></url>
   <url><loc>https://longueur-davance.fr/traiteur</loc><lastmod>2026-11-01</lastmod><priority>0.9</priority></url>
   <url><loc>https://longueur-davance.fr/garage</loc><lastmod>2026-11-01</lastmod><priority>0.9</priority></url>
@@ -17,12 +16,11 @@
   <url><loc>https://longueur-davance.fr/commercial</loc><lastmod>2026-11-01</lastmod><priority>0.9</priority></url>
   <url><loc>https://longueur-davance.fr/solo</loc><lastmod>2026-11-01</lastmod><priority>0.9</priority></url>
   <url><loc>https://longueur-davance.fr/automatisation</loc><lastmod>2026-10-12</lastmod><priority>0.7</priority></url>
-  <url><loc>https://longueur-davance.fr/formations</loc><lastmod>2026-11-09</lastmod><priority>0.8</priority></url>
-  <url><loc>https://longueur-davance.fr/outils</loc><lastmod>2026-11-09</lastmod><priority>0.6</priority></url>
-  <url><loc>https://longueur-davance.fr/formation</loc><lastmod>2026-10-12</lastmod><priority>0.7</priority></url>
-  <url><loc>https://longueur-davance.fr/verdict</loc><lastmod>2026-11-04</lastmod><priority>0.6</priority></url>
+  <url><loc>https://longueur-davance.fr/formation</loc><lastmod>2026-11-09</lastmod><priority>0.7</priority></url>
+  <url><loc>https://longueur-davance.fr/verdict</loc><lastmod>2026-11-12</lastmod><priority>0.6</priority></url>
   <url><loc>https://longueur-davance.fr/ressources</loc><lastmod>2026-11-09</lastmod><priority>0.7</priority></url>
   <url><loc>https://longueur-davance.fr/acces-dossiers</loc><lastmod>2026-11-01</lastmod><priority>0.6</priority></url>
+  <url><loc>https://longueur-davance.fr/architecte-paysagiste</loc><lastmod>2026-11-09</lastmod><priority>0.6</priority></url>
   <url><loc>https://longueur-davance.fr/blackout</loc><lastmod>2026-11-06</lastmod><priority>0.6</priority></url>
   <url><loc>https://longueur-davance.fr/claude-chatgpt</loc><lastmod>2026-11-01</lastmod><priority>0.6</priority></url>
   <url><loc>https://longueur-davance.fr/claude-code</loc><lastmod>2026-11-01</lastmod><priority>0.6</priority></url>
@@ -34,10 +32,11 @@
   <url><loc>https://longueur-davance.fr/dictee</loc><lastmod>2026-11-01</lastmod><priority>0.6</priority></url>
   <url><loc>https://longueur-davance.fr/donnees</loc><lastmod>2026-11-01</lastmod><priority>0.6</priority></url>
   <url><loc>https://longueur-davance.fr/effacer-memoire</loc><lastmod>2026-11-01</lastmod><priority>0.6</priority></url>
+  <url><loc>https://longueur-davance.fr/essais</loc><lastmod>2026-11-09</lastmod><priority>0.6</priority></url>
   <url><loc>https://longueur-davance.fr/forfaits-equipe</loc><lastmod>2026-11-01</lastmod><priority>0.6</priority></url>
   <url><loc>https://longueur-davance.fr/forfaits</loc><lastmod>2026-11-01</lastmod><priority>0.6</priority></url>
   <url><loc>https://longueur-davance.fr/geo</loc><lastmod>2026-11-04</lastmod><priority>0.6</priority></url>
-  <url><loc>https://longueur-davance.fr/gta</loc><lastmod>2026-11-08</lastmod><priority>0.6</priority></url>
+  <url><loc>https://longueur-davance.fr/gta</loc><lastmod>2026-11-13</lastmod><priority>0.6</priority></url>
   <url><loc>https://longueur-davance.fr/hallucination</loc><lastmod>2026-11-01</lastmod><priority>0.6</priority></url>
   <url><loc>https://longueur-davance.fr/hooks</loc><lastmod>2026-11-01</lastmod><priority>0.6</priority></url>
   <url><loc>https://longueur-davance.fr/installer-un-skill</loc><lastmod>2026-11-01</lastmod><priority>0.6</priority></url>
@@ -52,7 +51,7 @@
   <url><loc>https://longueur-davance.fr/outils-juridiques</loc><lastmod>2026-11-01</lastmod><priority>0.6</priority></url>
   <url><loc>https://longueur-davance.fr/panne</loc><lastmod>2026-11-06</lastmod><priority>0.6</priority></url>
   <url><loc>https://longueur-davance.fr/plan</loc><lastmod>2026-11-06</lastmod><priority>0.6</priority></url>
-  <url><loc>https://longueur-davance.fr/potager</loc><lastmod>2026-11-07</lastmod><priority>0.6</priority></url>
+  <url><loc>https://longueur-davance.fr/potager</loc><lastmod>2026-11-08</lastmod><priority>0.6</priority></url>
   <url><loc>https://longueur-davance.fr/precise</loc><lastmod>2026-11-01</lastmod><priority>0.6</priority></url>
   <url><loc>https://longueur-davance.fr/premiere-automatisation</loc><lastmod>2026-11-01</lastmod><priority>0.6</priority></url>
   <url><loc>https://longueur-davance.fr/promo</loc><lastmod>2026-11-01</lastmod><priority>0.6</priority></url>
@@ -64,16 +63,15 @@
   <url><loc>https://longueur-davance.fr/recuperer</loc><lastmod>2026-11-01</lastmod><priority>0.6</priority></url>
   <url><loc>https://longueur-davance.fr/reperer-arnaque</loc><lastmod>2026-11-01</lastmod><priority>0.6</priority></url>
   <url><loc>https://longueur-davance.fr/reseau</loc><lastmod>2026-11-06</lastmod><priority>0.6</priority></url>
+  <url><loc>https://longueur-davance.fr/secours</loc><lastmod>2026-11-01</lastmod><priority>0.6</priority></url>
   <url><loc>https://longueur-davance.fr/seo-geo</loc><lastmod>2026-11-04</lastmod><priority>0.6</priority></url>
   <url><loc>https://longueur-davance.fr/seo-ia</loc><lastmod>2026-11-04</lastmod><priority>0.6</priority></url>
   <url><loc>https://longueur-davance.fr/signature-contrat</loc><lastmod>2026-11-01</lastmod><priority>0.6</priority></url>
   <url><loc>https://longueur-davance.fr/stanford</loc><lastmod>2026-11-01</lastmod><priority>0.6</priority></url>
   <url><loc>https://longueur-davance.fr/token</loc><lastmod>2026-11-01</lastmod><priority>0.6</priority></url>
   <url><loc>https://longueur-davance.fr/twenty</loc><lastmod>2026-11-01</lastmod><priority>0.6</priority></url>
-  <url><loc>https://longueur-davance.fr/verifier-un-reel</loc><lastmod>2026-11-04</lastmod><priority>0.6</priority></url>
+  <url><loc>https://longueur-davance.fr/verifier-un-reel</loc><lastmod>2026-11-10</lastmod><priority>0.6</priority></url>
   <url><loc>https://longueur-davance.fr/verifier-un-repo</loc><lastmod>2026-11-01</lastmod><priority>0.6</priority></url>
-  <url><loc>https://longueur-davance.fr/essais</loc><lastmod>2026-11-09</lastmod><priority>0.6</priority></url>
   <url><loc>https://longueur-davance.fr/voix</loc><lastmod>2026-11-08</lastmod><priority>0.6</priority></url>
   <url><loc>https://longueur-davance.fr/vscode</loc><lastmod>2026-11-01</lastmod><priority>0.6</priority></url>
-  <url><loc>https://longueur-davance.fr/plan-potager</loc><lastmod>2026-11-07</lastmod><priority>0.6</priority></url>
 </urlset>

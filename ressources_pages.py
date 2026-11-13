@@ -1084,3 +1084,100 @@ Montre-moi chaque changement avant de modifier un fichier.</code></pre>
 """,
     fin="Tu veux qu'on regarde ensemble si les IA citent ton activité ? Écris-moi sur Instagram, @ardj.87.",
 )
+
+
+# ─────────────────────────────── 68 · PANNE MICROSOFT, LA FICHE DE SECOURS (13/11/2026)
+SRC_F24_PANNE = ("France 24 : la panne d'Outlook perturbe les services dans 74 pays (13/11/2026)", "https://www.france24.com/en/technology/20261113-major-microsoft-outlook-outage-disrupts-services-in-74-countries")
+SRC_CNN_PANNE = ("CNN : le direct de la panne mondiale Microsoft (12 et 13/11/2026)", "https://www.cnn.com/2026/11/12/business/live-news/microsoft-global-outage-intl-hnk")
+
+PAGES["secours"] = dict(
+    video="68 · Outlook est tombé. Et si demain c'est Claude ?",
+    title="Ta fiche de secours : quoi faire le jour où tes outils tombent",
+    desc="Le modèle de fiche de secours à remplir et à imprimer, la consigne à copier pour que Claude l'écrive avec toi, et les 3 choses à faire ce week-end avant la prochaine panne.",
+    og_pill="Le modèle à imprimer", og_titre="Ta fiche de secours, avant la prochaine panne",
+    marque="Le modèle à imprimer",
+    h1="Ta fiche de <em>secours</em>",
+    chapo="Le jeudi 12 novembre 2026, Outlook est tombé, avec des signalements dans 74 pays. Une panne ne se choisit pas. Ce que tu as gardé sous la main, si. Voici le modèle de fiche, et la consigne pour que Claude la remplisse avec toi.",
+    verifie="13/11/2026",
+    sources=[SRC_F24_PANNE, SRC_CNN_PANNE],
+    corps="""
+<section>
+  <h2><span class="num">1</span>Ce qui s'est passé</h2>
+  <ul class="liste">
+    <li><b>Jeudi 12 novembre 2026</b>, les services de Microsoft tombent : Outlook, Teams, Copilot. En moins d'une heure, le site Downdetector compte des signalements dans <b>74 pays et territoires</b> (c'est le chiffre de Downdetector, pas celui de Microsoft).</li>
+    <li><b>En France</b>, la mairie d'Aulnay-sous-Bois l'écrit : plus aucun mail, ni envoyé, ni reçu. Les services restent joignables par téléphone.</li>
+    <li><b>Au Japon</b>, le gouvernement s'organise avec d'autres moyens de communication, dont le téléphone.</li>
+    <li><b>Microsoft</b> dit n'avoir connaissance d'aucune activité malveillante. Le vendredi 13 novembre à 13 h 14, la panne n'était pas encore entièrement réglée.</li>
+    <li><b>Les IA aussi ont été touchées</b> : Anthropic et OpenAI ont signalé des difficultés à se connecter aux outils Microsoft 365.</li>
+  </ul>
+  <p class="note">Claude, comme ta messagerie, tourne sur des serveurs loin de chez toi. Le jour où ça tombe, il te faut un plan qui tient sur une feuille.</p>
+</section>
+
+<section>
+  <h2><span class="num">2</span>3 choses à faire ce week-end</h2>
+  <ol class="etapes">
+    <li><b>Tes 10 plus gros clients, hors de ta messagerie.</b> Leurs numéros et leurs informations, sur papier ou dans les contacts de ton téléphone.</li>
+    <li><b>Ton agenda de la semaine, imprimé chaque lundi.</b> Une page suffit.</li>
+    <li><b>Tes consignes pour Claude dans un simple fichier.</b> Celles que tu réutilises tout le temps, copiées dans un fichier texte sur ton ordinateur. Elles marcheront aussi dans une autre IA si Claude est injoignable.</li>
+  </ol>
+</section>
+
+<section>
+  <h2><span class="num">3</span>Le modèle de fiche</h2>
+  <p>Une page, imprimée, rangée là où tu la retrouves sans écran. Recopie ce modèle et remplis-le.</p>
+  <pre><code>FICHE DE SECOURS · [nom de ton activité]
+Mise à jour le : ../../....
+
+1. QUI APPELER, DANS L'ORDRE
+   1. .................... (rôle) · 0. .. .. .. ..
+   2. .................... (rôle) · 0. .. .. .. ..
+   3. .................... (rôle) · 0. .. .. .. ..
+
+2. MES 10 PLUS GROS CLIENTS
+   Nom · téléphone · ce qui est en cours
+   1. ....................................
+   (jusqu'à 10)
+
+3. SI LA MESSAGERIE TOMBE
+   - Prévenir les clients du jour par téléphone ou SMS
+   - Adresse de secours : ....................
+   - Où est l'agenda imprimé : ....................
+
+4. SI L'IA TOMBE
+   - Où sont mes consignes : ....................
+   - Ce que je fais à la main en attendant : ....................
+
+5. SI INTERNET TOMBE
+   - Partage de connexion du téléphone : oui / non
+   - Ce qui peut attendre demain : ....................
+   - Ce qui ne peut pas attendre : ....................
+
+6. OÙ SONT MES DOCUMENTS
+   - Devis et factures en cours : ....................
+   - Copie hors ligne faite le : ../../....</code></pre>
+</section>
+
+<section>
+  <h2><span class="num">4</span>La consigne pour que Claude l'écrive avec toi</h2>
+  <p>Tant que tout marche, fais-la remplir par Claude. Copie cette consigne, remplace ce qui est entre crochets :</p>
+  <pre><code>Je suis [ton métier], je travaille [seul / avec N personnes].
+Mes outils de tous les jours : [messagerie, agenda, facturation, IA...].
+Écris ma fiche de secours pour le jour où un de ces outils tombe.
+Elle doit tenir sur une page à imprimer.
+Pour chaque outil : qui j'appelle, ce que je fais, dans quel ordre.
+Pose-moi d'abord les questions dont tu as besoin, une par une.
+Laisse en blanc les numéros et les noms : je les remplirai à la main.</code></pre>
+  <p class="note">Ne donne pas à Claude les numéros de tes clients pour cette fiche. Il prépare la structure, tu écris les coordonnées à la main sur la page imprimée.</p>
+</section>
+
+<section>
+  <h2>Pour aller plus loin</h2>
+  <ul class="liste">
+    <li><a href="/panne">Une IA qui marche sans internet, sur ton téléphone</a></li>
+    <li><a href="/reseau">Communiquer quand le réseau est coupé</a></li>
+  </ul>
+</section>
+""",
+    fin="Tu veux qu'on prépare le plan de secours de ton activité ensemble ? Écris-moi sur Instagram, @ardj.87.",
+)
+
