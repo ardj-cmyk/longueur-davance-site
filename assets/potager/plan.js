@@ -451,6 +451,8 @@
     h += "<li><b>Une année complète : 1 an.</b> Il faut un tour de saisons pour remplir chaque mois du tableau : les courges, les oignons et les carottes de l'automne nourrissent l'hiver.</li>" +
       "<li><b>En attendant : tout vient de la réserve.</b> Pour " + nb(besoinJour, 0) + NB + "kcal par jour, il faut " + nb(besoinJour / KK.kcalRiz * 100, 0) + NB + "g de riz par jour et par personne.</li></ul></section>";
 
+    h += window.PotagerSol ? window.PotagerSol.section(cmd) : "";
+
     /* L'eau qu'il faut */
     if (p.eau && p.eau.planche > 0) {
       var E = p.eau, NOMS_M = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
@@ -882,4 +884,154 @@
     return { annuler: function () { forme.pop(); maj(); }, effacer: function () { forme = []; maj(); }, maj: maj };
   }
   P.croquis = croquis;
+})();
+
+/* ---------- Ta terre : la carte mondiale des sols SoilGrids (ISRIC) autour du terrain ----------
+   Lecture dans le navigateur, service cartographique public d'ISRIC (WCS, accès ouvert, CC-BY 4.0).
+   pH, argile et sable de 0 à 30 cm (moyenne des couches 0-5, 5-15 et 15-30 cm, pondérée par leur épaisseur).
+   Les villes sont masquées dans SoilGrids : si le carreau du terrain est vide, on prend les terres non bâties
+   à environ 2 km autour, et on le dit. Une carte au carreau de 250 m décrit le secteur, pas le jardin :
+   d'où les deux tests à faire soi-même, toujours affichés. */
+(function () {
+  var D = window.POTAGER_DONNEES, NB = " ";
+  var WCS = "https://maps.isric.org/mapserv?map=/map/";
+  var COUCHES = [["0-5cm", 5], ["5-15cm", 10], ["15-30cm", 15]];
+  function esc(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
+  function lien(k, t) { var s = D.SOURCES[k]; return '<a href="' + esc(s.u) + '" target="_blank" rel="noopener">' + esc(t || s.t) + "</a>"; }
+  function virg(x, d) { return x.toFixed(d).replace(".", ","); }
+
+  /* Le point du terrain : centre de la zone dessinée, sinon de la parcelle cadastrale. Rien sans adresse. */
+  function point(cmd) {
+    var pts = null;
+    if (cmd.zone && cmd.zone.length && cmd.surface_source !== "saisie" && cmd.surface_source !== "modele") pts = cmd.zone;
+    else if (cmd.parcelle && cmd.parcelle.geometry) {
+      var g = cmd.parcelle.geometry, c = g.type === "MultiPolygon" ? g.coordinates[0] : g.coordinates;
+      if (c && c[0] && c[0].length) pts = c[0];
+    }
+    if (!pts) return null;
+    var lon = 0, lat = 0; pts.forEach(function (p) { lon += p[0]; lat += p[1]; });
+    return [lon / pts.length, lat / pts.length];
+  }
+
+  function tests() {
+    return '<h3>Vérifie ta terre en 3 gestes</h3><ul class="liste-sol">' +
+      "<li><b>La texture, à la main.</b> Roule une poignée de terre humide. Elle s'effrite et tu sens des grains : elle est sableuse. Elle fait un long boudin fin qui brille quand tu le lisses : elle est argileuse. Elle est douce, un peu savonneuse, et colle mal : elle est limoneuse (" + lien("rhsTypes", "RHS") + ").</li>" +
+      "<li><b>Le calcaire, au vinaigre.</b> Mets un peu de terre dans un bocal de vinaigre. Si elle mousse, elle contient du calcaire (" + lien("rhsTypes", "RHS") + ").</li>" +
+      "<li><b>Le pH, avec un kit.</b> Les kits vendus en jardinerie donnent une bonne idée. Pour un chiffre précis, un laboratoire. Attends 3 mois après de la chaux, de l'engrais ou du compost, sinon le test se trompe (" + lien("rhsPh", "RHS") + ").</li></ul>";
+  }
+
+  function section(cmd) {
+    var pt = point(cmd), chou = (cmd.cultures || []).indexOf("chou") >= 0;
+    var h = '<section class="sol"' + (pt ? ' data-sol="' + pt[0].toFixed(5) + "," + pt[1].toFixed(5) + '" data-chou="' + (chou ? 1 : 0) + '"' : "") + "><h2>Ta terre</h2>";
+    if (pt) h += '<div class="sol-mesure"><p class="note">Lecture de la carte des sols autour de ton terrain…</p></div>';
+    else h += "<p>Le plan sur mesure lit la carte des sols autour de ton terrain : pH, argile, sable. En attendant, 3 gestes suffisent pour connaître ta terre.</p>";
+    return h + tests() + "</section>";
+  }
+
+  /* Lecture d'un petit GeoTIFF SoilGrids (entiers 16 bits, compression deflate, prédicteur horizontal). */
+  async function lireTiff(buf) {
+    var dv = new DataView(buf);
+    if (dv.getUint16(0) !== 0x4949) throw new Error("format");
+    var ifd = dv.getUint32(4, true), n = dv.getUint16(ifd, true), T = {};
+    for (var i = 0; i < n; i++) {
+      var e = ifd + 2 + i * 12, tag = dv.getUint16(e, true), ty = dv.getUint16(e + 2, true), c = dv.getUint32(e + 4, true);
+      if (c === 1) T[tag] = ty === 3 ? dv.getUint16(e + 8, true) : dv.getUint32(e + 8, true);
+    }
+    var w = T[256], h = T[257], tw = T[322] || w, off = T[324] || T[273], bc = T[325] || T[279];
+    if (!w || !h || !off || !bc || w > tw) throw new Error("tuiles");
+    var brut = new Uint8Array(buf, off, bc);
+    if (T[259] === 8 || T[259] === 32946) {
+      var flux = new Blob([brut]).stream().pipeThrough(new DecompressionStream("deflate"));
+      brut = new Uint8Array(await new Response(flux).arrayBuffer());
+    } else if (T[259] !== 1) throw new Error("compression");
+    var dd = new DataView(brut.buffer, brut.byteOffset, brut.byteLength), vals = [];
+    for (var y = 0; y < h; y++) {
+      var prec = 0;
+      for (var x = 0; x < tw; x++) {
+        var v = dd.getInt16((y * tw + x) * 2, true);
+        if (T[317] === 2 && x > 0) v = ((v + prec + 32768) & 0xffff) - 32768;
+        prec = v;
+        if (x < w && v > 0) vals.push(v);
+      }
+    }
+    return vals;
+  }
+  function mediane(a) { if (!a.length) return null; a = a.slice().sort(function (x, y) { return x - y; }); var m = a.length >> 1; return a.length % 2 ? a[m] : (a[m - 1] + a[m]) / 2; }
+
+  async function propriete(nom, lon, lat, demi) {
+    var tot = 0, poids = 0;
+    for (var i = 0; i < COUCHES.length; i++) {
+      var u = WCS + nom + ".map&SERVICE=WCS&VERSION=2.0.1&REQUEST=GetCoverage&COVERAGEID=" + nom + "_" + COUCHES[i][0] + "_mean&FORMAT=image/tiff" +
+        "&SUBSET=long(" + (lon - demi).toFixed(5) + "," + (lon + demi).toFixed(5) + ")&SUBSET=lat(" + (lat - demi).toFixed(5) + "," + (lat + demi).toFixed(5) + ")" +
+        "&SUBSETTINGCRS=http://www.opengis.net/def/crs/EPSG/0/4326&OUTPUTCRS=http://www.opengis.net/def/crs/EPSG/0/4326";
+      var r = await fetch(u);
+      if (!r.ok) throw new Error("http " + r.status);
+      var m = mediane(await lireTiff(await r.arrayBuffer()));
+      if (m != null) { tot += m * COUCHES[i][1]; poids += COUCHES[i][1]; }
+    }
+    return poids ? tot / poids : null;
+  }
+
+  async function mesurer(lon, lat) {
+    var demis = [0.003, 0.02];
+    for (var i = 0; i < demis.length; i++) {
+      var r = await Promise.all(["phh2o", "clay", "sand"].map(function (p) { return propriete(p, lon, lat, demis[i]); }));
+      if (r[0] != null && r[1] != null && r[2] != null) return { ph: r[0] / 10, argile: r[1] / 10, sable: r[2] / 10, autour: i > 0 };
+    }
+    return null;
+  }
+
+  /* Classes de texture de l'USDA (Soil Survey Manual, chapitre 3), regroupées en 4 familles comme la RHS. */
+  function texture(sa, si, cl) {
+    if (si + 1.5 * cl < 15 || si + 2 * cl < 30) return "sableuse";
+    if ((cl >= 7 && cl < 20 && sa > 52) || (cl < 7 && si < 50)) return "sableuse";
+    if (cl >= 40 || (cl >= 35 && sa > 45)) return "argileuse";
+    if (cl >= 27 || (cl >= 20 && si < 28 && sa > 45)) return "franche-argileuse";
+    if (si >= 50) return "limoneuse";
+    return "franche";
+  }
+  var FAMILLES = {
+    sableuse: ["plutôt sableuse", "Elle s'égoutte vite, se travaille facilement et se réchauffe tôt au printemps. Mais elle sèche vite et la pluie emporte ses éléments nutritifs. Le compost et l'engrais vert l'aident à garder l'eau et la nourriture des légumes."],
+    limoneuse: ["plutôt limoneuse", "Elle s'égoutte assez bien et garde plus d'eau qu'une terre sableuse, mais elle se tasse facilement. Ne marche pas sur tes planches. Le compost et l'engrais vert rendent la terre plus stable."],
+    argileuse: ["plutôt argileuse", "Elle garde beaucoup d'eau mais s'égoutte lentement et se réchauffe tard au printemps. Elle se tasse si on marche dessus mouillée et durcit l'été. Le compost et l'engrais vert la rendent plus facile à travailler."],
+    "franche-argileuse": ["franche, avec pas mal d'argile", "Entre la terre franche et la terre argileuse. Évite de marcher dessus quand elle est mouillée, elle se tasse. Le compost et l'engrais vert la gardent souple."],
+    franche: ["franche", "La meilleure pour un potager : fertile, bien drainée et facile à travailler. Ajoute du compost chaque année, surtout si tu bêches."]
+  };
+  function conseilPh(ph, chou) {
+    var t;
+    if (ph < 5) t = "<b>Très acide.</b> Ajoute de la chaux pour passer au-dessus de 5.";
+    else if (ph <= 6) t = "<b>Acide.</b> Pour la plupart des légumes, ajoute de la chaux.";
+    else if (ph <= 7) t = "<b>Légèrement acide, c'est bien.</b> Rien à corriger. Le meilleur pH pour un jardin est 6,5.";
+    else t = "<b>Basique, souvent riche en calcaire.</b> Pas de chaux : elle ferait encore monter le pH. Le test du vinaigre te le confirme.";
+    if (chou && ph < 6.3) t += " Pour les choux, chaule jusqu'à 7 : c'est conseillé sous 6,3.";
+    return t + " (" + lien("rhsPh", "RHS") + ")";
+  }
+
+  async function remplir(sec) {
+    var c = sec.getAttribute("data-sol").split(",").map(Number), boite = sec.querySelector(".sol-mesure");
+    sec.removeAttribute("data-sol");
+    var m = null;
+    try { m = await mesurer(c[0], c[1]); } catch (e) { m = null; }
+    if (!boite) return;
+    if (!m) { boite.innerHTML = '<p>La carte des sols ne répond pas pour ton terrain en ce moment. Les 3 gestes ci-dessous te donnent la réponse, et c\'est même plus précis.</p>'; return; }
+    var limon = Math.max(0, 100 - m.argile - m.sable), f = FAMILLES[texture(m.sable, limon, m.argile)];
+    boite.innerHTML =
+      '<p>Ta terre est probablement <b>' + f[0] + "</b>.</p>" +
+      '<div class="chiffres">' +
+      "<div><b>" + virg(m.ph, 1) + "</b><span>pH de la terre (7 = neutre)</span></div>" +
+      "<div><b>" + Math.round(m.argile) + NB + "%</b><span>d'argile</span></div>" +
+      "<div><b>" + Math.round(limon) + NB + "%</b><span>de limon</span></div>" +
+      "<div><b>" + Math.round(m.sable) + NB + "%</b><span>de sable</span></div></div>" +
+      "<p>" + f[1] + " (" + lien("rhsTypes", "RHS") + ")</p>" +
+      "<p>" + conseilPh(m.ph, sec.getAttribute("data-chou") === "1") + "</p>" +
+      '<p class="note">' + (m.autour ? "Ton terrain est en zone bâtie, que la carte ne couvre pas : ces chiffres viennent des terres non bâties à environ 2" + NB + "km autour. " : "") +
+      "Carte mondiale des sols au carreau de 250" + NB + "m, moyenne de 0 à 30" + NB + "cm de profondeur : elle décrit ton secteur, pas ton jardin. Un jardin cultivé depuis longtemps peut être très différent. Fais les 3 gestes pour confirmer. Sources : " +
+      lien("soilgrids", "SoilGrids, ISRIC (CC-BY 4.0)") + ", " + lien("usdaTexture", "classes de texture USDA") + ".</p>";
+  }
+
+  /* Les pages insèrent le plan puis rendent la main : on lit le sol juste après. */
+  function chercher() { document.querySelectorAll("section.sol[data-sol]").forEach(function (s) { remplir(s); }); }
+  function section2(cmd) { setTimeout(chercher, 0); return section(cmd); }
+
+  window.PotagerSol = { section: section2, texture: texture, lireTiff: lireTiff, mesurer: mesurer };
 })();

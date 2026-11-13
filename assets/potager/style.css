@@ -227,3 +227,5 @@ ul.delais b{color:var(--encre)}
 .dessin-jardin .bulle{position:absolute;transform:translate(-50%,calc(-100% - 12px));background:var(--encre);color:var(--ivoire);font:600 13px/1.3 'Inter',sans-serif;padding:6px 10px;border-radius:10px;pointer-events:none;white-space:nowrap;z-index:3;box-shadow:0 4px 14px rgba(0,0,0,.18)}
 .dessin-jardin .bulle[hidden]{display:none}
 @media print{.dessin-jardin .bulle{display:none}}
+.liste-sol li{margin:8px 0;line-height:1.45}
+.sol .chiffres{margin:12px 0}

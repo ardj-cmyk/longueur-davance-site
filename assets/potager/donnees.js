@@ -20,6 +20,10 @@
     poulesPretes: { t: "Volailles d'Occitanie, poules « prêtes à pondre » vendues vers 18 semaines", u: "https://volailles-occitanie.com/produits/poules-pondeuses-demarrees/" },
     fao56: { t: "FAO, Irrigation and Drainage Paper 56 (Allen et al. 1998), tableau 12 : coefficient cultural Kc en pleine croissance", u: "https://www.fao.org/4/x0490e/x0490e0b.htm" },
     meteoFrance: { t: "Météo-France, données climatologiques de base mensuelles 2015-2024 (évaporation Penman-Monteith et pluie), Licence Ouverte 2.0", u: "https://www.data.gouv.fr/datasets/donnees-climatologiques-de-base-mensuelles" },
+    soilgrids: { t: "SoilGrids 2.0, ISRIC (Poggio et al. 2021, revue SOIL), cartes mondiales des sols au carreau de 250 m, licence CC-BY 4.0", u: "https://soil.copernicus.org/articles/7/217/2021/" },
+    rhsPh: { t: "RHS, le pH du sol et comment le tester", u: "https://www.rhs.org.uk/soil-composts-mulches/ph-and-testing-soil" },
+    rhsTypes: { t: "RHS, les types de sol (argileux, sableux, limoneux, franc) et le test à la main", u: "https://www.rhs.org.uk/soil-composts-mulches/soil-types" },
+    usdaTexture: { t: "USDA, Soil Survey Manual, chapitre 3 : classes de texture du sol", u: "https://www.nrcs.usda.gov/sites/default/files/2022-09/SSM-ch3.pdf" },
     yu: { t: "Yu et al. 2015, Field Crops Research, méta-analyse des cultures associées (en moyenne autant de récolte sur environ 18 % de terrain en moins, gain plus fort quand les cultures n'occupent pas la terre au même moment)", u: "https://doi.org/10.1016/j.fcr.2015.09.010" }
   };
 
