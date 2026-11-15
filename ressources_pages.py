@@ -1181,3 +1181,65 @@ Laisse en blanc les numéros et les noms : je les remplirai à la main.</code></
     fin="Tu veux qu'on prépare le plan de secours de ton activité ensemble ? Écris-moi sur Instagram, @ardj.87.",
 )
 
+
+# ─────────────────────────────── 84 · BITCOIN, NVIDIA : CE QUI EST VRAI (15/11/2026)
+SRC_SEC_NVDA = ("Nvidia, formulaire 8-K déposé à la SEC le 12/11/2026", "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000082/nvidiaannouncesceotransiti.htm")
+SRC_SEC_ANT = ("Anthropic, dépôts à la SEC (S-1 et S-1/A)", "https://www.sec.gov/cgi-bin/browse-edgar?company=anthropic&type=S-1&dateb=&owner=include&count=40")
+SRC_BINANCE = ("Binance, cours journaliers du Bitcoin (API publique)", "https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1d&limit=60")
+SRC_INV_ETF = ("Investing.com, 14/11/2026 : sorties des fonds Bitcoin cotés (données SoSoValue)", "https://ca.investing.com/news/cryptocurrency-news/bitcoin-slides-below-68000-as-anthropic-ipo-frenzy-drains-market-liquidity-4958451")
+SRC_SOSO = ("SoSoValue, flux des fonds Bitcoin cotés aux États-Unis", "https://sosovalue.com/assets/etf/us-btc-spot")
+PAGES["vrai"] = dict(
+    video="84 · Bitcoin, Nvidia : ce qui est vrai",
+    title="Bitcoin, Nvidia, Anthropic : ce qui est vrai (15/11/2026)",
+    desc="La chute du Bitcoin, la démission du patron de Nvidia et l'entrée en bourse d'Anthropic : chaque affirmation triée en confirmé, rapporté ou hypothèse, avec ses sources, et le process de recherche avec Claude.",
+    og_pill="Toutes les sources", og_titre="Bitcoin, Nvidia : ce qui est vrai",
+    marque="Toutes les sources",
+    h1="Bitcoin, Nvidia : ce qui est <em>vrai</em>",
+    chapo="Mi-novembre 2026, tout le monde explique la chute du Bitcoin. Avec la recherche approfondie de Claude, chaque affirmation a reçu une étiquette : confirmé (document officiel ou donnée directe), rapporté (presse ou fournisseur de données) ou hypothèse (personne ne l'a prouvé). Ce n'est pas un conseil pour acheter ou vendre.",
+    verifie="15/11/2026",
+    sources=[SRC_SEC_NVDA, SRC_SEC_ANT, SRC_BINANCE, SRC_SOSO, SRC_INV_ETF],
+    corps="""
+<section>
+  <h2><span class="num">1</span>Confirmé</h2>
+  <ul class="liste">
+    <li><b>Bitcoin est descendu à 62 006 dollars</b> dans la nuit du 15/11/2026 (Binance, 01 h 45 UTC), son plus bas depuis le 13/07/2026.</li>
+    <li><b>Son record : 126 199 dollars, le 06/10/2025.</b> Il n'y a pas eu de record du Bitcoin en octobre 2026 : le plus haut de l'année est 97 924 dollars, le 14/01/2026.</li>
+    <li><b>Jensen Huang a démissionné de Nvidia</b>, avec effet immédiat. Le formulaire 8-K est déposé à la SEC le 12/11/2026. Colette Kress dirige par intérim. <b>Le document ne donne aucune raison.</b></li>
+    <li><b>L'action Nvidia</b> a clôturé à 162,85 dollars le 13/11, contre 239,24 dollars le 06/10/2026, soit environ 32 % de moins. Elle avait déjà perdu 24 % avant l'affaire.</li>
+    <li><b>Résultats de Nvidia le mardi 17/11</b>, annoncés par Nvidia elle-même.</li>
+    <li><b>Anthropic</b> prévoit de vendre 825 millions d'actions entre 70 et 78 dollars, sur le Nasdaq, sous le symbole ANT (prospectus amendé déposé à la SEC le 10/11/2026).</li>
+  </ul>
+</section>
+
+<section>
+  <h2><span class="num">2</span>Rapporté</h2>
+  <ul class="liste">
+    <li><b>7 séances d'affilée de retraits</b> des fonds Bitcoin cotés aux États-Unis jusqu'au 13/11, environ 1,91 milliard de dollars depuis le 5/11 (SoSoValue, relayé par Investing.com le 14/11).</li>
+    <li><b>Les dates de l'introduction en bourse d'Anthropic</b> : prix attendu le mercredi 18/11, cotation le jeudi 19/11. Elles viennent de la presse et ne figurent pas dans le prospectus.</li>
+    <li><b>Ce qui a précédé la démission</b> : une enquête du conseil de Nvidia ouverte le 08/11, puis un article du Wall Street Journal du 11/11 sur une éviction préparée. Ce sont des informations de presse, pas le document officiel.</li>
+  </ul>
+</section>
+
+<section>
+  <h2><span class="num">3</span>Hypothèse</h2>
+  <div class="encadre"><b>« L'entrée en bourse d'Anthropic aspire l'argent du Bitcoin. »</b>Des analystes le disent, d'autres le contestent, et aucun chiffre ne le prouve. Surtout, Bitcoin baissait déjà d'environ 10 % entre le 4 et le 10 novembre, avant la démission chez Nvidia et avant les termes de l'introduction en bourse.</div>
+</section>
+
+<section>
+  <h2><span class="num">4</span>Le process de recherche</h2>
+  <ol class="etapes">
+    <li><b>Lister chaque phrase du script</b> et la transformer en affirmation vérifiable.</li>
+    <li><b>Lancer la recherche approfondie de Claude</b> sur deux pistes en parallèle (Nvidia d'un côté, Bitcoin et Anthropic de l'autre), avec une consigne : document officiel d'abord, presse ensuite.</li>
+    <li><b>Lire les documents officiels</b> : formulaire 8-K de Nvidia, prospectus d'Anthropic, cours relevés directement chez Binance et Coinbase.</li>
+    <li><b>Classer chaque affirmation</b> : confirmé, rapporté ou hypothèse. Une phrase qui ne tient pas est corrigée ou coupée.</li>
+    <li><b>Relire le script avec le rapport</b> : 4 formulations ont été corrigées avant l'enregistrement (par exemple « presque la moitié », et « Bitcoin baissait déjà avant »).</li>
+  </ol>
+  <p>La consigne à coller dans Claude pour faire pareil sur une info qui circule :</p>
+  <pre><code>Voici une affirmation qui circule : [colle-la ici].
+Vérifie-la à la source. Pour chaque morceau, donne une étiquette :
+confirmé (document officiel ou donnée directe), rapporté (presse) ou hypothèse (personne ne l'a prouvé).
+Donne le lien et la date de chaque source. Si deux sources se contredisent, dis-le.</code></pre>
+  <p class="note">Ce n'est pas un conseil pour acheter ou vendre. C'est une méthode pour ne pas paniquer sur une rumeur.</p>
+</section>
+""",
+)
